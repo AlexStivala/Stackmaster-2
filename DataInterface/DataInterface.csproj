@@ -55,6 +55,7 @@
     <Compile Include="DataAccess\StackAccess.cs" />
     <Compile Include="DataAccess\StackElementAccess.cs" />
     <Compile Include="DataAccess\StateMetadataAccess.cs" />
+    <Compile Include="DataAccess\VoterAnalysisDataAccess.cs" />
     <Compile Include="DataModel\AvailableRaceModel.cs" />
     <Compile Include="DataModel\BOPtypeModel.cs" />
     <Compile Include="DataModel\ApplicationSettingsFlagsModel.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="DataModel\StackElementModel.cs" />
     <Compile Include="DataModel\StackModel.cs" />
     <Compile Include="DataModel\StateMetadataModel.cs" />
+    <Compile Include="DataModel\VoterAnalysisDataModel.cs" />
+    <Compile Include="DataModel\VoterAnalysisQuestionsModel.cs" />
     <Compile Include="Enums\BoardModes.cs" />
     <Compile Include="Enums\DataTypes.cs" />
     <Compile Include="Enums\GraphicsConcepts.cs" />

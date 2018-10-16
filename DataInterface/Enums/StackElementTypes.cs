@@ -60,6 +60,12 @@ namespace DataInterface.Enums
 
         [Description("Referendums")]
         Referendums = 17,
-    
+
+        [Description("Voter Analysis (Full-Screen)")]
+        Voter_Analysis_Full_Screen = 18,
+
+        [Description("Voter Analysis (Ticker)")]
+        Voter_Analysis_Ticker = 19,
+
     }
 }

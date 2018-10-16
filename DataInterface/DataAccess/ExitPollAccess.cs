@@ -66,6 +66,43 @@ namespace DataInterface.DataAccess
 
             return dataTable;
         }
+
+        public DataTable GetExitPollQuestions_Fullscreen()
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+                            cmd.CommandText = SQLCommands.sqlGetVoterAnalysisQuestions_FullScreen;
+
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("AvailableRaceAccess Exception occurred: " + ex.Message);
+                log.Debug("AvailableRaceAccess Exception occurred", ex);
+            }
+
+            return dataTable;
+        }
+
         #endregion
     }
 }

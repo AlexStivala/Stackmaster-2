@@ -145,7 +145,6 @@ C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.Generat
 C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CoreCompileInputs.cache
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\AsyncClientSocket.dll
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\AsyncClientSocket.pdb
-C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csprojResolveAssemblyReference.cache
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ElectionGraphicsStackBuilder.exe.config
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ElectionGraphicsStackBuilder.exe
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ElectionGraphicsStackBuilder.pdb
@@ -186,3 +185,4 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.c
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyComplete
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGraphicsStackBuilder.exe
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGraphicsStackBuilder.pdb
+C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csprojResolveAssemblyReference.cache

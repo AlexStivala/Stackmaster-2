@@ -174,8 +174,12 @@ namespace DataInterface.SQL
         public static readonly string sqlGetExitPollQuestions = "getVDSXTabQuestions_P";
 
         public static readonly string sqlGetManualExitPollQuestions = "getVDSManualFNCQuestions";
-        
-        
+
+
+        public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getVoterAnalysisQuestions_FullScreen";
+        public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getVoterAnalysisQuestions_Ticker";
+
+
         /// <summary>
         /// Sql to get the applicaton settings flags
         /// </summary>
@@ -273,6 +277,22 @@ namespace DataInterface.SQL
                                                                        "@Application_ID, " + 
                                                                        "@Comments, " + 
                                                                        "@CurrentSystemTime";
+
+        /// <summary>
+        /// Sql to get the Manual Exit Poll Data
+        /// </summary>
+        public static readonly string sqlGetVoterAnalysisQuestionData = "SELECT question, answer, preface, variable_percent FROM FE_VoterAnalysisData_FullScreen WHERE VA_Data_Id = " +
+                                                                        "@VA_Data_Id";
+
+        public static readonly string sqlGetVoterAnalysisAnswerData = "SELECT question, answer, preface, name, id, party, result_percent FROM FE_VoterAnalysisData_FullScreen WHERE id > '0' AND VA_Data_Id = " +
+                                                                        "@VA_Data_Id";
+
+        public static readonly string sqlGetVoterAnalysisQuestionData_Tkr = "SELECT question, answer, preface, variable_percent FROM FE_VoterAnalysisData_Ticker WHERE VA_Data_Id = " +
+                                                                        "@VA_Data_Id";
+
+        public static readonly string sqlGetVoterAnalysisAnswerData_Tkr = "SELECT question, answer, preface, name, id, party, result_percent FROM FE_VoterAnalysisData_Ticker WHERE id > '0' AND VA_Data_Id = " +
+                                                                        "@VA_Data_Id";
+
 
 
     }

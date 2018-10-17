@@ -355,6 +355,17 @@ namespace GUILayer.Forms
             lblIpAddress.Text = ipAddress;
             lblHostName.Text = hostName;
 
+            var builder = new SqlConnectionStringBuilder(ElectionsDBConnectionString);
+            var dataSource = builder.DataSource;
+            var initCat = builder.InitialCatalog;
+            var user = builder.UserID;
+            var pw = builder.Password;
+
+            lblDB.Text = $"DB Connection: {dataSource}  {initCat}";
+
+
+
+
             usingPrimaryMediaSequencer = true;
 
             // Log application start
@@ -4712,6 +4723,7 @@ namespace GUILayer.Forms
             int curNew = BOPtion;
             if (BOPtion == 2)
                 curNew = 1;
+
 
 
             dt = bop.GetBOPData(ofc, currentTime, curNew);

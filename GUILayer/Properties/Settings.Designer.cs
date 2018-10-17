@@ -25,15 +25,6 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http:/10.232.84.199:8580/")]
-        public string MSEEndpoint1 {
-            get {
-                return ((string)(this["MSEEndpoint1"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("MJD Test Profile")]
         public string DefaultTrioProfile {
             get {
@@ -101,8 +92,8 @@ namespace GUILayer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdb1;Initial Catalog=ElectionProd;Persist Security Info=True;User " +
-            "ID=gfxuser;Password=elect2018")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdb1;Initial Catalog=ElectionProd_Test2;Persist Security Info=True" +
+            ";User ID=gfxuser;Password=elect2018")]
         public string ElectionsDBConnectionString {
             get {
                 return ((string)(this["ElectionsDBConnectionString"]));
@@ -375,6 +366,15 @@ namespace GUILayer.Properties {
         public string Network {
             get {
                 return ((string)(this["Network"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.232.84.99:8580/")]
+        public string MSEEndpoint1 {
+            get {
+                return ((string)(this["MSEEndpoint1"]));
             }
         }
     }

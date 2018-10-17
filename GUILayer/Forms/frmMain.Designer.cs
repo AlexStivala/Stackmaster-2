@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,6 +93,7 @@
             this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Race_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tpExitPolls = new System.Windows.Forms.TabPage();
+            this.lblVAcnt = new System.Windows.Forms.Label();
             this.dgvVoterAnalysis = new System.Windows.Forms.DataGridView();
             this.tcVoterAnalysis = new System.Windows.Forms.TabControl();
             this.tpFullScreen = new System.Windows.Forms.TabPage();
@@ -218,7 +217,7 @@
             this.pbEng1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.LoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblVAcnt = new System.Windows.Forms.Label();
+            this.lblDB = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -1053,27 +1052,20 @@
             this.tpExitPolls.TabIndex = 1;
             this.tpExitPolls.Text = "Voter Analysis";
             // 
+            // lblVAcnt
+            // 
+            this.lblVAcnt.AutoSize = true;
+            this.lblVAcnt.Location = new System.Drawing.Point(6, 13);
+            this.lblVAcnt.Name = "lblVAcnt";
+            this.lblVAcnt.Size = new System.Drawing.Size(317, 29);
+            this.lblVAcnt.TabIndex = 134;
+            this.lblVAcnt.Text = "Voter Analysis Questions: ";
+            // 
             // dgvVoterAnalysis
             // 
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvVoterAnalysis.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1114,7 +1106,7 @@
             this.tpTicker.Location = new System.Drawing.Point(4, 38);
             this.tpTicker.Name = "tpTicker";
             this.tpTicker.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTicker.Size = new System.Drawing.Size(979, 783);
+            this.tpTicker.Size = new System.Drawing.Size(1003, 866);
             this.tpTicker.TabIndex = 1;
             this.tpTicker.Text = "Ticker";
             this.tpTicker.UseVisualStyleBackColor = true;
@@ -2592,14 +2584,16 @@
             this.LoopTimer.Interval = 5000;
             this.LoopTimer.Tick += new System.EventHandler(this.LoopTimer_Tick);
             // 
-            // lblVAcnt
+            // lblDB
             // 
-            this.lblVAcnt.AutoSize = true;
-            this.lblVAcnt.Location = new System.Drawing.Point(6, 13);
-            this.lblVAcnt.Name = "lblVAcnt";
-            this.lblVAcnt.Size = new System.Drawing.Size(317, 29);
-            this.lblVAcnt.TabIndex = 134;
-            this.lblVAcnt.Text = "Voter Analysis Questions: ";
+            this.lblDB.AutoSize = true;
+            this.lblDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDB.Location = new System.Drawing.Point(1039, 89);
+            this.lblDB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDB.Name = "lblDB";
+            this.lblDB.Size = new System.Drawing.Size(170, 25);
+            this.lblDB.TabIndex = 136;
+            this.lblDB.Text = "DB Connection: ";
             // 
             // frmMain
             // 
@@ -2607,6 +2601,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(2150, 1731);
+            this.Controls.Add(this.lblDB);
             this.Controls.Add(this.enginePanel);
             this.Controls.Add(this.lblNetwork);
             this.Controls.Add(this.label4);
@@ -2919,6 +2914,7 @@
         private System.Windows.Forms.TabPage tpTicker;
         private System.Windows.Forms.DataGridView dgvVoterAnalysis;
         private System.Windows.Forms.Label lblVAcnt;
+        private System.Windows.Forms.Label lblDB;
     }
 }
 

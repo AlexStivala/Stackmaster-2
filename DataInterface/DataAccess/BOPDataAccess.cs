@@ -41,12 +41,19 @@ namespace DataInterface.DataAccess
                     {
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
-                            cmd.CommandText = SQLCommands.sqlGetBOPData;
+                            if (atStake == 0)
+                                cmd.CommandText = SQLCommands.sqlGetBOPCurrent;
+                            else
+                                cmd.CommandText = SQLCommands.sqlGetBOPDataNew_Gain;
+                            
+
                             cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
                             cmd.Parameters.Add("@timeStr", SqlDbType.DateTime).Value = timeStr;
-                            //cmd.Parameters.Add("@timeStr", SqlDbType.Text).Value = timeStr;
-                            cmd.Parameters.Add("@new", SqlDbType.Bit).Value = atStake;
-                            //cmd.Parameters.Add("@new", SqlDbType.Text).Value = electionType;
+
+                            if (atStake == 0)
+                                cmd.Parameters.Add("@new", SqlDbType.Bit).Value = atStake;
+
+
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;
                             sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;

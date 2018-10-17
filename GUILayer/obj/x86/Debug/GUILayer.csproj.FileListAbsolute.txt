@@ -185,4 +185,5 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.c
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyComplete
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGraphicsStackBuilder.exe
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGraphicsStackBuilder.pdb
-C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csprojResolveAssemblyReference.cache
+C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csprojAssemblyReference.cache
+C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyComplete

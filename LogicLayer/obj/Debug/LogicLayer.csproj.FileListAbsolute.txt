@@ -57,4 +57,5 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.c
 C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CopyComplete
 C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.dll
 C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.pdb
-C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csprojResolveAssemblyReference.cache
+C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csprojAssemblyReference.cache
+C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CopyComplete

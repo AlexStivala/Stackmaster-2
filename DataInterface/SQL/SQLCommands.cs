@@ -160,10 +160,15 @@ namespace DataInterface.SQL
         /// <summary>
         /// Sql to get the BOP data
         /// </summary>
-        public static readonly string sqlGetBOPData = "getVDSBalanceOfPowerAuto " +
+        public static readonly string sqlGetBOPCurrent = "getVDSBalanceOfPowerAuto " +
             "@Race_Office, " +
             "@TimeStr, " +
             "@New";
+
+        public static readonly string sqlGetBOPDataNew_Gain = "getVDSBalanceOfPowerAutoGain " +
+            "@Race_Office, " +
+            "@TimeStr";
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Exit Poll data related functions

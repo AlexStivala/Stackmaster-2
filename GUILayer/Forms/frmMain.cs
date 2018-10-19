@@ -52,7 +52,7 @@ namespace GUILayer.Forms
         // Parameters for current (working) stack
         // Specify stackID as double - will use encoded date/time string converted to float
         Double stackID = -1;
-        string stackDescription;
+        string stackDescription = "";
 
         // For future use
         Boolean insertNext = true;
@@ -81,6 +81,8 @@ namespace GUILayer.Forms
         public string configName = string.Empty;
         public string ipAddress = string.Empty;
         public string hostName = string.Empty;
+        public string stacksDB = string.Empty;
+        public int stackType = 0;
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
         
@@ -196,6 +198,7 @@ namespace GUILayer.Forms
         // Read in database connection strings
         string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
         string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
+        string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
 
         //Read in default Trio profile and channel
         string defaultTrioProfile = Properties.Settings.Default.DefaultTrioProfile;
@@ -264,7 +267,7 @@ namespace GUILayer.Forms
                 RefreshStacksList();
 
                 // Query the elections DB to get the list of exit poll questions
-                RefreshExitPollQuestions();
+                //RefreshExitPollQuestions();
 
                 // Query the elections DB to get the list of available races
                 RefreshAvailableRacesList();
@@ -345,8 +348,8 @@ namespace GUILayer.Forms
             profilesURI = Properties.Settings.Default.MSEEndpoint1 + "profiles";
             currentShowName = Properties.Settings.Default.CurrentShowName;
             currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
-            string sceneDescription = Properties.Settings.Default.Scene_Name;
-            var useSceneName = Properties.Settings.Default[sceneDescription];
+            //string sceneDescription = Properties.Settings.Default.Scene_Name;
+            //var useSceneName = Properties.Settings.Default[sceneDescription];
 
 
             // Get host IP
@@ -361,7 +364,7 @@ namespace GUILayer.Forms
             var user = builder.UserID;
             var pw = builder.Password;
 
-            lblDB.Text = $"DB Connection: {dataSource}  {initCat}";
+            lblDB.Text = $"{dataSource}  {initCat}";
 
 
 
@@ -425,7 +428,19 @@ namespace GUILayer.Forms
             Network = row["Network"].ToString() ?? "";
 
             applicationLogComments = $"{Network}; Config: {configName}; ";
-            
+
+            if (builderOnlyMode)
+            {
+                stacksDB = GraphicsDBConnectionString;
+                stackType = 0;
+            }
+            else
+            {
+                stacksDB = StacksDBConnectionString;
+                stackType = (short)(10 + dataModeSelect.SelectedIndex);
+            }
+
+
             this.Size = new Size(1462, 991);
             connectionPanel.Visible = false;
             enginePanel.Visible = false;
@@ -522,7 +537,7 @@ namespace GUILayer.Forms
                 int i = 0;
                 bool done = false;
                 string engineParam;
-                var engineInfo = Properties.Settings.Default["Engine1_IPAddress"];
+                //var engineInfo = Properties.Settings.Default["Engine1_IPAddress"];
                 string engineData;
                 string engineStr;
 
@@ -1074,6 +1089,12 @@ namespace GUILayer.Forms
                 gbROF.Visible = false;
             }
 
+            if (builderOnlyMode == false)
+                stackType = (short)(10 + dataModeSelect.SelectedIndex);
+            else
+                stackType = 0;
+
+
 
             if (dataModeSelect.SelectedIndex == 1)
                 GetVoterAnalysisGridData();
@@ -1094,8 +1115,16 @@ namespace GUILayer.Forms
             {
                 // Setup the available stacks collection
                 this.stacksCollection = new StacksCollection();
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
-                stacks = this.stacksCollection.GetStackCollection();
+
+                //if (builderOnlyMode)
+                    //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //else
+                    //this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+
+                this.stacksCollection.MainDBConnectionString = stacksDB;
+
+
+                stacks = this.stacksCollection.GetStackCollection(stackType);
             }
             catch (Exception ex)
             {
@@ -1815,7 +1844,9 @@ namespace GUILayer.Forms
                 {
                     
                     DialogResult dr = new DialogResult();
-                    FrmSaveStack saveStack = new FrmSaveStack(stackID ,stackDescription);
+                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
+                    //FrmSaveStack saveStack = new FrmSaveStack(stackID = 0, stackDescription = string.Empty, builderOnlyMode = false);
+                    //FrmSaveStack saveStack = new FrmSaveStack();
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -1836,9 +1867,11 @@ namespace GUILayer.Forms
                         stackMetadata.ConceptID = conceptID;
                         stackMetadata.ConceptName = conceptName;
                         stackMetadata.Notes = "Not currently used";
+                        stacksCollection.MainDBConnectionString = stacksDB;
                         stacksCollection.SaveStack(stackMetadata);
 
                         // Save out stack elements; specify stack ID, and set flag to delete existing elements before adding
+                        stackElementsCollection.MainDBConnectionString = stacksDB;
                         stackElementsCollection.SaveStackElementsCollection(stackMetadata.ixStackID, true);
 
 
@@ -1998,7 +2031,7 @@ namespace GUILayer.Forms
 
                 // Setup dialog to load stack
                 DialogResult dr = new DialogResult();               
-                frmLoadStack loadStack = new frmLoadStack();
+                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
 
@@ -2021,10 +2054,12 @@ namespace GUILayer.Forms
                     // Get the stack ID and load the selected collection
                     //t currentStackIndex = availableStacksGrid.CurrentCell.RowIndex;
                     int currentStackIndex = stackIndex;
+                    stacksCollection.MainDBConnectionString = stacksDB;
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
                     cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
 
                     // Load the collection
+                    stackElementsCollection.MainDBConnectionString = stacksDB;
                     stackElementsCollection.GetStackElementsCollection(selectedStack.ixStackID);
                     // Update stack entries count label
                     txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
@@ -2173,7 +2208,8 @@ namespace GUILayer.Forms
                     if (cbPromptForInfo.Checked == true)
                     {
                         DialogResult dr = new DialogResult();
-                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription);
+                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
+                        //FrmSaveStack saveStack = new FrmSaveStack();
 
                         saveStack.EnableShowControls = enableShowSelectControls;
 
@@ -5045,6 +5081,11 @@ namespace GUILayer.Forms
         private void dgvVoterAnalysis_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             AddVoterAnalysis();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

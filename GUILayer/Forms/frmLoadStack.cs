@@ -21,13 +21,18 @@ namespace GUILayer.Forms
     public partial class frmLoadStack : Form
     {
         // Define the collection object for the list of available stacks
-        private StacksCollection stacksCollection;
+        private StacksCollection stacksCollection = new StacksCollection();
+        //private StacksCollection stacksCollection;
         BindingList<StackModel> stacks;
         
         // Read in database connection strings
         string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
         string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
-        
+        string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+        public int stackType = 0;
+
+        public bool builderOnlyMode { get; set; }
+
         private Int32 stackIndex;
         public Int32 StackIndex { get { return stackIndex; } set { StackIndex = stackIndex; } }
 
@@ -49,9 +54,21 @@ namespace GUILayer.Forms
 
         //public event DelDeleteStack DeleteStack;
 
-        public frmLoadStack()
+        public frmLoadStack(bool buildMode, int StackType)
         {
             InitializeComponent();
+
+            builderOnlyMode = buildMode;
+            stackType = StackType;
+            
+            if (builderOnlyMode)
+            {
+                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+            }
+            else
+            {
+                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+            }
 
             // Enable handling of function keys
             KeyPreview = true;
@@ -112,9 +129,10 @@ namespace GUILayer.Forms
             try
             {
                 // Setup the available stacks collection
-                this.stacksCollection = new StacksCollection();
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
-                stacks = this.stacksCollection.GetStackCollection();
+                //this.stacksCollection = new StacksCollection();
+                //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                
+                stacks = this.stacksCollection.GetStackCollection(stackType);
 
                 // Setup the available stacks grid
                 availableStacksGrid.AutoGenerateColumns = false;

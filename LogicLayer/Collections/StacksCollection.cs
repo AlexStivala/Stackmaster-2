@@ -36,7 +36,7 @@ namespace LogicLayer.Collections
         /// <summary>
         /// Get the MSE Stack list from the SQL DB; clears out existing collection first
         /// </summary>
-        public BindingList<StackModel> GetStackCollection()
+        public BindingList<StackModel> GetStackCollection(int stackType)
         {
             DataTable dataTable;
 
@@ -47,7 +47,7 @@ namespace LogicLayer.Collections
             {
                 StackAccess stackAccess = new StackAccess();
                 stackAccess.MainDBConnectionString = MainDBConnectionString;
-                dataTable = stackAccess.GetStacks();
+                dataTable = stackAccess.GetStacks(stackType);
 
                 foreach (DataRow row in dataTable.Rows)
                 {

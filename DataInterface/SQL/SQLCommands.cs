@@ -22,7 +22,7 @@ namespace DataInterface.SQL
         /// <summary>
         /// Sql to get the top-level stack metadata
         /// </summary>
-        public static readonly string sqlGetStacksList = "SELECT * FROM MSE_Stacks";
+        public static readonly string sqlGetStacksList = "SELECT * FROM MSE_Stacks WHERE StackType = @StackType";
 
         /// <summary>
         /// Sql to get the elements for a specified stack

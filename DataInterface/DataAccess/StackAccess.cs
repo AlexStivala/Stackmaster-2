@@ -30,7 +30,7 @@ namespace DataInterface.DataAccess
         /// <summary>
         /// Method to get the list of existing MSE Stacks and pass it back to the logic layer as a DataTable
         /// </summary>
-        public DataTable GetStacks()
+        public DataTable GetStacks(int stackType)
         {
             DataTable dataTable = new DataTable();
 
@@ -45,6 +45,7 @@ namespace DataInterface.DataAccess
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
                             cmd.CommandText = SQLCommands.sqlGetStacksList;
+                            cmd.Parameters.Add("@StackType", SqlDbType.Float).Value = stackType;
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;
                             sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;

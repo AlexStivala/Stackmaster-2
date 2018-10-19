@@ -17,15 +17,17 @@ namespace GUILayer.Forms
     {
 
         // Define the collection object for the list of available stacks
-        private StacksCollection stacksCollection;
+        private StacksCollection stacksCollection = new StacksCollection();
         BindingList<StackModel> stacks;
 
-        
-        // Read in database connection strings
+        public int stackType = 0;
+            // Read in database connection strings
         string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
-        
+        string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+
         //private Double stackId;
         public Double StackId { get; set; }
+        public bool BuildOnlyMode { get; set; }
 
         //private string stackDescription;
         //public string StackDescription { get { return stackDescription; } set { StackDescription = stackDescription; } }
@@ -33,9 +35,24 @@ namespace GUILayer.Forms
 
         public Boolean EnableShowControls { get; set; }
 
-        public FrmSaveStack(Double stID, string stackDesc)
+        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType)
+        //public FrmSaveStack()
         {
             InitializeComponent();
+
+            BuildOnlyMode = buildMode;
+            stackType = StackType;
+
+            if (BuildOnlyMode)
+            {
+                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+            }
+            else
+            {
+                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+            }
+
+
             RefreshStacksList();
 
             if (EnableShowControls)
@@ -52,7 +69,8 @@ namespace GUILayer.Forms
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
 
             //txtStackID.Text = Convert.ToString(stID);
-            txtStackDescription.Text = stackDesc;
+            //txtStackDescription.Text = stackDesc;
+            txtStackDescription.Text = StackDescription;
             //txtStackID.Focus();
             txtStackDescription.Focus();
         }
@@ -92,8 +110,15 @@ namespace GUILayer.Forms
             {
                 // Setup the available stacks collection
                 this.stacksCollection = new StacksCollection();
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
-                stacks = this.stacksCollection.GetStackCollection();
+
+                if (BuildOnlyMode)
+                    this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                else
+                    this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+
+
+
+                stacks = this.stacksCollection.GetStackCollection(stackType);
 
                 // Setup the available stacks grid
                 availableStacksGrid.AutoGenerateColumns = false;

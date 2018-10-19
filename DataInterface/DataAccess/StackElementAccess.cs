@@ -123,7 +123,7 @@ namespace DataInterface.DataAccess
                                     //Attempt to commit the transaction
                                     transaction.Commit();
                                 }
-                                catch (Exception)
+                                catch (Exception ex)
                                 {
                                     transaction.Rollback();
                                 }

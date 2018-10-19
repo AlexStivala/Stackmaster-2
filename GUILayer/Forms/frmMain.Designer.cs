@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -218,6 +218,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.LoopTimer = new System.Windows.Forms.Timer(this.components);
             this.lblDB = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -1063,8 +1064,8 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
@@ -1737,8 +1738,9 @@
             // lblIpAddress
             // 
             this.lblIpAddress.AutoSize = true;
+            this.lblIpAddress.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.lblIpAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIpAddress.Location = new System.Drawing.Point(1021, 48);
+            this.lblIpAddress.Location = new System.Drawing.Point(883, 48);
             this.lblIpAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIpAddress.Name = "lblIpAddress";
             this.lblIpAddress.Size = new System.Drawing.Size(49, 25);
@@ -1748,8 +1750,9 @@
             // lblHostName
             // 
             this.lblHostName.AutoSize = true;
+            this.lblHostName.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.lblHostName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHostName.Location = new System.Drawing.Point(1183, 48);
+            this.lblHostName.Location = new System.Drawing.Point(1045, 48);
             this.lblHostName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblHostName.Name = "lblHostName";
             this.lblHostName.Size = new System.Drawing.Size(49, 25);
@@ -1760,7 +1763,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(880, 48);
+            this.label3.Location = new System.Drawing.Point(742, 48);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 25);
@@ -2587,13 +2590,26 @@
             // lblDB
             // 
             this.lblDB.AutoSize = true;
+            this.lblDB.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.lblDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDB.Location = new System.Drawing.Point(1039, 89);
+            this.lblDB.Location = new System.Drawing.Point(1411, 48);
             this.lblDB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDB.Name = "lblDB";
-            this.lblDB.Size = new System.Drawing.Size(170, 25);
+            this.lblDB.Size = new System.Drawing.Size(41, 25);
             this.lblDB.TabIndex = 136;
-            this.lblDB.Text = "DB Connection: ";
+            this.lblDB.Text = "DB";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(1357, 48);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(48, 25);
+            this.label1.TabIndex = 137;
+            this.label1.Text = "DB:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // frmMain
             // 
@@ -2601,6 +2617,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(2150, 1731);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblDB);
             this.Controls.Add(this.enginePanel);
             this.Controls.Add(this.lblNetwork);
@@ -2915,6 +2932,7 @@
         private System.Windows.Forms.DataGridView dgvVoterAnalysis;
         private System.Windows.Forms.Label lblVAcnt;
         private System.Windows.Forms.Label lblDB;
+        private System.Windows.Forms.Label label1;
     }
 }
 

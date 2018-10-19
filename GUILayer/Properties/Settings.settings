@@ -26,9 +26,9 @@
     <Setting Name="ElectionsDBConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=enygdb1;Initial Catalog=ElectionProd_Test2;Persist Security Info=True;User ID=gfxuser;Password=elect2018&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Data Source=enygdb1;Initial Catalog=ElectionProd;Persist Security Info=True;User ID=gfxuser;Password=elect2018&lt;/ConnectionString&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=enygdb1;Initial Catalog=ElectionProd_Test2;Persist Security Info=True;User ID=gfxuser;Password=elect2018</Value>
+      <Value Profile="(Default)">Data Source=enygdb1;Initial Catalog=ElectionProd;Persist Security Info=True;User ID=gfxuser;Password=elect2018</Value>
     </Setting>
     <Setting Name="CurrentShowPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">MULTIPLAY/MAIN_WALL</Value>
@@ -52,77 +52,18 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=enygdb1;Initial Catalog=VizMultiPlayStackData;Persist Security Info=True;User ID=gfxuser;Password=elect2018</Value>
     </Setting>
-    <Setting Name="TabEnableRaces" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="TabEnableExitPolls" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="TabEnableBalanceOfPower" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="TabEnableReferendums" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="EnableShowSelectControls" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="Engine1_IPAddress" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">10.232.86.66</Value>
-    </Setting>
-    <Setting Name="Engine1_Port" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">6100</Value>
-    </Setting>
-    <Setting Name="Engine1_Enable" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="Engine2_IPAddress" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">127.0.0.2</Value>
-    </Setting>
-    <Setting Name="Engine2_Port" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">6200</Value>
-    </Setting>
-    <Setting Name="Engine2_Enable" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="Engine3_IPAddress" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">127.0.0.3</Value>
-    </Setting>
-    <Setting Name="Engine3_Port" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">6300</Value>
-    </Setting>
-    <Setting Name="Engine3_Enable" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="Engine4_IPAddress" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">127.0.0.4</Value>
-    </Setting>
-    <Setting Name="Engine4_Port" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">6400</Value>
-    </Setting>
-    <Setting Name="Engine4_Enable" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="Scene_Name" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">RBS</Value>
-    </Setting>
-    <Setting Name="RBS" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">RaceBoardScene</Value>
-    </Setting>
-    <Setting Name="EPS" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ExitPollScene</Value>
-    </Setting>
-    <Setting Name="FSN" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">FakeSceneName</Value>
-    </Setting>
-    <Setting Name="builderOnly" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="Network" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">FNC</Value>
-    </Setting>
     <Setting Name="MSEEndpoint1" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://10.232.84.99:8580/</Value>
+    </Setting>
+    <Setting Name="StacksDBConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=enygdb1;Initial Catalog=VizStackmasterStackData;Persist Security Info=True;User ID=gfxuser;Password=elect2018&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=enygdb1;Initial Catalog=VizStackmasterStackData;Persist Security Info=True;User ID=gfxuser;Password=elect2018</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -41,8 +41,7 @@ namespace GUILayer.Forms
             InitializeComponent();
 
             BuildOnlyMode = buildMode;
-            stackType = StackType;
-
+            
             if (BuildOnlyMode)
             {
                 this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -52,6 +51,14 @@ namespace GUILayer.Forms
                 this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
             }
 
+            txtStackDescription.Text = StackDescription;
+
+            stackType = StackType;
+            if (stackType == 21)
+            {
+                txtStackDescription.Text = "{TICKER}";
+                txtStackDescription.Enabled = false;
+            }
 
             RefreshStacksList();
 
@@ -70,8 +77,8 @@ namespace GUILayer.Forms
 
             //txtStackID.Text = Convert.ToString(stID);
             //txtStackDescription.Text = stackDesc;
-            txtStackDescription.Text = StackDescription;
             //txtStackID.Focus();
+
             txtStackDescription.Focus();
         }
 
@@ -190,7 +197,12 @@ namespace GUILayer.Forms
                 else
                 {
                     // Set a new stack ID
-                    StackId = Math.Truncate(Convert.ToDouble(DateTime.Now.ToString("yyyyMMddHHmmss")));
+
+                    if (stackType == 21)
+                        StackId = 99999999999999;
+                    else
+                        StackId = Math.Truncate(Convert.ToDouble(DateTime.Now.ToString("yyyyMMddHHmmss")));
+
                     StackDescription = txtStackDescription.Text.Trim();
                     this.DialogResult = DialogResult.OK;
                     this.Close();

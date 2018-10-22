@@ -298,6 +298,13 @@ namespace DataInterface.SQL
         public static readonly string sqlGetVoterAnalysisAnswerData_Tkr = "SELECT question, answer, preface, name, id, party, result_percent FROM FE_VoterAnalysisData_Ticker WHERE id > '0' AND VA_Data_Id = " +
                                                                         "@VA_Data_Id";
 
+        public static readonly string sqlGetVoterAnalysisDataFS = "getVoterAnalysisData_Fullscreen " +
+                                                                        "@VA_Data_Id, " +
+                                                                        "@r_type";
+
+        public static readonly string sqlGetVoterAnalysisDataTkr = "getVoterAnalysisData_Fullscreen " +
+                                                                        "@VA_Data_Id, " +
+                                                                        "@r_type";
 
 
     }

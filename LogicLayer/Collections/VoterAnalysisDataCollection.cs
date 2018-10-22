@@ -52,8 +52,8 @@ namespace LogicLayer.Collections
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    
-                    
+
+                    /*
                     // Base Question
                     if (r_type == "Q")
                     {
@@ -61,10 +61,10 @@ namespace LogicLayer.Collections
                         {
 
                             //Specific to exit polls base questions
-                            question = row["question"].ToString() ?? "",
-                            answer = row["answer"].ToString() ?? "",
-                            preface = row["preface"].ToString() ?? "",
-                            percent = Convert.ToInt32(row["variable_percent"] ?? 0)
+                            question = row["Title"].ToString() ?? "",
+                            answer = row["Response"].ToString() ?? "",
+                            preface = row["State"].ToString() ?? "",
+                            percent = Convert.ToInt32(row["Percent"] ?? 0)
                         };
 
                         voterAnalysisData.r_type = r_type;
@@ -90,8 +90,22 @@ namespace LogicLayer.Collections
                         voterAnalysisData.VA_Data_Id = VA_Data_Id;
                         voterAnalysisRecords.Add(voterAnalysisData);
                     }
+                    */
+                    var voterAnalysisData = new VoterAnalysisDataModel()
+                    {
+                        Title = row["Title"].ToString() ?? "",
+                        Response = row["Response"].ToString() ?? "",
+                        State = row["State"].ToString() ?? "",
+                        percent = Convert.ToInt32(row["Percent"] ?? 0)
+                    };
+
+                    voterAnalysisData.r_type = r_type;
+                    voterAnalysisData.VA_Data_Id = VA_Data_Id;
+                    voterAnalysisRecords.Add(voterAnalysisData);
+                }
                     // Manual Question
-                    else if (r_type == "M")
+                /*    
+                else if (r_type == "M")
                     {
                         string Q = String.Empty;
                         Int16 QID = Convert.ToInt16(row["QuestionID"] ?? 0);
@@ -107,6 +121,7 @@ namespace LogicLayer.Collections
                     }
 
                 }
+                */
             }
             catch (Exception ex)
             {

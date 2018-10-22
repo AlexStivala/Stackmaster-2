@@ -202,7 +202,21 @@ namespace GUILayer.Forms
 
         //Read in default Trio profile and channel
         string defaultTrioProfile = Properties.Settings.Default.DefaultTrioProfile;
-        string defaultTrioChannel = Properties.Settings.Default.DefaultTrioChannel;                        
+        string defaultTrioChannel = Properties.Settings.Default.DefaultTrioChannel;
+
+        public class SavedData
+        {
+            public  BindingList<StackElementModel> stkRB = new BindingList<StackElementModel>();
+            public  BindingList<StackElementModel> stkVA = new BindingList<StackElementModel>();
+            public  BindingList<StackElementModel> stkRef = new BindingList<StackElementModel>();
+            public  BindingList<StackElementModel> stkBOP = new BindingList<StackElementModel>();
+
+        }
+
+        public SavedData tabsave = new SavedData();
+        public int tabId = 0;
+
+
         #endregion
 
         #region Logger instantiation - uses reflection to get module name
@@ -264,7 +278,7 @@ namespace GUILayer.Forms
                 toolStripStatusLabel.Text = "Starting program initialization - loading data from SQL database.";
 
                 // Query the graphics DB to get the list of already saved stacks
-                RefreshStacksList();
+                //RefreshStacksList();
 
                 // Query the elections DB to get the list of exit poll questions
                 //RefreshExitPollQuestions();
@@ -433,11 +447,17 @@ namespace GUILayer.Forms
             {
                 stacksDB = GraphicsDBConnectionString;
                 stackType = 0;
+                label2.Visible = true;
+                cbGraphicConcept.Visible = true;
             }
             else
             {
                 stacksDB = StacksDBConnectionString;
-                stackType = (short)(10 + dataModeSelect.SelectedIndex);
+                stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                if (dataModeSelect.SelectedIndex == 1)
+                    stackType += tcVoterAnalysis.SelectedIndex;
+                label2.Visible = false;
+                cbGraphicConcept.Visible = false;
             }
 
 
@@ -501,11 +521,11 @@ namespace GUILayer.Forms
                 }
                 if (VAenable)
                 {
-                    tpExitPolls.Enabled = true;
+                    tpVoterAnalysis.Enabled = true;
                 }
                 else
                 {
-                    tpExitPolls.Enabled = false;
+                    tpVoterAnalysis.Enabled = false;
                 }
                 if (BOPenable)
                 {
@@ -790,8 +810,12 @@ namespace GUILayer.Forms
                         {
                             LoadScene(scenename, engine);
                         }
+
                     }
                 }
+                if (index == 1)
+                    SendCmdToViz("TRIGGER_ACTION", "TAKEIN", index);
+
             }
 
 
@@ -1078,32 +1102,121 @@ namespace GUILayer.Forms
         // Handler for change to main data mode select tab control
         private void dataModeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (dataModeSelect.SelectedIndex == 0)
+            if (stackLocked == false)
             {
-                gbRCF.Visible = true;
-                gbROF.Visible = true;
+                switch (tabId)
+                {
+                    case 0:
+                        tabsave.stkRB.Clear();
+                        foreach (StackElementModel se in stackElements)
+                        {
+                            tabsave.stkRB.Add(se);
+                        }
+                        break;
+                    case 1:
+                        tabsave.stkVA.Clear();
+                        foreach (StackElementModel se in stackElements)
+                        {
+                            tabsave.stkVA.Add(se);
+                        }
+                        break;
+                    case 2:
+                        tabsave.stkBOP.Clear();
+                        foreach (StackElementModel se in stackElements)
+                        {
+                            tabsave.stkBOP.Add(se);
+                        }
+                        break;
+                    case 3:
+                        tabsave.stkRef.Clear();
+                        foreach (StackElementModel se in stackElements)
+                        {
+                            tabsave.stkRef.Add(se);
+                        }
+                        break;
+                }
+
+                stackElements.Clear();
+
+                switch (dataModeSelect.SelectedIndex)
+                {
+                    case 0:
+                        //stackElements.Clear();
+                        foreach (StackElementModel se in tabsave.stkRB)
+                        {
+                            stackElements.Add(se);
+                        }
+                        break;
+                    case 1:
+                        //stackElements.Clear();
+                        foreach (StackElementModel se in tabsave.stkVA)
+                        {
+                            stackElements.Add(se);
+                        }
+                        break;
+                    case 2:
+                        //stackElements.Clear();
+                        foreach (StackElementModel se in tabsave.stkBOP)
+                        {
+                            stackElements.Add(se);
+                        }
+                        break;
+                    case 3:
+                        //stackElements.Clear();
+                        foreach (StackElementModel se in tabsave.stkRef)
+                        {
+                            stackElements.Add(se);
+                        }
+                        break;
+                }
+
+                if (dataModeSelect.SelectedIndex == 0)
+                {
+                    gbRCF.Visible = true;
+                    gbROF.Visible = true;
+                }
+                else
+                {
+                    gbRCF.Visible = false;
+                    gbROF.Visible = false;
+                }
+
+                if (builderOnlyMode == false)
+                {
+                    stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                    if (dataModeSelect.SelectedIndex == 1)
+                    {
+                        stackType += tcVoterAnalysis.SelectedIndex;
+                    }
+                }
+                else
+                    stackType = 0;
+
+                if (dataModeSelect.SelectedIndex == 1)
+                    GetVoterAnalysisGridData();
+
+                if (!builderOnlyMode)
+                    SetOutput(dataModeSelect.SelectedIndex);
+
+                tabId = dataModeSelect.SelectedIndex;
+
+                switch (dataModeSelect.SelectedIndex)
+                {
+                    case 0:
+                        tpRaces.Focus();
+                        break;
+                    case 1:
+                        tpVoterAnalysis.Focus();
+                        break;
+                    case 2:
+                        tpBalanceOfPower.Focus();
+                        break;
+                    case 3:
+                        tpReferendums.Focus();
+                        break;
+                }
             }
-            else
-            {
-                gbRCF.Visible = false;
-                gbROF.Visible = false;
-            }
-
-            if (builderOnlyMode == false)
-                stackType = (short)(10 + dataModeSelect.SelectedIndex);
-            else
-                stackType = 0;
-
-
-
-            if (dataModeSelect.SelectedIndex == 1)
-                GetVoterAnalysisGridData();
-            
-
-            if (!builderOnlyMode)
-                SetOutput(dataModeSelect.SelectedIndex);
         }
-
         #endregion 
         
         #region Utility functions
@@ -1538,103 +1651,112 @@ namespace GUILayer.Forms
         // Generic method to add a race board to a stack
         private void AddRaceBoardToStack(Int16 stackElementType, string stackElementDescription, Int16 stackElementDataType)
         {
-            try
+            if (stackLocked == false)
             {
-                // Instantiate new stack element model
-                StackElementModel newStackElement = new StackElementModel();
+                try
+                {
+                    // Instantiate new stack element model
+                    StackElementModel newStackElement = new StackElementModel();
 
-                //Get the selected race list object
-                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
 
-                Int32 stackID = 0;
-                newStackElement.fkey_StackID = stackID;
-                newStackElement.Stack_Element_ID = stackElements.Count;
-                newStackElement.Stack_Element_Type = stackElementType;
-                newStackElement.Stack_Element_Data_Type = stackElementDataType;
-                newStackElement.Stack_Element_Description = stackElementDescription;
-                
-                // Get the template ID for the specified element type & concept ID
-                newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
+                    Int32 stackID = 0;
+                    newStackElement.fkey_StackID = stackID;
+                    newStackElement.Stack_Element_ID = stackElements.Count;
+                    newStackElement.Stack_Element_Type = stackElementType;
+                    newStackElement.Stack_Element_Data_Type = stackElementDataType;
+                    newStackElement.Stack_Element_Description = stackElementDescription;
 
-                newStackElement.Election_Type = selectedRace.Election_Type;
-                newStackElement.Office_Code = selectedRace.Race_Office;
-                newStackElement.State_Number = selectedRace.State_Number;
-                newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
-                newStackElement.State_Name = selectedRace.State_Name;
-                newStackElement.CD = selectedRace.CD;
-                newStackElement.County_Number = 0;
-                newStackElement.County_Name = "N/A";
-                newStackElement.Listbox_Description = selectedRace.Race_Description;
+                    // Get the template ID for the specified element type & concept ID
+                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
 
-                // Specific to race boards
-                newStackElement.Race_ID = selectedRace.Race_ID;
-                newStackElement.Race_RecordType = string.Empty;
-                newStackElement.Race_Office = selectedRace.Race_Office;
-                newStackElement.Race_District = selectedRace.CD;
-                newStackElement.Race_CandidateID_1 = 0;
-                newStackElement.Race_CandidateID_2 = 0;
-                newStackElement.Race_CandidateID_3 = 0;
-                newStackElement.Race_CandidateID_4 = 0;
-                newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
-                newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
+                    newStackElement.Election_Type = selectedRace.Election_Type;
+                    newStackElement.Office_Code = selectedRace.Race_Office;
+                    newStackElement.State_Number = selectedRace.State_Number;
+                    newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
+                    newStackElement.State_Name = selectedRace.State_Name;
+                    newStackElement.CD = selectedRace.CD;
+                    newStackElement.County_Number = 0;
+                    newStackElement.County_Name = "N/A";
+                    newStackElement.Listbox_Description = selectedRace.Race_Description;
 
-                //Specific to exit polls - set to default values
-                newStackElement.ExitPoll_mxID = 0;
-                newStackElement.ExitPoll_BoardID = 0;
-                newStackElement.ExitPoll_ShortMxLabel = string.Empty;
-                newStackElement.ExitPoll_NumRows = 0;
-                newStackElement.ExitPoll_xRow = 0;
-                newStackElement.ExitPoll_BaseQuestion = false;
-                newStackElement.ExitPoll_RowQuestion = false;
-                newStackElement.ExitPoll_Subtitle = string.Empty;
-                newStackElement.ExitPoll_Suffix = string.Empty;
-                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                newStackElement.ExitPoll_SubsetName = string.Empty;
-                newStackElement.ExitPoll_SubsetID = 0;
+                    // Specific to race boards
+                    newStackElement.Race_ID = selectedRace.Race_ID;
+                    newStackElement.Race_RecordType = string.Empty;
+                    newStackElement.Race_Office = selectedRace.Race_Office;
+                    newStackElement.Race_District = selectedRace.CD;
+                    newStackElement.Race_CandidateID_1 = 0;
+                    newStackElement.Race_CandidateID_2 = 0;
+                    newStackElement.Race_CandidateID_3 = 0;
+                    newStackElement.Race_CandidateID_4 = 0;
+                    newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
+                    newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
 
-                // Add element
-                stackElementsCollection.AppendStackElement(newStackElement);
-                // Update stack entries count label
-                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
-            }
-            catch (Exception ex)
-            {
-                // Log error
-                log.Error("Exception occurred while trying to add board to stack: " + ex.Message);
-                log.Debug("Exception occurred while trying to add board to stack", ex);
+                    //Specific to exit polls - set to default values
+                    newStackElement.ExitPoll_mxID = 0;
+                    newStackElement.ExitPoll_BoardID = 0;
+                    newStackElement.ExitPoll_ShortMxLabel = string.Empty;
+                    newStackElement.ExitPoll_NumRows = 0;
+                    newStackElement.ExitPoll_xRow = 0;
+                    newStackElement.ExitPoll_BaseQuestion = false;
+                    newStackElement.ExitPoll_RowQuestion = false;
+                    newStackElement.ExitPoll_Subtitle = string.Empty;
+                    newStackElement.ExitPoll_Suffix = string.Empty;
+                    newStackElement.ExitPoll_HeaderText_1 = string.Empty;
+                    newStackElement.ExitPoll_HeaderText_2 = string.Empty;
+                    newStackElement.ExitPoll_SubsetName = string.Empty;
+                    newStackElement.ExitPoll_SubsetID = 0;
+
+                    // Add element
+                    stackElementsCollection.AppendStackElement(newStackElement);
+                    // Update stack entries count label
+                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("Exception occurred while trying to add board to stack: " + ex.Message);
+                    log.Debug("Exception occurred while trying to add board to stack", ex);
+                }
             }
         }
 
         private void btnAddAll_Click(object sender, EventArgs e)
         {
-            Int16 seType = (short)StackElementTypes.Race_Board_2_Way;
-            string seDescription = "Race Board (2-Way)";
-            Int16 seDataType = (int)DataTypes.Race_Boards;
-
-            Int16 i = 0;
-            foreach (DataGridViewRow rowNum in availableRacesGrid.Rows)
+            if (stackLocked == false)
             {
-                availableRacesGrid.CurrentCell = availableRacesGrid.Rows[i].Cells[0];
-                AddRaceBoardToStack(seType, seDescription, seDataType);
-                i++;
+                Int16 seType = (short)StackElementTypes.Race_Board_2_Way;
+                string seDescription = "Race Board (2-Way)";
+                Int16 seDataType = (int)DataTypes.Race_Boards;
+
+                Int16 i = 0;
+                foreach (DataGridViewRow rowNum in availableRacesGrid.Rows)
+                {
+                    availableRacesGrid.CurrentCell = availableRacesGrid.Rows[i].Cells[0];
+                    AddRaceBoardToStack(seType, seDescription, seDataType);
+                    i++;
+                }
             }
         }
 
         // Handler for insert button
         private void btnInsert_Click(object sender, EventArgs e)
         {
-            if (stackGrid.CurrentCell.RowIndex < 0)
+            if (stackLocked == false)
             {
-                insertPoint = 0;
+                if (stackGrid.CurrentCell.RowIndex < 0)
+                {
+                    insertPoint = 0;
+                }
+                else
+                {
+                    insertPoint = stackGrid.CurrentCell.RowIndex;
+                }
+                // Set flag
+                insertNext = true;
             }
-            else
-            {
-                insertPoint = stackGrid.CurrentCell.RowIndex;
-            }
-            // Set flag
-            insertNext = true;
         }
 
         #endregion
@@ -1777,9 +1899,17 @@ namespace GUILayer.Forms
                     if (e.Control == true)
                         btnSaveStack_Click(sender, e);
                     break;
-                //default:
-                //    rbShowAll.Checked = true;
-                //    break;
+                case Keys.L:
+                    if (e.Control == true)
+                        btnLock_Click(sender, e);
+                    break;
+                case Keys.U:
+                    if (e.Control == true)
+                        btnUnlock_Click(sender, e);
+                    break;
+                    //default:
+                    //    rbShowAll.Checked = true;
+                    //    break;
             }
         }
 
@@ -1845,8 +1975,6 @@ namespace GUILayer.Forms
                     
                     DialogResult dr = new DialogResult();
                     FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
-                    //FrmSaveStack saveStack = new FrmSaveStack(stackID = 0, stackDescription = string.Empty, builderOnlyMode = false);
-                    //FrmSaveStack saveStack = new FrmSaveStack();
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -1857,16 +1985,23 @@ namespace GUILayer.Forms
                         stackDescription = saveStack.StackDescription;
                         stackMetadata.ixStackID = stackID;
                         stackMetadata.StackName = stackDescription;
+                        stackMetadata.StackType = (short)stackType;
 
-                        if (builderOnlyMode == false)
-                            stackMetadata.StackType = (short)(10 + dataModeSelect.SelectedIndex);
+                        if (builderOnlyMode)
+                        {
+                            stackMetadata.ShowName = currentShowName;
+                            stackMetadata.ConceptID = conceptID;
+                            stackMetadata.ConceptName = conceptName;
+                        }
                         else
-                            stackMetadata.StackType = 0;
+                        {
+                            stackMetadata.ShowName = "N/A";
+                            stackMetadata.ConceptID = -1;
+                            stackMetadata.ConceptName = "N/A";
+                        }
 
-                        stackMetadata.ShowName = currentShowName;
-                        stackMetadata.ConceptID = conceptID;
-                        stackMetadata.ConceptName = conceptName;
                         stackMetadata.Notes = "Not currently used";
+                        StacksCollection stacksCollection = new StacksCollection();
                         stacksCollection.MainDBConnectionString = stacksDB;
                         stacksCollection.SaveStack(stackMetadata);
 
@@ -2056,7 +2191,8 @@ namespace GUILayer.Forms
                     int currentStackIndex = stackIndex;
                     stacksCollection.MainDBConnectionString = stacksDB;
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
-                    cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
+                    if (builderOnlyMode)
+                        cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
 
                     // Load the collection
                     stackElementsCollection.MainDBConnectionString = stacksDB;
@@ -2065,7 +2201,8 @@ namespace GUILayer.Forms
                     txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
 
                     // 10/08/2018 Set graphics concept in drop-down
-                    cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
+                    if (builderOnlyMode)
+                        cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
 
                     //txtStackName.Text = selectedStack.StackName + " [ID: " + Convert.ToString(selectedStack.ixStackID) + "]";
                     txtStackName.Text = selectedStack.StackName;
@@ -2970,9 +3107,10 @@ namespace GUILayer.Forms
             try
             {
                 BOPtype bopType = new BOPtype();
-                for (int i = 1; i <= 6; i++)
-                {
-                    switch (i)
+                //for (int i = 1; i <= 6; i++)
+                for (int i = 1; i <= 4; i++)
+                    {
+                        switch (i)
                     {
                         case 1:
                             bopType.eType = (short) StackElementTypes.Balance_of_Power_House_Current;
@@ -3552,104 +3690,110 @@ namespace GUILayer.Forms
         // Add 1-way select board
         private void btnSelect1_Click(object sender, EventArgs e)
         {
-            try
+            if (stackLocked == false)
             {
-                Int32 selectedCandidate1 = 0;
-                Int32 selectedCandidate2 = 0;
-                Int32 selectedCandidate3 = 0;
-                Int32 selectedCandidate4 = 0;
-                string cand1Name = string.Empty;
-                string cand2Name = string.Empty;
-                string cand3Name = string.Empty;
-                string cand4Name = string.Empty;
-                Int16 numCand = 1;
-
-                //Get the selected race list object
-                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
-
-                string eType = selectedRace.Election_Type;
-                string ofc = selectedRace.Race_Office;
-                Int16 st = selectedRace.State_Number;
-                string des = selectedRace.Race_Description;
-
-                DialogResult dr = new DialogResult();
-                //frmCandidateSelect selectCand = new frmCandidateSelect();
-                FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
-                dr = selectCand.ShowDialog();
-                if (dr == DialogResult.OK)
+                try
                 {
-                    // Set candidateID's
+                    Int32 selectedCandidate1 = 0;
+                    Int32 selectedCandidate2 = 0;
+                    Int32 selectedCandidate3 = 0;
+                    Int32 selectedCandidate4 = 0;
+                    string cand1Name = string.Empty;
+                    string cand2Name = string.Empty;
+                    string cand3Name = string.Empty;
+                    string cand4Name = string.Empty;
+                    Int16 numCand = 1;
 
-                    selectedCandidate1 = selectCand.Cand1;
-                    cand1Name = selectCand.CandName1;
-                    //selectedCandidate2 = selectCand.Cand2;
-                    //cand2Name = selectCand.CandName2;
-                    //selectedCandidate3 = selectCand.Cand3;
-                    //cand3Name = selectCand.CandName3;
-                    //selectedCandidate4 = selectCand.Cand4;
-                    //cand4Name = selectCand.CandName4;
-                    AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                    string eType = selectedRace.Election_Type;
+                    string ofc = selectedRace.Race_Office;
+                    Int16 st = selectedRace.State_Number;
+                    string des = selectedRace.Race_Description;
+
+                    DialogResult dr = new DialogResult();
+                    //frmCandidateSelect selectCand = new frmCandidateSelect();
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+                    dr = selectCand.ShowDialog();
+                    if (dr == DialogResult.OK)
+                    {
+                        // Set candidateID's
+
+                        selectedCandidate1 = selectCand.Cand1;
+                        cand1Name = selectCand.CandName1;
+                        //selectedCandidate2 = selectCand.Cand2;
+                        //cand2Name = selectCand.CandName2;
+                        //selectedCandidate3 = selectCand.Cand3;
+                        //cand3Name = selectCand.CandName3;
+                        //selectedCandidate4 = selectCand.Cand4;
+                        //cand4Name = selectCand.CandName4;
+                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                    }
+
                 }
-
-            }
-            catch (Exception ex)
-            {
-                // Log error
-                log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("frmMain Exception occurred: " + ex.Message);
+                    log.Debug("frmMain Exception occurred", ex);
+                }
             }
         }
 
         // Add 2-way select board
         private void btnSelect2_Click(object sender, EventArgs e)
         {
-            try
+            if (stackLocked == false)
             {
-                Int32 selectedCandidate1 = 0;
-                Int32 selectedCandidate2 = 0;
-                Int32 selectedCandidate3 = 0;
-                Int32 selectedCandidate4 = 0;
-                string cand1Name = string.Empty;
-                string cand2Name = string.Empty;
-                string cand3Name = string.Empty;
-                string cand4Name = string.Empty;
-                Int16 numCand = 2;
-
-                //Get the selected race list object
-                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
-
-                string eType = selectedRace.Election_Type;
-                string ofc = selectedRace.Race_Office;
-                Int16 st = selectedRace.State_Number;
-                string des = selectedRace.Race_Description;
-
-                DialogResult dr = new DialogResult();
-                //frmCandidateSelect selectCand = new frmCandidateSelect();
-                FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
-                dr = selectCand.ShowDialog();
-                if (dr == DialogResult.OK)
+                try
                 {
-                    // Set candidateID's
+                    Int32 selectedCandidate1 = 0;
+                    Int32 selectedCandidate2 = 0;
+                    Int32 selectedCandidate3 = 0;
+                    Int32 selectedCandidate4 = 0;
+                    string cand1Name = string.Empty;
+                    string cand2Name = string.Empty;
+                    string cand3Name = string.Empty;
+                    string cand4Name = string.Empty;
+                    Int16 numCand = 2;
 
-                    selectedCandidate1 = selectCand.Cand1;
-                    cand1Name = selectCand.CandName1;
-                    selectedCandidate2 = selectCand.Cand2;
-                    cand2Name = selectCand.CandName2;
-                    //selectedCandidate3 = selectCand.Cand3;
-                    //cand3Name = selectCand.CandName3;
-                    //selectedCandidate4 = selectCand.Cand4;
-                    //cand4Name = selectCand.CandName4;
-                    AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                    string eType = selectedRace.Election_Type;
+                    string ofc = selectedRace.Race_Office;
+                    Int16 st = selectedRace.State_Number;
+                    string des = selectedRace.Race_Description;
+
+                    DialogResult dr = new DialogResult();
+                    //frmCandidateSelect selectCand = new frmCandidateSelect();
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+                    dr = selectCand.ShowDialog();
+                    if (dr == DialogResult.OK)
+                    {
+                        // Set candidateID's
+
+                        selectedCandidate1 = selectCand.Cand1;
+                        cand1Name = selectCand.CandName1;
+                        selectedCandidate2 = selectCand.Cand2;
+                        cand2Name = selectCand.CandName2;
+                        //selectedCandidate3 = selectCand.Cand3;
+                        //cand3Name = selectCand.CandName3;
+                        //selectedCandidate4 = selectCand.Cand4;
+                        //cand4Name = selectCand.CandName4;
+                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                    }
+
                 }
-
-            }
-            catch (Exception ex)
-            {
-                // Log error
-                log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("frmMain Exception occurred: " + ex.Message);
+                    log.Debug("frmMain Exception occurred", ex);
+                }
             }
 
         }
@@ -3657,86 +3801,32 @@ namespace GUILayer.Forms
         // Add 3-way select board
         private void btnSelect3_Click(object sender, EventArgs e)
         {
-            try
+            if (stackLocked == false)
             {
-                Int32 selectedCandidate1 = 0;
-                Int32 selectedCandidate2 = 0;
-                Int32 selectedCandidate3 = 0;
-                Int32 selectedCandidate4 = 0;
-                string cand1Name = string.Empty;
-                string cand2Name = string.Empty;
-                string cand3Name = string.Empty;
-                string cand4Name = string.Empty;
-                Int16 numCand = 3;
-
-                //Get the selected race list object
-                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
-
-                string eType = selectedRace.Election_Type;
-                string ofc = selectedRace.Race_Office;
-                Int16 st = selectedRace.State_Number;
-                string des = selectedRace.Race_Description;
-
-                DialogResult dr = new DialogResult();
-                //frmCandidateSelect selectCand = new frmCandidateSelect();
-                FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
-                dr = selectCand.ShowDialog();
-                if (dr == DialogResult.OK)
+                try
                 {
-                    // Set candidateID's
+                    Int32 selectedCandidate1 = 0;
+                    Int32 selectedCandidate2 = 0;
+                    Int32 selectedCandidate3 = 0;
+                    Int32 selectedCandidate4 = 0;
+                    string cand1Name = string.Empty;
+                    string cand2Name = string.Empty;
+                    string cand3Name = string.Empty;
+                    string cand4Name = string.Empty;
+                    Int16 numCand = 3;
 
-                    selectedCandidate1 = selectCand.Cand1;
-                    cand1Name = selectCand.CandName1;
-                    selectedCandidate2 = selectCand.Cand2;
-                    cand2Name = selectCand.CandName2;
-                    selectedCandidate3 = selectCand.Cand3;
-                    cand3Name = selectCand.CandName3;
-                    //selectedCandidate4 = selectCand.Cand4;
-                    //cand4Name = selectCand.CandName4;
-                    AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
-                }
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
 
-            }
-            catch (Exception ex)
-            {
-                // Log error
-                log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
-            }
-        }
+                    string eType = selectedRace.Election_Type;
+                    string ofc = selectedRace.Race_Office;
+                    Int16 st = selectedRace.State_Number;
+                    string des = selectedRace.Race_Description;
 
-        // Add 4-way select board
-        private void btnSelect4_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Int32 selectedCandidate1 = 0;
-                Int32 selectedCandidate2 = 0;
-                Int32 selectedCandidate3 = 0;
-                Int32 selectedCandidate4 = 0;
-                string cand1Name = string.Empty;
-                string cand2Name = string.Empty;
-                string cand3Name = string.Empty;
-                string cand4Name = string.Empty;
-                Int16 numCand = 4;
-
-                //Get the selected race list object
-                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
-
-                string eType = selectedRace.Election_Type;
-                string ofc = selectedRace.Race_Office;
-                Int16 st = selectedRace.State_Number;
-                string des = selectedRace.Race_Description;
-
-                DialogResult dr = new DialogResult();
-                //frmCandidateSelect selectCand = new frmCandidateSelect();
-                FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
-
-                // Only process if required number of candidates in race
-                if (selectCand.candidatesFound)
-                {
+                    DialogResult dr = new DialogResult();
+                    //frmCandidateSelect selectCand = new frmCandidateSelect();
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -3748,18 +3838,78 @@ namespace GUILayer.Forms
                         cand2Name = selectCand.CandName2;
                         selectedCandidate3 = selectCand.Cand3;
                         cand3Name = selectCand.CandName3;
-                        selectedCandidate4 = selectCand.Cand4;
-                        cand4Name = selectCand.CandName4;
-                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3,
-                            selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                        //selectedCandidate4 = selectCand.Cand4;
+                        //cand4Name = selectCand.CandName4;
+                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("frmMain Exception occurred: " + ex.Message);
+                    log.Debug("frmMain Exception occurred", ex);
                 }
             }
-            catch (Exception ex)
+        }
+
+        // Add 4-way select board
+        private void btnSelect4_Click(object sender, EventArgs e)
+        {
+            if (stackLocked == false)
             {
-                // Log error
-                log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                try
+                {
+                    Int32 selectedCandidate1 = 0;
+                    Int32 selectedCandidate2 = 0;
+                    Int32 selectedCandidate3 = 0;
+                    Int32 selectedCandidate4 = 0;
+                    string cand1Name = string.Empty;
+                    string cand2Name = string.Empty;
+                    string cand3Name = string.Empty;
+                    string cand4Name = string.Empty;
+                    Int16 numCand = 4;
+
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                    string eType = selectedRace.Election_Type;
+                    string ofc = selectedRace.Race_Office;
+                    Int16 st = selectedRace.State_Number;
+                    string des = selectedRace.Race_Description;
+
+                    DialogResult dr = new DialogResult();
+                    //frmCandidateSelect selectCand = new frmCandidateSelect();
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+
+                    // Only process if required number of candidates in race
+                    if (selectCand.candidatesFound)
+                    {
+                        dr = selectCand.ShowDialog();
+                        if (dr == DialogResult.OK)
+                        {
+                            // Set candidateID's
+
+                            selectedCandidate1 = selectCand.Cand1;
+                            cand1Name = selectCand.CandName1;
+                            selectedCandidate2 = selectCand.Cand2;
+                            cand2Name = selectCand.CandName2;
+                            selectedCandidate3 = selectCand.Cand3;
+                            cand3Name = selectCand.CandName3;
+                            selectedCandidate4 = selectCand.Cand4;
+                            cand4Name = selectCand.CandName4;
+                            AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3,
+                                selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("frmMain Exception occurred: " + ex.Message);
+                    log.Debug("frmMain Exception occurred", ex);
+                }
             }
 
         }
@@ -3767,98 +3917,102 @@ namespace GUILayer.Forms
         // Generic method to add a candidate select race board to the stack
         private void AddSelectRaceBoardToStack(Int16 numCand, Int32 cID1, Int32 cID2, Int32 cID3, Int32 cID4, string cand1Name, string cand2Name, string cand3Name, string cand4Name)
         {
-            //Get the selected race list object
-            int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-            AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
 
-            try
+            if (stackLocked == false)
             {
-                string nameList = "(";
+                //Get the selected race list object
+                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
 
-                for (Int16 i = 1; i <= numCand; i++)
+                try
                 {
-                    switch (i)
+                    string nameList = "(";
+
+                    for (Int16 i = 1; i <= numCand; i++)
                     {
-                        case 1:
-                            nameList = nameList + cand1Name;
-                            break;
-                        case 2:
-                            nameList = nameList + ", " + cand2Name;
-                            break;
-                        case 3:
-                            nameList = nameList + ", " + cand3Name;
-                            break;
-                        case 4:
-                            nameList = nameList + ", " + cand4Name;
-                            break;
+                        switch (i)
+                        {
+                            case 1:
+                                nameList = nameList + cand1Name;
+                                break;
+                            case 2:
+                                nameList = nameList + ", " + cand2Name;
+                                break;
+                            case 3:
+                                nameList = nameList + ", " + cand3Name;
+                                break;
+                            case 4:
+                                nameList = nameList + ", " + cand4Name;
+                                break;
+                        }
                     }
+                    nameList = nameList + ")";
+
+                    // Calculate element type based on number of candidates
+                    int eType = numCand * 2;
+
+                    string eDesc = "Race Board (" + numCand + "-Way Select)";
+
+                    // Instantiate new stack element model
+                    StackElementModel newStackElement = new StackElementModel();
+
+                    newStackElement.fkey_StackID = 0;
+                    newStackElement.Stack_Element_ID = stackElements.Count;
+                    newStackElement.Stack_Element_Type = (short)eType;
+                    newStackElement.Stack_Element_Data_Type = (short)DataTypes.Race_Boards;
+                    newStackElement.Stack_Element_Description = eDesc;
+
+                    // Get the template ID for the specified element type
+                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, newStackElement.Stack_Element_Type);
+
+                    newStackElement.Election_Type = selectedRace.Election_Type;
+                    newStackElement.Office_Code = selectedRace.Race_Office;
+                    newStackElement.State_Number = selectedRace.State_Number;
+                    newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
+                    newStackElement.State_Name = selectedRace.State_Name;
+                    newStackElement.CD = selectedRace.CD;
+                    newStackElement.County_Number = 0;
+                    newStackElement.County_Name = "N/A";
+                    newStackElement.Listbox_Description = selectedRace.Race_Description + "  " + nameList;
+
+                    // Specific to race boards
+                    newStackElement.Race_ID = selectedRace.Race_ID;
+                    newStackElement.Race_RecordType = string.Empty;
+                    newStackElement.Race_Office = selectedRace.Race_Office;
+                    newStackElement.Race_District = selectedRace.CD;
+                    newStackElement.Race_CandidateID_1 = cID1;
+                    newStackElement.Race_CandidateID_2 = cID2;
+                    newStackElement.Race_CandidateID_3 = cID3;
+                    newStackElement.Race_CandidateID_4 = cID4;
+                    newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
+                    newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
+
+                    //Specific to exit polls - set to default values
+                    newStackElement.ExitPoll_mxID = 0;
+                    newStackElement.ExitPoll_BoardID = 0;
+                    newStackElement.ExitPoll_ShortMxLabel = string.Empty;
+                    newStackElement.ExitPoll_NumRows = 0;
+                    newStackElement.ExitPoll_xRow = 0;
+                    newStackElement.ExitPoll_BaseQuestion = false;
+                    newStackElement.ExitPoll_RowQuestion = false;
+                    newStackElement.ExitPoll_Subtitle = string.Empty;
+                    newStackElement.ExitPoll_Suffix = string.Empty;
+                    newStackElement.ExitPoll_HeaderText_1 = string.Empty;
+                    newStackElement.ExitPoll_HeaderText_2 = string.Empty;
+                    newStackElement.ExitPoll_SubsetName = string.Empty;
+                    newStackElement.ExitPoll_SubsetID = 0;
+
+                    // Add element
+                    stackElementsCollection.AppendStackElement(newStackElement);
+                    // Update stack entries count label
+                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
                 }
-                nameList = nameList + ")";
-
-                // Calculate element type based on number of candidates
-                int eType = numCand * 2;
-
-                string eDesc = "Race Board (" + numCand + "-Way Select)"; 
-
-                // Instantiate new stack element model
-                StackElementModel newStackElement = new StackElementModel();
-
-                newStackElement.fkey_StackID = 0;
-                newStackElement.Stack_Element_ID = stackElements.Count;
-                newStackElement.Stack_Element_Type = (short)eType;
-                newStackElement.Stack_Element_Data_Type = (short)DataTypes.Race_Boards;
-                newStackElement.Stack_Element_Description = eDesc;
-                
-                // Get the template ID for the specified element type
-                newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, newStackElement.Stack_Element_Type);
-
-                newStackElement.Election_Type = selectedRace.Election_Type;
-                newStackElement.Office_Code = selectedRace.Race_Office;
-                newStackElement.State_Number = selectedRace.State_Number;
-                newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
-                newStackElement.State_Name = selectedRace.State_Name;
-                newStackElement.CD = selectedRace.CD;
-                newStackElement.County_Number = 0;
-                newStackElement.County_Name = "N/A";
-                newStackElement.Listbox_Description = selectedRace.Race_Description + "  " + nameList;
-
-                // Specific to race boards
-                newStackElement.Race_ID = selectedRace.Race_ID;
-                newStackElement.Race_RecordType = string.Empty;
-                newStackElement.Race_Office = selectedRace.Race_Office;
-                newStackElement.Race_District = selectedRace.CD;
-                newStackElement.Race_CandidateID_1 = cID1;
-                newStackElement.Race_CandidateID_2 = cID2;
-                newStackElement.Race_CandidateID_3 = cID3;
-                newStackElement.Race_CandidateID_4 = cID4;
-                newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
-                newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
-
-                //Specific to exit polls - set to default values
-                newStackElement.ExitPoll_mxID = 0;
-                newStackElement.ExitPoll_BoardID = 0;
-                newStackElement.ExitPoll_ShortMxLabel = string.Empty;
-                newStackElement.ExitPoll_NumRows = 0;
-                newStackElement.ExitPoll_xRow = 0;
-                newStackElement.ExitPoll_BaseQuestion = false;
-                newStackElement.ExitPoll_RowQuestion = false;
-                newStackElement.ExitPoll_Subtitle = string.Empty;
-                newStackElement.ExitPoll_Suffix = string.Empty;
-                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                newStackElement.ExitPoll_SubsetName = string.Empty;
-                newStackElement.ExitPoll_SubsetID = 0;
-
-                // Add element
-                stackElementsCollection.AppendStackElement(newStackElement);
-                // Update stack entries count label
-                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
-            }
-            catch (Exception ex)
-            {
-                // Log error
-                log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("frmMain Exception occurred: " + ex.Message);
+                    log.Debug("frmMain Exception occurred", ex);
+                }
             }
         }
         #endregion
@@ -4025,44 +4179,50 @@ namespace GUILayer.Forms
 
         public void TakeNext()
         {
-            if (stackGrid.Rows.Count > 0)
+            if (stackLocked)
             {
-                if (currentRaceIndex < stackGrid.RowCount - 1)
-                    currentRaceIndex++;
-                stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
+                if (stackGrid.Rows.Count > 0)
+                {
+                    if (currentRaceIndex < stackGrid.RowCount - 1)
+                        currentRaceIndex++;
+                    stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
 
-                TakeCurrent();
+                    TakeCurrent();
 
+                }
             }
         }
 
         public void TakeCurrent()
         {
-            if (stackGrid.Rows.Count > 0)
+            if (stackLocked)
             {
-
-                currentRaceIndex = stackGrid.CurrentCell.RowIndex;
-                Int16 stackElementDataType = (Int16)stackElements[currentRaceIndex].Stack_Element_Data_Type;
-                SetOutput(stackElementDataType);
-
-                switch (stackElementDataType)
+                if (stackGrid.Rows.Count > 0)
                 {
-                    case (short)DataTypes.Race_Boards:
-                        TakeRaceBoards();
-                        break;
 
-                    case (short)DataTypes.Voter_Analysis:
-                        TakeVoterAnalysis();
-                        break;
+                    currentRaceIndex = stackGrid.CurrentCell.RowIndex;
+                    Int16 stackElementDataType = (Int16)stackElements[currentRaceIndex].Stack_Element_Data_Type;
+                    SetOutput(stackElementDataType);
 
-                    case (short)DataTypes.Balance_of_Power:
-                        TakeBOP();
-                        break;
+                    switch (stackElementDataType)
+                    {
+                        case (short)DataTypes.Race_Boards:
+                            TakeRaceBoards();
+                            break;
 
-                    case (short)DataTypes.Referendums:
-                        TakeReferendums();
-                        break;
+                        case (short)DataTypes.Voter_Analysis:
+                            TakeVoterAnalysis();
+                            break;
 
+                        case (short)DataTypes.Balance_of_Power:
+                            TakeBOP();
+                            break;
+
+                        case (short)DataTypes.Referendums:
+                            TakeReferendums();
+                            break;
+
+                    }
                 }
             }
         }
@@ -4076,6 +4236,39 @@ namespace GUILayer.Forms
             lastSceneLoaded[EngineNo - 1] = sceneName;
         }
 
+        private void SendCmdToViz(string cmd, string cmdData, int index)
+        {
+
+            string vizCmd = "";
+
+            //int index = dataModeSelect.SelectedIndex;
+            //int index = dataType;
+
+            for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
+            {
+                string sceneName = tabConfig[index].TabOutput[i].sceneName;
+                int engine = tabConfig[index].TabOutput[i].engine;
+
+                // load scene if last scene loaded on this viz is not = sceneName
+                if (lastSceneLoaded[engine - 1] != sceneName)
+                    LoadScene(sceneName, engine);
+
+
+                vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}{cmd}{quot} {cmdData}{term}";
+
+
+                if (vizEngines[engine - 1].enable)
+                {
+                    byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
+                    if (vizEngines[engine - 1].enable)
+                        vizClientSockets[engine - 1].Send(bCmd);
+                }
+            }
+            
+            listBox2.Items.Add(vizCmd);
+            listBox2.SelectedIndex = listBox2.Items.Count - 1;
+
+        }
         private void SendToViz(string cmd, int dataType)
         {
 
@@ -4114,7 +4307,7 @@ namespace GUILayer.Forms
                         vizClientSockets[engine - 1].Send(bCmd);
                 }
             }
-            
+
             listBox2.Items.Add(vizCmd);
             listBox2.SelectedIndex = listBox2.Items.Count - 1;
 
@@ -4147,6 +4340,16 @@ namespace GUILayer.Forms
             LiveUpdateTimer.Enabled = false;
             panel2.BackColor = Color.Navy;
             stackLocked = false;
+            dataModeSelect.Enabled = true;
+
+            btnDeleteStackElement.Enabled = true;
+            btnClearStack.Enabled = true;
+            btnLoadStack.Enabled = true;
+            btnSaveStack.Enabled = true;
+            btnStackElementUp.Enabled = true;
+            btnStackElementDown.Enabled = true;
+
+
             LoopTimer.Enabled = false;
         }
 
@@ -4155,6 +4358,15 @@ namespace GUILayer.Forms
             if (stackGrid.Rows.Count > 0)
             {
                 stackLocked = true;
+                dataModeSelect.Enabled = false;
+
+                btnDeleteStackElement.Enabled = false;
+                btnClearStack.Enabled = false;
+                btnLoadStack.Enabled = false;
+                btnSaveStack.Enabled = false;
+                btnStackElementUp.Enabled = false;
+                btnStackElementDown.Enabled = false;
+
                 //LoadScene(RBSceneName, 1);
                 currentRaceIndex = -1;
                 stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
@@ -4189,6 +4401,7 @@ namespace GUILayer.Forms
                 {
                     LoopTimer.Enabled = false;
                 }
+                pnlStack.Focus();
 
             }
         }
@@ -4936,6 +5149,7 @@ namespace GUILayer.Forms
 
             string MapKeyStr = "";
 
+            /*
             if (VA_Data[0].r_type == "A")
                 MapKeyStr = $"{VA_Data.Count}| |{VA_Data[0].answer}|{VA_Data[0].preface}|";
             else
@@ -4955,6 +5169,18 @@ namespace GUILayer.Forms
                     MapKeyStr += $"{VA_Data[i].name}";
 
                 }
+            }
+            */
+
+            MapKeyStr = $"{VA_Data.Count}| |{VA_Data[0].Title}|{VA_Data[0].State}|";
+
+            for (int i = 0; i < VA_Data.Count; i++)
+            {
+                if (i > 0)
+                    MapKeyStr += "^";
+
+                    MapKeyStr += $"{VA_Data[i].Response}";
+                
             }
 
             MapKeyStr += "|";
@@ -4979,6 +5205,16 @@ namespace GUILayer.Forms
 
         private void tcVoterAnalysis_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (builderOnlyMode == false)
+            {
+                stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                if (dataModeSelect.SelectedIndex == 1)
+                {
+                    stackType += tcVoterAnalysis.SelectedIndex;
+                }
+            }
+            else
+                stackType = 0;
             GetVoterAnalysisGridData();
         }
 
@@ -5085,6 +5321,12 @@ namespace GUILayer.Forms
 
         private void label1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void stackGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
 
         }
     }

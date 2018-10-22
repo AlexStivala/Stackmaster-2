@@ -45,23 +45,28 @@ namespace DataInterface.DataAccess
                             if (ft == 0)
                             {
                                 // Question
-                                if (r_type == "Q")
-                                    cmd.CommandText = SQLCommands.sqlGetVoterAnalysisQuestionData;
+                                //if (r_type == "Q")
+                                //cmd.CommandText = SQLCommands.sqlGetVoterAnalysisQuestionData;
                                 // Answer
-                                else if (r_type == "A")
-                                    cmd.CommandText = SQLCommands.sqlGetVoterAnalysisAnswerData;
+                                //else if (r_type == "A")
+                                //cmd.CommandText = SQLCommands.sqlGetVoterAnalysisAnswerData;
+                                cmd.CommandText = SQLCommands.sqlGetVoterAnalysisDataFS;
+
                             }
                             else
                             {
-                                // Question
-                                if (r_type == "Q")
-                                    cmd.CommandText = SQLCommands.sqlGetVoterAnalysisQuestionData_Tkr;
+                                //// Question
+                                //if (r_type == "Q")
+                                //cmd.CommandText = SQLCommands.sqlGetVoterAnalysisQuestionData_Tkr;
                                 // Answer
-                                else if (r_type == "A")
-                                    cmd.CommandText = SQLCommands.sqlGetVoterAnalysisAnswerData_Tkr;
+                                //else if (r_type == "A")
+                                //cmd.CommandText = SQLCommands.sqlGetVoterAnalysisAnswerData_Tkr;
+                                cmd.CommandText = SQLCommands.sqlGetVoterAnalysisDataTkr;
+
                             }
 
                             cmd.Parameters.Add("@VA_Data_Id", SqlDbType.VarChar).Value = VA_Data_Id;
+                            cmd.Parameters.Add("@r_type", SqlDbType.VarChar).Value = r_type;
 
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;

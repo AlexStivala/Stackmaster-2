@@ -30,7 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,7 +93,7 @@
             this.availableRacesGrid = new System.Windows.Forms.DataGridView();
             this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Race_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tpExitPolls = new System.Windows.Forms.TabPage();
+            this.tpVoterAnalysis = new System.Windows.Forms.TabPage();
             this.lblVAcnt = new System.Windows.Forms.Label();
             this.dgvVoterAnalysis = new System.Windows.Forms.DataGridView();
             this.tcVoterAnalysis = new System.Windows.Forms.TabControl();
@@ -233,7 +234,7 @@
             this.gbROF.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.availableRacesGrid)).BeginInit();
-            this.tpExitPolls.SuspendLayout();
+            this.tpVoterAnalysis.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).BeginInit();
             this.tcVoterAnalysis.SuspendLayout();
             this.tpBalanceOfPower.SuspendLayout();
@@ -492,7 +493,7 @@
             // dataModeSelect
             // 
             this.dataModeSelect.Controls.Add(this.tpRaces);
-            this.dataModeSelect.Controls.Add(this.tpExitPolls);
+            this.dataModeSelect.Controls.Add(this.tpVoterAnalysis);
             this.dataModeSelect.Controls.Add(this.tpBalanceOfPower);
             this.dataModeSelect.Controls.Add(this.tpReferendums);
             this.dataModeSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1039,19 +1040,19 @@
             this.Race_Description.ReadOnly = true;
             this.Race_Description.Width = 302;
             // 
-            // tpExitPolls
+            // tpVoterAnalysis
             // 
-            this.tpExitPolls.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.tpExitPolls.Controls.Add(this.lblVAcnt);
-            this.tpExitPolls.Controls.Add(this.dgvVoterAnalysis);
-            this.tpExitPolls.Controls.Add(this.tcVoterAnalysis);
-            this.tpExitPolls.Controls.Add(this.btnAddExitPoll);
-            this.tpExitPolls.Location = new System.Drawing.Point(4, 38);
-            this.tpExitPolls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpExitPolls.Name = "tpExitPolls";
-            this.tpExitPolls.Size = new System.Drawing.Size(1021, 1180);
-            this.tpExitPolls.TabIndex = 1;
-            this.tpExitPolls.Text = "Voter Analysis";
+            this.tpVoterAnalysis.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.tpVoterAnalysis.Controls.Add(this.lblVAcnt);
+            this.tpVoterAnalysis.Controls.Add(this.dgvVoterAnalysis);
+            this.tpVoterAnalysis.Controls.Add(this.tcVoterAnalysis);
+            this.tpVoterAnalysis.Controls.Add(this.btnAddExitPoll);
+            this.tpVoterAnalysis.Location = new System.Drawing.Point(4, 38);
+            this.tpVoterAnalysis.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tpVoterAnalysis.Name = "tpVoterAnalysis";
+            this.tpVoterAnalysis.Size = new System.Drawing.Size(1021, 1180);
+            this.tpVoterAnalysis.TabIndex = 1;
+            this.tpVoterAnalysis.Text = "Voter Analysis";
             // 
             // lblVAcnt
             // 
@@ -1064,9 +1065,17 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1074,7 +1083,7 @@
             this.dgvVoterAnalysis.RowHeadersWidth = 20;
             this.dgvVoterAnalysis.RowTemplate.ReadOnly = true;
             this.dgvVoterAnalysis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVoterAnalysis.Size = new System.Drawing.Size(992, 832);
+            this.dgvVoterAnalysis.Size = new System.Drawing.Size(992, 897);
             this.dgvVoterAnalysis.TabIndex = 133;
             this.dgvVoterAnalysis.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVoterAnalysis_CellContentDoubleClick);
             // 
@@ -1116,12 +1125,12 @@
             // 
             this.btnAddExitPoll.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
             this.btnAddExitPoll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddExitPoll.Location = new System.Drawing.Point(338, 995);
+            this.btnAddExitPoll.Location = new System.Drawing.Point(350, 1054);
             this.btnAddExitPoll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddExitPoll.Name = "btnAddExitPoll";
             this.btnAddExitPoll.Size = new System.Drawing.Size(328, 92);
             this.btnAddExitPoll.TabIndex = 2;
-            this.btnAddExitPoll.Text = "Add Exit Poll";
+            this.btnAddExitPoll.Text = "Add Voter Analysis";
             this.btnAddExitPoll.UseVisualStyleBackColor = true;
             this.btnAddExitPoll.Click += new System.EventHandler(this.btnAddExitPoll_Click);
             // 
@@ -1639,6 +1648,7 @@
             this.stackGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.stackGrid.Size = new System.Drawing.Size(972, 715);
             this.stackGrid.TabIndex = 142;
+            this.stackGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellClick);
             this.stackGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellDoubleClick);
             // 
             // Element_Type_Description
@@ -2671,8 +2681,8 @@
             this.gbROF.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.availableRacesGrid)).EndInit();
-            this.tpExitPolls.ResumeLayout(false);
-            this.tpExitPolls.PerformLayout();
+            this.tpVoterAnalysis.ResumeLayout(false);
+            this.tpVoterAnalysis.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).EndInit();
             this.tcVoterAnalysis.ResumeLayout(false);
             this.tpBalanceOfPower.ResumeLayout(false);
@@ -2764,7 +2774,7 @@
         private System.Windows.Forms.ToolStripMenuItem resetStatusBarToolStripMenuItem;
         private System.Windows.Forms.TabControl dataModeSelect;
         private System.Windows.Forms.TabPage tpRaces;
-        private System.Windows.Forms.TabPage tpExitPolls;
+        private System.Windows.Forms.TabPage tpVoterAnalysis;
         private System.Windows.Forms.TabPage tpBalanceOfPower;
         private System.Windows.Forms.DataGridView availableRacesGrid;
         private System.Windows.Forms.Button btnAddBalanceOfPower;

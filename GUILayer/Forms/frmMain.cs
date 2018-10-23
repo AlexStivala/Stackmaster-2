@@ -2181,6 +2181,7 @@ namespace GUILayer.Forms
                     // Set candidateID's
                     stackIndex = loadStack.StackIndex;
                     stackID = loadStack.StackID;
+                    bool multiplay = loadStack.multiplayMode;
                     stackDescription = loadStack.StackDesc;
 
                     // Clear the collection
@@ -2189,13 +2190,24 @@ namespace GUILayer.Forms
                     // Get the stack ID and load the selected collection
                     //t currentStackIndex = availableStacksGrid.CurrentCell.RowIndex;
                     int currentStackIndex = stackIndex;
-                    stacksCollection.MainDBConnectionString = stacksDB;
+
+                    if (multiplay)
+                        stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                    else
+                        stacksCollection.MainDBConnectionString = stacksDB;
+                    
+
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
+
                     if (builderOnlyMode)
                         cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
 
+                    if (multiplay)
+                        stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                    else
+                        stackElementsCollection.MainDBConnectionString = stacksDB;
+                    
                     // Load the collection
-                    stackElementsCollection.MainDBConnectionString = stacksDB;
                     stackElementsCollection.GetStackElementsCollection(selectedStack.ixStackID);
                     // Update stack entries count label
                     txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
@@ -3107,8 +3119,8 @@ namespace GUILayer.Forms
             try
             {
                 BOPtype bopType = new BOPtype();
-                //for (int i = 1; i <= 6; i++)
-                for (int i = 1; i <= 4; i++)
+                for (int i = 1; i <= 5; i++)
+                //for (int i = 1; i <= 4; i++)
                     {
                         switch (i)
                     {
@@ -3138,8 +3150,8 @@ namespace GUILayer.Forms
 
                         case 5:
                             bopType.eType = (short)StackElementTypes.Balance_of_Power_House_Net_Gain;
-                            bopType.branch = "HOUSE";
-                            bopType.session = "NET GAIN";
+                            bopType.branch = "NET GAIN";
+                            bopType.session = "NEW";
                             break;
 
                         case 6:
@@ -5035,7 +5047,8 @@ namespace GUILayer.Forms
             {
                 // BOP_DATA = NET_GAIN~party^HouseNum|party^SenNum
 
-                MapKeyStr = $"BOP_DATA = NET_GAIN~{BOPData.Branch} ^ {BOPData.Session}~";
+                MapKeyStr = $"NET GAIN^{BOPData.Session}~";
+                MapKeyStr += $"RepNum={BOPData.RepBaseline}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemBaseline}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndBaseline}|IndNetChange={BOPData.IndDelta}";
 
             }
 
@@ -5200,8 +5213,6 @@ namespace GUILayer.Forms
         }
         #endregion
 
-
-        
 
         private void tcVoterAnalysis_SelectedIndexChanged(object sender, EventArgs e)
         {

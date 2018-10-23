@@ -43,6 +43,7 @@ namespace GUILayer.Forms
         public string StackDesc { get { return stackDesc; } set { StackDesc = stackDesc; } }
 
         public Boolean EnableShowControls { get; set;}
+        public bool multiplayMode = false;
 
         //string topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
         //string currentShowName = Properties.Settings.Default.CurrentShowName;
@@ -60,14 +61,21 @@ namespace GUILayer.Forms
 
             builderOnlyMode = buildMode;
             stackType = StackType;
+            if (stackType <= 10)
+            {
+                btnShowMultiplay.Visible = true;
+            }
+
             
             if (builderOnlyMode)
             {
                 this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                btnActivateStack.Visible = true;
             }
             else
             {
                 this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                btnActivateStack.Visible = false;
             }
 
             // Enable handling of function keys
@@ -329,5 +337,29 @@ namespace GUILayer.Forms
         {
 
         }
+
+        private void btnActivateStack_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnShowMultiplay_Click(object sender, EventArgs e)
+        {
+            multiplayMode = !multiplayMode;
+            if (multiplayMode)
+            {
+                btnShowMultiplay.Text = "Show Raceboard Stacks(Ctrl - M)";
+                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                stackType = 0;
+            }
+            else
+            {
+                btnShowMultiplay.Text = "Show Multiplay Stacks(Ctrl - M)";
+                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                stackType = 10;
+            }
+            RefreshStacksList();
+        }
+
     }
 }

@@ -23,7 +23,7 @@ namespace GUILayer.Forms
         // Define the collection object for the list of available stacks
         private StacksCollection stacksCollection = new StacksCollection();
         //private StacksCollection stacksCollection;
-        BindingList<StackModel> stacks;
+        public BindingList<StackModel> stacks;
         
         // Read in database connection strings
         string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;

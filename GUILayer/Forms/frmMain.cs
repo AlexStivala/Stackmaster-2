@@ -83,9 +83,12 @@ namespace GUILayer.Forms
         public string hostName = string.Empty;
         public string stacksDB = string.Empty;
         public int stackType = 0;
+        public int lastIndex;
+        public int takeCnt = 0;
+        public int tabIndex = 0;
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
-        
+
         public List<ClientSocket> vizClientSockets = new List<ClientSocket>();
 
         public string[] lastSceneLoaded = new string[4];
@@ -121,7 +124,7 @@ namespace GUILayer.Forms
         BindingList<AvailableRaceModel> availableRaces;
 
         // Define the collection object for the list of Referendums
-        private ReferendumsCollection  referendumsCollection;
+        private ReferendumsCollection referendumsCollection;
         BindingList<ReferendumModel> referendums;
 
         // Define the collection object for the list of Referendums data
@@ -154,14 +157,14 @@ namespace GUILayer.Forms
         BindingList<StateMetadataModel> stateMetadata;
 
         // Define the collection used for storing state metadata for all 50 states + US
-        private GraphicsConceptsCollection  graphicsConceptsCollection;
+        private GraphicsConceptsCollection graphicsConceptsCollection;
         BindingList<GraphicsConceptsModel> graphicsConcepts;
         BindingList<GraphicsConceptsModel> graphicsConceptTypes;
 
         // Define the collection object for the list of available races
         private ApplicationSettingsFlagsCollection applicationSettingsFlagsCollection;
         BindingList<ApplicationSettingsFlagsModel> applicationFlags;
-        
+
         internal static readonly XNamespace Atom = "http://www.w3.org/2005/Atom";
 
         // Instantiate MSE classes
@@ -182,7 +185,7 @@ namespace GUILayer.Forms
         string profilesURI = string.Empty;
         string currentShowName = string.Empty;
         string currentPlaylistName = string.Empty;
-        
+
         /*
         Boolean mseEndpoint1_Enable = Properties.Settings.Default.MSEEndpoint1_Enable;
         string mseEndpoint1 = Properties.Settings.Default.MSEEndpoint1;
@@ -206,10 +209,10 @@ namespace GUILayer.Forms
 
         public class SavedData
         {
-            public  BindingList<StackElementModel> stkRB = new BindingList<StackElementModel>();
-            public  BindingList<StackElementModel> stkVA = new BindingList<StackElementModel>();
-            public  BindingList<StackElementModel> stkRef = new BindingList<StackElementModel>();
-            public  BindingList<StackElementModel> stkBOP = new BindingList<StackElementModel>();
+            public BindingList<StackElementModel> stkRB = new BindingList<StackElementModel>();
+            public BindingList<StackElementModel> stkVA = new BindingList<StackElementModel>();
+            public BindingList<StackElementModel> stkRef = new BindingList<StackElementModel>();
+            public BindingList<StackElementModel> stkBOP = new BindingList<StackElementModel>();
 
         }
 
@@ -252,14 +255,14 @@ namespace GUILayer.Forms
         /// <summary>
         /// Main form init, activation and close
         /// </summary>
-        
+
         public frmMain()
         {
             InitializeComponent();
 
             try
             {
-                
+
                 // Setup show controls
                 if (Properties.Settings.Default.EnableShowSelectControls)
                     enableShowSelectControls = true;
@@ -327,12 +330,12 @@ namespace GUILayer.Forms
                 // Set connection string for functions to get simulated time
                 TimeFunctions.ElectionsDBConnectionString = ElectionsDBConnectionString;
 
-                
+
                 // Set version number
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                 this.Text = String.Format("Election Graphics Stack Builder Application  Version {0}", version);
 
-                
+
 
             }
             catch (Exception ex)
@@ -480,6 +483,7 @@ namespace GUILayer.Forms
             {
                 // Enlarge form
                 this.Size = new Size(1462, 1165);
+                lblMediaSequencer.Visible = false;
 
                 lblConfig.Text = $"{configName}  {DateTime.Now}";
                 lblNetwork.Text = Network;
@@ -517,7 +521,6 @@ namespace GUILayer.Forms
                 else
                 {
                     tpRaces.Enabled = false;
-
                 }
                 if (VAenable)
                 {
@@ -814,7 +817,7 @@ namespace GUILayer.Forms
                     }
                 }
                 if (index == 1)
-                    SendCmdToViz("TRIGGER_ACTION", "TAKEIN", index);
+                    SendCmdToViz("TRIGGER_ACTION", "TAKEOUT", index);
 
             }
 
@@ -852,7 +855,7 @@ namespace GUILayer.Forms
 
         public void ConnectToVizEngines()
         {
-            
+
             for (int i = 0; i < vizEngines.Count; i++)
             {
                 // Connect to the ClientSocket; call-backs for connection status will indicate status of client sockets
@@ -861,7 +864,7 @@ namespace GUILayer.Forms
                     vizClientSockets[i].AutoReconnect = true;
                     vizClientSockets[i].Connect();
                 }
-                
+
             }
         }
 
@@ -872,8 +875,8 @@ namespace GUILayer.Forms
             dt = GetDBData(cmdStr, ElectionsDBConnectionString);
 
             DataRow row = dt.Rows[0];
-            return  row["IP_Address"].ToString() ?? "";
-            
+            return row["IP_Address"].ToString() ?? "";
+
         }
         public string GetSceneName(string sceneCode)
         {
@@ -884,12 +887,12 @@ namespace GUILayer.Forms
             string[] strSeparator = new string[] { "/" };
             string sceneName = "";
 
-            
+
             if (dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[0];
                 string scenePath = row["ScenePath"].ToString() ?? "";
-                sceneNames = scenePath.Split(strSeparator,StringSplitOptions.None);
+                sceneNames = scenePath.Split(strSeparator, StringSplitOptions.None);
                 int i = sceneNames.Length;
                 sceneName = sceneNames[i - 1];
                 return sceneName;
@@ -904,7 +907,7 @@ namespace GUILayer.Forms
             DataTable dt = new DataTable();
             string cmdStr = $"SELECT * FROM FE_Scenes WHERE SceneCode = '{sceneCode}'";
             dt = GetDBData(cmdStr, ElectionsDBConnectionString);
-            
+
             if (dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[0];
@@ -975,7 +978,7 @@ namespace GUILayer.Forms
                 return;
             }
 
-            
+
             bool connected = vizEngines[i].connected;
             switch (i + 1)
             {
@@ -1068,7 +1071,7 @@ namespace GUILayer.Forms
                     Properties.Settings.Default.ApplicationID,
                     "",
                     System.DateTime.Now
-                );               
+                );
             }
         }
 
@@ -1102,6 +1105,21 @@ namespace GUILayer.Forms
         // Handler for change to main data mode select tab control
         private void dataModeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (dataModeSelect.SelectedTab.Text == "Race Boards")
+                tabIndex = 0;
+
+            if (dataModeSelect.SelectedTab.Text == "Voter Analysis")
+                tabIndex = 1;
+
+            if (dataModeSelect.SelectedTab.Text == "Balance of Power")
+                tabIndex = 2;
+
+            if (dataModeSelect.SelectedTab.Text == "Referendums")
+                tabIndex = 3;
+
+
+
+
             if (stackLocked == false)
             {
                 switch (tabId)
@@ -1198,9 +1216,11 @@ namespace GUILayer.Forms
                 if (!builderOnlyMode)
                     SetOutput(dataModeSelect.SelectedIndex);
 
-                tabId = dataModeSelect.SelectedIndex;
+                //tabId = dataModeSelect.SelectedIndex;
+                tabId = tabIndex;
 
-                switch (dataModeSelect.SelectedIndex)
+                //switch (dataModeSelect.SelectedIndex)
+                switch (tabIndex)
                 {
                     case 0:
                         tpRaces.Focus();
@@ -1217,8 +1237,8 @@ namespace GUILayer.Forms
                 }
             }
         }
-        #endregion 
-        
+        #endregion
+
         #region Utility functions
         // Refresh the list of available stacks for the grid
 
@@ -1230,9 +1250,9 @@ namespace GUILayer.Forms
                 this.stacksCollection = new StacksCollection();
 
                 //if (builderOnlyMode)
-                    //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
                 //else
-                    //this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
 
                 this.stacksCollection.MainDBConnectionString = stacksDB;
 
@@ -1307,7 +1327,7 @@ namespace GUILayer.Forms
                 availableRaces = this.availableRacesCollection.GetFilteredRaceCollection(ofc, cStatus, scfm, stateMetadata);
 
                 // Set next poll closing label
-                if (scfm == (short) SpecialCaseFilterModes.Next_Poll_Closing_States_Only)
+                if (scfm == (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only)
                 {
                     txtNextPollClosingTime.Text = Convert.ToString(this.availableRacesCollection.NextPollClosingTime);
                     txtNextPollClosingTimeHeader.Visible = true;
@@ -1369,7 +1389,7 @@ namespace GUILayer.Forms
                 // Setup the exit polls collection
                 DataTable dt = GetDBData(SQLCommands.sqlGetVoterAnalysisQuestions_FullScreen, ElectionsDBConnectionString);
                 //VA_Qdata_FS = DataTableToList
-                
+
             }
             catch (Exception ex)
             {
@@ -1381,7 +1401,7 @@ namespace GUILayer.Forms
 
 
 
-        
+
 
         // Refresh the list of referendums for the list
         private void RefreshReferendums()
@@ -1420,7 +1440,7 @@ namespace GUILayer.Forms
                 this.raceDataCollection = new RaceDataCollection();
                 this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
                 // Specify state ID = -1 => Don't query database for candidate data until requesting actual race data
-                raceData = this.raceDataCollection.GetRaceDataCollection(-1, "P", 0, "G", 1, false , 0, 0, 0, 0);
+                raceData = this.raceDataCollection.GetRaceDataCollection(-1, "P", 0, "G", 1, false, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {
@@ -1481,7 +1501,7 @@ namespace GUILayer.Forms
                 conceptName = graphicsConceptTypes[0].ConceptName;
                 cbGraphicConcept.SelectedIndex = 0;
                 cbGraphicConcept.Text = conceptName;
-                
+
                 // Setup the master race collection & bind to grid
                 //this.graphicsConceptsCollection = new GraphicsConceptsCollection();
                 //this.graphicsConceptsCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
@@ -1907,6 +1927,12 @@ namespace GUILayer.Forms
                     if (e.Control == true)
                         btnUnlock_Click(sender, e);
                     break;
+                case Keys.Up:
+                    ArrowUp();
+                    break;
+                case Keys.Down:
+                    ArrowDn();
+                    break;
                     //default:
                     //    rbShowAll.Checked = true;
                     //    break;
@@ -1972,7 +1998,7 @@ namespace GUILayer.Forms
             {
                 if (stackElements.Count > 0)
                 {
-                    
+
                     DialogResult dr = new DialogResult();
                     FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
                     dr = saveStack.ShowDialog();
@@ -2020,7 +2046,7 @@ namespace GUILayer.Forms
                 toolStripStatusLabel.BackColor = System.Drawing.Color.SpringGreen;
                 //toolStripStatusLabel.Text = "Status Logging Message: Stack successfully saved out to database";
                 toolStripStatusLabel.Text = String.Format("Status Logging Message: Stack {0} saved out to database", stackID);
-            
+
 
             }
             catch (Exception ex)
@@ -2160,17 +2186,17 @@ namespace GUILayer.Forms
         private void LoadSelectedStack()
         {
             try
-            {               
+            {
                 //Refresh the list of available stacks
                 Int32 stackIndex = 0;
 
                 // Setup dialog to load stack
-                DialogResult dr = new DialogResult();               
+                DialogResult dr = new DialogResult();
                 frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
 
-                RefreshStacksList();
+                //RefreshStacksList();
 
                 dr = loadStack.ShowDialog();
 
@@ -2183,6 +2209,7 @@ namespace GUILayer.Forms
                     stackID = loadStack.StackID;
                     bool multiplay = loadStack.multiplayMode;
                     stackDescription = loadStack.StackDesc;
+                    stacks = loadStack.stacks;
 
                     // Clear the collection
                     stackElements.Clear();
@@ -2190,23 +2217,23 @@ namespace GUILayer.Forms
                     // Get the stack ID and load the selected collection
                     //t currentStackIndex = availableStacksGrid.CurrentCell.RowIndex;
                     int currentStackIndex = stackIndex;
+                    StacksCollection stacksCollection = new StacksCollection();
 
                     if (multiplay)
+                    {
                         stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                        stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                    }
                     else
+                    {
                         stacksCollection.MainDBConnectionString = stacksDB;
-                    
+                        stackElementsCollection.MainDBConnectionString = stacksDB;
+                    }
+
 
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
 
-                    if (builderOnlyMode)
-                        cbGraphicConcept.SelectedIndex = selectedStack.ConceptID - 1;
 
-                    if (multiplay)
-                        stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
-                    else
-                        stackElementsCollection.MainDBConnectionString = stacksDB;
-                    
                     // Load the collection
                     stackElementsCollection.GetStackElementsCollection(selectedStack.ixStackID);
                     // Update stack entries count label
@@ -2255,7 +2282,7 @@ namespace GUILayer.Forms
                                 txtStackName.Text = "None Selected";
 
                                 // Update stack entries count label
-                                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);                             
+                                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
                             }
                             else okToGo = false;
                         }
@@ -2338,8 +2365,8 @@ namespace GUILayer.Forms
                 // Check for 6-Way boards
                 else if ((cbGraphicConcept.SelectedIndex == (short)GraphicsConcepts.Six_Way - 1) && (stackElements.Count != 6))
                 {
-                    MessageBox.Show("There must be exactly six (6) elements in the stack in order to save it for this graphics concept. " + 
-                        "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.", 
+                    MessageBox.Show("There must be exactly six (6) elements in the stack in order to save it for this graphics concept. " +
+                        "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.",
                         "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -2347,7 +2374,7 @@ namespace GUILayer.Forms
                 else if ((cbGraphicConcept.SelectedIndex == (short)GraphicsConcepts.Eight_Way - 1) && (stackElements.Count != 8))
                 {
                     MessageBox.Show("There must be exactly eight (8) elements in the stack in order to save it for this graphics concept " +
-                        "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.", 
+                        "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.",
                         "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -2431,7 +2458,7 @@ namespace GUILayer.Forms
                     toolStripStatusLabel.Text = String.Format("Status Logging Message: Stack \"{0}\" saved out to database and activated", stackDescription);
                 }
             }
-                    
+
             catch (Exception ex)
             {
                 log.Debug("Exception occurred", ex);
@@ -2445,377 +2472,377 @@ namespace GUILayer.Forms
         private void ActivateStack(Double stack_ID, string stack_Description, StackElementsCollection _stackElementsCollection, BindingList<StackElementModel> _stackElements)
         {
             try
-            {    
-                    // MSE OPERATION
-                    string groupSelfLink = string.Empty;
+            {
+                // MSE OPERATION
+                string groupSelfLink = string.Empty;
 
-                    // Get playlists directory URI based on current show
-                    string showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI, currentShowName);
+                // Get playlists directory URI based on current show
+                string showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI, currentShowName);
 
-                    // Iterate through the races in the stack to build the preview collection, then call methods to create group containing elements
-                    // Clear out the existing race preview collection
-                    racePreview.Clear();
+                // Iterate through the races in the stack to build the preview collection, then call methods to create group containing elements
+                // Clear out the existing race preview collection
+                racePreview.Clear();
 
-                    string raceBoardTypeDescription = string.Empty;
-                    Int16 candidatesToReturn = 0;
-                    Int16 dataType = 0;
-                    string BOPHeader = String.Empty;
-                    
-                    // Build the Race Preview collection - contains strings for each race in the group/stack
-                    // Iterate through each race in the stack to build the race preview command strings collection                    
-                    for (int i = 0; i < _stackElements.Count; ++i)
+                string raceBoardTypeDescription = string.Empty;
+                Int16 candidatesToReturn = 0;
+                Int16 dataType = 0;
+                string BOPHeader = String.Empty;
+
+                // Build the Race Preview collection - contains strings for each race in the group/stack
+                // Iterate through each race in the stack to build the race preview command strings collection                    
+                for (int i = 0; i < _stackElements.Count; ++i)
+                {
+                    switch (_stackElements[i].Stack_Element_Type)
                     {
-                        switch (_stackElements[i].Stack_Element_Type)
-                        {
-                            case (Int16)StackElementTypes.Race_Board_1_Way:
-                                raceBoardTypeDescription = "1-Way Board";                                                                                                                                  
-                                candidatesToReturn = 1;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_1_Way:
+                            raceBoardTypeDescription = "1-Way Board";
+                            candidatesToReturn = 1;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_1_Way_Select:
-                                raceBoardTypeDescription = "1-Way Select Board";
-                                candidatesToReturn = 1;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_1_Way_Select:
+                            raceBoardTypeDescription = "1-Way Select Board";
+                            candidatesToReturn = 1;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_2_Way:
-                                raceBoardTypeDescription = "2-Way Board";
-                                candidatesToReturn = 2;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_2_Way:
+                            raceBoardTypeDescription = "2-Way Board";
+                            candidatesToReturn = 2;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_2_Way_Select:
-                                raceBoardTypeDescription = "2-Way Select Board";
-                                candidatesToReturn = 2;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_2_Way_Select:
+                            raceBoardTypeDescription = "2-Way Select Board";
+                            candidatesToReturn = 2;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_3_Way:
-                                raceBoardTypeDescription = "3-Way Board";
-                                candidatesToReturn = 3;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_3_Way:
+                            raceBoardTypeDescription = "3-Way Board";
+                            candidatesToReturn = 3;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_3_Way_Select:
-                                raceBoardTypeDescription = "3-Way Select Board";
-                                candidatesToReturn = 3;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_3_Way_Select:
+                            raceBoardTypeDescription = "3-Way Select Board";
+                            candidatesToReturn = 3;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_4_Way:
-                                raceBoardTypeDescription = "4-Way Board";
-                                candidatesToReturn = 4;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_4_Way:
+                            raceBoardTypeDescription = "4-Way Board";
+                            candidatesToReturn = 4;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Race_Board_4_Way_Select:
-                                raceBoardTypeDescription = "4-Way Select Board";
-                                candidatesToReturn = 4;
-                                dataType = (Int16) DataTypes.Race_Boards;
-                                break;
+                        case (Int16)StackElementTypes.Race_Board_4_Way_Select:
+                            raceBoardTypeDescription = "4-Way Select Board";
+                            candidatesToReturn = 4;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
 
-                            case (Int16)StackElementTypes.Exit_Poll_Full_Screen:
-                                raceBoardTypeDescription = "Voter_Analysis";
-                                dataType = (Int16)DataTypes.Voter_Analysis;
-                                break;
+                        case (Int16)StackElementTypes.Exit_Poll_Full_Screen:
+                            raceBoardTypeDescription = "Voter_Analysis";
+                            dataType = (Int16)DataTypes.Voter_Analysis;
+                            break;
 
-                            case (Int16)StackElementTypes.Balance_of_Power_House_Current:
-                                raceBoardTypeDescription = "Balance of Power - House: Current";
-                                BOPHeader = "HOUSE^CURRENT";
-                                dataType = (Int16)DataTypes.Balance_of_Power;
-                                break;
+                        case (Int16)StackElementTypes.Balance_of_Power_House_Current:
+                            raceBoardTypeDescription = "Balance of Power - House: Current";
+                            BOPHeader = "HOUSE^CURRENT";
+                            dataType = (Int16)DataTypes.Balance_of_Power;
+                            break;
 
-                            case (Int16)StackElementTypes.Balance_of_Power_Senate_Current:
-                                raceBoardTypeDescription = "Balance of Power - Senate: Current";
-                                BOPHeader = "SENATE^CURRENT";
-                                dataType = (Int16)DataTypes.Balance_of_Power;
-                                break;
+                        case (Int16)StackElementTypes.Balance_of_Power_Senate_Current:
+                            raceBoardTypeDescription = "Balance of Power - Senate: Current";
+                            BOPHeader = "SENATE^CURRENT";
+                            dataType = (Int16)DataTypes.Balance_of_Power;
+                            break;
 
-                            case (Int16)StackElementTypes.Balance_of_Power_House_New:
-                                raceBoardTypeDescription = "Balance of Power - House: New";
-                                BOPHeader = "HOUSE^NEW";
-                                dataType = (Int16)DataTypes.Balance_of_Power;
-                                break;
+                        case (Int16)StackElementTypes.Balance_of_Power_House_New:
+                            raceBoardTypeDescription = "Balance of Power - House: New";
+                            BOPHeader = "HOUSE^NEW";
+                            dataType = (Int16)DataTypes.Balance_of_Power;
+                            break;
 
-                            case (Int16)StackElementTypes.Balance_of_Power_Senate_New:
-                                raceBoardTypeDescription = "Balance of Power - Senate: New";
-                                BOPHeader = "SENATE^NEW";
-                                dataType = (Int16)DataTypes.Balance_of_Power;
-                                break;
+                        case (Int16)StackElementTypes.Balance_of_Power_Senate_New:
+                            raceBoardTypeDescription = "Balance of Power - Senate: New";
+                            BOPHeader = "SENATE^NEW";
+                            dataType = (Int16)DataTypes.Balance_of_Power;
+                            break;
 
-                            case (Int16)StackElementTypes.Balance_of_Power_House_Net_Gain:
-                                raceBoardTypeDescription = "Balance of Power - House: Net Gain";
-                                BOPHeader = "HOUSE^NET GAIN";
-                                dataType = (Int16)DataTypes.Balance_of_Power;
-                                break;
+                        case (Int16)StackElementTypes.Balance_of_Power_House_Net_Gain:
+                            raceBoardTypeDescription = "Balance of Power - House: Net Gain";
+                            BOPHeader = "HOUSE^NET GAIN";
+                            dataType = (Int16)DataTypes.Balance_of_Power;
+                            break;
 
-                            case (Int16)StackElementTypes.Balance_of_Power_Senate_Net_Gain:
-                                raceBoardTypeDescription = "Balance of Power - Senate: Net Gain";
-                                BOPHeader = "SENATE^NET GAIN";
-                                dataType = (Int16)DataTypes.Balance_of_Power;
-                                break;
+                        case (Int16)StackElementTypes.Balance_of_Power_Senate_Net_Gain:
+                            raceBoardTypeDescription = "Balance of Power - Senate: Net Gain";
+                            BOPHeader = "SENATE^NET GAIN";
+                            dataType = (Int16)DataTypes.Balance_of_Power;
+                            break;
 
-                            case (Int16)StackElementTypes.Referendums:
-                                raceBoardTypeDescription = "Referendums";
-                                dataType = (Int16)DataTypes.Referendums;
-                                break;
+                        case (Int16)StackElementTypes.Referendums:
+                            raceBoardTypeDescription = "Referendums";
+                            dataType = (Int16)DataTypes.Referendums;
+                            break;
 
-                        }
+                    }
 
-                        // Instantiate and set the values of a race preview element
-                        RacePreviewModel newRacePreviewElement = new RacePreviewModel();
+                    // Instantiate and set the values of a race preview element
+                    RacePreviewModel newRacePreviewElement = new RacePreviewModel();
 
-                        switch (dataType)
-                        {                            
-                            case (Int16)DataTypes.Race_Boards:
+                    switch (dataType)
+                    {
+                        case (Int16)DataTypes.Race_Boards:
 
-                                // Request the race data for the element in the stack - updates raceData binding list
-                                GetRaceData(_stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
+                            // Request the race data for the element in the stack - updates raceData binding list
+                            GetRaceData(_stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
 
-                                // Check for data returned for race
-                                if (raceData.Count > 0)
-                                {
-                                    // Instantiate and set the values of a race preview element
-                                    //RacePreviewModel newRacePreviewElement = new RacePreviewModel();
+                            // Check for data returned for race
+                            if (raceData.Count > 0)
+                            {
+                                // Instantiate and set the values of a race preview element
+                                //RacePreviewModel newRacePreviewElement = new RacePreviewModel();
 
-                                    // Set the name of the element for the group
-                                    newRacePreviewElement.Raceboard_Description = _stackElements[i].Listbox_Description + " - " + raceBoardTypeDescription;
-                                    //newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + stackElements[i].Listbox_Description;
+                                // Set the name of the element for the group
+                                newRacePreviewElement.Raceboard_Description = _stackElements[i].Listbox_Description + " - " + raceBoardTypeDescription;
+                                //newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + stackElements[i].Listbox_Description;
 
-                                    // Set FIELD_TYPE value - stack ID plus stack index
-                                    newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
+                                // Set FIELD_TYPE value - stack ID plus stack index
+                                newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
 
-                                    // Call method to assemble the race data into the required command string for the raceboards scene
-                                    newRacePreviewElement.Raceboard_Preview_Field_Text = GetRacePreviewString(_stackElements[i], candidatesToReturn);
+                                // Call method to assemble the race data into the required command string for the raceboards scene
+                                newRacePreviewElement.Raceboard_Preview_Field_Text = GetRacePreviewString(_stackElements[i], candidatesToReturn);
 
-                                    // Append the preview element to the race preview collection
-                                    racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
-                                }
-                                break;
+                                // Append the preview element to the race preview collection
+                                racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
+                            }
+                            break;
 
-                            case (Int16)DataTypes.Voter_Analysis:
+                        case (Int16)DataTypes.Voter_Analysis:
 
-                                string epType = _stackElements[i].Race_RecordType[0].ToString();
-                                Int32 epID = _stackElements[i].ExitPoll_mxID;
-                                string st = _stackElements[i].State_Mnemonic;
-                                string ofc = _stackElements[i].Office_Code;
-                                Int32 jCde = _stackElements[i].County_Number;
-                                Int16 rowNum = _stackElements[i].ExitPoll_xRow;
-                                Int32 subID = _stackElements[i].ExitPoll_SubsetID;
-                                string eType = _stackElements[i].Election_Type;
-                                string q = _stackElements[i].ExitPoll_ShortMxLabel;
+                            string epType = _stackElements[i].Race_RecordType[0].ToString();
+                            Int32 epID = _stackElements[i].ExitPoll_mxID;
+                            string st = _stackElements[i].State_Mnemonic;
+                            string ofc = _stackElements[i].Office_Code;
+                            Int32 jCde = _stackElements[i].County_Number;
+                            Int16 rowNum = _stackElements[i].ExitPoll_xRow;
+                            Int32 subID = _stackElements[i].ExitPoll_SubsetID;
+                            string eType = _stackElements[i].Election_Type;
+                            string q = _stackElements[i].ExitPoll_ShortMxLabel;
 
-                                StackElementModel stElement = new StackElementModel();
-                                stElement = _stackElements[i];
+                            StackElementModel stElement = new StackElementModel();
+                            stElement = _stackElements[i];
 
-                                // Setup the referendums collection
-                                var records = ExitPollDataCollection.GetExitPollDataCollection(ElectionsDBConnectionString, epType, epID, st, ofc, (short)jCde, rowNum, (short)subID, eType);
+                            // Setup the referendums collection
+                            var records = ExitPollDataCollection.GetExitPollDataCollection(ElectionsDBConnectionString, epType, epID, st, ofc, (short)jCde, rowNum, (short)subID, eType);
 
-                                // Check for data returned for race
-                                if (records.Count > 0)
-                                {
+                            // Check for data returned for race
+                            if (records.Count > 0)
+                            {
 
-                                    // Set the name of the element for the group
-                                    newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + _stackElements[i].Listbox_Description;
-
-                                    // Set FIELD_TYPE value - stack ID plus stack index
-                                    newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
-
-                                    // Call method to assemble the race data into the required command string for the raceboards scene
-                                    newRacePreviewElement.Raceboard_Preview_Field_Text = GetExitPollPreviewString(records, stElement);
-
-                                    // Append the preview element to the race preview collection
-                                    racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
-                                }
-                                break;
-
-                            case (Int16)DataTypes.Balance_of_Power:
-
-                                
                                 // Set the name of the element for the group
                                 newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + _stackElements[i].Listbox_Description;
 
                                 // Set FIELD_TYPE value - stack ID plus stack index
-                                newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i;
+                                newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
 
                                 // Call method to assemble the race data into the required command string for the raceboards scene
-                                newRacePreviewElement.Raceboard_Preview_Field_Text = GetBOPPreviewString(_stackElements[i], BOPHeader);
-                                
+                                newRacePreviewElement.Raceboard_Preview_Field_Text = GetExitPollPreviewString(records, stElement);
+
                                 // Append the preview element to the race preview collection
                                 racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
-                                
-                                break;
+                            }
+                            break;
 
-                            case (Int16)DataTypes.Referendums:
+                        case (Int16)DataTypes.Balance_of_Power:
 
-                                // Setup the referendums collection
-                                this.referendumsDataCollection  = new ReferendumsDataCollection();
-                                this.referendumsDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
-                                referendumsData = referendumsDataCollection.GetReferendumsDataCollection(_stackElements[i].State_Number, _stackElements[i].Race_Office);
 
-                                ReferendumDataModel refData = new ReferendumDataModel();
+                            // Set the name of the element for the group
+                            newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + _stackElements[i].Listbox_Description;
 
-                                // Check for data returned for race
-                                if (referendumsData.Count > 0)
-                                {
+                            // Set FIELD_TYPE value - stack ID plus stack index
+                            newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i;
 
-                                    refData = referendumsData[1];
+                            // Call method to assemble the race data into the required command string for the raceboards scene
+                            newRacePreviewElement.Raceboard_Preview_Field_Text = GetBOPPreviewString(_stackElements[i], BOPHeader);
 
-                                    // Set the name of the element for the group
-                                    newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + _stackElements[i].Listbox_Description;
+                            // Append the preview element to the race preview collection
+                            racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
 
-                                    // Set FIELD_TYPE value - stack ID plus stack index
-                                    newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
+                            break;
 
-                                    // Call method to assemble the race data into the required command string for the raceboards scene
-                                    newRacePreviewElement.Raceboard_Preview_Field_Text = GetReferendumPreviewString(refData);
+                        case (Int16)DataTypes.Referendums:
 
-                                    // Append the preview element to the race preview collection
-                                    racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
-                                }
-                                break;
-                        }
+                            // Setup the referendums collection
+                            this.referendumsDataCollection = new ReferendumsDataCollection();
+                            this.referendumsDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
+                            referendumsData = referendumsDataCollection.GetReferendumsDataCollection(_stackElements[i].State_Number, _stackElements[i].Race_Office);
 
-                    }
+                            ReferendumDataModel refData = new ReferendumDataModel();
 
-                    // MSE OPERATION - SAVE OUT THE GROUP W/STACK ELEMENTS
-                    // Get playlists directory URI based on current show
-                    showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI, currentShowName);
-
-                    // Log if the URI could not be resolved
-                    if (showPlaylistsDirectoryURI == string.Empty)
-                    {
-                        log.Error("Could not resolve Show Playlist Directory URI");
-                        log.Debug("Could not resolve Show Playlist Directory URI");
-                    }
-
-                    // Get templates directory URI based on current show
-                    string showTemplatesDirectoryURI = show.GetTemplateCollectionFromShow(topLevelShowsDirectoryURI, currentShowName);
-
-                    // Log if the URI could not be resolved
-                    if (showTemplatesDirectoryURI == string.Empty)
-                    {
-                        log.Error("Could not resolve Show Templates Directory URI");
-                        log.Debug("Could not resolve Show Templates Directory URI");
-                    }
-
-                    // Check for a playlist in the VDOM with the specified name & return the Alt link; if the playlist doesn't exist, create it first
-                    if (playlist.CheckIfPlaylistExists(showPlaylistsDirectoryURI, currentPlaylistName) == false)
-                    {
-                        playlist.CreatePlaylist(showPlaylistsDirectoryURI, currentPlaylistName);
-                    }
-
-                    // Check for a playlist in the VDOM with the specified name & return the Down link
-                    // Delete the group so it can be re-created
-                    string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
-                    if (playlistDownLink != string.Empty)
-                    {
-                        // Get the self link to the specified group
-                        groupSelfLink = group.GetGroupSelfLink(playlistDownLink, stack_Description);
-
-                        // Delete the group if it exists
-                        if (groupSelfLink != string.Empty)
-                        {
-                            group.DeleteGroup(groupSelfLink);
-                        }
-
-                        // Create the group
-                        REST_RESPONSE restResponse = group.CreateGroup(playlistDownLink, stack_Description);
-
-                        // Check for elements in collection and add to group
-                        if (racePreview.Count > 0)
-                        {
-                            // Iterate through each element in the preview collection and add the element to the group
-                            for (int i = 0; i < racePreview.Count; ++i)
+                            // Check for data returned for race
+                            if (referendumsData.Count > 0)
                             {
-                                // Get the element from the collection
-                                RacePreviewModel racePreviewElement;
-                                racePreviewElement = racePreview[i];
 
-                                // Add the element to the group
-                                //Get the info for the current race
-                                StackElementModel selectedStackElement = _stackElementsCollection.GetStackElement(_stackElements, i);
+                                refData = referendumsData[1];
 
-                                //Set template ID
-                                string templateID = selectedStackElement.Stack_Element_TemplateID;
+                                // Set the name of the element for the group
+                                newRacePreviewElement.Raceboard_Description = raceBoardTypeDescription + ": " + _stackElements[i].Listbox_Description;
 
-                                //Set page number
-                                string pageNumber = i.ToString();
+                                // Set FIELD_TYPE value - stack ID plus stack index
+                                newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
 
-                                //Gets the URI's for the given show
-                                GET_URI getURI = new GET_URI();
+                                // Call method to assemble the race data into the required command string for the raceboards scene
+                                newRacePreviewElement.Raceboard_Preview_Field_Text = GetReferendumPreviewString(refData);
 
-                                //Get the show info
-                                //Get the URI to the show elements collection
-                                elementCollectionURIShow = show.GetElementCollectionFromShow(topLevelShowsDirectoryURI, currentShowName);
+                                // Append the preview element to the race preview collection
+                                racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
+                            }
+                            break;
+                    }
 
-                                // Log if the URI could not be resolved
-                                if (elementCollectionURIShow == string.Empty)
-                                {
-                                    log.Error("Could not resolve Show Elements Collection URI");
-                                    log.Debug("Could not resolve Show Elements Collection URI");
-                                }
+                }
+
+                // MSE OPERATION - SAVE OUT THE GROUP W/STACK ELEMENTS
+                // Get playlists directory URI based on current show
+                showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI, currentShowName);
+
+                // Log if the URI could not be resolved
+                if (showPlaylistsDirectoryURI == string.Empty)
+                {
+                    log.Error("Could not resolve Show Playlist Directory URI");
+                    log.Debug("Could not resolve Show Playlist Directory URI");
+                }
+
+                // Get templates directory URI based on current show
+                string showTemplatesDirectoryURI = show.GetTemplateCollectionFromShow(topLevelShowsDirectoryURI, currentShowName);
+
+                // Log if the URI could not be resolved
+                if (showTemplatesDirectoryURI == string.Empty)
+                {
+                    log.Error("Could not resolve Show Templates Directory URI");
+                    log.Debug("Could not resolve Show Templates Directory URI");
+                }
+
+                // Check for a playlist in the VDOM with the specified name & return the Alt link; if the playlist doesn't exist, create it first
+                if (playlist.CheckIfPlaylistExists(showPlaylistsDirectoryURI, currentPlaylistName) == false)
+                {
+                    playlist.CreatePlaylist(showPlaylistsDirectoryURI, currentPlaylistName);
+                }
+
+                // Check for a playlist in the VDOM with the specified name & return the Down link
+                // Delete the group so it can be re-created
+                string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
+                if (playlistDownLink != string.Empty)
+                {
+                    // Get the self link to the specified group
+                    groupSelfLink = group.GetGroupSelfLink(playlistDownLink, stack_Description);
+
+                    // Delete the group if it exists
+                    if (groupSelfLink != string.Empty)
+                    {
+                        group.DeleteGroup(groupSelfLink);
+                    }
+
+                    // Create the group
+                    REST_RESPONSE restResponse = group.CreateGroup(playlistDownLink, stack_Description);
+
+                    // Check for elements in collection and add to group
+                    if (racePreview.Count > 0)
+                    {
+                        // Iterate through each element in the preview collection and add the element to the group
+                        for (int i = 0; i < racePreview.Count; ++i)
+                        {
+                            // Get the element from the collection
+                            RacePreviewModel racePreviewElement;
+                            racePreviewElement = racePreview[i];
+
+                            // Add the element to the group
+                            //Get the info for the current race
+                            StackElementModel selectedStackElement = _stackElementsCollection.GetStackElement(_stackElements, i);
+
+                            //Set template ID
+                            string templateID = selectedStackElement.Stack_Element_TemplateID;
+
+                            //Set page number
+                            string pageNumber = i.ToString();
+
+                            //Gets the URI's for the given show
+                            GET_URI getURI = new GET_URI();
+
+                            //Get the show info
+                            //Get the URI to the show elements collection
+                            elementCollectionURIShow = show.GetElementCollectionFromShow(topLevelShowsDirectoryURI, currentShowName);
+
+                            // Log if the URI could not be resolved
+                            if (elementCollectionURIShow == string.Empty)
+                            {
+                                log.Error("Could not resolve Show Elements Collection URI");
+                                log.Debug("Could not resolve Show Elements Collection URI");
+                            }
 
 
-                                //Get the URI to the show templates collection
-                                templateCollectionURIShow = show.GetTemplateCollectionFromShow(topLevelShowsDirectoryURI, currentShowName);
+                            //Get the URI to the show templates collection
+                            templateCollectionURIShow = show.GetTemplateCollectionFromShow(topLevelShowsDirectoryURI, currentShowName);
 
-                                // Log if the URI could not be resolved
-                                if (templateCollectionURIShow == string.Empty)
-                                {
-                                    log.Error("Could not resolve Show Templates Collection URI");
-                                    log.Debug("Could not resolve Show Templates Collection URI");
-                                }
+                            // Log if the URI could not be resolved
+                            if (templateCollectionURIShow == string.Empty)
+                            {
+                                log.Error("Could not resolve Show Templates Collection URI");
+                                log.Debug("Could not resolve Show Templates Collection URI");
+                            }
 
-                                //Get the URI to the model for the specified template within the specified show
-                                templateModel = template.GetTemplateElementModel(templateCollectionURIShow, templateID);
+                            //Get the URI to the model for the specified template within the specified show
+                            templateModel = template.GetTemplateElementModel(templateCollectionURIShow, templateID);
 
-                                // Alert if template model not found
-                                if (templateModel == null)
-                                {
-                                    // Log error
-                                    log.Error("Could not resolve template model - template might not exist");
-                                    log.Debug("Could not resolve template model - template might not exist");
-                                }
+                            // Alert if template model not found
+                            if (templateModel == null)
+                            {
+                                // Log error
+                                log.Error("Could not resolve template model - template might not exist");
+                                log.Debug("Could not resolve template model - template might not exist");
+                            }
 
-                                //Get the URI to the currently-specified playlist                                
-                                elementCollectionURIPlaylist = restResponse.downLink;
+                            //Get the URI to the currently-specified playlist                                
+                            elementCollectionURIPlaylist = restResponse.downLink;
 
-                                // Check for element collection URI for the specified playlist
-                                if (elementCollectionURIPlaylist == null)
-                                {                                
-                                    log.Error("Could not resolve URI for specified playlist");
-                                    log.Debug("Could not resolve URI for specified playlist");
-                                }
+                            // Check for element collection URI for the specified playlist
+                            if (elementCollectionURIPlaylist == null)
+                            {
+                                log.Error("Could not resolve URI for specified playlist");
+                                log.Debug("Could not resolve URI for specified playlist");
+                            }
 
 
-                                // Set the data values as name/value pairs
-                                // Get the element from the collection
-                                racePreviewElement = racePreview[i];
+                            // Set the data values as name/value pairs
+                            // Get the element from the collection
+                            racePreviewElement = racePreview[i];
 
-                                // Add the element to the group
-                                // NOTE: Currently hard-wired for race boards - will need to be extended to support varying data types
-                                Dictionary<string, string> nameValuePairs =
-                                    new Dictionary<string, string> { { TemplateFieldNames.RaceBoard_Template_Preview_Field, racePreviewElement.Raceboard_Preview_Field_Text }, 
+                            // Add the element to the group
+                            // NOTE: Currently hard-wired for race boards - will need to be extended to support varying data types
+                            Dictionary<string, string> nameValuePairs =
+                                new Dictionary<string, string> { { TemplateFieldNames.RaceBoard_Template_Preview_Field, racePreviewElement.Raceboard_Preview_Field_Text },
                                                                          { TemplateFieldNames.RaceBoard_Template_Type_Field, stack_ID.ToString() + "|" + pageNumber } };
 
-                                // Instance the element management class
-                                MANAGE_ELEMENTS element = new MANAGE_ELEMENTS();
+                            // Instance the element management class
+                            MANAGE_ELEMENTS element = new MANAGE_ELEMENTS();
 
-                                // Create the new element
-                                element.createNewElement(i.ToString() + ": " + racePreviewElement.Raceboard_Description, elementCollectionURIPlaylist, templateModel, nameValuePairs, defaultTrioChannel);
-                            }
+                            // Create the new element
+                            element.createNewElement(i.ToString() + ": " + racePreviewElement.Raceboard_Description, elementCollectionURIPlaylist, templateModel, nameValuePairs, defaultTrioChannel);
                         }
                     }
-                    // Log if the URI could not be resolved
-                    else
-                    {
-                        log.Error("Could not resolve Playlist Down link");
-                        log.Debug("Could not resolve Playlist Down link");
-                    }
                 }
-            
+                // Log if the URI could not be resolved
+                else
+                {
+                    log.Error("Could not resolve Playlist Down link");
+                    log.Debug("Could not resolve Playlist Down link");
+                }
+            }
+
             catch (Exception ex)
             {
                 log.Debug("Exception occurred", ex);
@@ -2987,7 +3014,7 @@ namespace GUILayer.Forms
 
 
 
-        
+
         // Method to get the Referendum string 
         private string GetReferendumPreviewString(ReferendumDataModel referendumData)
         {
@@ -2999,16 +3026,16 @@ namespace GUILayer.Forms
             {
 
                 // ex State|Proposition|Proposition Name|Proposition Description|Checkstate|Yes Votes|Yes Info|No Votes|No Info|
-                previewField = previewField + referendumData.StateName + "|"; 
-                previewField = previewField + referendumData.PropRefID + "|"; 
+                previewField = previewField + referendumData.StateName + "|";
+                previewField = previewField + referendumData.PropRefID + "|";
                 previewField = previewField + referendumData.Description + "|";
                 previewField = previewField + referendumData.Detailtext + "|";
-                previewField = previewField +  "0|"; //Checkstate
+                previewField = previewField + "0|"; //Checkstate
                 previewField = previewField + " |"; //Yes_Num
                 previewField = previewField + " |"; //Yes_Info
                 previewField = previewField + " |"; //No_Num
                 previewField = previewField + " |"; //Mo_Info
-                
+
             }
             catch (Exception ex)
             {
@@ -3024,9 +3051,9 @@ namespace GUILayer.Forms
         private string GetExitPollPreviewString(BindingList<ExitPollDataModel> exitPollData, StackElementModel stackElement)
         {
 
-            
+
             Int32 numResp = exitPollData.Count;
-            
+
             // Init
             string previewField = "!"; // Bang
             string Title = "EXIT POLL";
@@ -3121,11 +3148,11 @@ namespace GUILayer.Forms
                 BOPtype bopType = new BOPtype();
                 for (int i = 1; i <= 5; i++)
                 //for (int i = 1; i <= 4; i++)
-                    {
-                        switch (i)
+                {
+                    switch (i)
                     {
                         case 1:
-                            bopType.eType = (short) StackElementTypes.Balance_of_Power_House_Current;
+                            bopType.eType = (short)StackElementTypes.Balance_of_Power_House_Current;
                             bopType.branch = "HOUSE";
                             bopType.session = "CURRENT";
                             break;
@@ -3365,7 +3392,7 @@ namespace GUILayer.Forms
                 newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis;
                 newStackElement.Stack_Element_Description = "Voter Analysis";
                 // Get the template ID for the specified element type
-                
+
                 newStackElement.Election_Type = "G";
                 newStackElement.Office_Code = selectedPoll.ofc;
                 newStackElement.State_Number = (short)selectedPoll.stateId;
@@ -4036,7 +4063,7 @@ namespace GUILayer.Forms
             if (graphicsConceptTypes.Count > 0)
             {
                 // Set data members for specifying graphics concept
-                conceptID = (short) (cbGraphicConcept.SelectedIndex + 1);
+                conceptID = (short)(cbGraphicConcept.SelectedIndex + 1);
                 conceptName = graphicsConceptTypes[cbGraphicConcept.SelectedIndex].ConceptName;
 
                 // Re-assign templates to elements in grid
@@ -4052,17 +4079,17 @@ namespace GUILayer.Forms
                 stackGrid.Refresh();
             }
         }
-        
+
         // Look up Template Name from conceptID and BoardType - used when saving out various graphic element types
         private string GetTemplate(Int16 tempConceptID, Int16 tempElementType)
         {
             string Template = string.Empty;
-            for (short  i = 0; i < graphicsConcepts.Count; i++)
+            for (short i = 0; i < graphicsConcepts.Count; i++)
             {
                 if ((tempConceptID == graphicsConcepts[i].ConceptID) & (tempElementType == (short)graphicsConcepts[i].ElementTypeCode))
                 {
                     Template = graphicsConcepts[i].TemplateName;
-                }                
+                }
             }
             return Template;
         }
@@ -4071,7 +4098,7 @@ namespace GUILayer.Forms
         // data type and cannot be changed.
         private void stackGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (GetStackGridHighlightEnableFlag((int) e.RowIndex))
+            if (GetStackGridHighlightEnableFlag((int)e.RowIndex))
             {
                 stackGrid.Rows[e.RowIndex].Cells["TemplateID"].Style.BackColor = Color.Red;
 
@@ -4081,7 +4108,7 @@ namespace GUILayer.Forms
                 stackGrid.Rows[e.RowIndex].Cells["TemplateID"].Style.BackColor = Color.White;
             }
         }
-        
+
         // Method to determine if the stack grid entry template column should be highlighted to indicate
         // that the graphics concept for that entry cannot be changed to the overall concept selected.
         private Boolean GetStackGridHighlightEnableFlag(int rowIndex)
@@ -4100,7 +4127,7 @@ namespace GUILayer.Forms
                         if ((graphicsConcepts[j].AllowConceptChange == false) &&
                             (graphicsConcepts[j].IsBaseConcept == false))
                         {
-                            highlightEnable = true;                           
+                            highlightEnable = true;
                         }
                         else
                         {
@@ -4182,7 +4209,7 @@ namespace GUILayer.Forms
             }
         }
         #endregion
-        
+
         #region Methods for taking data to air
         private void btnTake_Click(object sender, EventArgs e)
         {
@@ -4202,6 +4229,8 @@ namespace GUILayer.Forms
                     TakeCurrent();
 
                 }
+                stackGrid.Focus();
+
             }
         }
 
@@ -4214,6 +4243,46 @@ namespace GUILayer.Forms
 
                     currentRaceIndex = stackGrid.CurrentCell.RowIndex;
                     Int16 stackElementDataType = (Int16)stackElements[currentRaceIndex].Stack_Element_Data_Type;
+                    SetOutput(stackElementDataType);
+
+                    takeCnt++;
+
+                    int index = dataModeSelect.SelectedIndex;
+                    if (takeCnt == 1 && index == 1)
+                        SendCmdToViz("TRIGGER_ACTION", "TAKEIN", index);
+
+
+                    switch (stackElementDataType)
+                    {
+                        case (short)DataTypes.Race_Boards:
+                            TakeRaceBoards();
+                            break;
+
+                        case (short)DataTypes.Voter_Analysis:
+                            TakeVoterAnalysis();
+                            break;
+
+                        case (short)DataTypes.Balance_of_Power:
+                            TakeBOP();
+                            break;
+
+                        case (short)DataTypes.Referendums:
+                            TakeReferendums();
+                            break;
+                    }
+                    lastIndex = currentRaceIndex;
+                }
+            }
+        }
+
+        public void TakeLast()
+        {
+            if (stackLocked)
+            {
+                if (stackGrid.Rows.Count > 0)
+                {
+
+                    Int16 stackElementDataType = (Int16)stackElements[lastIndex].Stack_Element_Data_Type;
                     SetOutput(stackElementDataType);
 
                     switch (stackElementDataType)
@@ -4238,7 +4307,6 @@ namespace GUILayer.Forms
                 }
             }
         }
-
 
         public void LoadScene(string sceneName, int EngineNo)
         {
@@ -4276,7 +4344,7 @@ namespace GUILayer.Forms
                         vizClientSockets[engine - 1].Send(bCmd);
                 }
             }
-            
+
             listBox2.Items.Add(vizCmd);
             listBox2.SelectedIndex = listBox2.Items.Count - 1;
 
@@ -4338,10 +4406,10 @@ namespace GUILayer.Forms
 
         private void LiveUpdateTimer_Tick(object sender, EventArgs e)
         {
-            TakeCurrent();
+            TakeLast();
         }
 
-        
+
         private void stackGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             TakeCurrent();
@@ -4384,9 +4452,9 @@ namespace GUILayer.Forms
                 stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
                 panel2.BackColor = Color.Lime;
 
-                //int index = dataModeSelect.SelectedIndex;
+                int index = dataModeSelect.SelectedIndex;
 
-                for (int index = 0; index < 4; index++)
+                //for (int index = 0; index < 4; index++)
                 {
                     for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                     {
@@ -4399,6 +4467,12 @@ namespace GUILayer.Forms
                         }
                     }
                 }
+
+                
+                if (index == 1)
+                    SendCmdToViz("TRIGGER_ACTION", "TAKEOUT", index);
+
+                takeCnt = 0;
 
                 // if Looping checked start
                 if (cbLooping.Checked)
@@ -4413,7 +4487,8 @@ namespace GUILayer.Forms
                 {
                     LoopTimer.Enabled = false;
                 }
-                pnlStack.Focus();
+                //pnlStack.Focus();
+                stackGrid.Focus();
 
             }
         }
@@ -4468,7 +4543,7 @@ namespace GUILayer.Forms
 
 
 
-        
+
         private void cbLooping_CheckedChanged(object sender, EventArgs e)
         {
             if (cbLooping.Checked)
@@ -4945,7 +5020,7 @@ namespace GUILayer.Forms
             return apRaceCallDateTimeStr;
         }
         #endregion
-        
+
         #region Balance Of Power Data Processing
         public void TakeBOP()
         {
@@ -5047,7 +5122,7 @@ namespace GUILayer.Forms
             {
                 // BOP_DATA = NET_GAIN~party^HouseNum|party^SenNum
 
-                MapKeyStr = $"NET GAIN^{BOPData.Session}~";
+                MapKeyStr = $"NETGAIN^{BOPData.Session}~";
                 MapKeyStr += $"RepNum={BOPData.RepBaseline}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemBaseline}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndBaseline}|IndNetChange={BOPData.IndDelta}";
 
             }
@@ -5072,7 +5147,7 @@ namespace GUILayer.Forms
 
             if (referendumsData[0].TotalVotes > 0)
             {
-                
+
                 referendumsData[0].VotePct = (Int32)referendumsData[0].VoteCount * 100 / referendumsData[0].TotalVotes;
                 referendumsData[1].VotePct = (Int32)referendumsData[1].VoteCount * 100 / referendumsData[1].TotalVotes;
             }
@@ -5140,7 +5215,7 @@ namespace GUILayer.Forms
 
             var voterAnalysisData = VoterAnalysisDataCollection.GetVoterAnalysisDataCollection(r_type, VA_Data_Id, ElectionsDBConnectionString, ft);
 
-            
+
             string outStr = "";
 
             if (voterAnalysisData.Count >= 2)
@@ -5192,8 +5267,8 @@ namespace GUILayer.Forms
                 if (i > 0)
                     MapKeyStr += "^";
 
-                    MapKeyStr += $"{VA_Data[i].Response}";
-                
+                MapKeyStr += $"{VA_Data[i].Response}";
+
             }
 
             MapKeyStr += "|";
@@ -5203,8 +5278,8 @@ namespace GUILayer.Forms
                 if (i > 0)
                     MapKeyStr += "^";
 
-                    MapKeyStr += $"{VA_Data[i].percent}";
-                
+                MapKeyStr += $"{VA_Data[i].percent}";
+
             }
 
             MapKeyStr += "|";
@@ -5247,7 +5322,7 @@ namespace GUILayer.Forms
                 cnt = VA_Qdata_Tkr.Count;
             }
 
-            dgvVoterAnalysis.Columns[0].Width = 30;
+            dgvVoterAnalysis.Columns[0].Width = 35;
             dgvVoterAnalysis.Columns[1].Width = 30;
             dgvVoterAnalysis.Columns[2].Width = 80;
             dgvVoterAnalysis.Columns[3].Width = 60;
@@ -5279,7 +5354,7 @@ namespace GUILayer.Forms
             DataTable dt = GetDBData(cmd, ElectionsDBConnectionString);
             List<VoterAnalysisQuestionsModel> VA_Qdata = new List<VoterAnalysisQuestionsModel>();
 
-            
+
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 DataRow row = dt.Rows[i];
@@ -5339,6 +5414,28 @@ namespace GUILayer.Forms
         {
             currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
 
+        }
+
+        public void ArrowUp()
+        {
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+        }
+        public void ArrowDn()
+        {
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+        }
+
+
+        private void dataModeSelect_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabPage page = dataModeSelect.TabPages[e.Index];
+            Color col = e.Index == 0 ? Color.Aqua : Color.Yellow;
+            e.Graphics.FillRectangle(new SolidBrush(col), e.Bounds);
+
+            Rectangle paddedBounds = e.Bounds;
+            int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
+            paddedBounds.Offset(1, yOffset);
+            TextRenderer.DrawText(e.Graphics, page.Text, Font, paddedBounds, page.ForeColor);
         }
     }
 

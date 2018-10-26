@@ -22,5 +22,8 @@ namespace DataInterface.Enums
        [Description("Referendums")]
         Referendums = 3,
 
+        [Description("SidePanel")]
+        Side_Panel = 4,
+
     }
 }

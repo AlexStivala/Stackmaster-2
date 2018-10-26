@@ -57,6 +57,7 @@
     <Compile Include="DataAccess\StateMetadataAccess.cs" />
     <Compile Include="DataAccess\VoterAnalysisDataAccess.cs" />
     <Compile Include="DataModel\AvailableRaceModel.cs" />
+    <Compile Include="DataModel\BOPGainModel.cs" />
     <Compile Include="DataModel\BOPtypeModel.cs" />
     <Compile Include="DataModel\ApplicationSettingsFlagsModel.cs" />
     <Compile Include="DataModel\BOPDataModel.cs" />

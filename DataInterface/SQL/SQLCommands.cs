@@ -169,6 +169,9 @@ namespace DataInterface.SQL
             "@Race_Office, " +
             "@TimeStr";
 
+        public static readonly string sqlGetBOPData = "getVDSBalanceOfPowerAutoGain " +
+            "@Race_Office, " +
+            "@TimeStr";
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Exit Poll data related functions

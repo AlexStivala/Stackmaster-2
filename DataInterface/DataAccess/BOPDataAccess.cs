@@ -27,7 +27,8 @@ namespace DataInterface.DataAccess
         /// <summary>
         /// Method to get the Balance of Power Data
         /// </summary>
-        public DataTable GetBOPData(string raceOffice, DateTime timeStr, int atStake)
+        //public DataTable GetBOPData(string raceOffice, DateTime timeStr, int atStake)
+        public DataTable GetBOPDataCurrent(string raceOffice, DateTime timeStr)
         {
             DataTable dataTable = new DataTable();
 
@@ -41,17 +42,11 @@ namespace DataInterface.DataAccess
                     {
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
-                            if (atStake == 0)
-                                cmd.CommandText = SQLCommands.sqlGetBOPCurrent;
-                            else
-                                cmd.CommandText = SQLCommands.sqlGetBOPDataNew_Gain;
+                            cmd.CommandText = SQLCommands.sqlGetBOPCurrent;
                             
-
                             cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
                             cmd.Parameters.Add("@timeStr", SqlDbType.DateTime).Value = timeStr;
-
-                            if (atStake == 0)
-                                cmd.Parameters.Add("@new", SqlDbType.Bit).Value = atStake;
+                            cmd.Parameters.Add("@new", SqlDbType.Bit).Value = 0;
 
 
                             sqlDataAdapter.SelectCommand = cmd;
@@ -73,6 +68,49 @@ namespace DataInterface.DataAccess
 
             return dataTable;
         }
+
+        //public DataTable GetBOPData(string raceOffice, DateTime timeStr, int atStake)
+        public DataTable GetBOPDataNewGain(string raceOffice, DateTime timeStr)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+                            
+                            cmd.CommandText = SQLCommands.sqlGetBOPData;
+
+                            cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
+                            cmd.Parameters.Add("@timeStr", SqlDbType.DateTime).Value = timeStr;
+
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("AvailableRaceAccess Exception occurred: " + ex.Message);
+                log.Debug("AvailableRaceAccess Exception occurred", ex);
+            }
+
+            return dataTable;
+        }
+
+
         #endregion
     }
 }

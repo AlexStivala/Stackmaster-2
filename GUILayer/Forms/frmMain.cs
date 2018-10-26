@@ -213,6 +213,7 @@ namespace GUILayer.Forms
             public BindingList<StackElementModel> stkVA = new BindingList<StackElementModel>();
             public BindingList<StackElementModel> stkRef = new BindingList<StackElementModel>();
             public BindingList<StackElementModel> stkBOP = new BindingList<StackElementModel>();
+            public BindingList<StackElementModel> stkSP = new BindingList<StackElementModel>();
 
         }
 
@@ -441,6 +442,7 @@ namespace GUILayer.Forms
             bool VAenable = Convert.ToBoolean(row["VoterAnalysis"] ?? 0);
             bool BOPenable = Convert.ToBoolean(row["BOP"] ?? 0);
             bool REFenable = Convert.ToBoolean(row["Referendums"] ?? 0);
+            bool SPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
             builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
             Network = row["Network"].ToString() ?? "";
 
@@ -542,12 +544,16 @@ namespace GUILayer.Forms
                 {
                     tpReferendums.Enabled = true;
                 }
+                if (SPenable)
+                {
+                    tpSidePanel.Enabled = true;
+                }
                 else
                 {
                     tpReferendums.Enabled = false;
                 }
 
-
+                
 
                 // get viz engine info
 
@@ -711,7 +717,7 @@ namespace GUILayer.Forms
             string tabName;
             bool enab;
 
-            for (int tabNo = 0; tabNo < 4; tabNo++)
+            for (int tabNo = 0; tabNo < 5; tabNo++)
             {
                 switch (tabNo)
                 {
@@ -729,6 +735,10 @@ namespace GUILayer.Forms
                         break;
                     case 3:
                         tabName = "Referendums";
+                        enab = REFenable;
+                        break;
+                    case 4:
+                        tabName = "SidePanel";
                         enab = REFenable;
                         break;
                     default:
@@ -1117,7 +1127,8 @@ namespace GUILayer.Forms
             if (dataModeSelect.SelectedTab.Text == "Referendums")
                 tabIndex = 3;
 
-
+            if (dataModeSelect.SelectedTab.Text == "Side Panel")
+                tabIndex = 4;
 
 
             if (stackLocked == false)
@@ -1150,6 +1161,13 @@ namespace GUILayer.Forms
                         foreach (StackElementModel se in stackElements)
                         {
                             tabsave.stkRef.Add(se);
+                        }
+                        break;
+                    case 4:
+                        tabsave.stkSP.Clear();
+                        foreach (StackElementModel se in stackElements)
+                        {
+                            tabsave.stkSP.Add(se);
                         }
                         break;
                 }
@@ -1186,18 +1204,36 @@ namespace GUILayer.Forms
                             stackElements.Add(se);
                         }
                         break;
+                    case 4:
+                        //stackElements.Clear();
+                        foreach (StackElementModel se in tabsave.stkSP)
+                        {
+                            stackElements.Add(se);
+                        }
+                        break;
                 }
 
+                /*
                 if (dataModeSelect.SelectedIndex == 0)
                 {
                     gbRCF.Visible = true;
                     gbROF.Visible = true;
+                    FilterPanel.Visible = true;
+                    RacePanel.Visible = true;
+                }
+                else if (dataModeSelect.SelectedIndex == 4)
+                {
+                    gbRCF.Visible = true;
+                    gbROF.Visible = true;
+                    FilterPanel.Visible = true;
+                    RacePanel.Visible = true;
                 }
                 else
                 {
                     gbRCF.Visible = false;
                     gbROF.Visible = false;
                 }
+                */
 
                 if (builderOnlyMode == false)
                 {
@@ -1283,7 +1319,13 @@ namespace GUILayer.Forms
                 availableRacesGrid.AutoGenerateColumns = false;
                 var availableRacesGridDataSource = new BindingSource(availableRaces, null);
                 availableRacesGrid.DataSource = availableRacesGridDataSource;
+
+                availableRacesGridSP.AutoGenerateColumns = false;
+                availableRacesGridSP.DataSource = availableRacesGridDataSource;
+
                 lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+                lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+
             }
             catch (Exception ex)
             {
@@ -1340,11 +1382,17 @@ namespace GUILayer.Forms
                     txtNextPollClosingTime.Text = "N/A";
                 }
 
+                
                 // Setup the available races grid
                 availableRacesGrid.AutoGenerateColumns = false;
                 var availableRacesGridDataSource = new BindingSource(availableRaces, null);
                 availableRacesGrid.DataSource = availableRacesGridDataSource;
+
+                availableRacesGridSP.AutoGenerateColumns = false;
+                availableRacesGridSP.DataSource = availableRacesGridDataSource;
+
                 lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+                lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
 
             }
             catch (Exception ex)
@@ -1831,39 +1879,51 @@ namespace GUILayer.Forms
             {
                 case Keys.F1:
                     rbPresident.Checked = true;
+                    rbPresidentSP.Checked = true;
                     break;
                 case Keys.F2:
                     rbSenate.Checked = true;
+                    rbSenateSP.Checked = true;
                     break;
                 case Keys.F3:
                     rbHouse.Checked = true;
+                    rbHouseSP.Checked = true;
                     break;
                 case Keys.F4:
                     rbGovernor.Checked = true;
+                    rbGovernorSP.Checked = true;
                     break;
                 case Keys.F5:
                     rbShowAll.Checked = true;
+                    rbShowAllSP.Checked = true;
                     break;
                 case Keys.F6:
                     rbTCTC.Checked = true;
+                    rbTCTCSP.Checked = true;
                     break;
                 case Keys.F7:
                     rbJustCalled.Checked = true;
+                    rbJustCalledSP.Checked = true;
                     break;
                 case Keys.F8:
                     rbCalled.Checked = true;
+                    rbCalledSP.Checked = true;
                     break;
                 case Keys.F9:
                     rbAll.Checked = true;
+                    rbAllSP.Checked = true;
                     break;
                 case Keys.F10:
                     rbBattleground.Checked = true;
+                    rbBattlegroundSP.Checked = true;
                     break;
                 case Keys.F11:
                     rbPollClosing.Checked = true;
+                    rbPollClosingSP.Checked = true;
                     break;
                 case Keys.F12:
                     rbNone.Checked = true;
+                    rbNoneSP.Checked = true;
                     break;
                 case Keys.A:
                     if (e.Control == true)
@@ -2000,6 +2060,8 @@ namespace GUILayer.Forms
                 {
 
                     DialogResult dr = new DialogResult();
+                    if (stackType == 50)
+                        stackType = 10;
                     FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
@@ -2192,6 +2254,9 @@ namespace GUILayer.Forms
 
                 // Setup dialog to load stack
                 DialogResult dr = new DialogResult();
+
+                if (stackType == 50)
+                    stackType = 10;
                 frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
@@ -4269,6 +4334,10 @@ namespace GUILayer.Forms
                         case (short)DataTypes.Referendums:
                             TakeReferendums();
                             break;
+                        case (short)DataTypes.Side_Panel:
+                            TakeRaceBoards();
+                            break;
+
                     }
                     lastIndex = currentRaceIndex;
                 }
@@ -4379,6 +4448,8 @@ namespace GUILayer.Forms
                 if (index == 3)
                     vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}REFERENDUM_DATA{quot} {cmd}{term}";
 
+                if (index == 4)
+                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
 
                 if (vizEngines[engine - 1].enable)
                 {
@@ -4587,6 +4658,8 @@ namespace GUILayer.Forms
             string electionType = stackElements[currentRaceIndex].Election_Type;
             int candidatesToReturn = (int)stackElements[currentRaceIndex].Stack_Element_Type;
             int dataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
+            if (dataModeSelect.SelectedIndex == 4)
+                dataType = 4;
             bool candidateSelectEnable;
 
             candidatesToReturn = (candidatesToReturn + 1) / 2;
@@ -5057,43 +5130,86 @@ namespace GUILayer.Forms
             bop.ElectionsDBConnectionString = ElectionsDBConnectionString;
 
             int curNew = BOPtion;
-            if (BOPtion == 2)
-                curNew = 1;
-
-
-
-            dt = bop.GetBOPData(ofc, currentTime, curNew);
-
-            BOPDataModel BOPData = new BOPDataModel();
-            DataRow row = dt.Rows[0];
-
-            BOPData.Total = Convert.ToInt16(row["TOTAL_COUNT"]);
-            BOPData.DemBaseline = Convert.ToInt16(row["DEM_BASELINE_COUNT"]);
-            BOPData.RepBaseline = Convert.ToInt16(row["GOP_BASELINE_COUNT"]);
-            BOPData.IndBaseline = Convert.ToInt16(row["IND_BASELINE_COUNT"]);
-            BOPData.DemCount = Convert.ToInt16(row["DEM_COUNT"]);
-            BOPData.RepCount = Convert.ToInt16(row["GOP_COUNT"]);
-            BOPData.IndCount = Convert.ToInt16(row["IND_COUNT"]);
-            BOPData.DemDelta = Convert.ToInt16(row["DEM_DELTA"]);
-            BOPData.RepDelta = Convert.ToInt16(row["GOP_DELTA"]);
-            BOPData.IndDelta = Convert.ToInt16(row["IND_DELTA"]);
-            BOPData.Branch = office;
+            //if (BOPtion == 2)
+            //    curNew = 1;
 
             if (BOPtion == 0)
             {
+
+                dt = bop.GetBOPDataCurrent(ofc, currentTime);
+
+                BOPDataModel BOPData = new BOPDataModel();
+                DataRow row = dt.Rows[0];
+
+                BOPData.Total = Convert.ToInt16(row["TOTAL_COUNT"]);
+
+                BOPData.DemCurrent = Convert.ToInt16(row["DEM_BASELINE_COUNT"]);
+                BOPData.RepCurrent = Convert.ToInt16(row["GOP_BASELINE_COUNT"]);
+                BOPData.IndCurrent = Convert.ToInt16(row["IND_BASELINE_COUNT"]);
+
+                BOPData.Branch = office;
+
                 BOPData.Session = "CURRENT";
                 BOPData.DemDelta = 0;
                 BOPData.RepDelta = 0;
                 BOPData.IndDelta = 0;
 
+                string outStr = GetBOPMapKeyStr(BOPData, ofc, BOPtion);
+                SendToViz(outStr, seDataType);
             }
-            else
+            else if (BOPtion == 1)
+            {
+
+                dt = bop.GetBOPDataNewGain(ofc, currentTime);
+
+                BOPDataModel BOPData = new BOPDataModel();
+                DataRow row = dt.Rows[0];
+
+                BOPData.Total = Convert.ToInt16(row["TOTAL_COUNT"]);
+
+                
+                BOPData.DemNew = Convert.ToInt16(row["DEM_COUNT"]);
+                BOPData.RepNew = Convert.ToInt16(row["GOP_COUNT"]);
+                BOPData.IndNew = Convert.ToInt16(row["IND_COUNT"]);
+
+                BOPData.DemGain = Convert.ToInt16(row["DEM_GAIN"]);
+                BOPData.RepGain = Convert.ToInt16(row["GOP_GAIN"]);
+                BOPData.IndGain = Convert.ToInt16(row["IND_GAIN"]);
+                BOPData.Branch = office;
+
                 BOPData.Session = "NEW";
 
 
-            string outStr = GetBOPMapKeyStr(BOPData, ofc, BOPtion);
-            SendToViz(outStr, seDataType);
+                string outStr = GetBOPMapKeyStr(BOPData, ofc, BOPtion);
+                SendToViz(outStr, seDataType);
+            }
+            else
+            {
 
+                BOPGainModel BOPGain = new BOPGainModel();
+
+                // Get gain numbers for senate
+                dt = bop.GetBOPDataNewGain("S", currentTime);
+
+                DataRow row = dt.Rows[0];
+
+                BOPGain.SenateDemGain = Convert.ToInt16(row["DEM_GAIN"]);
+                BOPGain.SenateRepGain = Convert.ToInt16(row["GOP_GAIN"]);
+                BOPGain.SenateIndGain = Convert.ToInt16(row["IND_GAIN"]);
+
+                // Get gain numbers for house
+                dt = bop.GetBOPDataNewGain("H", currentTime);
+
+                row = dt.Rows[0];
+
+                BOPGain.HouseDemGain = Convert.ToInt16(row["DEM_GAIN"]);
+                BOPGain.HouseRepGain = Convert.ToInt16(row["GOP_GAIN"]);
+                BOPGain.HouseIndGain = Convert.ToInt16(row["IND_GAIN"]);
+
+                string outStr = GetBOPGainMapKeyStr(BOPGain);
+                SendToViz(outStr, seDataType);
+
+            }
 
         }
 
@@ -5105,31 +5221,39 @@ namespace GUILayer.Forms
 
             //BOP_DATA = SENATE ^ CURRENT~RepNum = 10 | RepNetChange = 10 | DemNum = 20 | DemNetChange = 20 | IndNum = 1 | IndNetChange = 1
 
-            //(for net gain)
-            //BOP_DATA = NET_GAIN~HouseNum | SenNum
-            //BRANCH ^ MODE ~ RepNum=0 | RepNetChange=0 | DemNum=0 | DemNetChange=0 | IndNum=0 | IndNetChange=0
             string MapKeyStr;
 
-            if (BOPtion < 2)
-            {
-                MapKeyStr = $"{BOPData.Branch}^{BOPData.Session}~";
-                if (BOPtion == 0)
-                    MapKeyStr += $"RepNum={BOPData.RepBaseline}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemBaseline}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndBaseline}|IndNetChange={BOPData.IndDelta}";
-                else
-                    MapKeyStr += $"RepNum={BOPData.RepCount}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemCount}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndCount}|IndNetChange={BOPData.IndDelta}";
-            }
+            MapKeyStr = $"{BOPData.Branch}^{BOPData.Session}~";
+            if (BOPtion == 0)
+                MapKeyStr += $"RepNum={BOPData.RepCurrent}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemCurrent}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndCurrent}|IndNetChange={BOPData.IndDelta}";
             else
-            {
-                // BOP_DATA = NET_GAIN~party^HouseNum|party^SenNum
-
-                MapKeyStr = $"NETGAIN^{BOPData.Session}~";
-                MapKeyStr += $"RepNum={BOPData.RepBaseline}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemBaseline}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndBaseline}|IndNetChange={BOPData.IndDelta}";
-
-            }
+                MapKeyStr += $"RepNum={BOPData.RepNew}|RepNetChange={BOPData.RepGain}|DemNum={BOPData.DemNew}|DemNetChange={BOPData.DemGain}|IndNum={BOPData.IndNew}|IndNetChange={BOPData.IndGain}";
 
             return MapKeyStr;
 
         }
+
+        public string GetBOPGainMapKeyStr(BOPGainModel BOPData)
+        {
+            
+            //(for net gain)
+            //BOP_DATA = NET_GAIN~HouseNums | SenNums
+            
+            //BOP_DATA = NETGAIN^NEW~House Rep Delta|House Dem Delta|House Ind Delta|Senate Rep Delta|Senate Dem Delta|Senate Ind Delta|
+            string MapKeyStr;
+
+            // BOP_DATA = NET_GAIN~party^HouseNum|party^SenNum
+
+            MapKeyStr = $"NETGAIN^NEW~";
+            MapKeyStr += $"HouseRepChange={BOPData.HouseRepGain}|HouseDemChange={BOPData.HouseDemGain}|HouseIndChange={BOPData.HouseIndGain}|" +
+            $"SenateRepChange={BOPData.SenateRepGain}|SenateDemChange={BOPData.SenateDemGain}|SenateIndChange={BOPData.SenateIndGain}";
+
+
+            return MapKeyStr;
+
+        }
+
+
         #endregion
 
         #region Referendums Data Processing

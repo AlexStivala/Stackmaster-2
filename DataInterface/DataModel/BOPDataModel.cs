@@ -12,15 +12,18 @@ namespace DataInterface.DataModel
         public string Branch { get; set; }
         public string Session { get; set; }
         public Int16 Total { get; set; }
-        public Int16 DemBaseline { get; set; }
-        public Int16 DemCount { get; set; }
+        public Int16 DemCurrent { get; set; }
+        public Int16 DemNew { get; set; }
         public Int16 DemDelta { get; set; }
-        public Int16 RepBaseline { get; set; }
-        public Int16 RepCount { get; set; }
+        public Int16 DemGain { get; set; }
+        public Int16 RepCurrent { get; set; }
+        public Int16 RepNew { get; set; }
         public Int16 RepDelta { get; set; }
-        public Int16 IndBaseline { get; set; }
-        public Int16 IndCount { get; set; }
+        public Int16 RepGain { get; set; }
+        public Int16 IndCurrent { get; set; }
+        public Int16 IndNew { get; set; }
         public Int16 IndDelta { get; set; }
+        public Int16 IndGain { get; set; }
     }
 
 }

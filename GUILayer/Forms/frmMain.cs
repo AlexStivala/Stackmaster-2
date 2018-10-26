@@ -77,6 +77,7 @@ namespace GUILayer.Forms
         public string RaceboardCmd = "";
         public int currentRaceIndex = -1;
         public bool stackLocked = false;
+        public bool takeIn = false;
         public string computerName = string.Empty;
         public string configName = string.Empty;
         public string ipAddress = string.Empty;
@@ -86,6 +87,9 @@ namespace GUILayer.Forms
         public int lastIndex;
         public int takeCnt = 0;
         public int tabIndex = 0;
+        public string[] IPs = new string[4] { string.Empty, string.Empty, string.Empty, string.Empty };
+        public bool[] enables = new bool[4] { false, false, false, false };
+
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
 
@@ -408,8 +412,14 @@ namespace GUILayer.Forms
 
         public void LoadConfig()
         {
-            string[] IPs = new string[4] { string.Empty, string.Empty, string.Empty, string.Empty };
-            bool[] enables = new bool[4] { false, false, false, false };
+            //string[] IPs = new string[4] { string.Empty, string.Empty, string.Empty, string.Empty };
+            //bool[] enables = new bool[4] { false, false, false, false };
+
+            try
+            {
+
+            
+
             string applicationLogComments;
 
             //builderOnlyMode = Properties.Settings.Default.builderOnly;
@@ -821,14 +831,17 @@ namespace GUILayer.Forms
                     {
                         if (vizEngines[engine - 1].enable)
                         {
-                            LoadScene(scenename, engine);
+                            //LoadScene(scenename, engine);
+                            InitialLoadScene(scenename, engine);
                         }
 
                     }
                 }
-                if (index == 1)
+                if (index == 1 && takeIn == true)
+                {
                     SendCmdToViz("TRIGGER_ACTION", "TAKEOUT", index);
-
+                    takeIn = false;
+                }
             }
 
 
@@ -851,14 +864,20 @@ namespace GUILayer.Forms
                 Convert.ToString(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version),
                 Properties.Settings.Default.ApplicationID,
                 applicationLogComments,
-                System.DateTime.Now
-            //enables[2],
-            //IPs[2],
-            //enables[3],
-            //IPs[3]
+                System.DateTime.Now,
+                enables[2],
+                IPs[2],
+                enables[3],
+                IPs[3]
 
             );
 
+            }
+            catch (Exception ex)
+            {
+                listBox2.Items.Add($"Send Cmd Error: {ex}");
+
+            }
 
 
         }
@@ -1071,16 +1090,20 @@ namespace GUILayer.Forms
                     Properties.Settings.Default.ApplicationName,
                     hostName,
                     ipAddress,
-                    // Engines not used for this application
-                    false,
-                    "",
-                    false,
-                    "",
-                    "Closed application",
+                    enables[0],
+                IPs[0],
+                enables[1],
+                IPs[1],
+                "Closed application",
                     Convert.ToString(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version),
                     Properties.Settings.Default.ApplicationID,
                     "",
-                    System.DateTime.Now
+                    System.DateTime.Now,
+                    enables[2],
+                IPs[2],
+                enables[3],
+                IPs[3]
+
                 );
             }
         }
@@ -1263,12 +1286,16 @@ namespace GUILayer.Forms
                         break;
                     case 1:
                         tpVoterAnalysis.Focus();
+                        dgvVoterAnalysis.Focus();
                         break;
                     case 2:
                         tpBalanceOfPower.Focus();
                         break;
                     case 3:
                         tpReferendums.Focus();
+                        break;
+                    case 4:
+                        tpSidePanel.Focus();
                         break;
                 }
             }
@@ -4314,7 +4341,10 @@ namespace GUILayer.Forms
 
                     int index = dataModeSelect.SelectedIndex;
                     if (takeCnt == 1 && index == 1)
+                    {
                         SendCmdToViz("TRIGGER_ACTION", "TAKEIN", index);
+                        takeIn = true;
+                    }
 
 
                     switch (stackElementDataType)
@@ -4371,6 +4401,10 @@ namespace GUILayer.Forms
                         case (short)DataTypes.Referendums:
                             TakeReferendums();
                             break;
+                        case (short)DataTypes.Side_Panel:
+                            TakeRaceBoards();
+                            break;
+
 
                     }
                 }
@@ -4383,6 +4417,26 @@ namespace GUILayer.Forms
             byte[] bCmd = Encoding.UTF8.GetBytes(cmd);
             vizClientSockets[EngineNo - 1].Send(bCmd);
             lastSceneLoaded[EngineNo - 1] = sceneName;
+            listBox2.Items.Add($"Engine {EngineNo}: {cmd}");
+        }
+
+
+        public void InitialLoadScene(string sceneName, int EngineNo)
+        {
+            string cmd = $"0 SCENE*{sceneName} LOAD{term}";
+            byte[] bCmd = Encoding.UTF8.GetBytes(cmd);
+            vizClientSockets[EngineNo - 1].Send(bCmd);
+            //lastSceneLoaded[EngineNo - 1] = sceneName;
+            listBox2.Items.Add($"Engine {EngineNo}: {cmd}");
+        }
+
+        public void InitScene(string sceneName, int EngineNo)
+        {
+            string cmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}INIT{quot} 1{term}";
+            byte[] bCmd = Encoding.UTF8.GetBytes(cmd);
+            vizClientSockets[EngineNo - 1].Send(bCmd);
+            //lastSceneLoaded[EngineNo - 1] = sceneName;
+            listBox2.Items.Add($"Engine {EngineNo}: {cmd}");
         }
 
         private void SendCmdToViz(string cmd, string cmdData, int index)
@@ -4393,33 +4447,47 @@ namespace GUILayer.Forms
             //int index = dataModeSelect.SelectedIndex;
             //int index = dataType;
 
-            for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
+            try
             {
-                string sceneName = tabConfig[index].TabOutput[i].sceneName;
-                int engine = tabConfig[index].TabOutput[i].engine;
-
-                // load scene if last scene loaded on this viz is not = sceneName
-                if (lastSceneLoaded[engine - 1] != sceneName)
-                    LoadScene(sceneName, engine);
 
 
-                vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}{cmd}{quot} {cmdData}{term}";
 
-
-                if (vizEngines[engine - 1].enable)
+                for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
-                    byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
+                    string sceneName = tabConfig[index].TabOutput[i].sceneName;
+                    int engine = tabConfig[index].TabOutput[i].engine;
+
+                    // load scene if last scene loaded on this viz is not = sceneName
+                    if (lastSceneLoaded[engine - 1] != sceneName)
+                        LoadScene(sceneName, engine);
+
+
+                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}{cmd}{quot} {cmdData}{term}";
+
+
                     if (vizEngines[engine - 1].enable)
-                        vizClientSockets[engine - 1].Send(bCmd);
+                    {
+                        byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
+                        if (vizEngines[engine - 1].enable)
+                            vizClientSockets[engine - 1].Send(bCmd);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                listBox2.Items.Add($"Send Cmd Error: {ex}");
 
+            }
             listBox2.Items.Add(vizCmd);
             listBox2.SelectedIndex = listBox2.Items.Count - 1;
 
         }
         private void SendToViz(string cmd, int dataType)
         {
+
+
+            try
+            {
 
             string vizCmd = "";
 
@@ -4456,11 +4524,18 @@ namespace GUILayer.Forms
                     byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
                     if (vizEngines[engine - 1].enable)
                         vizClientSockets[engine - 1].Send(bCmd);
-                }
-            }
+                        listBox2.Items.Add(vizCmd);
+                        listBox2.SelectedIndex = listBox2.Items.Count - 1;
 
-            listBox2.Items.Add(vizCmd);
-            listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                listBox2.Items.Add($"Send Cmd Error: {ex}");
+
+            }
 
         }
         private void SendToViz2(string sceneName, string cmd, int EngineNo)
@@ -4525,23 +4600,29 @@ namespace GUILayer.Forms
 
                 int index = dataModeSelect.SelectedIndex;
 
-                //for (int index = 0; index < 4; index++)
+
+
+                for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
-                    for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
+                    string scenename = tabConfig[index].TabOutput[i].sceneName;
+                    int engine = tabConfig[index].TabOutput[i].engine;
+                    if (vizEngines.Count > 0)
                     {
-                        string scenename = tabConfig[index].TabOutput[i].sceneName;
-                        int engine = tabConfig[index].TabOutput[i].engine;
-                        if (vizEngines.Count > 0)
+                        if (vizEngines[engine - 1].enable)
                         {
-                            if (vizEngines[engine - 1].enable)
-                                LoadScene(scenename, engine);
+                            LoadScene(scenename, engine);
+                            InitScene(scenename, engine);
+
                         }
                     }
                 }
 
-                
-                if (index == 1)
+
+                if (index == 1 && takeIn == true)
+                {
                     SendCmdToViz("TRIGGER_ACTION", "TAKEOUT", index);
+                    takeIn = false;
+                }
 
                 takeCnt = 0;
 
@@ -4604,12 +4685,32 @@ namespace GUILayer.Forms
         {
             //int index = dataModeSelect.SelectedIndex;
             gbEngines.Text = $"Engines used for {tabConfig[index].tabName}";
+
+            for (int i = 0; i < vizEngines.Count; i++)
+            {
+                if (vizEngines[i].enable)
+                {
+                    if (i == 0)
+                        pbEng1.Visible = tabConfig[index].outputEngine[i];
+                    if (i == 1)
+                        pbEng2.Visible = tabConfig[index].outputEngine[i];
+                    if (i == 2)
+                        pbEng3.Visible = tabConfig[index].outputEngine[i];
+                    if (i == 3)
+                        pbEng4.Visible = tabConfig[index].outputEngine[i];
+
+                }
+
+            }
+            lblScenes.Text = $"Scenes: {tabConfig[index].engineSceneDef}";
+
+
+            /*
             pbEng1.Visible = tabConfig[index].outputEngine[0];
             pbEng2.Visible = tabConfig[index].outputEngine[1];
             pbEng3.Visible = tabConfig[index].outputEngine[2];
             pbEng4.Visible = tabConfig[index].outputEngine[3];
-            lblScenes.Text = $"Scenes: {tabConfig[index].engineSceneDef}";
-
+            */
         }
 
 

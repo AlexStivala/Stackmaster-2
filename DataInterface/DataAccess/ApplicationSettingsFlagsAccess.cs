@@ -78,7 +78,11 @@ namespace DataInterface.DataAccess
                             string application_Version,
                             int application_ID,
                             string comments,
-                            DateTime currentSystemTime
+                            DateTime currentSystemTime,
+                            Boolean engine_Enabled_3,
+                            string engine_IP_Address_3,
+                            Boolean engine_Enabled_4,
+                            string engine_IP_Address_4
                            )
         {
             try
@@ -121,6 +125,10 @@ namespace DataInterface.DataAccess
                                 cmd.Parameters.Add("@Application_ID", SqlDbType.Int).Value = application_ID;
                                 cmd.Parameters.Add("@Comments", SqlDbType.NVarChar).Value = comments;
                                 cmd.Parameters.Add("@CurrentSystemTime", SqlDbType.DateTime).Value = currentSystemTime;
+                                cmd.Parameters.Add("@Engine_Enabled_3", SqlDbType.Bit).Value = engine_Enabled_3;
+                                cmd.Parameters.Add("Engine_IP_Address_3", SqlDbType.NVarChar).Value = engine_IP_Address_3;
+                                cmd.Parameters.Add("@Engine_Enabled_4", SqlDbType.Bit).Value = engine_Enabled_4;
+                                cmd.Parameters.Add("Engine_IP_Address_4", SqlDbType.NVarChar).Value = engine_IP_Address_4;
 
                                 sqlDataAdapter.SelectCommand = cmd;
                                 sqlDataAdapter.SelectCommand.Connection = connection;

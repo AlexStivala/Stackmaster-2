@@ -359,6 +359,7 @@ namespace GUILayer.Forms
                 stackType = 10;
             }
             RefreshStacksList();
+            availableStacksGrid.Focus();
         }
 
     }

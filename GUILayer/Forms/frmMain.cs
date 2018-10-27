@@ -4870,10 +4870,19 @@ namespace GUILayer.Forms
                 }
                 else if (Network == "FBN")
                 {
+
+                    // Use FNC Headshot even for FBN for 2018 Midterms
+                    if (raceData[i].UseHeadshotFNC)
+                    {
+                        candidate.headshot = raceData[i].HeadshotPathFNC;
+                    }
+
+                    /*
                     if (raceData[i].UseHeadshotFBN)
                     {
                         candidate.headshot = raceData[i].HeadshotPathFBN;
                     }
+                    */
 
                 }
 

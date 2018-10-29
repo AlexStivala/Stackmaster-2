@@ -89,6 +89,7 @@ namespace GUILayer.Forms
         public int tabIndex = 0;
         public string[] IPs = new string[4] { string.Empty, string.Empty, string.Empty, string.Empty };
         public bool[] enables = new bool[4] { false, false, false, false };
+        public bool MindyMode = false;
 
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
@@ -370,6 +371,9 @@ namespace GUILayer.Forms
             profilesURI = Properties.Settings.Default.MSEEndpoint1 + "profiles";
             currentShowName = Properties.Settings.Default.CurrentShowName;
             currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
+            MindyMode = Properties.Settings.Default.MindyMode;
+            
+            
             //string sceneDescription = Properties.Settings.Default.Scene_Name;
             //var useSceneName = Properties.Settings.Default[sceneDescription];
 
@@ -2284,7 +2288,9 @@ namespace GUILayer.Forms
 
                 if (stackType == 50)
                     stackType = 10;
-                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
+
+                //frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
+                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
 
@@ -3843,10 +3849,12 @@ namespace GUILayer.Forms
                     string ofc = selectedRace.Race_Office;
                     Int16 st = selectedRace.State_Number;
                     string des = selectedRace.Race_Description;
+                    Int16 cd = selectedRace.CD;
+
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -3897,11 +3905,12 @@ namespace GUILayer.Forms
                     string eType = selectedRace.Election_Type;
                     string ofc = selectedRace.Race_Office;
                     Int16 st = selectedRace.State_Number;
+                    Int16 cd = selectedRace.CD;
                     string des = selectedRace.Race_Description;
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -3954,10 +3963,12 @@ namespace GUILayer.Forms
                     string ofc = selectedRace.Race_Office;
                     Int16 st = selectedRace.State_Number;
                     string des = selectedRace.Race_Description;
+                    Int16 cd = selectedRace.CD;
+
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4009,10 +4020,12 @@ namespace GUILayer.Forms
                     string ofc = selectedRace.Race_Office;
                     Int16 st = selectedRace.State_Number;
                     string des = selectedRace.Race_Description;
+                    Int16 cd = selectedRace.CD;
+
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
 
                     // Only process if required number of candidates in race
                     if (selectCand.candidatesFound)
@@ -4384,6 +4397,8 @@ namespace GUILayer.Forms
                     Int16 stackElementDataType = (Int16)stackElements[lastIndex].Stack_Element_Data_Type;
                     SetOutput(stackElementDataType);
 
+                    currentRaceIndex = lastIndex;
+
                     switch (stackElementDataType)
                     {
                         case (short)DataTypes.Race_Boards:
@@ -4752,7 +4767,7 @@ namespace GUILayer.Forms
             BindingList<RaceDataModel> rd = new BindingList<RaceDataModel>();
 
             //Get the selected race list object
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex;
+            //currentRaceIndex = stackGrid.CurrentCell.RowIndex;
             short stateNumber = stackElements[currentRaceIndex].State_Number;
             short cd = stackElements[currentRaceIndex].CD;
             string raceOffice = stackElements[currentRaceIndex].Office_Code;
@@ -5029,7 +5044,7 @@ namespace GUILayer.Forms
 
             if (rd.CandidateVoteCount > 0)
             {
-                pctVote = (rd.CandidateVoteCount * 100) / rd.TotalVoteCount;
+                pctVote = (rd.CandidateVoteCount * 100.0) / rd.TotalVoteCount;
 
                 if (pctVote < 1.0)
                 {

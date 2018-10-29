@@ -65,5 +65,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=enygdb1;Initial Catalog=VizStackmasterStackData;Persist Security Info=True;User ID=gfxuser;Password=elect2018</Value>
     </Setting>
+    <Setting Name="MindyMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

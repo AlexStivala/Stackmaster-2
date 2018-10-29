@@ -44,6 +44,7 @@ namespace GUILayer.Forms
 
         public Boolean EnableShowControls { get; set;}
         public bool multiplayMode = false;
+        public bool MindyMode = false;
 
         //string topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
         //string currentShowName = Properties.Settings.Default.CurrentShowName;
@@ -55,9 +56,12 @@ namespace GUILayer.Forms
 
         //public event DelDeleteStack DeleteStack;
 
-        public frmLoadStack(bool buildMode, int StackType)
+        public frmLoadStack(bool buildMode, int StackType, bool mindyMode)
         {
+            
             InitializeComponent();
+
+            MindyMode = mindyMode;
 
             builderOnlyMode = buildMode;
             stackType = StackType;
@@ -82,6 +86,7 @@ namespace GUILayer.Forms
             KeyPreview = true;
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
 
+            
             RefreshStacksList();
 
             if (EnableShowControls)
@@ -362,5 +367,11 @@ namespace GUILayer.Forms
             availableStacksGrid.Focus();
         }
 
+        private void frmLoadStack_Load(object sender, EventArgs e)
+        {
+            if (MindyMode)
+                btnShowMultiplay_Click(sender, e);
+
+        }
     }
 }

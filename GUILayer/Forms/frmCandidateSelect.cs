@@ -19,7 +19,7 @@ namespace GUILayer.Forms
         #endregion
 
         private readonly string _eType;
-        private const short Jcde = 0;
+        private readonly short Jcde = 0;
         private readonly int _numCand;
         private readonly string _ofc;
 
@@ -28,7 +28,7 @@ namespace GUILayer.Forms
         public Boolean candidatesFound = false;
 
         public FrmCandidateSelect(short numCandidates, short stNum, string office, string electionType,
-            string raceDesription)
+            string raceDesription, short cd)
         {
             InitializeComponent();
 
@@ -36,6 +36,7 @@ namespace GUILayer.Forms
             _st = stNum;
             _ofc = office;
             _eType = electionType;
+            Jcde = cd;
 
             Width = numCandidates*340 + 20;
             dgvCand1.Left = 20;

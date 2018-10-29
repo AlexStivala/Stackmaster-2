@@ -190,5 +190,14 @@ namespace GUILayer.Properties {
                 return ((string)(this["StacksDBConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MindyMode {
+            get {
+                return ((bool)(this["MindyMode"]));
+            }
+        }
     }
 }

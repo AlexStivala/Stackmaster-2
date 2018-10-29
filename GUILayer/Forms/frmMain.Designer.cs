@@ -30,7 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +73,9 @@
             this.btnAddRace1Way = new System.Windows.Forms.Button();
             this.btnAddRace1WaySelect = new System.Windows.Forms.Button();
             this.availableRacesGrid = new System.Windows.Forms.DataGridView();
+            this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ofc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Race_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FilterPanel = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.txtNextPollClosingTime = new System.Windows.Forms.Label();
@@ -127,6 +131,9 @@
             this.btnAddRace1WaySP = new System.Windows.Forms.Button();
             this.btnAddRace1WaySelectSP = new System.Windows.Forms.Button();
             this.availableRacesGridSP = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FilterSPPanel = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -276,12 +283,6 @@
             this.LoopTimer = new System.Windows.Forms.Timer(this.components);
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ofc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Race_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -868,6 +869,30 @@
             this.availableRacesGrid.TabIndex = 121;
             this.availableRacesGrid.DoubleClick += new System.EventHandler(this.availableRacesGrid_DoubleClick);
             // 
+            // Race_ID
+            // 
+            this.Race_ID.DataPropertyName = "Race_ID";
+            this.Race_ID.HeaderText = "Race ID";
+            this.Race_ID.Name = "Race_ID";
+            this.Race_ID.ReadOnly = true;
+            this.Race_ID.Width = 60;
+            // 
+            // Ofc
+            // 
+            this.Ofc.DataPropertyName = "Race_Office";
+            this.Ofc.HeaderText = "Ofc";
+            this.Ofc.Name = "Ofc";
+            this.Ofc.ReadOnly = true;
+            this.Ofc.Width = 40;
+            // 
+            // Race_Description
+            // 
+            this.Race_Description.DataPropertyName = "Race_Description";
+            this.Race_Description.HeaderText = "Race Description";
+            this.Race_Description.Name = "Race_Description";
+            this.Race_Description.ReadOnly = true;
+            this.Race_Description.Width = 302;
+            // 
             // FilterPanel
             // 
             this.FilterPanel.Controls.Add(this.panel4);
@@ -1150,9 +1175,17 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1607,6 +1640,30 @@
             this.availableRacesGridSP.Size = new System.Drawing.Size(618, 882);
             this.availableRacesGridSP.TabIndex = 121;
             this.availableRacesGridSP.DoubleClick += new System.EventHandler(this.availableRacesGrid_DoubleClick);
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Race_ID";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Race ID";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 60;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Race_Office";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Ofc";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 40;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "Race_Description";
+            this.dataGridViewTextBoxColumn5.HeaderText = "Race Description";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 302;
             // 
             // FilterSPPanel
             // 
@@ -3501,54 +3558,6 @@
             this.label1.TabIndex = 137;
             this.label1.Text = "DB:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // Race_ID
-            // 
-            this.Race_ID.DataPropertyName = "Race_ID";
-            this.Race_ID.HeaderText = "Race ID";
-            this.Race_ID.Name = "Race_ID";
-            this.Race_ID.ReadOnly = true;
-            this.Race_ID.Width = 60;
-            // 
-            // Ofc
-            // 
-            this.Ofc.DataPropertyName = "Race_Office";
-            this.Ofc.HeaderText = "Ofc";
-            this.Ofc.Name = "Ofc";
-            this.Ofc.ReadOnly = true;
-            this.Ofc.Width = 40;
-            // 
-            // Race_Description
-            // 
-            this.Race_Description.DataPropertyName = "Race_Description";
-            this.Race_Description.HeaderText = "Race Description";
-            this.Race_Description.Name = "Race_Description";
-            this.Race_Description.ReadOnly = true;
-            this.Race_Description.Width = 302;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Race_ID";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Race ID";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Race_Office";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Ofc";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 40;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "Race_Description";
-            this.dataGridViewTextBoxColumn5.HeaderText = "Race Description";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 302;
             // 
             // frmMain
             // 

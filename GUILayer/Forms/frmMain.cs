@@ -477,6 +477,8 @@ namespace GUILayer.Forms
                     stackType += tcVoterAnalysis.SelectedIndex;
                 label2.Visible = false;
                 cbGraphicConcept.Visible = false;
+                btnSaveStack.Text = "Save Stack \n (Ctrl - O)";
+                    btnTake.Text = "Take Next \n (Space)";
             }
 
 
@@ -2298,6 +2300,8 @@ namespace GUILayer.Forms
 
                 dr = loadStack.ShowDialog();
 
+
+
                 // Process result from dialog
                 // Check for Load Stack operation
                 if (dr == DialogResult.OK)
@@ -2350,6 +2354,8 @@ namespace GUILayer.Forms
                     Boolean okToGo = true;
 
                     stackIndex = loadStack.StackIndex;
+                    stacks = loadStack.stacks;
+                    bool multiplay = loadStack.multiplayMode;
                     if (stacks.Count > 0)
                     {
                         // Get the stack index from the dialog
@@ -2390,24 +2396,28 @@ namespace GUILayer.Forms
                         {
                             stacksCollection.DeleteStack(selectedStack.ixStackID);
 
-                            // Delete from MSE
-                            string groupSelfLink = string.Empty;
-
-                            // Get playlists directory URI based on current show
-                            string showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI + "/", currentShowName);
-
-                            // Check for a playlist (group) in the VDOM with the specified name & return the Alt link
-                            // Delete the group so it can be re-created
-                            string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
-                            if (playlistDownLink != string.Empty)
+                            // only required if stack is a multiplay stack
+                            if (multiplay)
                             {
-                                // Get the self link to the specified group
-                                groupSelfLink = group.GetGroupSelfLink(playlistDownLink, selectedStack.StackName);
+                                // Delete from MSE
+                                string groupSelfLink = string.Empty;
 
-                                // Delete the group if it exists
-                                if (groupSelfLink != string.Empty)
+                                // Get playlists directory URI based on current show
+                                string showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI + "/", currentShowName);
+
+                                // Check for a playlist (group) in the VDOM with the specified name & return the Alt link
+                                // Delete the group so it can be re-created
+                                string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
+                                if (playlistDownLink != string.Empty)
                                 {
-                                    group.DeleteGroup(groupSelfLink);
+                                    // Get the self link to the specified group
+                                    groupSelfLink = group.GetGroupSelfLink(playlistDownLink, selectedStack.StackName);
+
+                                    // Delete the group if it exists
+                                    if (groupSelfLink != string.Empty)
+                                    {
+                                        group.DeleteGroup(groupSelfLink);
+                                    }
                                 }
                             }
                         }
@@ -4377,6 +4387,7 @@ namespace GUILayer.Forms
                         case (short)DataTypes.Referendums:
                             TakeReferendums();
                             break;
+
                         case (short)DataTypes.Side_Panel:
                             TakeRaceBoards();
                             break;
@@ -4416,6 +4427,7 @@ namespace GUILayer.Forms
                         case (short)DataTypes.Referendums:
                             TakeReferendums();
                             break;
+
                         case (short)DataTypes.Side_Panel:
                             TakeRaceBoards();
                             break;
@@ -4465,8 +4477,6 @@ namespace GUILayer.Forms
             try
             {
 
-
-
                 for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
                     string sceneName = tabConfig[index].TabOutput[i].sceneName;
@@ -4499,8 +4509,6 @@ namespace GUILayer.Forms
         }
         private void SendToViz(string cmd, int dataType)
         {
-
-
             try
             {
 
@@ -4615,8 +4623,6 @@ namespace GUILayer.Forms
 
                 int index = dataModeSelect.SelectedIndex;
 
-
-
                 for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
                     string scenename = tabConfig[index].TabOutput[i].sceneName;
@@ -4719,13 +4725,6 @@ namespace GUILayer.Forms
             }
             lblScenes.Text = $"Scenes: {tabConfig[index].engineSceneDef}";
 
-
-            /*
-            pbEng1.Visible = tabConfig[index].outputEngine[0];
-            pbEng2.Visible = tabConfig[index].outputEngine[1];
-            pbEng3.Visible = tabConfig[index].outputEngine[2];
-            pbEng4.Visible = tabConfig[index].outputEngine[3];
-            */
         }
 
 
@@ -4804,7 +4803,6 @@ namespace GUILayer.Forms
                 dataStr += $" - {rd[i].CandidateLastName} {rd[i].CandidateVoteCount}";
 
             }
-
 
             listBox1.Items.Add(dataStr);
             listBox1.SelectedIndex = listBox1.Items.Count - 1;
@@ -4903,8 +4901,6 @@ namespace GUILayer.Forms
 
                 // filename only, no path, no extension
                 candidate.headshot = Path.GetFileNameWithoutExtension(candidate.headshot);
-
-
 
                 // Format vote count as string with commas
                 if (raceData[i].CandidateVoteCount > 0)

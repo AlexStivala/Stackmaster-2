@@ -78,6 +78,9 @@ namespace LogicLayer.Collections
                         Race_PollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0),
                         Race_UseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0),                       
                     };
+
+                    if (newAvailableRace.Race_Office.Trim() == "S2")
+                        newAvailableRace.Race_Description += " (S2)";
                     availableRaces.Add(newAvailableRace);
                 }
             }
@@ -163,6 +166,10 @@ namespace LogicLayer.Collections
                             TimeFunctions.ConvertTimeStr(row["Race_PollClosingTime"].ToString() ?? ""),
                         Race_UseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0)
                     };
+
+                    if (newAvailableRace.Race_Office.Trim() == "S2")
+                        newAvailableRace.Race_Description += " (S2)";
+
 
                     Boolean isBGState = false;
                     Int16 stateId = Convert.ToInt16(row["State_ID"] ?? 0);

@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -282,6 +283,9 @@
             this.LoopTimer = new System.Windows.Forms.Timer(this.components);
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tpMaps = new System.Windows.Forms.TabPage();
+            this.dgvVoterAnalysisMap = new System.Windows.Forms.DataGridView();
+            this.lblMapCnt = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -374,6 +378,8 @@
             this.gbEng1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tpMaps.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisMap)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -581,6 +587,7 @@
             this.dataModeSelect.Controls.Add(this.tpBalanceOfPower);
             this.dataModeSelect.Controls.Add(this.tpReferendums);
             this.dataModeSelect.Controls.Add(this.tpSidePanel);
+            this.dataModeSelect.Controls.Add(this.tpMaps);
             this.dataModeSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataModeSelect.Location = new System.Drawing.Point(8, 129);
             this.dataModeSelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3550,6 +3557,47 @@
             this.label1.Text = "DB:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // tpMaps
+            // 
+            this.tpMaps.Controls.Add(this.lblMapCnt);
+            this.tpMaps.Controls.Add(this.dgvVoterAnalysisMap);
+            this.tpMaps.Location = new System.Drawing.Point(4, 38);
+            this.tpMaps.Name = "tpMaps";
+            this.tpMaps.Padding = new System.Windows.Forms.Padding(3);
+            this.tpMaps.Size = new System.Drawing.Size(1021, 1180);
+            this.tpMaps.TabIndex = 5;
+            this.tpMaps.Text = "Maps";
+            this.tpMaps.UseVisualStyleBackColor = true;
+            // 
+            // dgvVoterAnalysisMap
+            // 
+            this.dgvVoterAnalysisMap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysisMap.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvVoterAnalysisMap.Location = new System.Drawing.Point(13, 97);
+            this.dgvVoterAnalysisMap.MultiSelect = false;
+            this.dgvVoterAnalysisMap.Name = "dgvVoterAnalysisMap";
+            this.dgvVoterAnalysisMap.RowHeadersVisible = false;
+            this.dgvVoterAnalysisMap.RowTemplate.Height = 28;
+            this.dgvVoterAnalysisMap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVoterAnalysisMap.Size = new System.Drawing.Size(992, 887);
+            this.dgvVoterAnalysisMap.TabIndex = 0;
+            // 
+            // lblMapCnt
+            // 
+            this.lblMapCnt.AutoSize = true;
+            this.lblMapCnt.Location = new System.Drawing.Point(18, 29);
+            this.lblMapCnt.Name = "lblMapCnt";
+            this.lblMapCnt.Size = new System.Drawing.Size(262, 29);
+            this.lblMapCnt.TabIndex = 135;
+            this.lblMapCnt.Text = "Voter Analysis Maps: ";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -3703,6 +3751,9 @@
             this.gbEng1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tpMaps.ResumeLayout(false);
+            this.tpMaps.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisMap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3961,6 +4012,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.TabPage tpMaps;
+        private System.Windows.Forms.DataGridView dgvVoterAnalysisMap;
+        private System.Windows.Forms.Label lblMapCnt;
     }
 }
 

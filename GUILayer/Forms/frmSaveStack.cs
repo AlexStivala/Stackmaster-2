@@ -28,6 +28,9 @@ namespace GUILayer.Forms
         //private Double stackId;
         public Double StackId { get; set; }
         public bool BuildOnlyMode { get; set; }
+        public bool multiplayMode = false;
+        public bool MindyMode = false;
+        public int stackTypeOffset;
 
         //private string stackDescription;
         //public string StackDescription { get { return stackDescription; } set { StackDescription = stackDescription; } }
@@ -35,32 +38,29 @@ namespace GUILayer.Forms
 
         public Boolean EnableShowControls { get; set; }
 
-        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType)
+        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType, bool mindyMode, int stacktypeOffset)
         //public FrmSaveStack()
         {
             InitializeComponent();
 
             BuildOnlyMode = buildMode;
-            
-            if (BuildOnlyMode)
-            {
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
-            }
-            else
-            {
-                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
-            }
-
-            txtStackDescription.Text = StackDescription;
+            MindyMode = mindyMode;
+            stackTypeOffset = stacktypeOffset;
 
             stackType = StackType;
-            if (stackType == 21)
+            if (stackType - stackTypeOffset <= 10)
+            {
+                btnShowMultiplay.Visible = true;
+            }
+
+            if (stackType - stackTypeOffset == 21)
             {
                 txtStackDescription.Text = "{TICKER}";
                 txtStackDescription.Enabled = false;
             }
 
-            RefreshStacksList();
+            txtStackDescription.Text = StackDescription;
+            //RefreshStacksList();
 
             if (EnableShowControls)
             {
@@ -116,13 +116,15 @@ namespace GUILayer.Forms
             try
             {
                 // Setup the available stacks collection
-                this.stacksCollection = new StacksCollection();
+                //this.stacksCollection = new StacksCollection();
 
+
+                /*
                 if (BuildOnlyMode)
                     this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
                 else
                     this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
-
+                */
 
 
                 stacks = this.stacksCollection.GetStackCollection(stackType);
@@ -198,7 +200,7 @@ namespace GUILayer.Forms
                 {
                     // Set a new stack ID
 
-                    if (stackType == 21)
+                    if (stackType - stackTypeOffset == 21)
                         StackId = 99999999999999;
                     else
                         StackId = Math.Truncate(Convert.ToDouble(DateTime.Now.ToString("yyyyMMddHHmmss")));
@@ -237,6 +239,48 @@ namespace GUILayer.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+
+        }
+        private void btnShowMultiplay_Click(object sender, EventArgs e)
+        {
+            multiplayMode = !multiplayMode;
+            if (multiplayMode)
+            {
+                btnShowMultiplay.Text = "Show Raceboard Stacks(Ctrl - M)";
+                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                stackType = 0;
+            }
+            else
+            {
+                btnShowMultiplay.Text = "Show Multiplay Stacks(Ctrl - M)";
+                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                stackType = 10;
+            }
+
+            stackType += stackTypeOffset;
+
+            RefreshStacksList();
+            availableStacksGrid.Focus();
+        }
+
+        private void FrmSaveStack_Load(object sender, EventArgs e)
+        {
+            if (MindyMode && stackType - stackTypeOffset <= 10)
+                btnShowMultiplay_Click(sender, e);
+            else
+            {
+                if (BuildOnlyMode)
+                {
+                    this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                }
+                else
+                {
+                    this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                }
+                RefreshStacksList();
+                availableStacksGrid.Focus();
+
+            }
 
         }
     }

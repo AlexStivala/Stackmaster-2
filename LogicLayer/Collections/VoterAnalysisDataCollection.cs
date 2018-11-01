@@ -50,57 +50,63 @@ namespace LogicLayer.Collections
                 voterAnalysisDataAccess.ElectionsDBConnectionString = ElectionsDBConnectionString;
                 dataTable = voterAnalysisDataAccess.GetVoterAnalysisData(r_type, VA_Data_Id, ft);
 
-                foreach (DataRow row in dataTable.Rows)
+
+                /*
+                // Base Question
+                if (r_type == "Q")
                 {
-
-                    /*
-                    // Base Question
-                    if (r_type == "Q")
-                    {
-                        var voterAnalysisData = new VoterAnalysisDataModel()
-                        {
-
-                            //Specific to exit polls base questions
-                            question = row["Title"].ToString() ?? "",
-                            answer = row["Response"].ToString() ?? "",
-                            preface = row["State"].ToString() ?? "",
-                            percent = Convert.ToInt32(row["Percent"] ?? 0)
-                        };
-
-                        voterAnalysisData.r_type = r_type;
-                        voterAnalysisData.VA_Data_Id = VA_Data_Id;
-                        voterAnalysisRecords.Add(voterAnalysisData);
-                    }
-                    // Row Question
-                    else if (r_type == "A")
-                    {
-                        var voterAnalysisData = new VoterAnalysisDataModel()
-                        {
-                            //Specific to exit polls row questions
-                            question = row["question"].ToString() ?? "",
-                            answer = row["answer"].ToString() ?? "",
-                            preface = row["preface"].ToString() ?? "",
-                            percent = Convert.ToInt32(row["result_percent"] ?? 0),
-                            name = row["name"].ToString() ?? "",
-                            party = row["party"].ToString() ?? "",
-                            id = Convert.ToInt32(row["id"] ?? 0)
-
-                        };
-                        voterAnalysisData.r_type = r_type;
-                        voterAnalysisData.VA_Data_Id = VA_Data_Id;
-                        voterAnalysisRecords.Add(voterAnalysisData);
-                    }
-                    */
                     var voterAnalysisData = new VoterAnalysisDataModel()
                     {
-                        Title = row["Title"].ToString() ?? "",
-                        Response = row["Response"].ToString() ?? "",
-                        State = row["State"].ToString() ?? "",
+
+                        //Specific to exit polls base questions
+                        question = row["Title"].ToString() ?? "",
+                        answer = row["Response"].ToString() ?? "",
+                        preface = row["State"].ToString() ?? "",
                         percent = Convert.ToInt32(row["Percent"] ?? 0)
                     };
 
                     voterAnalysisData.r_type = r_type;
                     voterAnalysisData.VA_Data_Id = VA_Data_Id;
+                    voterAnalysisRecords.Add(voterAnalysisData);
+                }
+                // Row Question
+                else if (r_type == "A")
+                {
+                    var voterAnalysisData = new VoterAnalysisDataModel()
+                    {
+                        //Specific to exit polls row questions
+                        question = row["question"].ToString() ?? "",
+                        answer = row["answer"].ToString() ?? "",
+                        preface = row["preface"].ToString() ?? "",
+                        percent = Convert.ToInt32(row["result_percent"] ?? 0),
+                        name = row["name"].ToString() ?? "",
+                        party = row["party"].ToString() ?? "",
+                        id = Convert.ToInt32(row["id"] ?? 0)
+
+                    };
+                    voterAnalysisData.r_type = r_type;
+                    voterAnalysisData.VA_Data_Id = VA_Data_Id;
+                    voterAnalysisRecords.Add(voterAnalysisData);
+                }
+                */
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    VoterAnalysisDataModel voterAnalysisData = new VoterAnalysisDataModel()
+                    {
+                        Updated = row["Updated"].ToString() ?? "",
+                        Title = row["Title"].ToString() ?? "",
+                        Response = row["Response"].ToString() ?? "",
+                        State = row["State"].ToString() ?? "",
+                        percent = Convert.ToInt32(row["Percent"] ?? 0)
+                        
+                    };
+
+                    DateTime upd = Convert.ToDateTime(voterAnalysisData.Updated);
+                    voterAnalysisData.r_type = r_type;
+                    voterAnalysisData.VA_Data_Id = VA_Data_Id;
+                    voterAnalysisData.asOf = $"AS OF {upd.ToString("h:mm tt MM/dd/yyyy")}";
+                    //voterAnalysisData.asOf = $"AS OF {upd.ToString("t d")}";
                     voterAnalysisRecords.Add(voterAnalysisData);
                 }
                     // Manual Question

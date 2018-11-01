@@ -56,7 +56,7 @@ namespace GUILayer.Forms
 
         //public event DelDeleteStack DeleteStack;
 
-        public frmLoadStack(bool buildMode, int StackType, bool mindyMode)
+        public frmLoadStack(bool buildMode, int StackType, bool mindyMode, int stackTypeOffset)
         {
             
             InitializeComponent();
@@ -64,8 +64,9 @@ namespace GUILayer.Forms
             MindyMode = mindyMode;
 
             builderOnlyMode = buildMode;
+
             stackType = StackType;
-            if (stackType <= 10)
+            if (stackType - stackTypeOffset <= 10)
             {
                 btnShowMultiplay.Visible = true;
             }
@@ -369,7 +370,7 @@ namespace GUILayer.Forms
 
         private void frmLoadStack_Load(object sender, EventArgs e)
         {
-            if (MindyMode)
+            if (MindyMode && stackType <= 10)
                 btnShowMultiplay_Click(sender, e);
 
         }

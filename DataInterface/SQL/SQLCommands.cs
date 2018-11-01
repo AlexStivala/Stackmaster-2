@@ -186,6 +186,7 @@ namespace DataInterface.SQL
 
         public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getVoterAnalysisQuestions_FullScreen";
         public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getVoterAnalysisQuestions_Ticker";
+        public static readonly string sqlGetVoterAnalysisQuestions_Map = "getVoterAnalysisQuestions_Map";
 
 
         /// <summary>

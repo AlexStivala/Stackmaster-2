@@ -24,6 +24,8 @@ using MSEInterface.Constants;
 using AsyncClientSocket;
 using System.Data.SqlClient;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 // Required for implementing logging to status bar
 
@@ -84,6 +86,7 @@ namespace GUILayer.Forms
         public string hostName = string.Empty;
         public string stacksDB = string.Empty;
         public int stackType = 0;
+        public int stackTypeOffset = 0;
         public int lastIndex;
         public int takeCnt = 0;
         public int tabIndex = 0;
@@ -99,6 +102,7 @@ namespace GUILayer.Forms
         public string[] lastSceneLoaded = new string[4];
         public List<VoterAnalysisQuestionsModel> VA_Qdata_Tkr = new List<VoterAnalysisQuestionsModel>();
         public List<VoterAnalysisQuestionsModel> VA_Qdata_FS = new List<VoterAnalysisQuestionsModel>();
+        public List<VoterAnalysisMapQuestionsModel> VA_Qdata_Map = new List<VoterAnalysisMapQuestionsModel>();
 
 
 
@@ -219,6 +223,7 @@ namespace GUILayer.Forms
             public BindingList<StackElementModel> stkRef = new BindingList<StackElementModel>();
             public BindingList<StackElementModel> stkBOP = new BindingList<StackElementModel>();
             public BindingList<StackElementModel> stkSP = new BindingList<StackElementModel>();
+            public BindingList<StackElementModel> stkMap = new BindingList<StackElementModel>();
 
         }
 
@@ -422,8 +427,6 @@ namespace GUILayer.Forms
             try
             {
 
-            
-
             string applicationLogComments;
 
             //builderOnlyMode = Properties.Settings.Default.builderOnly;
@@ -457,10 +460,20 @@ namespace GUILayer.Forms
             bool BOPenable = Convert.ToBoolean(row["BOP"] ?? 0);
             bool REFenable = Convert.ToBoolean(row["Referendums"] ?? 0);
             bool SPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
+            bool MAPenable = true;
+            //bool MAPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
             builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
             Network = row["Network"].ToString() ?? "";
 
-            applicationLogComments = $"{Network}; Config: {configName}; ";
+                if (Network == "FNC")
+                    stackTypeOffset = 0;
+                if (Network == "FBN")
+                    stackTypeOffset = 100;
+                if (Network == "FBC")
+                    stackTypeOffset = 200;
+
+
+                applicationLogComments = $"{Network}; Config: {configName}; ";
 
             if (builderOnlyMode)
             {
@@ -473,8 +486,15 @@ namespace GUILayer.Forms
             {
                 stacksDB = StacksDBConnectionString;
                 stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+
+                if (stackType == 50)
+                    stackType = 10;
+
                 if (dataModeSelect.SelectedIndex == 1)
                     stackType += tcVoterAnalysis.SelectedIndex;
+
+                stackType += stackTypeOffset;
+
                 label2.Visible = false;
                 cbGraphicConcept.Visible = false;
                 btnSaveStack.Text = "Save Stack \n (Ctrl - O)";
@@ -733,7 +753,7 @@ namespace GUILayer.Forms
             string tabName;
             bool enab;
 
-            for (int tabNo = 0; tabNo < 5; tabNo++)
+            for (int tabNo = 0; tabNo < 6; tabNo++)
             {
                 switch (tabNo)
                 {
@@ -755,9 +775,13 @@ namespace GUILayer.Forms
                         break;
                     case 4:
                         tabName = "SidePanel";
-                        enab = REFenable;
+                        enab = SPenable;
                         break;
-                    default:
+                    case 5:
+                        tabName = "Maps";
+                        enab = MAPenable;
+                        break;
+                        default:
                         tabName = "RaceBoards";
                         enab = RBenable;
                         break;
@@ -827,7 +851,7 @@ namespace GUILayer.Forms
 
 
             // Initial load all scenes
-            for (int index = 0; index < 4; index++)
+            for (int index = 0; index < 6; index++)
             {
                 for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
@@ -1159,6 +1183,8 @@ namespace GUILayer.Forms
             if (dataModeSelect.SelectedTab.Text == "Side Panel")
                 tabIndex = 4;
 
+            if (dataModeSelect.SelectedTab.Text == "Maps")
+                tabIndex = 5;
 
             if (stackLocked == false)
             {
@@ -1197,6 +1223,13 @@ namespace GUILayer.Forms
                         foreach (StackElementModel se in stackElements)
                         {
                             tabsave.stkSP.Add(se);
+                        }
+                        break;
+                    case 5:
+                        tabsave.stkMap.Clear();
+                        foreach (StackElementModel se in stackElements)
+                        {
+                            tabsave.stkMap.Add(se);
                         }
                         break;
                 }
@@ -1240,6 +1273,13 @@ namespace GUILayer.Forms
                             stackElements.Add(se);
                         }
                         break;
+                    case 5:
+                        //stackElements.Clear();
+                        foreach (StackElementModel se in tabsave.stkMap)
+                        {
+                            stackElements.Add(se);
+                        }
+                        break;
                 }
 
                 /*
@@ -1275,8 +1315,16 @@ namespace GUILayer.Forms
                 else
                     stackType = 0;
 
+                if (stackType == 50)
+                    stackType = 10;
+
+                stackType += stackTypeOffset;
+
                 if (dataModeSelect.SelectedIndex == 1)
                     GetVoterAnalysisGridData();
+
+                if (dataModeSelect.SelectedIndex == 5)
+                    GetVoterAnalysisMapGridData();
 
                 if (!builderOnlyMode)
                     SetOutput(dataModeSelect.SelectedIndex);
@@ -1302,6 +1350,9 @@ namespace GUILayer.Forms
                         break;
                     case 4:
                         tpSidePanel.Focus();
+                        break;
+                    case 5:
+                        tpMaps.Focus();
                         break;
                 }
             }
@@ -2093,9 +2144,11 @@ namespace GUILayer.Forms
                 {
 
                     DialogResult dr = new DialogResult();
-                    if (stackType == 50)
-                        stackType = 10;
-                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
+                    //if (stackType == 50)
+                        //stackType = 10;
+
+                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset);
+                    
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -2103,7 +2156,9 @@ namespace GUILayer.Forms
                         StackModel stackMetadata = new StackModel();
 
                         stackID = saveStack.StackId;
+                        stackType = saveStack.stackType;
                         stackDescription = saveStack.StackDescription;
+                        bool multiplay = saveStack.multiplayMode;
                         stackMetadata.ixStackID = stackID;
                         stackMetadata.StackName = stackDescription;
                         stackMetadata.StackType = (short)stackType;
@@ -2121,13 +2176,26 @@ namespace GUILayer.Forms
                             stackMetadata.ConceptName = "N/A";
                         }
 
-                        stackMetadata.Notes = "Not currently used";
+
                         StacksCollection stacksCollection = new StacksCollection();
-                        stacksCollection.MainDBConnectionString = stacksDB;
+                        
+                        if (multiplay)
+                        {
+                            stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                            stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                        }
+                        else
+                        {
+                            stacksCollection.MainDBConnectionString = stacksDB;
+                            stackElementsCollection.MainDBConnectionString = stacksDB;
+                        }
+
+
+                        stackMetadata.Notes = "Not currently used";
                         stacksCollection.SaveStack(stackMetadata);
 
                         // Save out stack elements; specify stack ID, and set flag to delete existing elements before adding
-                        stackElementsCollection.MainDBConnectionString = stacksDB;
+                        //stackElementsCollection.MainDBConnectionString = stacksDB;
                         stackElementsCollection.SaveStackElementsCollection(stackMetadata.ixStackID, true);
 
 
@@ -2288,11 +2356,11 @@ namespace GUILayer.Forms
                 // Setup dialog to load stack
                 DialogResult dr = new DialogResult();
 
-                if (stackType == 50)
-                    stackType = 10;
+                //if (stackType == 50)
+                    //stackType = 10;
 
                 //frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
-                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode);
+                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
 
@@ -2399,26 +2467,35 @@ namespace GUILayer.Forms
                             // only required if stack is a multiplay stack
                             if (multiplay)
                             {
-                                // Delete from MSE
-                                string groupSelfLink = string.Empty;
 
-                                // Get playlists directory URI based on current show
-                                string showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI + "/", currentShowName);
-
-                                // Check for a playlist (group) in the VDOM with the specified name & return the Alt link
-                                // Delete the group so it can be re-created
-                                string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
-                                if (playlistDownLink != string.Empty)
+                                //New thread
+                                Task.Run(() =>
                                 {
-                                    // Get the self link to the specified group
-                                    groupSelfLink = group.GetGroupSelfLink(playlistDownLink, selectedStack.StackName);
 
-                                    // Delete the group if it exists
-                                    if (groupSelfLink != string.Empty)
+                                    // Delete from MSE
+                                    string groupSelfLink = string.Empty;
+
+                                    // Get playlists directory URI based on current show
+                                    string showPlaylistsDirectoryURI = show.GetPlaylistDirectoryFromShow(topLevelShowsDirectoryURI + "/", currentShowName);
+
+                                    // Check for a playlist (group) in the VDOM with the specified name & return the Alt link
+                                    // Delete the group so it can be re-created
+                                    string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
+                                    if (playlistDownLink != string.Empty)
                                     {
-                                        group.DeleteGroup(groupSelfLink);
+                                        // Get the self link to the specified group
+                                        groupSelfLink = group.GetGroupSelfLink(playlistDownLink, selectedStack.StackName);
+
+                                        // Delete the group if it exists
+                                        if (groupSelfLink != string.Empty)
+                                        {
+                                            group.DeleteGroup(groupSelfLink);
+                                        }
                                     }
-                                }
+
+                                });
+
+
                             }
                         }
                     }
@@ -2492,7 +2569,7 @@ namespace GUILayer.Forms
                     if (cbPromptForInfo.Checked == true)
                     {
                         DialogResult dr = new DialogResult();
-                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType);
+                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset);
                         //FrmSaveStack saveStack = new FrmSaveStack();
 
                         saveStack.EnableShowControls = enableShowSelectControls;
@@ -3548,6 +3625,83 @@ namespace GUILayer.Forms
 
                 }
                 newStackElement.ExitPoll_Subtitle = selectedPoll.preface;
+                newStackElement.ExitPoll_Suffix = selectedPoll.r_type;
+                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
+                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
+                newStackElement.ExitPoll_SubsetName = string.Empty;
+                newStackElement.ExitPoll_SubsetID = 0;
+
+                // Add element
+                stackElementsCollection.AppendStackElement(newStackElement);
+                // Update stack entries count label
+                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("frmMain Exception occurred: " + ex.Message);
+                log.Debug("frmMain Exception occurred", ex);
+            }
+        }
+        private void AddVoterAnalysisMap()
+        {
+            try
+            {
+                // Instantiate new stack element model
+                StackElementModel newStackElement = new StackElementModel();
+
+                //Get the selected race list object
+                int currentPollIndex = dgvVoterAnalysisMap.CurrentCell.RowIndex;
+                VoterAnalysisMapQuestionsModel selectedPoll = new VoterAnalysisMapQuestionsModel();
+                StateMetadataModel st = new StateMetadataModel();
+
+                newStackElement.fkey_StackID = 0;
+                newStackElement.Stack_Element_ID = stackElements.Count;
+
+                newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
+                selectedPoll = VA_Qdata_Map[currentPollIndex];
+                newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
+                
+                newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
+                newStackElement.Stack_Element_Description = "Voter Analysis Maps";
+                // Get the template ID for the specified element type
+
+                newStackElement.Election_Type = "G";
+                newStackElement.Office_Code = " ";
+                newStackElement.State_Number = 0;
+                newStackElement.State_Mnemonic = "US";
+
+                st = GetStateMetadata(0);
+
+                newStackElement.State_Name = st.State_Name;
+                newStackElement.CD = 0;
+                newStackElement.County_Number = 0;
+                newStackElement.County_Name = "N/A";
+                newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type}";
+
+                // Specific to race boards
+                newStackElement.Race_ID = 0;
+                newStackElement.Race_RecordType = string.Empty;
+                newStackElement.Race_Office = string.Empty;
+                newStackElement.Race_District = 0;
+                newStackElement.Race_CandidateID_1 = 0;
+                newStackElement.Race_CandidateID_2 = 0;
+                newStackElement.Race_CandidateID_3 = 0;
+                newStackElement.Race_CandidateID_4 = 0;
+                newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
+                newStackElement.Race_UseAPRaceCall = false;
+
+                //Specific to exit polls - set to default values
+                newStackElement.ExitPoll_mxID = 0;
+                newStackElement.ExitPoll_BoardID = 0;
+                newStackElement.ExitPoll_ShortMxLabel = selectedPoll.VA_Data_Id;
+                newStackElement.ExitPoll_NumRows = 0;
+                newStackElement.ExitPoll_xRow = 0;
+
+                newStackElement.ExitPoll_BaseQuestion = false;
+                newStackElement.ExitPoll_RowQuestion = true;
+
+                newStackElement.ExitPoll_Subtitle = string.Empty;
                 newStackElement.ExitPoll_Suffix = selectedPoll.r_type;
                 newStackElement.ExitPoll_HeaderText_1 = string.Empty;
                 newStackElement.ExitPoll_HeaderText_2 = string.Empty;
@@ -5527,7 +5681,7 @@ namespace GUILayer.Forms
 
             }
 
-            MapKeyStr += "|";
+            MapKeyStr += $"|{VA_Data[0].asOf}|";
 
             return MapKeyStr;
         }
@@ -5546,6 +5700,9 @@ namespace GUILayer.Forms
             }
             else
                 stackType = 0;
+
+            stackType += stackTypeOffset;
+
             GetVoterAnalysisGridData();
         }
 
@@ -5588,6 +5745,33 @@ namespace GUILayer.Forms
             lblVAcnt.Text = $"Voter Analysis Questions: {cnt}";
 
         }
+
+        public void GetVoterAnalysisMapGridData()
+        {
+            string cmd = "";
+            int cnt = 0;
+
+            VA_Qdata_Map = GetVoterAnalysisMapQuestionsData();
+            dgvVoterAnalysisMap.DataSource = VA_Qdata_Map;
+            cnt = VA_Qdata_Map.Count;
+
+            dgvVoterAnalysisMap.Columns[0].Width = 450;
+            dgvVoterAnalysisMap.Columns[1].Width = 450;
+            dgvVoterAnalysisMap.Columns[2].Width = 80;
+            dgvVoterAnalysisMap.Columns[3].Width = 120;
+            dgvVoterAnalysisMap.Columns[4].Width = 30;
+
+            dgvVoterAnalysisMap.Columns[0].HeaderText = "Answer";
+            dgvVoterAnalysisMap.Columns[1].HeaderText = "Question";
+            dgvVoterAnalysisMap.Columns[2].HeaderText = "Filter";
+            dgvVoterAnalysisMap.Columns[3].HeaderText = "VA_Data_Id";
+            dgvVoterAnalysisMap.Columns[4].HeaderText = "M";
+            
+            lblMapCnt.Text = $"Voter Analysis Maps: {cnt}";
+
+        }
+
+
         public List<VoterAnalysisQuestionsModel> GetVoterAnalysisQuestionsData(int type)
         {
             string cmd = "";
@@ -5642,6 +5826,32 @@ namespace GUILayer.Forms
             }
 
             return VA_Qdata;
+
+        }
+        public List<VoterAnalysisMapQuestionsModel> GetVoterAnalysisMapQuestionsData()
+        {
+            string cmd = SQLCommands.sqlGetVoterAnalysisQuestions_Map;
+
+            DataTable dt = GetDBData(cmd, ElectionsDBConnectionString);
+            List<VoterAnalysisMapQuestionsModel> VA_MapQdata = new List<VoterAnalysisMapQuestionsModel>();
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow row = dt.Rows[i];
+                VoterAnalysisMapQuestionsModel VA_Data = new VoterAnalysisMapQuestionsModel();
+
+                VA_Data.question = row[0].ToString().Trim();
+                VA_Data.answer = row[0].ToString().Trim();
+                VA_Data.filter = row[2].ToString().Trim();
+                VA_Data.VA_Data_Id = row[3].ToString().Trim();
+                VA_Data.r_type = row[4].ToString().Trim();
+                
+                VA_MapQdata.Add(VA_Data);
+
+            }
+
+            return VA_MapQdata;
 
         }
 

@@ -75,6 +75,7 @@
     <Compile Include="DataModel\StackModel.cs" />
     <Compile Include="DataModel\StateMetadataModel.cs" />
     <Compile Include="DataModel\VoterAnalysisDataModel.cs" />
+    <Compile Include="DataModel\VoterAnalysisMapQuestionsModel.cs" />
     <Compile Include="DataModel\VoterAnalysisQuestionsModel.cs" />
     <Compile Include="Enums\BoardModes.cs" />
     <Compile Include="Enums\DataTypes.cs" />

@@ -13,10 +13,12 @@ namespace DataInterface.DataModel
         public string Title { get; set; }
         public string Response { get; set; }
         public string VA_Data_Id { get; set; }
+        public string Updated { get; set; }
         public string name { get; set; }
         public int id { get; set; }
         public string party { get; set; }
         public int percent { get; set; }
-
+        public string asOf { get; set; }
+        
     }
 }

@@ -206,6 +206,7 @@
             this.btnShowMultiplay.TabIndex = 6;
             this.btnShowMultiplay.Text = "Show Multiplay Stacks\r\n(Ctrl-M)";
             this.btnShowMultiplay.UseVisualStyleBackColor = true;
+            this.btnShowMultiplay.Visible = false;
             this.btnShowMultiplay.Click += new System.EventHandler(this.btnShowMultiplay_Click);
             // 
             // frmLoadStack

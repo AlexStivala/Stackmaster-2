@@ -48,7 +48,7 @@ namespace GUILayer.Forms
             stackTypeOffset = stacktypeOffset;
 
             stackType = StackType;
-            if (stackType - stackTypeOffset <= 10)
+            if (stackType - stackTypeOffset <= 10 && MindyMode)
             {
                 btnShowMultiplay.Visible = true;
             }

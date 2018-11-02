@@ -92,8 +92,8 @@ namespace GUILayer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdbbk1;Initial Catalog=ElectionProd;Persist Security Info=True;Use" +
-            "r ID=gfxuser;Password=elect2018")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Persist Security Info=True;User ID=gfxuser;Password=elect2018;Data Source=enygdb1" +
+            ";Initial Catalog=ElectionProd;")]
         public string ElectionsDBConnectionString {
             get {
                 return ((string)(this["ElectionsDBConnectionString"]));
@@ -154,8 +154,8 @@ namespace GUILayer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdbbk1;Initial Catalog=VizMultiPlayStackData;Persist Security Info" +
-            "=True;User ID=gfxuser;Password=elect2018")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdb1;Initial Catalog=VizMultiPlayStackData;Persist Security Info=T" +
+            "rue;User ID=gfxuser;Password=elect2018")]
         public string GraphicsDBConnectionString {
             get {
                 return ((string)(this["GraphicsDBConnectionString"]));
@@ -183,8 +183,8 @@ namespace GUILayer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdbbk1;Initial Catalog=VizStackmasterStackData;Persist Security In" +
-            "fo=True;User ID=gfxuser;Password=elect2018")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdb1;Initial Catalog=VizStackmasterStackData;Persist Security Info" +
+            "=True;User ID=gfxuser;Password=elect2018")]
         public string StacksDBConnectionString {
             get {
                 return ((string)(this["StacksDBConnectionString"]));
@@ -193,7 +193,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool MindyMode {
             get {
                 return ((bool)(this["MindyMode"]));

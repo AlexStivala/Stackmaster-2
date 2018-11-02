@@ -105,7 +105,7 @@ namespace GUILayer.Forms
         public List<VoterAnalysisMapQuestionsModel> VA_Qdata_Map = new List<VoterAnalysisMapQuestionsModel>();
 
 
-
+        
         #endregion
 
         #region Collection & binding list definitions
@@ -377,8 +377,8 @@ namespace GUILayer.Forms
             currentShowName = Properties.Settings.Default.CurrentShowName;
             currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
             MindyMode = Properties.Settings.Default.MindyMode;
-            
-            
+
+
             //string sceneDescription = Properties.Settings.Default.Scene_Name;
             //var useSceneName = Properties.Settings.Default[sceneDescription];
 
@@ -389,11 +389,23 @@ namespace GUILayer.Forms
             lblIpAddress.Text = ipAddress;
             lblHostName.Text = hostName;
 
+
+            bool useBackupServer = false;
+            string primaryServer = "enygdb1";
+            string backupServer = "enygdbbk1";
+
             var builder = new SqlConnectionStringBuilder(ElectionsDBConnectionString);
             var dataSource = builder.DataSource;
             var initCat = builder.InitialCatalog;
             var user = builder.UserID;
             var pw = builder.Password;
+
+            if (useBackupServer)
+            {
+                builder.DataSource = backupServer;
+                ElectionsDBConnectionString = builder.ConnectionString;
+            }
+
 
             lblDB.Text = $"{dataSource}  {initCat}";
 
@@ -421,49 +433,47 @@ namespace GUILayer.Forms
 
         public void LoadConfig()
         {
-            //string[] IPs = new string[4] { string.Empty, string.Empty, string.Empty, string.Empty };
-            //bool[] enables = new bool[4] { false, false, false, false };
 
             try
             {
 
-            string applicationLogComments;
+                string applicationLogComments;
 
-            //builderOnlyMode = Properties.Settings.Default.builderOnly;
-            //Network = Properties.Settings.Default.Network;
+                //builderOnlyMode = Properties.Settings.Default.builderOnly;
+                //Network = Properties.Settings.Default.Network;
 
-            // get configuration info based on computer's IP Address 
-            DataTable dtComp = new DataTable();
-            string cmdStr = $"SELECT * FROM FE_Devices WHERE IP_Address = '{ipAddress}'";
-            dtComp = GetDBData(cmdStr, ElectionsDBConnectionString);
-            DataRow row;
+                // get configuration info based on computer's IP Address 
+                DataTable dtComp = new DataTable();
+                string cmdStr = $"SELECT * FROM FE_Devices WHERE IP_Address = '{ipAddress}'";
+                dtComp = GetDBData(cmdStr, ElectionsDBConnectionString);
+                DataRow row;
 
-            if (dtComp.Rows.Count > 0)
-            {
-                row = dtComp.Rows[0];
-                computerName = row["Name"].ToString() ?? "";
-                configName = row["Config1"].ToString() ?? "";
-                if (configName == null)
+                if (dtComp.Rows.Count > 0)
+                {
+                    row = dtComp.Rows[0];
+                    computerName = row["Name"].ToString() ?? "";
+                    configName = row["Config1"].ToString() ?? "";
+                    if (configName == null)
+                        configName = "DEFAULT";
+                }
+                else
                     configName = "DEFAULT";
-            }
-            else
-                configName = "DEFAULT";
 
-            // get tab enables and mode and network
-            DataTable dtEnab = new DataTable();
-            cmdStr = $"SELECT * FROM FE_Tabs WHERE Config = '{configName}'";
-            dtEnab = GetDBData(cmdStr, ElectionsDBConnectionString);
+                // get tab enables and mode and network
+                DataTable dtEnab = new DataTable();
+                cmdStr = $"SELECT * FROM FE_Tabs WHERE Config = '{configName}'";
+                dtEnab = GetDBData(cmdStr, ElectionsDBConnectionString);
 
-            row = dtEnab.Rows[0];
-            bool RBenable = Convert.ToBoolean(row["RaceBoards"] ?? 0);
-            bool VAenable = Convert.ToBoolean(row["VoterAnalysis"] ?? 0);
-            bool BOPenable = Convert.ToBoolean(row["BOP"] ?? 0);
-            bool REFenable = Convert.ToBoolean(row["Referendums"] ?? 0);
-            bool SPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
-            bool MAPenable = true;
-            //bool MAPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
-            builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
-            Network = row["Network"].ToString() ?? "";
+                row = dtEnab.Rows[0];
+                bool RBenable = Convert.ToBoolean(row["RaceBoards"] ?? 0);
+                bool VAenable = Convert.ToBoolean(row["VoterAnalysis"] ?? 0);
+                bool BOPenable = Convert.ToBoolean(row["BOP"] ?? 0);
+                bool REFenable = Convert.ToBoolean(row["Referendums"] ?? 0);
+                bool SPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
+                bool MAPenable = true;
+                //bool MAPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
+                builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
+                Network = row["Network"].ToString() ?? "";
 
                 if (Network == "FNC")
                     stackTypeOffset = 0;
@@ -475,432 +485,432 @@ namespace GUILayer.Forms
 
                 applicationLogComments = $"{Network}; Config: {configName}; ";
 
-            if (builderOnlyMode)
-            {
-                stacksDB = GraphicsDBConnectionString;
-                stackType = 0;
-                label2.Visible = true;
-                cbGraphicConcept.Visible = true;
-            }
-            else
-            {
-                stacksDB = StacksDBConnectionString;
-                stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                if (builderOnlyMode)
+                {
+                    stacksDB = GraphicsDBConnectionString;
+                    stackType = 0;
+                    label2.Visible = true;
+                    cbGraphicConcept.Visible = true;
+                }
+                else
+                {
+                    stacksDB = StacksDBConnectionString;
+                    stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
 
-                if (stackType == 50)
-                    stackType = 10;
+                    if (stackType == 50)
+                        stackType = 10;
 
-                if (dataModeSelect.SelectedIndex == 1)
-                    stackType += tcVoterAnalysis.SelectedIndex;
+                    if (dataModeSelect.SelectedIndex == 1)
+                        stackType += tcVoterAnalysis.SelectedIndex;
 
-                stackType += stackTypeOffset;
+                    stackType += stackTypeOffset;
 
-                label2.Visible = false;
-                cbGraphicConcept.Visible = false;
-                btnSaveStack.Text = "Save Stack \n (Ctrl - O)";
+                    label2.Visible = false;
+                    cbGraphicConcept.Visible = false;
+                    btnSaveStack.Text = "Save Stack \n (Ctrl - O)";
                     btnTake.Text = "Take Next \n (Space)";
-            }
-
-
-            this.Size = new Size(1462, 991);
-            connectionPanel.Visible = false;
-            enginePanel.Visible = false;
-            listBox1.Visible = false;
-            listBox2.Visible = false;
-            panel3.Size = new Size(648, 155);
-            panel3.Location = new Point(8, 549);
-            StackPanel.Location = new Point(3, 8);
-            SaveActivatePanel.Location = new Point(424, 8);
-            stackGrid.Size = new Size(648, 536);
-            LockPanel.Visible = false;
-            TakePanel.Visible = false;
-            SaveActivatePanel.Visible = true;
-            pnlUpDn.Location = new Point(676, 250);
-
-            if (builderOnlyMode == false)
-            {
-                // Enlarge form
-                this.Size = new Size(1462, 1165);
-                lblMediaSequencer.Visible = false;
-
-                lblConfig.Text = $"{configName}  {DateTime.Now}";
-                lblNetwork.Text = Network;
-                connectionPanel.Visible = true;
-                enginePanel.Visible = true;
-                listBox1.Visible = true;
-                listBox2.Visible = true;
-                stackGrid.Size = new Size(648, 468);
-                panel3.Size = new Size(648, 221);
-                panel3.Location = new Point(8, 483);
-                StackPanel.Location = new Point(1, 78);
-                LockPanel.Visible = true;
-                TakePanel.Visible = true;
-                SaveActivatePanel.Visible = false;
-                SaveActivatePanel.Location = new Point(424, 3);
-                btnSaveStack.Enabled = true;
-                pnlUpDn.Location = new Point(676, 216);
-
-                // Set the default to show all for race filters, Auto for exit pool questions
-                rbShowAll.BackColor = Color.Gold;
-                rbShowAll.Checked = true;
-                rbAll.BackColor = Color.Gold;
-                rbAll.Checked = true;
-
-                //rbEPAuto.Checked = true;
-                //rbEPAuto.BackColor = Color.Gold;
-                rbNone.Checked = true;
-                rbNone.BackColor = Color.Gold;
-
-                // Set enable/disable state of tab pages
-                if (RBenable)
-                {
-                    tpRaces.Enabled = true;
-                }
-                else
-                {
-                    tpRaces.Enabled = false;
-                }
-                if (VAenable)
-                {
-                    tpVoterAnalysis.Enabled = true;
-                }
-                else
-                {
-                    tpVoterAnalysis.Enabled = false;
-                }
-                if (BOPenable)
-                {
-                    tpBalanceOfPower.Enabled = true;
-                }
-                else
-                {
-                    tpBalanceOfPower.Enabled = false;
-                }
-                if (REFenable)
-                {
-                    tpReferendums.Enabled = true;
-                }
-                if (SPenable)
-                {
-                    tpSidePanel.Enabled = true;
-                }
-                else
-                {
-                    tpReferendums.Enabled = false;
                 }
 
-                
 
-                // get viz engine info
+                this.Size = new Size(1462, 991);
+                connectionPanel.Visible = false;
+                enginePanel.Visible = false;
+                listBox1.Visible = false;
+                listBox2.Visible = false;
+                panel3.Size = new Size(648, 155);
+                panel3.Location = new Point(8, 549);
+                StackPanel.Location = new Point(3, 8);
+                SaveActivatePanel.Location = new Point(424, 8);
+                stackGrid.Size = new Size(648, 536);
+                LockPanel.Visible = false;
+                TakePanel.Visible = false;
+                SaveActivatePanel.Visible = true;
+                pnlUpDn.Location = new Point(676, 250);
 
-                cmdStr = $"SELECT * FROM FE_EngineDefs WHERE Config = '{configName}'";
-                DataTable dtEng = new DataTable();
-                dtEng = GetDBData(cmdStr, ElectionsDBConnectionString);
-                row = dtEng.Rows[0];
-
-
-                int i = 0;
-                bool done = false;
-                string engineParam;
-                //var engineInfo = Properties.Settings.Default["Engine1_IPAddress"];
-                string engineData;
-                string engineStr;
-
-                // read engine info until no more engines found
-                while (done == false)
+                if (builderOnlyMode == false)
                 {
-                    EngineModel viz = new EngineModel();
-                    i++;
-                    engineParam = $"Engine{i}_IPAddress";
+                    // Enlarge form
+                    this.Size = new Size(1462, 1165);
+                    lblMediaSequencer.Visible = false;
 
-                    try
+                    lblConfig.Text = $"{configName}  {DateTime.Now}";
+                    lblNetwork.Text = Network;
+                    connectionPanel.Visible = true;
+                    enginePanel.Visible = true;
+                    listBox1.Visible = true;
+                    listBox2.Visible = true;
+                    stackGrid.Size = new Size(648, 468);
+                    panel3.Size = new Size(648, 221);
+                    panel3.Location = new Point(8, 483);
+                    StackPanel.Location = new Point(1, 78);
+                    LockPanel.Visible = true;
+                    TakePanel.Visible = true;
+                    SaveActivatePanel.Visible = false;
+                    SaveActivatePanel.Location = new Point(424, 3);
+                    btnSaveStack.Enabled = true;
+                    pnlUpDn.Location = new Point(676, 216);
+
+                    // Set the default to show all for race filters, Auto for exit pool questions
+                    rbShowAll.BackColor = Color.Gold;
+                    rbShowAll.Checked = true;
+                    rbAll.BackColor = Color.Gold;
+                    rbAll.Checked = true;
+
+                    //rbEPAuto.Checked = true;
+                    //rbEPAuto.BackColor = Color.Gold;
+                    rbNone.Checked = true;
+                    rbNone.BackColor = Color.Gold;
+
+                    // Set enable/disable state of tab pages
+                    if (RBenable)
                     {
-                        engineStr = $"Eng{i}_";
+                        tpRaces.Enabled = true;
+                    }
+                    else
+                    {
+                        tpRaces.Enabled = false;
+                    }
+                    if (VAenable)
+                    {
+                        tpVoterAnalysis.Enabled = true;
+                    }
+                    else
+                    {
+                        tpVoterAnalysis.Enabled = false;
+                    }
+                    if (BOPenable)
+                    {
+                        tpBalanceOfPower.Enabled = true;
+                    }
+                    else
+                    {
+                        tpBalanceOfPower.Enabled = false;
+                    }
+                    if (REFenable)
+                    {
+                        tpReferendums.Enabled = true;
+                    }
+                    if (SPenable)
+                    {
+                        tpSidePanel.Enabled = true;
+                    }
+                    else
+                    {
+                        tpReferendums.Enabled = false;
+                    }
 
-                        engineData = row[engineStr + "Name"].ToString() ?? "";
-                        if (engineData != null)
+
+
+                    // get viz engine info
+
+                    cmdStr = $"SELECT * FROM FE_EngineDefs WHERE Config = '{configName}'";
+                    DataTable dtEng = new DataTable();
+                    dtEng = GetDBData(cmdStr, ElectionsDBConnectionString);
+                    row = dtEng.Rows[0];
+
+
+                    int i = 0;
+                    bool done = false;
+                    string engineParam;
+                    //var engineInfo = Properties.Settings.Default["Engine1_IPAddress"];
+                    string engineData;
+                    string engineStr;
+
+                    // read engine info until no more engines found
+                    while (done == false)
+                    {
+                        EngineModel viz = new EngineModel();
+                        i++;
+                        engineParam = $"Engine{i}_IPAddress";
+
+                        try
                         {
+                            engineStr = $"Eng{i}_";
 
-
-                            viz.EngineName = engineData;
-                            viz.IPAddress = GetIP(engineData);
-                            viz.Port = Convert.ToInt32(row[engineStr + "Port"] ?? 0);
-                            viz.enable = Convert.ToBoolean(row[engineStr + "Enable"] ?? 0);
-                            viz.id = i;
-                            viz.systemIP = System.Net.IPAddress.Parse(viz.IPAddress);
-
-
-                            /*
-                            engineInfo = Properties.Settings.Default[engineParam];
-                            viz.IPAddress = (string)engineInfo;
-
-                            engineParam = $"Engine{i}_Port";
-                            engineInfo = Properties.Settings.Default[engineParam];
-                            viz.Port = (int)engineInfo;
-
-                            engineParam = $"Engine{i}_Enable";
-                            engineInfo = Properties.Settings.Default[engineParam];
-                            viz.enable = (bool)engineInfo;
-
-                            viz.id = i;
-                            viz.systemIP = System.Net.IPAddress.Parse(viz.IPAddress);
-                            */
-
-                            vizEngines.Add(viz);
-
-                            vizClientSockets.Add(new ClientSocket(viz.systemIP, viz.Port));
-                            vizClientSockets[i - 1].DataReceived += vizDataReceived;
-                            vizClientSockets[i - 1].ConnectionStatusChanged += vizConnectionStatusChanged;
-
-
-                            // set viz address labels
-                            switch (i)
+                            engineData = row[engineStr + "Name"].ToString() ?? "";
+                            if (engineData != null)
                             {
-                                case 1:
-                                    gbNamelbl1.Text = viz.EngineName;
-                                    gbIPlbl1.Text = "IP: " + viz.IPAddress;
-                                    gbPortlbl1.Text = "Port: " + viz.Port.ToString();
-                                    gbViz1.Visible = true;
-                                    gbViz1.Enabled = viz.enable;
-                                    gbEng1.Visible = true;
-                                    gbEng1.Enabled = viz.enable;
-                                    IPs[0] = viz.IPAddress;
-                                    enables[0] = viz.enable;
-                                    if (viz.enable)
-                                        vizClientSockets[i - 1].Connect();
-                                    break;
 
-                                case 2:
-                                    gbNamelbl2.Text = viz.EngineName;
-                                    gbIPlbl2.Text = "IP: " + viz.IPAddress;
-                                    gbPortlbl2.Text = "Port: " + viz.Port.ToString();
-                                    gbViz2.Visible = true;
-                                    gbViz2.Enabled = viz.enable;
-                                    gbEng2.Visible = true;
-                                    gbEng2.Enabled = viz.enable;
-                                    IPs[1] = viz.IPAddress;
-                                    enables[1] = viz.enable;
-                                    if (viz.enable)
-                                        vizClientSockets[i - 1].Connect();
-                                    break;
 
-                                case 3:
-                                    gbNamelbl3.Text = viz.EngineName;
-                                    gbIPlbl3.Text = "IP: " + viz.IPAddress;
-                                    gbPortlbl3.Text = "Port: " + viz.Port.ToString();
-                                    gbViz3.Visible = true;
-                                    gbViz3.Enabled = viz.enable;
-                                    gbEng3.Visible = true;
-                                    gbEng3.Enabled = viz.enable;
-                                    IPs[2] = viz.IPAddress;
-                                    enables[2] = viz.enable;
-                                    if (viz.enable)
-                                        vizClientSockets[i - 1].Connect();
-                                    break;
+                                viz.EngineName = engineData;
+                                viz.IPAddress = GetIP(engineData);
+                                viz.Port = Convert.ToInt32(row[engineStr + "Port"] ?? 0);
+                                viz.enable = Convert.ToBoolean(row[engineStr + "Enable"] ?? 0);
+                                viz.id = i;
+                                viz.systemIP = System.Net.IPAddress.Parse(viz.IPAddress);
 
-                                case 4:
-                                    gbNamelbl4.Text = viz.EngineName;
-                                    gbIPlbl4.Text = "IP: " + viz.IPAddress;
-                                    gbPortlbl4.Text = "Port: " + viz.Port.ToString();
-                                    gbViz4.Visible = true;
-                                    gbViz4.Enabled = viz.enable;
-                                    gbEng4.Visible = true;
-                                    gbEng4.Enabled = viz.enable;
-                                    IPs[3] = viz.IPAddress;
-                                    enables[3] = viz.enable;
-                                    if (viz.enable)
-                                        vizClientSockets[i - 1].Connect();
-                                    break;
 
-                                case 5:
-                                    gbIPlbl5.Text = "IP: " + viz.IPAddress;
-                                    gbPortlbl5.Text = "Port: " + viz.Port.ToString();
-                                    gbViz5.Visible = true;
-                                    gbViz5.Enabled = viz.enable;
-                                    if (viz.enable)
-                                        vizClientSockets[i - 1].Connect();
-                                    break;
+                                /*
+                                engineInfo = Properties.Settings.Default[engineParam];
+                                viz.IPAddress = (string)engineInfo;
 
-                                case 6:
-                                    gbIPlbl6.Text = "IP: " + viz.IPAddress;
-                                    gbPortlbl6.Text = "Port: " + viz.Port.ToString();
-                                    gbViz6.Visible = true;
-                                    gbViz6.Enabled = viz.enable;
-                                    if (viz.enable)
-                                        vizClientSockets[i - 1].Connect();
-                                    break;
+                                engineParam = $"Engine{i}_Port";
+                                engineInfo = Properties.Settings.Default[engineParam];
+                                viz.Port = (int)engineInfo;
 
+                                engineParam = $"Engine{i}_Enable";
+                                engineInfo = Properties.Settings.Default[engineParam];
+                                viz.enable = (bool)engineInfo;
+
+                                viz.id = i;
+                                viz.systemIP = System.Net.IPAddress.Parse(viz.IPAddress);
+                                */
+
+                                vizEngines.Add(viz);
+
+                                vizClientSockets.Add(new ClientSocket(viz.systemIP, viz.Port));
+                                vizClientSockets[i - 1].DataReceived += vizDataReceived;
+                                vizClientSockets[i - 1].ConnectionStatusChanged += vizConnectionStatusChanged;
+
+
+                                // set viz address labels
+                                switch (i)
+                                {
+                                    case 1:
+                                        gbNamelbl1.Text = viz.EngineName;
+                                        gbIPlbl1.Text = "IP: " + viz.IPAddress;
+                                        gbPortlbl1.Text = "Port: " + viz.Port.ToString();
+                                        gbViz1.Visible = true;
+                                        gbViz1.Enabled = viz.enable;
+                                        gbEng1.Visible = true;
+                                        gbEng1.Enabled = viz.enable;
+                                        IPs[0] = viz.IPAddress;
+                                        enables[0] = viz.enable;
+                                        if (viz.enable)
+                                            vizClientSockets[i - 1].Connect();
+                                        break;
+
+                                    case 2:
+                                        gbNamelbl2.Text = viz.EngineName;
+                                        gbIPlbl2.Text = "IP: " + viz.IPAddress;
+                                        gbPortlbl2.Text = "Port: " + viz.Port.ToString();
+                                        gbViz2.Visible = true;
+                                        gbViz2.Enabled = viz.enable;
+                                        gbEng2.Visible = true;
+                                        gbEng2.Enabled = viz.enable;
+                                        IPs[1] = viz.IPAddress;
+                                        enables[1] = viz.enable;
+                                        if (viz.enable)
+                                            vizClientSockets[i - 1].Connect();
+                                        break;
+
+                                    case 3:
+                                        gbNamelbl3.Text = viz.EngineName;
+                                        gbIPlbl3.Text = "IP: " + viz.IPAddress;
+                                        gbPortlbl3.Text = "Port: " + viz.Port.ToString();
+                                        gbViz3.Visible = true;
+                                        gbViz3.Enabled = viz.enable;
+                                        gbEng3.Visible = true;
+                                        gbEng3.Enabled = viz.enable;
+                                        IPs[2] = viz.IPAddress;
+                                        enables[2] = viz.enable;
+                                        if (viz.enable)
+                                            vizClientSockets[i - 1].Connect();
+                                        break;
+
+                                    case 4:
+                                        gbNamelbl4.Text = viz.EngineName;
+                                        gbIPlbl4.Text = "IP: " + viz.IPAddress;
+                                        gbPortlbl4.Text = "Port: " + viz.Port.ToString();
+                                        gbViz4.Visible = true;
+                                        gbViz4.Enabled = viz.enable;
+                                        gbEng4.Visible = true;
+                                        gbEng4.Enabled = viz.enable;
+                                        IPs[3] = viz.IPAddress;
+                                        enables[3] = viz.enable;
+                                        if (viz.enable)
+                                            vizClientSockets[i - 1].Connect();
+                                        break;
+
+                                    case 5:
+                                        gbIPlbl5.Text = "IP: " + viz.IPAddress;
+                                        gbPortlbl5.Text = "Port: " + viz.Port.ToString();
+                                        gbViz5.Visible = true;
+                                        gbViz5.Enabled = viz.enable;
+                                        if (viz.enable)
+                                            vizClientSockets[i - 1].Connect();
+                                        break;
+
+                                    case 6:
+                                        gbIPlbl6.Text = "IP: " + viz.IPAddress;
+                                        gbPortlbl6.Text = "Port: " + viz.Port.ToString();
+                                        gbViz6.Visible = true;
+                                        gbViz6.Enabled = viz.enable;
+                                        if (viz.enable)
+                                            vizClientSockets[i - 1].Connect();
+                                        break;
+
+                                }
+
+                                if (i == 4)
+                                    done = true;
+                            }
+                        }
+                        catch
+                        {
+                            // Next engine not found
+                            done = true;
+                        }
+                    }
+                    //ConnectToVizEngines();
+
+                }
+
+                // get tab enables and mode and network
+                //cmdStr = $"SELECT * FROM FE_TabConfig WHERE Config = '{configName}'";
+                DataTable dt = new DataTable();
+                //dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+                string tabName;
+                bool enab;
+
+                for (int tabNo = 0; tabNo < 6; tabNo++)
+                {
+                    switch (tabNo)
+                    {
+                        case 0:
+                            tabName = "RaceBoards";
+                            enab = RBenable;
+                            break;
+                        case 1:
+                            tabName = "VoterAnalysis";
+                            enab = VAenable;
+                            break;
+                        case 2:
+                            tabName = "BOP";
+                            enab = BOPenable;
+                            break;
+                        case 3:
+                            tabName = "Referendums";
+                            enab = REFenable;
+                            break;
+                        case 4:
+                            tabName = "SidePanel";
+                            enab = SPenable;
+                            break;
+                        case 5:
+                            tabName = "Maps";
+                            enab = MAPenable;
+                            break;
+                        default:
+                            tabName = "RaceBoards";
+                            enab = RBenable;
+                            break;
+                    }
+
+
+                    cmdStr = $"SELECT * FROM FE_TabConfig WHERE Config = '{configName}' AND TabName = '{tabName}'";
+                    dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+
+                    string tabN;
+                    TabDefinitionModel td = new TabDefinitionModel();
+                    List<TabOutputDef> tod = new List<TabOutputDef>();
+
+                    string sceneCode;
+                    string sceneName = "";
+                    int engine = 0;
+                    bool[] outEng = new bool[4] { false, false, false, false };
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (enab)
+                            applicationLogComments += $"{tabName}:";
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            row = dt.Rows[i];
+
+                            tabN = row["TabName"].ToString() ?? "";
+                            engine = Convert.ToInt32(row["EngineNumber"] ?? 0);
+                            sceneCode = row["SceneCode"].ToString() ?? "";
+
+                            TabOutputDef to = new TabOutputDef();
+                            to.engine = engine;
+                            to.sceneCode = sceneCode;
+                            to.sceneName = GetScenePath(sceneCode);
+                            tod.Add(to);
+                            sceneName += $"{engine}: {GetSceneName(sceneCode)}; ";
+                            outEng[engine - 1] = true;
+                            applicationLogComments += $" {engine}: {sceneCode}";
+
+                        }
+                        td.tabName = tabName;
+                        td.showTab = enab;
+                        //td.outputEngine[engine - 1] = true;
+                        td.outputEngine = outEng;
+                        //td.engineSceneDef += $"{engine}: {sceneName}; ";
+                        td.engineSceneDef = sceneName;
+                        td.TabOutput.AddRange(tod);
+                        tabConfig.Add(td);
+                        if (enab)
+                            applicationLogComments += $"; ";
+
+                    }
+                    else
+                    {
+                        //TabOutputDef to = new TabOutputDef();
+                        td.tabName = tabName;
+                        td.showTab = enab;
+                        td.engineSceneDef = "";
+                        td.TabOutput.AddRange(tod);
+                        tabConfig.Add(td);
+
+                    }
+
+                }
+
+                SetOutput(0);
+
+
+                // Initial load all scenes
+                for (int index = 0; index < 6; index++)
+                {
+                    for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
+                    {
+                        string scenename = tabConfig[index].TabOutput[i].sceneName;
+                        int engine = tabConfig[index].TabOutput[i].engine;
+                        if (vizEngines.Count > 0)
+                        {
+                            if (vizEngines[engine - 1].enable)
+                            {
+                                //LoadScene(scenename, engine);
+                                InitialLoadScene(scenename, engine);
                             }
 
-                            if (i == 4)
-                                done = true;
                         }
                     }
-                    catch
+                    if (index == 1 && takeIn == true)
                     {
-                        // Next engine not found
-                        done = true;
+                        SendCmdToViz("TRIGGER_ACTION", "TAKEOUT", index);
+                        takeIn = false;
                     }
                 }
-                //ConnectToVizEngines();
-
-            }
-
-            // get tab enables and mode and network
-            //cmdStr = $"SELECT * FROM FE_TabConfig WHERE Config = '{configName}'";
-            DataTable dt = new DataTable();
-            //dt = GetDBData(cmdStr, ElectionsDBConnectionString);
-            string tabName;
-            bool enab;
-
-            for (int tabNo = 0; tabNo < 6; tabNo++)
-            {
-                switch (tabNo)
-                {
-                    case 0:
-                        tabName = "RaceBoards";
-                        enab = RBenable;
-                        break;
-                    case 1:
-                        tabName = "VoterAnalysis";
-                        enab = VAenable;
-                        break;
-                    case 2:
-                        tabName = "BOP";
-                        enab = BOPenable;
-                        break;
-                    case 3:
-                        tabName = "Referendums";
-                        enab = REFenable;
-                        break;
-                    case 4:
-                        tabName = "SidePanel";
-                        enab = SPenable;
-                        break;
-                    case 5:
-                        tabName = "Maps";
-                        enab = MAPenable;
-                        break;
-                        default:
-                        tabName = "RaceBoards";
-                        enab = RBenable;
-                        break;
-                }
-
-
-                cmdStr = $"SELECT * FROM FE_TabConfig WHERE Config = '{configName}' AND TabName = '{tabName}'";
-                dt = GetDBData(cmdStr, ElectionsDBConnectionString);
-
-                string tabN;
-                TabDefinitionModel td = new TabDefinitionModel();
-                List<TabOutputDef> tod = new List<TabOutputDef>();
-
-                string sceneCode;
-                string sceneName = "";
-                int engine = 0;
-                bool[] outEng = new bool[4] { false, false, false, false };
-
-                if (dt.Rows.Count > 0)
-                {
-                    if (enab)
-                        applicationLogComments += $"{tabName}:";
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        row = dt.Rows[i];
-
-                        tabN = row["TabName"].ToString() ?? "";
-                        engine = Convert.ToInt32(row["EngineNumber"] ?? 0);
-                        sceneCode = row["SceneCode"].ToString() ?? "";
-
-                        TabOutputDef to = new TabOutputDef();
-                        to.engine = engine;
-                        to.sceneCode = sceneCode;
-                        to.sceneName = GetScenePath(sceneCode);
-                        tod.Add(to);
-                        sceneName += $"{engine}: {GetSceneName(sceneCode)}; ";
-                        outEng[engine - 1] = true;
-                        applicationLogComments += $" {engine}: {sceneCode}";
-
-                    }
-                    td.tabName = tabName;
-                    td.showTab = enab;
-                    //td.outputEngine[engine - 1] = true;
-                    td.outputEngine = outEng;
-                    //td.engineSceneDef += $"{engine}: {sceneName}; ";
-                    td.engineSceneDef = sceneName;
-                    td.TabOutput.AddRange(tod);
-                    tabConfig.Add(td);
-                    if (enab)
-                        applicationLogComments += $"; ";
-
-                }
-                else
-                {
-                    //TabOutputDef to = new TabOutputDef();
-                    td.tabName = tabName;
-                    td.showTab = enab;
-                    td.engineSceneDef = "";
-                    td.TabOutput.AddRange(tod);
-                    tabConfig.Add(td);
-
-                }
-
-            }
-
-            SetOutput(0);
-
-
-            // Initial load all scenes
-            for (int index = 0; index < 6; index++)
-            {
-                for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
-                {
-                    string scenename = tabConfig[index].TabOutput[i].sceneName;
-                    int engine = tabConfig[index].TabOutput[i].engine;
-                    if (vizEngines.Count > 0)
-                    {
-                        if (vizEngines[engine - 1].enable)
-                        {
-                            //LoadScene(scenename, engine);
-                            InitialLoadScene(scenename, engine);
-                        }
-
-                    }
-                }
-                if (index == 1 && takeIn == true)
-                {
-                    SendCmdToViz("TRIGGER_ACTION", "TAKEOUT", index);
-                    takeIn = false;
-                }
-            }
 
 
 
-            // Make entry into applications log
-            ApplicationSettingsFlagsAccess applicationSettingsFlagsAccess = new ApplicationSettingsFlagsAccess();
+                // Make entry into applications log
+                ApplicationSettingsFlagsAccess applicationSettingsFlagsAccess = new ApplicationSettingsFlagsAccess();
 
-            // Post application log entry
-            applicationSettingsFlagsAccess.ElectionsDBConnectionString = ElectionsDBConnectionString;
-            applicationSettingsFlagsAccess.PostApplicationLogEntry(
-                Properties.Settings.Default.ApplicationName,
-                Properties.Settings.Default.ApplicationName,
-                hostName,
-                ipAddress,
-                enables[0],
-                IPs[0],
-                enables[1],
-                IPs[1],
-                "Launched application",
-                Convert.ToString(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version),
-                Properties.Settings.Default.ApplicationID,
-                applicationLogComments,
-                System.DateTime.Now,
-                enables[2],
-                IPs[2],
-                enables[3],
-                IPs[3]
+                // Post application log entry
+                applicationSettingsFlagsAccess.ElectionsDBConnectionString = ElectionsDBConnectionString;
+                applicationSettingsFlagsAccess.PostApplicationLogEntry(
+                    Properties.Settings.Default.ApplicationName,
+                    Properties.Settings.Default.ApplicationName,
+                    hostName,
+                    ipAddress,
+                    enables[0],
+                    IPs[0],
+                    enables[1],
+                    IPs[1],
+                    "Launched application",
+                    Convert.ToString(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version),
+                    Properties.Settings.Default.ApplicationID,
+                    applicationLogComments,
+                    System.DateTime.Now,
+                    enables[2],
+                    IPs[2],
+                    enables[3],
+                    IPs[3]
 
-            );
+                );
 
             }
             catch (Exception ex)
@@ -1321,7 +1331,11 @@ namespace GUILayer.Forms
                 stackType += stackTypeOffset;
 
                 if (dataModeSelect.SelectedIndex == 1)
+                {
+                    if (Network == "FBC")
+                        stackType -= stackTypeOffset;
                     GetVoterAnalysisGridData();
+                }
 
                 if (dataModeSelect.SelectedIndex == 5)
                     GetVoterAnalysisMapGridData();
@@ -1466,7 +1480,7 @@ namespace GUILayer.Forms
                     txtNextPollClosingTime.Text = "N/A";
                 }
 
-                
+
                 // Setup the available races grid
                 availableRacesGrid.AutoGenerateColumns = false;
                 var availableRacesGridDataSource = new BindingSource(availableRaces, null);
@@ -2145,10 +2159,10 @@ namespace GUILayer.Forms
 
                     DialogResult dr = new DialogResult();
                     //if (stackType == 50)
-                        //stackType = 10;
+                    //stackType = 10;
 
                     FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset);
-                    
+
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -2178,7 +2192,7 @@ namespace GUILayer.Forms
 
 
                         StacksCollection stacksCollection = new StacksCollection();
-                        
+
                         if (multiplay)
                         {
                             stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -2357,7 +2371,7 @@ namespace GUILayer.Forms
                 DialogResult dr = new DialogResult();
 
                 //if (stackType == 50)
-                    //stackType = 10;
+                //stackType = 10;
 
                 //frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
                 frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset);
@@ -3661,7 +3675,7 @@ namespace GUILayer.Forms
                 newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
                 selectedPoll = VA_Qdata_Map[currentPollIndex];
                 newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
-                
+
                 newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
                 newStackElement.Stack_Element_Description = "Voter Analysis Maps";
                 // Get the template ID for the specified element type
@@ -4546,6 +4560,10 @@ namespace GUILayer.Forms
                             TakeRaceBoards();
                             break;
 
+                        case (short)DataTypes.Voter_Analysis_Maps:
+                            TakeVoterAnalysisMaps();
+                            break;
+
                     }
                     lastIndex = currentRaceIndex;
                 }
@@ -4666,41 +4684,41 @@ namespace GUILayer.Forms
             try
             {
 
-            string vizCmd = "";
+                string vizCmd = "";
 
-            //int index = dataModeSelect.SelectedIndex;
-            int index = dataType;
+                //int index = dataModeSelect.SelectedIndex;
+                int index = dataType;
 
-            for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
-            {
-                string sceneName = tabConfig[index].TabOutput[i].sceneName;
-                int engine = tabConfig[index].TabOutput[i].engine;
-
-                // load scene if last scene loaded on this viz is not = sceneName
-                if (lastSceneLoaded[engine - 1] != sceneName)
-                    LoadScene(sceneName, engine);
-
-
-                if (index == 0)
-                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
-
-                if (index == 1)
-                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}POLL_DATA{quot} {cmd}{term}";
-
-                if (index == 2)
-                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}BOP_DATA{quot} {cmd}{term}";
-
-                if (index == 3)
-                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}REFERENDUM_DATA{quot} {cmd}{term}";
-
-                if (index == 4)
-                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
-
-                if (vizEngines[engine - 1].enable)
+                for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
-                    byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
+                    string sceneName = tabConfig[index].TabOutput[i].sceneName;
+                    int engine = tabConfig[index].TabOutput[i].engine;
+
+                    // load scene if last scene loaded on this viz is not = sceneName
+                    if (lastSceneLoaded[engine - 1] != sceneName)
+                        LoadScene(sceneName, engine);
+
+
+                    if (index == 0)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
+
+                    if (index == 1)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}POLL_DATA{quot} {cmd}{term}";
+
+                    if (index == 2)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}BOP_DATA{quot} {cmd}{term}";
+
+                    if (index == 3)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}REFERENDUM_DATA{quot} {cmd}{term}";
+
+                    if (index == 4)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
+
                     if (vizEngines[engine - 1].enable)
-                        vizClientSockets[engine - 1].Send(bCmd);
+                    {
+                        byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
+                        if (vizEngines[engine - 1].enable)
+                            vizClientSockets[engine - 1].Send(bCmd);
                         listBox2.Items.Add(vizCmd);
                         listBox2.SelectedIndex = listBox2.Items.Count - 1;
 
@@ -4715,18 +4733,48 @@ namespace GUILayer.Forms
             }
 
         }
-        private void SendToViz2(string sceneName, string cmd, int EngineNo)
+
+        private void SendToViz2(string cmd, int dataType)
         {
+            try
+            {
 
-            string vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
+                string vizCmd = "";
 
-            byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
-            vizClientSockets[EngineNo - 1].Send(bCmd);
-            listBox2.Items.Add(vizCmd);
-            listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                //int index = dataModeSelect.SelectedIndex;
+                int index = dataType;
+
+                for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
+                {
+                    string sceneName = tabConfig[index].TabOutput[i].sceneName;
+                    int engine = tabConfig[index].TabOutput[i].engine;
+
+                    // load scene if last scene loaded on this viz is not = sceneName
+                    if (lastSceneLoaded[engine - 1] != sceneName)
+                        LoadScene(sceneName, engine);
+
+
+                    vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {cmd}";
+
+                    if (vizEngines[engine - 1].enable)
+                    {
+                        byte[] bCmd = Encoding.UTF8.GetBytes(vizCmd);
+                        if (vizEngines[engine - 1].enable)
+                            vizClientSockets[engine - 1].Send(bCmd);
+                        listBox2.Items.Add(vizCmd);
+                        listBox2.SelectedIndex = listBox2.Items.Count - 1;
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                listBox2.Items.Add($"Send Cmd Error: {ex}");
+
+            }
 
         }
-
         private void LiveUpdateTimer_Tick(object sender, EventArgs e)
         {
             TakeLast();
@@ -5442,7 +5490,7 @@ namespace GUILayer.Forms
 
                 BOPData.Total = Convert.ToInt16(row["TOTAL_COUNT"]);
 
-                
+
                 BOPData.DemNew = Convert.ToInt16(row["DEM_COUNT"]);
                 BOPData.RepNew = Convert.ToInt16(row["GOP_COUNT"]);
                 BOPData.IndNew = Convert.ToInt16(row["IND_COUNT"]);
@@ -5510,10 +5558,10 @@ namespace GUILayer.Forms
 
         public string GetBOPGainMapKeyStr(BOPGainModel BOPData)
         {
-            
+
             //(for net gain)
             //BOP_DATA = NET_GAIN~HouseNums | SenNums
-            
+
             //BOP_DATA = NETGAIN^NEW~House Rep Delta|House Dem Delta|House Ind Delta|Senate Rep Delta|Senate Dem Delta|Senate Ind Delta|
             string MapKeyStr;
 
@@ -5624,10 +5672,215 @@ namespace GUILayer.Forms
 
 
         }
+        public void TakeVoterAnalysisMaps()
+        {
+            //Get the selected race list object
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex;
+            string VA_Data_Id = stackElements[currentRaceIndex].ExitPoll_ShortMxLabel;
+            string r_type = stackElements[currentRaceIndex].ExitPoll_Suffix;
+            int seDataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
+
+            List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
+            mapdata = GetVoterAnalysisMapData(VA_Data_Id);
+            int mapID = mapdata[0].MapId;
+
+            int nat = 0;
+
+            for (int i = 0; i < mapdata.Count; i++)
+            {
+                if (mapdata[i].State == "US")
+                {
+                    nat = mapdata[i].Percent;
+                }
+            }
+            
+            List<VoterAnalysisMapLegendModel> mapLegend = new List<VoterAnalysisMapLegendModel>();
+            mapLegend = GetVoterAnalysisMapLegendData(mapID);
+
+            SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            connection1.Open();
+            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates2 {quot}{VA_Data_Id}{quot}", connection1);
+            SqlDataReader sqlData = cmd1.ExecuteReader();
+
+            List<string> missingStateList = new List<string>();
+            while (sqlData.Read())
+            {
+                missingStateList.Add(sqlData[0].ToString());
+            }
+            sqlData.Close();
+
+
+            // Final assembly of command strings with map-keys
+            
+            
+            string outStr = "";
+            //vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}BOP_DATA{quot} {cmd}{term}";
+
+            outStr = GetVoterAnalysisMapDataMapKeyStr(mapdata,missingStateList);
+            //string mapDataCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_DATA{quot} {outStr}";
+            string mapDataCommand = $"{quot}VOTER_DATA{quot} {outStr}{term}";
+            SendToViz2(mapDataCommand, seDataType);
+
+            outStr = GetVoterAnalysisMapLegendMapKeyStr(mapLegend);
+            //string legendDataCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_INFO{quot} {outStr}";
+            string legendDataCommand = $"{quot}VOTER_INFO{quot} {outStr}{term}";
+            SendToViz2(legendDataCommand, seDataType);
+
+            outStr = $"{nat}%";
+            //string nationalDataCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_BOX{quot} {outStr}";
+            string nationalDataCommand = $"{quot}VOTER_BOX{quot} {outStr}{term}";
+            SendToViz2(nationalDataCommand, seDataType);
+
+            outStr = $"{mapLegend[0].Title}";
+            //string titleCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_TITLE{quot} {outStr}";
+            string titleCommand = $"{quot}VOTER_TITLE{quot} {outStr}{term}";
+            SendToViz2(titleCommand, seDataType);
+
+
+
+        }
+
+        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id)
+        {
+            // Get data for newly selected map - will want to do this just in time
+            SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            connection1.Open();
+            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData2 {quot}{VA_Data_Id}{quot}", connection1);
+            cmd1.CommandType = CommandType.Text;
+
+            SqlDataReader sqlData1 = cmd1.ExecuteReader();
+            
+            DataTable dt1 = new DataTable();
+            
+            dt1.Load(sqlData1);
+            
+            List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
+            
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                VoterAnalysisMapDataModel md = new VoterAnalysisMapDataModel();
+                DataRow row;
+
+                row = dt1.Rows[i];
+                md.State = row["State"].ToString().Trim();
+                md.Percent = Convert.ToInt32(row["Percent"]);
+                md.RowNumber = Convert.ToInt32(row["RowNumber"]);
+                md.RowLabel = row["RowLabel"].ToString().Trim();
+                md.MapId = Convert.ToInt32(row["MapID"]);
+                md.Color = Convert.ToInt32(row["Color"]);
+                md.Position = Convert.ToInt32(row["Position"]);
+
+                mapdata.Add(md);
+
+            }
+
+            return mapdata;
+        }
+
+        public List<VoterAnalysisMapLegendModel> GetVoterAnalysisMapLegendData(int mapID)
+        {
+            // Get data for newly selected map - will want to do this just in time
+            SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            connection1.Open();
+            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapLegend {mapID}", connection1);
+            cmd1.CommandType = CommandType.Text;
+
+            SqlDataReader sqlData1 = cmd1.ExecuteReader();
+
+            DataTable dt1 = new DataTable();
+            
+            dt1.Load(sqlData1);
+            
+            List<VoterAnalysisMapLegendModel> mapdata = new List<VoterAnalysisMapLegendModel>();
+
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                VoterAnalysisMapLegendModel md = new VoterAnalysisMapLegendModel();
+                DataRow row;
+
+                row = dt1.Rows[i];
+                md.Title = row["Title"].ToString().Trim();
+                md.RowNumber = Convert.ToInt32(row["RowNumber"]);
+                md.RowColor = Convert.ToInt32(row["RowColor"]);
+                md.RowLabel = row["RowLabel"].ToString().Trim();
+                
+                mapdata.Add(md);
+
+            }
+
+            return mapdata;
+        }
+
+        public string GetVoterAnalysisMapDataMapKeyStr(List<VoterAnalysisMapDataModel> mapData, List<string> missingStateList)
+        {
+
+            string outStr = string.Empty;
+            
+            // Build the base map data string
+            if (mapData.Count > 0)
+            {
+                for (int i = 0; i < mapData.Count; i++)
+                {
+                    // Append delimiter
+                    if (i > 0)
+                    {
+                        outStr += "|";
+                    }
+                    //Build data string
+                    outStr += $"{mapData[i].State}^{mapData[i].Color}^{mapData[i].Position}";
+
+                }
+            }
+            // Add the missing states so they get the neutral color
+            if (missingStateList.Count > 0)
+            {
+                for (int i = 0; i < missingStateList.Count; i++)
+                {
+                    //Build data string - for all missing states set color and extrusion to 0 for default
+                    outStr += $"|{missingStateList[i]}^0^0";
+                }
+            }
+
+            return outStr;
+
+        }
+        public string GetVoterAnalysisMapLegendMapKeyStr(List<VoterAnalysisMapLegendModel> mapLegend)
+        {
+
+            string outStr = string.Empty;
+
+            
+            // Legend data string
+            if (mapLegend.Count > 0)
+            {
+                for (int i = 0; i < mapLegend.Count; i++)
+                {
+                    // Append delimiter
+                    if (i > 0)
+                    {
+                        outStr += "|";
+                    }
+                    // Build data for string
+                    // Note that legend is numbered from top to bottom but values are assigned from bottom to top
+                    outStr += $"{mapLegend[mapLegend.Count - i - 1].RowNumber}^{mapLegend[i].RowColor}^{mapLegend[i].RowLabel}";
+                    
+                }
+                // Send blanks for unused legend rows
+                if (mapLegend.Count == 4)
+                {
+                    outStr += "|5^0^NO STATE RACE";
+                }
+                else if (mapLegend.Count == 3)
+                {
+                    outStr += "|4^0^NO STATE RACE|5^^";
+                }
+            }
+            return outStr;
+
+        }
 
         public string GetVoterAnalysisMapKeyStr(BindingList<VoterAnalysisDataModel> VA_Data)
         {
-
 
             //SEND SCENE* SceneName *MAP SET_STRING_ELEMENT "POLL_DATA" 
             // NumResponses|Title|Question|Issue_State|
@@ -5755,10 +6008,10 @@ namespace GUILayer.Forms
             dgvVoterAnalysisMap.DataSource = VA_Qdata_Map;
             cnt = VA_Qdata_Map.Count;
 
-            dgvVoterAnalysisMap.Columns[0].Width = 450;
-            dgvVoterAnalysisMap.Columns[1].Width = 450;
+            dgvVoterAnalysisMap.Columns[0].Width = 900;
+            dgvVoterAnalysisMap.Columns[1].Width = 400;
             dgvVoterAnalysisMap.Columns[2].Width = 80;
-            dgvVoterAnalysisMap.Columns[3].Width = 120;
+            dgvVoterAnalysisMap.Columns[3].Width = 150;
             dgvVoterAnalysisMap.Columns[4].Width = 30;
 
             dgvVoterAnalysisMap.Columns[0].HeaderText = "Answer";
@@ -5891,6 +6144,16 @@ namespace GUILayer.Forms
             int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
             paddedBounds.Offset(1, yOffset);
             TextRenderer.DrawText(e.Graphics, page.Text, Font, paddedBounds, page.ForeColor);
+        }
+
+        private void dgvVoterAnalysisMap_DoubleClick(object sender, EventArgs e)
+        {
+            AddVoterAnalysisMap();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            AddVoterAnalysisMap();
         }
     }
 

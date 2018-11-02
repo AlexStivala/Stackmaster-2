@@ -81,6 +81,7 @@ namespace LogicLayer.Collections
 
                     if (newAvailableRace.Race_Office.Trim() == "S2")
                         newAvailableRace.Race_Description += " (S2)";
+
                     availableRaces.Add(newAvailableRace);
                 }
             }

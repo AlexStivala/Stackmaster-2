@@ -93,6 +93,16 @@ namespace GUILayer.Forms
         public string[] IPs = new string[4] { string.Empty, string.Empty, string.Empty, string.Empty };
         public bool[] enables = new bool[4] { false, false, false, false };
         public bool MindyMode = false;
+        public bool VictoriaMode = false;
+
+
+        public bool autoCalledRacesEnable;
+        public bool autoCalledRacesByOffice;
+        public bool President;
+        public bool Senate;
+        public bool House;
+        public bool Governor;
+
 
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
@@ -377,6 +387,7 @@ namespace GUILayer.Forms
             currentShowName = Properties.Settings.Default.CurrentShowName;
             currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
             MindyMode = Properties.Settings.Default.MindyMode;
+            VictoriaMode = Properties.Settings.Default.VictoriaMode;
 
 
             //string sceneDescription = Properties.Settings.Default.Scene_Name;
@@ -390,26 +401,47 @@ namespace GUILayer.Forms
             lblHostName.Text = hostName;
 
 
-            bool useBackupServer = false;
-            string primaryServer = "enygdb1";
-            string backupServer = "enygdbbk1";
+            bool useBackupServer = Properties.Settings.Default.UseBackupServer;
+            string primaryServer = Properties.Settings.Default.Server_Pri;
+            string backupServer = Properties.Settings.Default.Server_Bk;
+            string server;
 
+            if (useBackupServer)
+            {
+                server = backupServer;
+            }
+            else
+            {
+                server = primaryServer;
+            }
+            
             var builder = new SqlConnectionStringBuilder(ElectionsDBConnectionString);
+
+            builder.DataSource = server;
+
             var dataSource = builder.DataSource;
             var initCat = builder.InitialCatalog;
             var user = builder.UserID;
             var pw = builder.Password;
-
-            if (useBackupServer)
-            {
-                builder.DataSource = backupServer;
-                ElectionsDBConnectionString = builder.ConnectionString;
-            }
-
+            ElectionsDBConnectionString = builder.ConnectionString;
 
             lblDB.Text = $"{dataSource}  {initCat}";
 
+            var sbuilder = new SqlConnectionStringBuilder("");
+            sbuilder.UserID = builder.UserID;
+            sbuilder.Password = builder.Password;
+            sbuilder.DataSource = builder.DataSource;
+            sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
+            sbuilder.PersistSecurityInfo = true;
+            StacksDBConnectionString = sbuilder.ConnectionString;
 
+            var MPsbuilder = new SqlConnectionStringBuilder("");
+            MPsbuilder.UserID = builder.UserID;
+            MPsbuilder.Password = builder.Password;
+            MPsbuilder.DataSource = builder.DataSource;
+            MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
+            MPsbuilder.PersistSecurityInfo = true;
+            GraphicsDBConnectionString = MPsbuilder.ConnectionString;
 
 
             usingPrimaryMediaSequencer = true;
@@ -421,6 +453,13 @@ namespace GUILayer.Forms
             lblMediaSequencer.BackColor = System.Drawing.Color.White;
             usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
             useBackupMediaSequencerToolStripMenuItem.Checked = false;
+
+            autoCalledRacesEnable = Properties.Settings.Default.AutoCalledRacesEnable;
+            autoCalledRacesByOffice = Properties.Settings.Default.AutoCalledRacesByOffice;
+            President = Properties.Settings.Default.President;
+            Senate = Properties.Settings.Default.Senate;
+            House = Properties.Settings.Default.House;
+            Governor = Properties.Settings.Default.Governor;
 
 
             LoadConfig();
@@ -470,8 +509,7 @@ namespace GUILayer.Forms
                 bool BOPenable = Convert.ToBoolean(row["BOP"] ?? 0);
                 bool REFenable = Convert.ToBoolean(row["Referendums"] ?? 0);
                 bool SPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
-                bool MAPenable = true;
-                //bool MAPenable = Convert.ToBoolean(row["SidePanel"] ?? 0);
+                bool MAPenable = Convert.ToBoolean(row["Maps"] ?? 0);
                 builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
                 Network = row["Network"].ToString() ?? "";
 
@@ -570,6 +608,7 @@ namespace GUILayer.Forms
                     {
                         tpRaces.Enabled = false;
                     }
+
                     if (VAenable)
                     {
                         tpVoterAnalysis.Enabled = true;
@@ -578,6 +617,7 @@ namespace GUILayer.Forms
                     {
                         tpVoterAnalysis.Enabled = false;
                     }
+
                     if (BOPenable)
                     {
                         tpBalanceOfPower.Enabled = true;
@@ -586,10 +626,12 @@ namespace GUILayer.Forms
                     {
                         tpBalanceOfPower.Enabled = false;
                     }
+
                     if (REFenable)
                     {
                         tpReferendums.Enabled = true;
                     }
+
                     if (SPenable)
                     {
                         tpSidePanel.Enabled = true;
@@ -597,6 +639,24 @@ namespace GUILayer.Forms
                     else
                     {
                         tpReferendums.Enabled = false;
+                    }
+
+                    if (MAPenable)
+                    {
+                        tpMaps.Enabled = true;
+                    }
+                    else
+                    {
+                        tpMaps.Enabled = false;
+                    }
+
+                    if (VictoriaMode)
+                    {
+                        tpTicker.Enabled = true;
+                    }
+                    else
+                    {
+                        tpTicker.Enabled = false;
                     }
 
 
@@ -1178,6 +1238,13 @@ namespace GUILayer.Forms
         // Handler for change to main data mode select tab control
         private void dataModeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            if (dataModeSelect.SelectedIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
+                btnSaveStack.Enabled = false;
+            else
+                btnSaveStack.Enabled = true;
+
+
             if (dataModeSelect.SelectedTab.Text == "Race Boards")
                 tabIndex = 0;
 
@@ -2440,51 +2507,73 @@ namespace GUILayer.Forms
                     bool multiplay = loadStack.multiplayMode;
                     if (stacks.Count > 0)
                     {
-                        // Get the stack index from the dialog
-                        int currentStackIndex = stackIndex;
+                        int currentStackIndex;
 
-                        // Get the metadata for the stack
-                        StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
-
-                        // Check if operator is trying the delete the currently loaded stack and prompt
-                        if (selectedStack.StackName == stackDescription)
+                        for (int i = 0; i < loadStack.stacksSelected.Count; i++)
                         {
-                            DialogResult result1 =
-                                MessageBox.Show(
-                                    "The stack you are deleting is currently loaded. If you proceed, the stack will also be cleared. Are you sure you want to proceed?",
-                                    "Confirmation",
-                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            if (result1 == DialogResult.Yes)
-                            {
-                                // Clear the stack elements collection
-                                if (stackGrid.RowCount > 0)
-                                {
-                                    //Clear the collection
-                                    stackElements.Clear();
-                                }
 
-                                // Clear out current stack settings
-                                stackID = -1;
-                                txtStackName.Text = "None Selected";
-
-                                // Update stack entries count label
-                                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
-                            }
-                            else okToGo = false;
-                        }
-
-                        // Proceed as long as operater did not opt out
-                        if (okToGo)
-                        {
-                            stacksCollection.DeleteStack(selectedStack.ixStackID);
-
-                            // only required if stack is a multiplay stack
+                            StacksCollection stacksCollection = new StacksCollection();
                             if (multiplay)
                             {
+                                stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                                stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                            }
+                            else
+                            {
+                                stacksCollection.MainDBConnectionString = stacksDB;
+                                stackElementsCollection.MainDBConnectionString = stacksDB;
+                            }
 
-                                //New thread
-                                Task.Run(() =>
+
+
+
+                            // Get the stack index from the dialog
+                            //int currentStackIndex = stackIndex;
+                            currentStackIndex = loadStack.stacksSelected[i];
+
+
+                            // Get the metadata for the stack
+                            StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
+
+                            // Check if operator is trying the delete the currently loaded stack and prompt
+                            if (selectedStack.StackName == stackDescription)
+                            {
+                                DialogResult result1 =
+                                    MessageBox.Show(
+                                        "The stack you are deleting is currently loaded. If you proceed, the stack will also be cleared. Are you sure you want to proceed?",
+                                        "Confirmation",
+                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (result1 == DialogResult.Yes)
                                 {
+                                    // Clear the stack elements collection
+                                    if (stackGrid.RowCount > 0)
+                                    {
+                                        //Clear the collection
+                                        stackElements.Clear();
+                                    }
+
+                                    // Clear out current stack settings
+                                    stackID = -1;
+                                    txtStackName.Text = "None Selected";
+
+                                    // Update stack entries count label
+                                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                                }
+                                else okToGo = false;
+                            }
+
+                            // Proceed as long as operater did not opt out
+                            if (okToGo)
+                            {
+                                stacksCollection.DeleteStack(selectedStack.ixStackID);
+
+                                // only required if stack is a multiplay stack
+                                if (multiplay)
+                                {
+
+                                    //New thread
+                                    Task.Run(() =>
+                                    {
 
                                     // Delete from MSE
                                     string groupSelfLink = string.Empty;
@@ -2495,21 +2584,22 @@ namespace GUILayer.Forms
                                     // Check for a playlist (group) in the VDOM with the specified name & return the Alt link
                                     // Delete the group so it can be re-created
                                     string playlistDownLink = playlist.GetPlaylistDownLink(showPlaylistsDirectoryURI, currentPlaylistName);
-                                    if (playlistDownLink != string.Empty)
-                                    {
+                                        if (playlistDownLink != string.Empty)
+                                        {
                                         // Get the self link to the specified group
                                         groupSelfLink = group.GetGroupSelfLink(playlistDownLink, selectedStack.StackName);
 
                                         // Delete the group if it exists
                                         if (groupSelfLink != string.Empty)
-                                        {
-                                            group.DeleteGroup(groupSelfLink);
+                                            {
+                                                group.DeleteGroup(groupSelfLink);
+                                            }
                                         }
-                                    }
 
-                                });
+                                    });
 
 
+                                }
                             }
                         }
                     }
@@ -4796,9 +4886,14 @@ namespace GUILayer.Forms
             btnDeleteStackElement.Enabled = true;
             btnClearStack.Enabled = true;
             btnLoadStack.Enabled = true;
-            btnSaveStack.Enabled = true;
+            //btnSaveStack.Enabled = true;
             btnStackElementUp.Enabled = true;
             btnStackElementDown.Enabled = true;
+
+            if (dataModeSelect.SelectedIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
+                btnSaveStack.Enabled = false;
+            else
+                btnSaveStack.Enabled = true;
 
 
             LoopTimer.Enabled = false;
@@ -5100,7 +5195,23 @@ namespace GUILayer.Forms
                     */
 
                 }
+                else if (Network == "FBC")
+                {
 
+                    // Use FNC Headshot even for FBN for 2018 Midterms
+                    if (raceData[i].UseHeadshotFNC)
+                    {
+                        candidate.headshot = raceData[i].HeadshotPathFNC;
+                    }
+
+                    /*
+                    if (raceData[i].UseHeadshotFBN)
+                    {
+                        candidate.headshot = raceData[i].HeadshotPathFBN;
+                    }
+                    */
+
+                }
                 // filename only, no path, no extension
                 candidate.headshot = Path.GetFileNameWithoutExtension(candidate.headshot);
 
@@ -5699,7 +5810,7 @@ namespace GUILayer.Forms
 
             SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
             connection1.Open();
-            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates2 {quot}{VA_Data_Id}{quot}", connection1);
+            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates {quot}{VA_Data_Id}{quot}", connection1);
             SqlDataReader sqlData = cmd1.ExecuteReader();
 
             List<string> missingStateList = new List<string>();
@@ -5745,7 +5856,7 @@ namespace GUILayer.Forms
             // Get data for newly selected map - will want to do this just in time
             SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
             connection1.Open();
-            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData2 {quot}{VA_Data_Id}{quot}", connection1);
+            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData {quot}{VA_Data_Id}{quot}", connection1);
             cmd1.CommandType = CommandType.Text;
 
             SqlDataReader sqlData1 = cmd1.ExecuteReader();
@@ -5956,6 +6067,11 @@ namespace GUILayer.Forms
 
             stackType += stackTypeOffset;
 
+            if (tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
+                btnSaveStack.Enabled = false;
+            else
+                btnSaveStack.Enabled = true;
+
             GetVoterAnalysisGridData();
         }
 
@@ -6133,12 +6249,23 @@ namespace GUILayer.Forms
             currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
         }
 
-
+        /*
         private void dataModeSelect_DrawItem(object sender, DrawItemEventArgs e)
         {
             TabPage page = dataModeSelect.TabPages[e.Index];
             Color col = e.Index == 0 ? Color.Aqua : Color.Yellow;
             e.Graphics.FillRectangle(new SolidBrush(col), e.Bounds);
+
+            Rectangle paddedBounds = e.Bounds;
+            int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
+            paddedBounds.Offset(1, yOffset);
+            TextRenderer.DrawText(e.Graphics, page.Text, Font, paddedBounds, page.ForeColor);
+        }
+        */
+        private void dataModeSelect_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabPage page = dataModeSelect.TabPages[e.Index];
+            e.Graphics.FillRectangle(new SolidBrush(page.BackColor), e.Bounds);
 
             Rectangle paddedBounds = e.Bounds;
             int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;

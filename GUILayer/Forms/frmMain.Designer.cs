@@ -30,10 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -176,6 +175,7 @@
             this.rbSenateSP = new System.Windows.Forms.RadioButton();
             this.rbPresidentSP = new System.Windows.Forms.RadioButton();
             this.tpMaps = new System.Windows.Forms.TabPage();
+            this.button11 = new System.Windows.Forms.Button();
             this.lblMapCnt = new System.Windows.Forms.Label();
             this.dgvVoterAnalysisMap = new System.Windows.Forms.DataGridView();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -288,7 +288,6 @@
             this.LoopTimer = new System.Windows.Forms.Timer(this.components);
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button11 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -585,6 +584,7 @@
             // 
             // dataModeSelect
             // 
+            this.dataModeSelect.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.dataModeSelect.Controls.Add(this.tpRaces);
             this.dataModeSelect.Controls.Add(this.tpVoterAnalysis);
             this.dataModeSelect.Controls.Add(this.tpBalanceOfPower);
@@ -605,11 +605,11 @@
             this.tpRaces.BackColor = System.Drawing.Color.Navy;
             this.tpRaces.Controls.Add(this.RacePanel);
             this.tpRaces.Controls.Add(this.FilterPanel);
-            this.tpRaces.Location = new System.Drawing.Point(4, 38);
+            this.tpRaces.Location = new System.Drawing.Point(4, 41);
             this.tpRaces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpRaces.Name = "tpRaces";
             this.tpRaces.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpRaces.Size = new System.Drawing.Size(1021, 1180);
+            this.tpRaces.Size = new System.Drawing.Size(1021, 1177);
             this.tpRaces.TabIndex = 0;
             this.tpRaces.Text = "Race Boards";
             // 
@@ -1166,10 +1166,10 @@
             this.tpVoterAnalysis.Controls.Add(this.dgvVoterAnalysis);
             this.tpVoterAnalysis.Controls.Add(this.tcVoterAnalysis);
             this.tpVoterAnalysis.Controls.Add(this.btnAddExitPoll);
-            this.tpVoterAnalysis.Location = new System.Drawing.Point(4, 38);
+            this.tpVoterAnalysis.Location = new System.Drawing.Point(4, 41);
             this.tpVoterAnalysis.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpVoterAnalysis.Name = "tpVoterAnalysis";
-            this.tpVoterAnalysis.Size = new System.Drawing.Size(1021, 1180);
+            this.tpVoterAnalysis.Size = new System.Drawing.Size(1021, 1177);
             this.tpVoterAnalysis.TabIndex = 1;
             this.tpVoterAnalysis.Text = "Voter Analysis";
             // 
@@ -1184,26 +1184,18 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvVoterAnalysis.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1268,11 +1260,11 @@
             this.tpBalanceOfPower.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.tpBalanceOfPower.Controls.Add(this.BOPdataGridView);
             this.tpBalanceOfPower.Controls.Add(this.btnAddBalanceOfPower);
-            this.tpBalanceOfPower.Location = new System.Drawing.Point(4, 38);
+            this.tpBalanceOfPower.Location = new System.Drawing.Point(4, 41);
             this.tpBalanceOfPower.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpBalanceOfPower.Name = "tpBalanceOfPower";
             this.tpBalanceOfPower.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpBalanceOfPower.Size = new System.Drawing.Size(1021, 1180);
+            this.tpBalanceOfPower.Size = new System.Drawing.Size(1021, 1177);
             this.tpBalanceOfPower.TabIndex = 2;
             this.tpBalanceOfPower.Text = "Balance of Power";
             // 
@@ -1333,11 +1325,11 @@
             this.tpReferendums.BackColor = System.Drawing.Color.LightSkyBlue;
             this.tpReferendums.Controls.Add(this.btnAddReferendum);
             this.tpReferendums.Controls.Add(this.ReferendumsGrid);
-            this.tpReferendums.Location = new System.Drawing.Point(4, 38);
+            this.tpReferendums.Location = new System.Drawing.Point(4, 41);
             this.tpReferendums.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpReferendums.Name = "tpReferendums";
             this.tpReferendums.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpReferendums.Size = new System.Drawing.Size(1021, 1180);
+            this.tpReferendums.Size = new System.Drawing.Size(1021, 1177);
             this.tpReferendums.TabIndex = 3;
             this.tpReferendums.Text = "Referendums";
             // 
@@ -1388,10 +1380,10 @@
             this.tpSidePanel.BackColor = System.Drawing.Color.Maroon;
             this.tpSidePanel.Controls.Add(this.RaceSPPanel);
             this.tpSidePanel.Controls.Add(this.FilterSPPanel);
-            this.tpSidePanel.Location = new System.Drawing.Point(4, 38);
+            this.tpSidePanel.Location = new System.Drawing.Point(4, 41);
             this.tpSidePanel.Name = "tpSidePanel";
             this.tpSidePanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSidePanel.Size = new System.Drawing.Size(1021, 1180);
+            this.tpSidePanel.Size = new System.Drawing.Size(1021, 1177);
             this.tpSidePanel.TabIndex = 4;
             this.tpSidePanel.Text = "Side Panel";
             // 
@@ -2216,13 +2208,26 @@
             this.tpMaps.Controls.Add(this.button11);
             this.tpMaps.Controls.Add(this.lblMapCnt);
             this.tpMaps.Controls.Add(this.dgvVoterAnalysisMap);
-            this.tpMaps.Location = new System.Drawing.Point(4, 38);
+            this.tpMaps.Location = new System.Drawing.Point(4, 41);
             this.tpMaps.Name = "tpMaps";
             this.tpMaps.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMaps.Size = new System.Drawing.Size(1021, 1180);
+            this.tpMaps.Size = new System.Drawing.Size(1021, 1177);
             this.tpMaps.TabIndex = 5;
             this.tpMaps.Text = "Maps";
             this.tpMaps.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            this.button11.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
+            this.button11.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button11.Location = new System.Drawing.Point(318, 1041);
+            this.button11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(328, 92);
+            this.button11.TabIndex = 136;
+            this.button11.Text = "Add Voter Analysis";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // lblMapCnt
             // 
@@ -2236,14 +2241,14 @@
             // dgvVoterAnalysisMap
             // 
             this.dgvVoterAnalysisMap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysisMap.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysisMap.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvVoterAnalysisMap.Location = new System.Drawing.Point(13, 97);
             this.dgvVoterAnalysisMap.MultiSelect = false;
             this.dgvVoterAnalysisMap.Name = "dgvVoterAnalysisMap";
@@ -3620,19 +3625,6 @@
             this.label1.TabIndex = 137;
             this.label1.Text = "DB:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // button11
-            // 
-            this.button11.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
-            this.button11.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button11.Location = new System.Drawing.Point(318, 1041);
-            this.button11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(328, 92);
-            this.button11.TabIndex = 136;
-            this.button11.Text = "Add Voter Analysis";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // frmMain
             // 

@@ -115,7 +115,6 @@
             this.availableStacksGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.availableStacksGrid.Location = new System.Drawing.Point(21, 43);
             this.availableStacksGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.availableStacksGrid.MultiSelect = false;
             this.availableStacksGrid.Name = "availableStacksGrid";
             this.availableStacksGrid.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;

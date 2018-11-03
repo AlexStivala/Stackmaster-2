@@ -105,7 +105,7 @@ namespace LogicLayer.Collections
                     DateTime upd = Convert.ToDateTime(voterAnalysisData.Updated);
                     voterAnalysisData.r_type = r_type;
                     voterAnalysisData.VA_Data_Id = VA_Data_Id;
-                    voterAnalysisData.asOf = $"AS OF {upd.ToString("h:mm tt MM/dd/yyyy")}";
+                    voterAnalysisData.asOf = $"AS OF {upd.ToString("h:mm tt ET MM/dd/yyyy")}";
                     //voterAnalysisData.asOf = $"AS OF {upd.ToString("t d")}";
                     voterAnalysisRecords.Add(voterAnalysisData);
                 }

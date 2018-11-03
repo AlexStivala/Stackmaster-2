@@ -30,6 +30,7 @@ namespace GUILayer.Forms
         string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
         string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
         public int stackType = 0;
+        public List<int> stacksSelected = new List<int>();
 
         public bool builderOnlyMode { get; set; }
 
@@ -227,6 +228,14 @@ namespace GUILayer.Forms
                     }
 
                 }
+                for (int i = 0; i < availableStacksGrid.Rows.Count; i ++)
+                {
+                    if (availableStacksGrid.Rows[i].Selected)
+                    {
+                        stacksSelected.Add(i);
+                    }
+                }
+
             }
             catch (Exception ex)
             {

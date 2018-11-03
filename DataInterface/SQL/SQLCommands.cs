@@ -184,9 +184,9 @@ namespace DataInterface.SQL
         public static readonly string sqlGetManualExitPollQuestions = "getVDSManualFNCQuestions";
 
 
-        public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getVoterAnalysisQuestions_FullScreen";
-        public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getVoterAnalysisQuestions_Ticker";
-        public static readonly string sqlGetVoterAnalysisQuestions_Map = "getVoterAnalysisQuestions_Map";
+        public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getFE_VoterAnalysisQuestions_FullScreen";
+        public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getFE_VoterAnalysisQuestions_Ticker";
+        public static readonly string sqlGetVoterAnalysisQuestions_Map = "getFE_VoterAnalysisQuestions_Map";
 
 
         /// <summary>
@@ -302,11 +302,11 @@ namespace DataInterface.SQL
         public static readonly string sqlGetVoterAnalysisAnswerData_Tkr = "SELECT question, answer, preface, name, id, party, result_percent FROM FE_VoterAnalysisData_Ticker WHERE id > '0' AND VA_Data_Id = " +
                                                                         "@VA_Data_Id";
 
-        public static readonly string sqlGetVoterAnalysisDataFS = "getVoterAnalysisData_Fullscreen " +
+        public static readonly string sqlGetVoterAnalysisDataFS = "getFE_VoterAnalysisData_Fullscreen " +
                                                                         "@VA_Data_Id, " +
                                                                         "@r_type";
 
-        public static readonly string sqlGetVoterAnalysisDataTkr = "getVoterAnalysisData_Fullscreen " +
+        public static readonly string sqlGetVoterAnalysisDataTkr = "getFE_VoterAnalysisData_Ticker " +
                                                                         "@VA_Data_Id, " +
                                                                         "@r_type";
 

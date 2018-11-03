@@ -68,5 +68,44 @@
     <Setting Name="MindyMode" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="VictoriaMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Server_Pri" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">enygdb1</Value>
+    </Setting>
+    <Setting Name="Server_Bk" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">enygdbbk1</Value>
+    </Setting>
+    <Setting Name="MainDB" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ElectionProd</Value>
+    </Setting>
+    <Setting Name="StacksDB" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">VizStackmasterStackData</Value>
+    </Setting>
+    <Setting Name="MP_StacksDB" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">VizMultiPlayStackData</Value>
+    </Setting>
+    <Setting Name="AutoCalledRacesByOffice" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="President" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Senate" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="House" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Governor" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UseBackupServer" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AutoCalledRacesEnable" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

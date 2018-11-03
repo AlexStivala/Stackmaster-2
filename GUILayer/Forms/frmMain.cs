@@ -26,6 +26,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Configuration;
 
 // Required for implementing logging to status bar
 
@@ -95,15 +96,16 @@ namespace GUILayer.Forms
         public bool MindyMode = false;
         public bool VictoriaMode = false;
 
-
+        public bool autoCalledRacesActive;
         public bool autoCalledRacesEnable;
         public bool autoCalledRacesByOffice;
         public bool President;
         public bool Senate;
         public bool House;
         public bool Governor;
-
-
+        public List<string> autoOfc = new List<string>();
+        public int acrIndx = -1;
+        
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
 
@@ -456,13 +458,26 @@ namespace GUILayer.Forms
 
             autoCalledRacesEnable = Properties.Settings.Default.AutoCalledRacesEnable;
             autoCalledRacesByOffice = Properties.Settings.Default.AutoCalledRacesByOffice;
+
             President = Properties.Settings.Default.President;
+            if (President)
+                autoOfc.Add("P");
+
             Senate = Properties.Settings.Default.Senate;
+            if (Senate)
+                autoOfc.Add("S");
+
             House = Properties.Settings.Default.House;
+            if (House)
+                autoOfc.Add("H");
+
             Governor = Properties.Settings.Default.Governor;
+            if (Governor)
+                autoOfc.Add("G");
 
+            cbAutoCalledRaces.Enabled = autoCalledRacesEnable;
 
-            LoadConfig();
+                LoadConfig();
 
         }
         private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -513,6 +528,10 @@ namespace GUILayer.Forms
                 builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
                 Network = row["Network"].ToString() ?? "";
 
+                //bool useBackup = Convert.ToBoolean(row["useBackup"] ?? 0);
+                //UpdateSetting("UseBackupServer", useBackup);
+
+
                 if (Network == "FNC")
                     stackTypeOffset = 0;
                 if (Network == "FBN")
@@ -521,6 +540,7 @@ namespace GUILayer.Forms
                     stackTypeOffset = 200;
 
 
+                
                 applicationLogComments = $"{Network}; Config: {configName}; ";
 
                 if (builderOnlyMode)
@@ -980,6 +1000,16 @@ namespace GUILayer.Forms
             }
 
 
+        }
+
+        
+        private static void UpdateSetting(string key, string value)
+        {
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            configuration.AppSettings.Settings[key].Value = value;
+            configuration.Save();
+
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         public void ConnectToVizEngines()
@@ -1884,7 +1914,7 @@ namespace GUILayer.Forms
         // Generic method to add a race board to a stack
         private void AddRaceBoardToStack(Int16 stackElementType, string stackElementDescription, Int16 stackElementDataType)
         {
-            if (stackLocked == false)
+            if (stackLocked == false || autoCalledRacesActive)
             {
                 try
                 {
@@ -1960,17 +1990,23 @@ namespace GUILayer.Forms
         {
             if (stackLocked == false)
             {
-                Int16 seType = (short)StackElementTypes.Race_Board_2_Way;
-                string seDescription = "Race Board (2-Way)";
-                Int16 seDataType = (int)DataTypes.Race_Boards;
+                AddAll();
+                
+            }
+        }
 
-                Int16 i = 0;
-                foreach (DataGridViewRow rowNum in availableRacesGrid.Rows)
-                {
-                    availableRacesGrid.CurrentCell = availableRacesGrid.Rows[i].Cells[0];
-                    AddRaceBoardToStack(seType, seDescription, seDataType);
-                    i++;
-                }
+        public void AddAll()
+        {
+            Int16 seType = (short)StackElementTypes.Race_Board_2_Way;
+            string seDescription = "Race Board (2-Way)";
+            Int16 seDataType = (int)DataTypes.Race_Boards;
+
+            Int16 i = 0;
+            foreach (DataGridViewRow rowNum in availableRacesGrid.Rows)
+            {
+                availableRacesGrid.CurrentCell = availableRacesGrid.Rows[i].Cells[0];
+                AddRaceBoardToStack(seType, seDescription, seDataType);
+                i++;
             }
         }
 
@@ -5047,6 +5083,19 @@ namespace GUILayer.Forms
         {
             if (currentRaceIndex >= stackGrid.RowCount - 1)
             {
+                if (autoCalledRacesActive)
+                {
+                    acrIndx++;
+                    if (acrIndx >= autoOfc.Count)
+                        acrIndx = 0;
+
+                    ofcID = autoOfc[acrIndx];
+                    stackElements.Clear();
+                    RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+                    AddAll();
+
+                }
+
                 currentRaceIndex = 0;
                 stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
                 TakeCurrent();
@@ -5152,13 +5201,19 @@ namespace GUILayer.Forms
 
             if (raceData[0].Office != "H")
             {
-                raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString();
+                if (raceData[0].PercentExpectedVote > 0 && raceData[0].PercentExpectedVote < 1)
+                    raceBoardData.pctsReporting = "<1";
+                else
+                    raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString();
 
             }
             else
             {
                 int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
-                raceBoardData.pctsReporting = temp.ToString();
+                if (temp > 0 && temp < 1)
+                    raceBoardData.pctsReporting = "<1";
+                else
+                    raceBoardData.pctsReporting = temp.ToString();
             }
 
             for (int i = 0; i < numCand; i++)
@@ -6281,6 +6336,25 @@ namespace GUILayer.Forms
         private void button11_Click(object sender, EventArgs e)
         {
             AddVoterAnalysisMap();
+        }
+
+        
+        private void cbAutoCalledRaces_CheckedChanged(object sender, EventArgs e)
+        {
+            autoCalledRacesActive = cbAutoCalledRaces.Checked;
+            if (autoCalledRacesActive)
+                cbLooping.Checked = true;
+
+            acrIndx = 0;
+
+            ofcID = autoOfc[acrIndx];
+            RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+            stackElements.Clear();
+            AddAll();
+
+
+
+
         }
     }
 

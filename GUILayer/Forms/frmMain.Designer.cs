@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -238,6 +240,7 @@
             this.gbPortlbl5 = new System.Windows.Forms.Label();
             this.gbIPlbl5 = new System.Windows.Forms.Label();
             this.gbViz4 = new System.Windows.Forms.GroupBox();
+            this.lblScene4 = new System.Windows.Forms.Label();
             this.gbNamelbl4 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.gbLEDOn4 = new System.Windows.Forms.PictureBox();
@@ -245,6 +248,7 @@
             this.gbPortlbl4 = new System.Windows.Forms.Label();
             this.gbIPlbl4 = new System.Windows.Forms.Label();
             this.gbViz3 = new System.Windows.Forms.GroupBox();
+            this.lblScene3 = new System.Windows.Forms.Label();
             this.gbNamelbl3 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.gbLEDOn3 = new System.Windows.Forms.PictureBox();
@@ -252,6 +256,7 @@
             this.gbPortlbl3 = new System.Windows.Forms.Label();
             this.gbIPlbl3 = new System.Windows.Forms.Label();
             this.gbViz2 = new System.Windows.Forms.GroupBox();
+            this.lblScene2 = new System.Windows.Forms.Label();
             this.gbNamelbl2 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.gbLEDOn2 = new System.Windows.Forms.PictureBox();
@@ -259,6 +264,7 @@
             this.gbPortlbl2 = new System.Windows.Forms.Label();
             this.gbIPlbl2 = new System.Windows.Forms.Label();
             this.gbViz1 = new System.Windows.Forms.GroupBox();
+            this.lblScene1 = new System.Windows.Forms.Label();
             this.gbNamelbl1 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.gbLEDOn1 = new System.Windows.Forms.PictureBox();
@@ -270,6 +276,10 @@
             this.lblNetwork = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.enginePanel = new System.Windows.Forms.Panel();
+            this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.groupBox29 = new System.Windows.Forms.GroupBox();
+            this.pbExt = new System.Windows.Forms.PictureBox();
+            this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.lblScenes = new System.Windows.Forms.Label();
             this.gbEngines = new System.Windows.Forms.GroupBox();
             this.gbEng4 = new System.Windows.Forms.GroupBox();
@@ -369,6 +379,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff1)).BeginInit();
             this.enginePanel.SuspendLayout();
+            this.groupBox25.SuspendLayout();
+            this.groupBox29.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbExt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             this.gbEngines.SuspendLayout();
             this.gbEng4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng4)).BeginInit();
@@ -1186,18 +1200,18 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1208,7 +1222,7 @@
             this.dgvVoterAnalysis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvVoterAnalysis.Size = new System.Drawing.Size(992, 897);
             this.dgvVoterAnalysis.TabIndex = 133;
-            this.dgvVoterAnalysis.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVoterAnalysis_CellContentDoubleClick);
+            this.dgvVoterAnalysis.DoubleClick += new System.EventHandler(this.dgvVoterAnalysis_DoubleClick);
             // 
             // tcVoterAnalysis
             // 
@@ -1358,6 +1372,14 @@
             this.ReferendumsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ReferendumsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn6});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ReferendumsGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.ReferendumsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ReferendumsGrid.Location = new System.Drawing.Point(10, 91);
             this.ReferendumsGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2243,6 +2265,14 @@
             // dgvVoterAnalysisMap
             // 
             this.dgvVoterAnalysisMap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysisMap.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvVoterAnalysisMap.Location = new System.Drawing.Point(13, 97);
             this.dgvVoterAnalysisMap.MultiSelect = false;
             this.dgvVoterAnalysisMap.Name = "dgvVoterAnalysisMap";
@@ -2993,6 +3023,7 @@
             // gbViz4
             // 
             this.gbViz4.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.gbViz4.Controls.Add(this.lblScene4);
             this.gbViz4.Controls.Add(this.gbNamelbl4);
             this.gbViz4.Controls.Add(this.groupBox10);
             this.gbViz4.Controls.Add(this.gbPortlbl4);
@@ -3003,11 +3034,21 @@
             this.gbViz4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbViz4.Name = "gbViz4";
             this.gbViz4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbViz4.Size = new System.Drawing.Size(338, 128);
+            this.gbViz4.Size = new System.Drawing.Size(338, 142);
             this.gbViz4.TabIndex = 3;
             this.gbViz4.TabStop = false;
             this.gbViz4.Text = "Viz  4";
             this.gbViz4.Visible = false;
+            // 
+            // lblScene4
+            // 
+            this.lblScene4.AutoSize = true;
+            this.lblScene4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScene4.Location = new System.Drawing.Point(4, 112);
+            this.lblScene4.Name = "lblScene4";
+            this.lblScene4.Size = new System.Drawing.Size(90, 25);
+            this.lblScene4.TabIndex = 183;
+            this.lblScene4.Text = "Scenes: ";
             // 
             // gbNamelbl4
             // 
@@ -3082,6 +3123,7 @@
             // gbViz3
             // 
             this.gbViz3.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.gbViz3.Controls.Add(this.lblScene3);
             this.gbViz3.Controls.Add(this.gbNamelbl3);
             this.gbViz3.Controls.Add(this.groupBox8);
             this.gbViz3.Controls.Add(this.gbPortlbl3);
@@ -3092,11 +3134,21 @@
             this.gbViz3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbViz3.Name = "gbViz3";
             this.gbViz3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbViz3.Size = new System.Drawing.Size(338, 128);
+            this.gbViz3.Size = new System.Drawing.Size(338, 142);
             this.gbViz3.TabIndex = 2;
             this.gbViz3.TabStop = false;
             this.gbViz3.Text = "Viz  3";
             this.gbViz3.Visible = false;
+            // 
+            // lblScene3
+            // 
+            this.lblScene3.AutoSize = true;
+            this.lblScene3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScene3.Location = new System.Drawing.Point(4, 112);
+            this.lblScene3.Name = "lblScene3";
+            this.lblScene3.Size = new System.Drawing.Size(90, 25);
+            this.lblScene3.TabIndex = 182;
+            this.lblScene3.Text = "Scenes: ";
             // 
             // gbNamelbl3
             // 
@@ -3171,6 +3223,7 @@
             // gbViz2
             // 
             this.gbViz2.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.gbViz2.Controls.Add(this.lblScene2);
             this.gbViz2.Controls.Add(this.gbNamelbl2);
             this.gbViz2.Controls.Add(this.groupBox9);
             this.gbViz2.Controls.Add(this.gbPortlbl2);
@@ -3181,11 +3234,21 @@
             this.gbViz2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbViz2.Name = "gbViz2";
             this.gbViz2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbViz2.Size = new System.Drawing.Size(338, 128);
+            this.gbViz2.Size = new System.Drawing.Size(338, 142);
             this.gbViz2.TabIndex = 1;
             this.gbViz2.TabStop = false;
             this.gbViz2.Text = "Viz  2";
             this.gbViz2.Visible = false;
+            // 
+            // lblScene2
+            // 
+            this.lblScene2.AutoSize = true;
+            this.lblScene2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScene2.Location = new System.Drawing.Point(4, 112);
+            this.lblScene2.Name = "lblScene2";
+            this.lblScene2.Size = new System.Drawing.Size(90, 25);
+            this.lblScene2.TabIndex = 181;
+            this.lblScene2.Text = "Scenes: ";
             // 
             // gbNamelbl2
             // 
@@ -3260,6 +3323,7 @@
             // gbViz1
             // 
             this.gbViz1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.gbViz1.Controls.Add(this.lblScene1);
             this.gbViz1.Controls.Add(this.gbNamelbl1);
             this.gbViz1.Controls.Add(this.groupBox7);
             this.gbViz1.Controls.Add(this.gbPortlbl1);
@@ -3270,11 +3334,21 @@
             this.gbViz1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbViz1.Name = "gbViz1";
             this.gbViz1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbViz1.Size = new System.Drawing.Size(338, 128);
+            this.gbViz1.Size = new System.Drawing.Size(338, 142);
             this.gbViz1.TabIndex = 0;
             this.gbViz1.TabStop = false;
             this.gbViz1.Text = "Viz  1";
             this.gbViz1.Visible = false;
+            // 
+            // lblScene1
+            // 
+            this.lblScene1.AutoSize = true;
+            this.lblScene1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScene1.Location = new System.Drawing.Point(4, 112);
+            this.lblScene1.Name = "lblScene1";
+            this.lblScene1.Size = new System.Drawing.Size(90, 25);
+            this.lblScene1.TabIndex = 180;
+            this.lblScene1.Text = "Scenes: ";
             // 
             // gbNamelbl1
             // 
@@ -3395,6 +3469,7 @@
             // 
             // enginePanel
             // 
+            this.enginePanel.Controls.Add(this.groupBox25);
             this.enginePanel.Controls.Add(this.lblScenes);
             this.enginePanel.Controls.Add(this.gbEngines);
             this.enginePanel.Location = new System.Drawing.Point(1438, 1362);
@@ -3402,13 +3477,66 @@
             this.enginePanel.Size = new System.Drawing.Size(696, 155);
             this.enginePanel.TabIndex = 135;
             // 
+            // groupBox25
+            // 
+            this.groupBox25.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.groupBox25.Controls.Add(this.groupBox29);
+            this.groupBox25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox25.Location = new System.Drawing.Point(518, 4);
+            this.groupBox25.Name = "groupBox25";
+            this.groupBox25.Size = new System.Drawing.Size(175, 115);
+            this.groupBox25.TabIndex = 2;
+            this.groupBox25.TabStop = false;
+            this.groupBox25.Text = "Remote";
+            this.groupBox25.UseWaitCursor = true;
+            // 
+            // groupBox29
+            // 
+            this.groupBox29.Controls.Add(this.pbExt);
+            this.groupBox29.Controls.Add(this.pictureBox12);
+            this.groupBox29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox29.Location = new System.Drawing.Point(7, 35);
+            this.groupBox29.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox29.Name = "groupBox29";
+            this.groupBox29.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox29.Size = new System.Drawing.Size(155, 68);
+            this.groupBox29.TabIndex = 179;
+            this.groupBox29.TabStop = false;
+            this.groupBox29.Text = "Connected";
+            this.groupBox29.UseWaitCursor = true;
+            // 
+            // pbExt
+            // 
+            this.pbExt.BackColor = System.Drawing.Color.Transparent;
+            this.pbExt.Image = ((System.Drawing.Image)(resources.GetObject("pbExt.Image")));
+            this.pbExt.Location = new System.Drawing.Point(63, 27);
+            this.pbExt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbExt.Name = "pbExt";
+            this.pbExt.Size = new System.Drawing.Size(24, 25);
+            this.pbExt.TabIndex = 164;
+            this.pbExt.TabStop = false;
+            this.pbExt.UseWaitCursor = true;
+            this.pbExt.Visible = false;
+            // 
+            // pictureBox12
+            // 
+            this.pictureBox12.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
+            this.pictureBox12.Location = new System.Drawing.Point(63, 27);
+            this.pictureBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox12.Name = "pictureBox12";
+            this.pictureBox12.Size = new System.Drawing.Size(24, 25);
+            this.pictureBox12.TabIndex = 163;
+            this.pictureBox12.TabStop = false;
+            this.pictureBox12.UseWaitCursor = true;
+            // 
             // lblScenes
             // 
             this.lblScenes.AutoSize = true;
-            this.lblScenes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScenes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblScenes.Location = new System.Drawing.Point(8, 125);
             this.lblScenes.Name = "lblScenes";
-            this.lblScenes.Size = new System.Drawing.Size(90, 25);
+            this.lblScenes.Size = new System.Drawing.Size(71, 20);
             this.lblScenes.TabIndex = 1;
             this.lblScenes.Text = "Scenes: ";
             // 
@@ -3422,7 +3550,7 @@
             this.gbEngines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbEngines.Location = new System.Drawing.Point(12, 3);
             this.gbEngines.Name = "gbEngines";
-            this.gbEngines.Size = new System.Drawing.Size(675, 115);
+            this.gbEngines.Size = new System.Drawing.Size(462, 115);
             this.gbEngines.TabIndex = 0;
             this.gbEngines.TabStop = false;
             this.gbEngines.Text = "Engines Used For RaceBoards";
@@ -3433,7 +3561,7 @@
             this.gbEng4.Controls.Add(this.pbEng4);
             this.gbEng4.Controls.Add(this.pictureBox8);
             this.gbEng4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbEng4.Location = new System.Drawing.Point(477, 35);
+            this.gbEng4.Location = new System.Drawing.Point(336, 35);
             this.gbEng4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbEng4.Name = "gbEng4";
             this.gbEng4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3474,7 +3602,7 @@
             this.gbEng3.Controls.Add(this.pbEng3);
             this.gbEng3.Controls.Add(this.pictureBox6);
             this.gbEng3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbEng3.Location = new System.Drawing.Point(326, 35);
+            this.gbEng3.Location = new System.Drawing.Point(231, 35);
             this.gbEng3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbEng3.Name = "gbEng3";
             this.gbEng3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3515,7 +3643,7 @@
             this.gbEng2.Controls.Add(this.pbEng2);
             this.gbEng2.Controls.Add(this.pictureBox4);
             this.gbEng2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbEng2.Location = new System.Drawing.Point(172, 35);
+            this.gbEng2.Location = new System.Drawing.Point(126, 35);
             this.gbEng2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbEng2.Name = "gbEng2";
             this.gbEng2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3764,6 +3892,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff1)).EndInit();
             this.enginePanel.ResumeLayout(false);
             this.enginePanel.PerformLayout();
+            this.groupBox25.ResumeLayout(false);
+            this.groupBox29.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbExt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             this.gbEngines.ResumeLayout(false);
             this.gbEng4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng4)).EndInit();
@@ -4040,6 +4172,14 @@
         private System.Windows.Forms.Label lblMapCnt;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.GroupBox groupBox25;
+        private System.Windows.Forms.GroupBox groupBox29;
+        private System.Windows.Forms.PictureBox pbExt;
+        private System.Windows.Forms.PictureBox pictureBox12;
+        private System.Windows.Forms.Label lblScene4;
+        private System.Windows.Forms.Label lblScene3;
+        private System.Windows.Forms.Label lblScene2;
+        private System.Windows.Forms.Label lblScene1;
     }
 }
 

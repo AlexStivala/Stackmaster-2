@@ -21,9 +21,9 @@ namespace GUILayer.Forms
         BindingList<StackModel> stacks;
 
         public int stackType = 0;
-            // Read in database connection strings
-        string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
-        string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+        // Read in database connection strings
+        public string GraphicsDBConnectionString;
+        public string StacksDBConnectionString;
 
         //private Double stackId;
         public Double StackId { get; set; }
@@ -38,10 +38,13 @@ namespace GUILayer.Forms
 
         public Boolean EnableShowControls { get; set; }
 
-        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType, bool mindyMode, int stacktypeOffset)
+        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType, bool mindyMode, int stacktypeOffset, string graphicsDBConnectionString, string stacksDBConnectionString)
         //public FrmSaveStack()
         {
             InitializeComponent();
+
+            GraphicsDBConnectionString = graphicsDBConnectionString;
+            StacksDBConnectionString = stacksDBConnectionString;
 
             BuildOnlyMode = buildMode;
             MindyMode = mindyMode;
@@ -138,7 +141,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("FrmSaveStack Exception occurred during stacks list refresh: " + ex.Message);
-                log.Debug("FrmSaveStack Exception occurred during stacks list refresh", ex);
+                //log.Debug("FrmSaveStack Exception occurred during stacks list refresh", ex);
             }
         }
 
@@ -214,7 +217,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }                        
         }
 

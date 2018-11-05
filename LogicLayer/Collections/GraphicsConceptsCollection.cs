@@ -80,7 +80,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("GraphicsConceptsCollection Exception occurred: " + ex.Message);
-                log.Debug("GraphicsConceptsCollection Exception occurred", ex);
+                //log.Debug("GraphicsConceptsCollection Exception occurred", ex);
             }
 
             // Return 
@@ -121,7 +121,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("GraphicsConceptsCollection Exception occurred: " + ex.Message);
-                log.Debug("GraphicsConceptsCollection Exception occurred", ex);
+                //log.Debug("GraphicsConceptsCollection Exception occurred", ex);
             }
 
             // Return 

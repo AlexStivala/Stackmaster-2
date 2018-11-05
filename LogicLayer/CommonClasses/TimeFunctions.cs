@@ -69,7 +69,7 @@ namespace LogicLayer.CommonClasses
             {
                 // Log error
                 log.Error("TimeFunctions Exception occurred: " + ex.Message);
-                log.Debug("TimeFunctions Exception occurred", ex);
+                //log.Debug("TimeFunctions Exception occurred", ex);
             }
 
             return simTimeStr;
@@ -126,7 +126,7 @@ namespace LogicLayer.CommonClasses
             {
                 // Log error
                 log.Error("TimeFunctions Exception occurred: " + ex.Message);
-                log.Debug("TimeFunctions Exception occurred", ex);
+                //log.Debug("TimeFunctions Exception occurred", ex);
             }
 
             return NextPollClosingTime;

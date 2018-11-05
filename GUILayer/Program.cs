@@ -43,7 +43,7 @@ namespace GUILayer
                 {
                     var ex = (Exception)e.ExceptionObject;
                     // Log error
-                    log.Debug("Unhandled exception occurred", ex);
+                    //log.Debug("Unhandled exception occurred", ex);
                     log.Error("Unhandled exception occurred: " + ex.Message);
                 };
             }
@@ -53,7 +53,7 @@ namespace GUILayer
                 MessageBox.Show("General error occurred with application. Please re-start to ensure proper operation.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 // Log the error 
-                log.Debug("General exception occurred at main program level", ex);
+                //log.Debug("General exception occurred at main program level", ex);
                 log.Error("General exception occurred at main program level: " + ex.Message);
             }
         }

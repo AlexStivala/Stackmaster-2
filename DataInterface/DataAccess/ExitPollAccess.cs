@@ -61,7 +61,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("AvailableRaceAccess Exception occurred: " + ex.Message);
-                log.Debug("AvailableRaceAccess Exception occurred", ex);
+                //log.Debug("AvailableRaceAccess Exception occurred", ex);
             }
 
             return dataTable;
@@ -97,7 +97,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("AvailableRaceAccess Exception occurred: " + ex.Message);
-                log.Debug("AvailableRaceAccess Exception occurred", ex);
+                //log.Debug("AvailableRaceAccess Exception occurred", ex);
             }
 
             return dataTable;

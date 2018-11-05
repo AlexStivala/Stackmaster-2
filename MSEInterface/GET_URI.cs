@@ -35,7 +35,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("GET_URI Exception occurred while making Get URI request: " + ex.Message);
-                log.Debug("GET_URI Exception occurred while making Get URI request", ex);
+                //log.Debug("GET_URI Exception occurred while making Get URI request", ex);
             }
 
             XElement doc = null;
@@ -51,7 +51,7 @@ namespace MSEInterface
                 {
                     // Log error
                     log.Error("GET_URI Exception occurred while trying to parse response: " + ex.Message);
-                    log.Debug("GET_URI Exception occurred while trying to parse response", ex);
+                    //log.Debug("GET_URI Exception occurred while trying to parse response", ex);
                 }
             }
             

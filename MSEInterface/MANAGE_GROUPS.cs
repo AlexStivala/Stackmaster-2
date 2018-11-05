@@ -80,7 +80,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_GROUPS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_GROUPS Exception occurred", ex);
+                //log.Debug("MANAGE_GROUPS Exception occurred", ex);
             }
 
             return restResponse;
@@ -131,7 +131,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_GROUPS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_GROUPS Exception occurred", ex);
+                //log.Debug("MANAGE_GROUPS Exception occurred", ex);
             }
             return groupSelfLink;
         }
@@ -156,7 +156,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_GROUPS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_GROUPS Exception occurred", ex);
+                //log.Debug("MANAGE_GROUPS Exception occurred", ex);
             }
 
             return response;

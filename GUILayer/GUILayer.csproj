@@ -147,6 +147,7 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -182,6 +183,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AsyncServerSocket\AsyncServerSocket.csproj">
+      <Project>{fccb1c5c-438b-4f6f-8a44-0197e61a8ce7}</Project>
+      <Name>AsyncServerSocket</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AsyncClientSocket\ClientSocket.csproj">
       <Project>{6a71627c-fcc3-44b1-8206-9d5057684759}</Project>
       <Name>ClientSocket</Name>

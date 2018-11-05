@@ -93,7 +93,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("ExitPollDataAccess Exception occurred: " + ex.Message);
-                log.Debug("ExitPollDataAccess Exception occurred", ex);
+                //log.Debug("ExitPollDataAccess Exception occurred", ex);
             }
 
             return dataTable;

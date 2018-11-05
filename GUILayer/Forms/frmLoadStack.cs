@@ -24,11 +24,18 @@ namespace GUILayer.Forms
         private StacksCollection stacksCollection = new StacksCollection();
         //private StacksCollection stacksCollection;
         public BindingList<StackModel> stacks;
-        
+
         // Read in database connection strings
-        string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
-        string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
-        string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+        //string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
+        //string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
+        //string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+
+
+        public string GraphicsDBConnectionString;
+        public string StacksDBConnectionString;
+
+
+
         public int stackType = 0;
         public List<int> stacksSelected = new List<int>();
 
@@ -57,10 +64,13 @@ namespace GUILayer.Forms
 
         //public event DelDeleteStack DeleteStack;
 
-        public frmLoadStack(bool buildMode, int StackType, bool mindyMode, int stackTypeOffset)
+        public frmLoadStack(bool buildMode, int StackType, bool mindyMode, int stackTypeOffset, string graphicsDBConnectionString, string stacksDBConnectionString)
         {
             
             InitializeComponent();
+
+            GraphicsDBConnectionString = graphicsDBConnectionString;
+            StacksDBConnectionString = stacksDBConnectionString;
 
             MindyMode = mindyMode;
 
@@ -72,7 +82,8 @@ namespace GUILayer.Forms
                 btnShowMultiplay.Visible = true;
             }
 
-            
+            log.Debug($"Load Stack  stackType: {stackType}");
+
             if (builderOnlyMode)
             {
                 this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -88,7 +99,8 @@ namespace GUILayer.Forms
             KeyPreview = true;
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
 
-            
+            log.Debug($"Load Stack DBconn: {this.stacksCollection.MainDBConnectionString}");
+
             RefreshStacksList();
 
             if (EnableShowControls)
@@ -158,7 +170,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("FrmLoadStack Exception occurred during stacks list refresh: " + ex.Message);
-                log.Debug("FrmLoadStack Exception occurred during stacks list refresh", ex);
+                //log.Debug("FrmLoadStack Exception occurred during stacks list refresh", ex);
             }
         }
 
@@ -208,7 +220,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmLoadStacks Exception occurred: " + ex.Message);
-                log.Debug("frmLoadStacks Exception occurred", ex);
+                //log.Debug("frmLoadStacks Exception occurred", ex);
             }
         }
 
@@ -241,7 +253,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmLoadStacks Exception occurred: " + ex.Message);
-                log.Debug("frmLoadStacks Exception occurred", ex);
+                //log.Debug("frmLoadStacks Exception occurred", ex);
             }
         
         }

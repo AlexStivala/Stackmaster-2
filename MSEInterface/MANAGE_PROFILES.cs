@@ -106,7 +106,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PROFILES Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PROFILES Exception occurred", ex);
+                //log.Debug("MANAGE_PROFILES Exception occurred", ex);
             }
 
             return profileList;

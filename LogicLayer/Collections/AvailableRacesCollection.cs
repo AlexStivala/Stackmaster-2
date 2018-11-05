@@ -89,7 +89,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("AvailableRacesCollection Exception occurred: " + ex.Message);
-                log.Debug("AvailableRacesCollection Exception occurred", ex);
+                //log.Debug("AvailableRacesCollection Exception occurred", ex);
             }
 
             // Return 
@@ -286,7 +286,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("AvailableRacesCollection Exception occurred: " + ex.Message);
-                log.Debug("AvailableRacesCollection Exception occurred", ex);
+                //log.Debug("AvailableRacesCollection Exception occurred", ex);
             }
 
             // Return 
@@ -308,7 +308,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("AvailableRacesCollection Exception occurred: " + ex.Message);
-                log.Debug("AvailableRacesCollection Exception occurred", ex);
+                //log.Debug("AvailableRacesCollection Exception occurred", ex);
             }
 
             return availableRace;

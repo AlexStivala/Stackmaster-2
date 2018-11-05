@@ -68,7 +68,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StacksCollection Exception occurred: " + ex.Message);
-                log.Debug("StacksCollection Exception occurred", ex);
+                //log.Debug("StacksCollection Exception occurred", ex);
             }
 
             // Return 
@@ -85,13 +85,14 @@ namespace LogicLayer.Collections
             {
                 StackAccess stackAccess = new StackAccess();
                 stackAccess.MainDBConnectionString = MainDBConnectionString;
+                log.Debug($"SaveStack DBconn: {MainDBConnectionString}");
                 stackAccess.SaveStack(stackMetadata);
             }
             catch (Exception ex)
             {
                 // Log error
                 log.Error("StacksCollection Exception occurred: " + ex.Message);
-                log.Debug("StacksCollection Exception occurred", ex);
+                //log.Debug("StacksCollection Exception occurred", ex);
             }
         }
 
@@ -110,7 +111,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StacksCollection Exception occurred: " + ex.Message);
-                log.Debug("StacksCollection Exception occurred", ex);
+                //log.Debug("StacksCollection Exception occurred", ex);
             }
         }
 
@@ -129,7 +130,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StacksCollection Exception occurred: " + ex.Message);
-                log.Debug("StacksCollection Exception occurred", ex);
+                //log.Debug("StacksCollection Exception occurred", ex);
             }
 
             return stack;
@@ -151,7 +152,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StacksCollection Exception occurred: " + ex.Message);
-                log.Debug("StacksCollection Exception occurred", ex);
+                //log.Debug("StacksCollection Exception occurred", ex);
             }
 
             return stackID;

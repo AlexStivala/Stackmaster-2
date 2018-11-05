@@ -128,7 +128,7 @@ namespace AsyncClientSocket
             {
                 // Log error
                 Log.Error("ClientSocket Exception occurred while attempting reconnect: " + ex.Message);
-                Log.Debug("ClientSocket Exception occurred while attempting reconnect", ex);
+                //Log.Debug("ClientSocket Exception occurred while attempting reconnect", ex);
             }
         }
 
@@ -153,7 +153,7 @@ namespace AsyncClientSocket
             {
                 // Log error
                 Log.Error("ClientSocket Exception occurred while attempting connect: " + ex.Message);
-                Log.Debug("ClientSocket Exception occurred while attempting connect", ex);
+                //Log.Debug("ClientSocket Exception occurred while attempting connect", ex);
             }
         }
 
@@ -176,7 +176,7 @@ namespace AsyncClientSocket
             {
                 // Log error
                 Log.Error("ClientSocket Exception occurred while attempting disconnect: " + ex.Message);
-                Log.Debug("ClientSocket Exception occurred while attempting disconnect", ex);
+                //Log.Debug("ClientSocket Exception occurred while attempting disconnect", ex);
             }
         }
 
@@ -213,7 +213,7 @@ namespace AsyncClientSocket
             {
                 // Log error
                 Log.Error("ClientSocket Exception occurred while attempting to send data (string): " + ex.Message);
-                Log.Debug("ClientSocket Exception occurred while attempting to send data (string)", ex);
+                //Log.Debug("ClientSocket Exception occurred while attempting to send data (string)", ex);
             }
         }
 
@@ -241,7 +241,7 @@ namespace AsyncClientSocket
             {
                 // Log error
                 Log.Error("ClientSocket Exception occurred while attempting to send data (byte array): " + ex.Message);
-                Log.Debug("ClientSocket Exception occurred while attempting to send data (byte array)", ex);
+                //Log.Debug("ClientSocket Exception occurred while attempting to send data (byte array)", ex);
             }
         }
         */

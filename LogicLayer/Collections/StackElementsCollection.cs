@@ -112,7 +112,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                log.Debug("StackElementsCollection Exception occurred", ex);
+                //log.Debug("StackElementsCollection Exception occurred", ex);
             }
 
             // Return 
@@ -126,6 +126,8 @@ namespace LogicLayer.Collections
         {
             try
             {
+                log.Debug($"Saving Stack Elements");
+
                 if (stackElements.Count > 0)
                 {
                     DataTable dataTable = new DataTable();
@@ -227,6 +229,7 @@ namespace LogicLayer.Collections
                     //Instantiate the data access object to save out the dataTable
                     StackElementAccess stackElementAccess = new StackElementAccess();
                     stackElementAccess.MainDBConnectionString = MainDBConnectionString;
+                    log.Debug($"Save Stack Elements DBconn: {MainDBConnectionString}");
                     // Call method to save each element
                     stackElementAccess.SaveStackElements(dataTable, stackID, clearStackBeforeAdding);
                 }
@@ -235,7 +238,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                log.Debug("StackElementsCollection Exception occurred", ex);
+                //log.Debug("StackElementsCollection Exception occurred", ex);
             }
         }
 
@@ -256,7 +259,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                log.Debug("StackElementsCollection Exception occurred", ex);
+                //log.Debug("StackElementsCollection Exception occurred", ex);
             }
         }
 
@@ -274,7 +277,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                log.Debug("StackElementsCollection Exception occurred", ex);
+                //log.Debug("StackElementsCollection Exception occurred", ex);
             }
         }
 
@@ -292,7 +295,7 @@ namespace LogicLayer.Collections
              {
                  // Log error
                  log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                 log.Debug("StackElementsCollection Exception occurred", ex);
+                 //log.Debug("StackElementsCollection Exception occurred", ex);
              }
          }
 
@@ -314,7 +317,7 @@ namespace LogicLayer.Collections
              {
                  // Log error
                  log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                 log.Debug("StackElementsCollection Exception occurred", ex);
+                 //log.Debug("StackElementsCollection Exception occurred", ex);
              }
          }
 
@@ -336,7 +339,7 @@ namespace LogicLayer.Collections
              {
                  // Log error
                  log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                 log.Debug("StackElementsCollection Exception occurred", ex);
+                 //log.Debug("StackElementsCollection Exception occurred", ex);
              }
          }
 
@@ -356,7 +359,7 @@ namespace LogicLayer.Collections
              {
                  // Log error
                  log.Error("StackElementsCollection Exception occurred: " + ex.Message);
-                 log.Debug("StackElementsCollection Exception occurred", ex);
+                 //log.Debug("StackElementsCollection Exception occurred", ex);
              }
 
              return stackElement;

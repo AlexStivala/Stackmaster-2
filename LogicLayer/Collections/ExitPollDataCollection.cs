@@ -129,7 +129,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("ExitPollsCollection Exception occurred: " + ex.Message);
-                log.Debug("ExitPollsCollection Exception occurred", ex);
+                //log.Debug("ExitPollsCollection Exception occurred", ex);
             }
 
             // Return 
@@ -161,7 +161,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("TimeFunctions Exception occurred: " + ex.Message);
-                log.Debug("TimeFunctions Exception occurred", ex);
+                //log.Debug("TimeFunctions Exception occurred", ex);
             }
 
             return Q;

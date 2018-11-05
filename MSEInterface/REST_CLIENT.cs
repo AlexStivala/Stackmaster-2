@@ -183,7 +183,7 @@ namespace MSEInterface
           {
               // Log error
               log.Error("REST_CLIENT Exception occurred: " + ex.Message);
-              log.Debug("REST_CLIENT Exception occurred", ex);
+              //log.Debug("REST_CLIENT Exception occurred", ex);
           }
 
           return null;

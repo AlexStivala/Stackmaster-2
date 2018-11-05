@@ -67,7 +67,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StateMetadataCollection Exception occurred: " + ex.Message);
-                log.Debug("StateMetadataCollection Exception occurred", ex);
+                //log.Debug("StateMetadataCollection Exception occurred", ex);
             }
 
             // Return 
@@ -99,7 +99,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("StateMetadataCollection Exception occurred: " + ex.Message);
-                log.Debug("StateMetadataCollection Exception occurred", ex);
+                //log.Debug("StateMetadataCollection Exception occurred", ex);
             }
 
             return stateInfo;

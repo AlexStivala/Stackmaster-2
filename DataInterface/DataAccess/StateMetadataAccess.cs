@@ -58,7 +58,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("StateMetadataAccess Exception occurred: " + ex.Message);
-                log.Debug("StateMetadataAccess Exception occurred", ex);
+                //log.Debug("StateMetadataAccess Exception occurred", ex);
             }
             return dataTable;
         }

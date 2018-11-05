@@ -61,7 +61,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("RacePreviewCollection Exception occurred: " + ex.Message);
-                log.Debug("RacePreviewCollection Exception occurred", ex);
+                //log.Debug("RacePreviewCollection Exception occurred", ex);
             }
         }
 
@@ -79,7 +79,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("RacePreviewCollection Exception occurred: " + ex.Message);
-                log.Debug("RacePreviewCollection Exception occurred", ex);
+                //log.Debug("RacePreviewCollection Exception occurred", ex);
             }
         }
 
@@ -98,7 +98,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("RacePreviewCollection Exception occurred: " + ex.Message);
-                log.Debug("RacePreviewCollection Exception occurred", ex);
+                //log.Debug("RacePreviewCollection Exception occurred", ex);
             }
 
             return racePreviewElement;

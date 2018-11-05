@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataInterface.DataModel
 {
@@ -28,6 +29,7 @@ namespace DataInterface.DataModel
         public Int16 CD { get; set; }
         public Int32 County_Number { get; set; }
         public string County_Name { get; set; }
+        [MaxLength(100)]
         public string Listbox_Description { get; set; }
 
         // Specific to race boards

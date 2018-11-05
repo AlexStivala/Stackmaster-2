@@ -36,6 +36,8 @@ namespace DataInterface.DataAccess
 
             try
             {
+                log.Debug($"Get Stacks DBconn: {MainDBConnectionString}");
+
                 // Instantiate the connection
                 using (SqlConnection connection = new SqlConnection(MainDBConnectionString))
                 {
@@ -60,7 +62,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("StackAccess Exception occurred: " + ex.Message);
-                log.Debug("StackAccess Exception occurred", ex);
+                //log.Debug("StackAccess Exception occurred", ex);
             }
 
             return dataTable;
@@ -74,6 +76,8 @@ namespace DataInterface.DataAccess
             //Save out the top-level metadata
             try
             {
+                log.Debug("SaveStack");
+
                 // Instantiate the connection
                 using (SqlConnection connection = new SqlConnection(MainDBConnectionString))
                 {
@@ -115,10 +119,14 @@ namespace DataInterface.DataAccess
 
                                 //Attempt to commit the transaction
                                 transaction.Commit();
+                                log.Debug("SaveStack complete");
+
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 transaction.Rollback();
+                                log.Error("StackAccess Exception occurred: " + ex.Message);
+
                             }
                         }
                     }
@@ -129,7 +137,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("StackAccess Exception occurred: " + ex.Message);
-                log.Debug("StackAccess Exception occurred", ex);
+                //log.Debug("StackAccess Exception occurred", ex);
             }
         }
 
@@ -189,7 +197,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("StackAccess Exception occurred: " + ex.Message);
-                log.Debug("StackAccess Exception occurred", ex);
+                //log.Debug("StackAccess Exception occurred", ex);
             }
         }
 
@@ -236,7 +244,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("StackAccess Exception occurred: " + ex.Message);
-                log.Debug("StackAccess Exception occurred", ex);
+                //log.Debug("StackAccess Exception occurred", ex);
             }
             return stackID;
         }

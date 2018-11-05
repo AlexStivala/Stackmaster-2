@@ -82,7 +82,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_ELEMENTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
+                //log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
             }
 
             return elementList;
@@ -123,7 +123,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_ELEMENTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
+                //log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
             }
         }
 
@@ -147,7 +147,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_ELEMENTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
+                //log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
             }
             vdf += "</payload>";
 
@@ -195,7 +195,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_ELEMENTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
+                //log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
             }
 
             return doc;
@@ -222,7 +222,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_ELEMENTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
+                //log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
             }
         }
 
@@ -269,7 +269,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_ELEMENTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
+                //log.Debug("MANAGE_ELEMENTS Exception occurred", ex);
             }
         }
 

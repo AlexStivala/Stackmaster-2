@@ -70,7 +70,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("RaceDataAccess Exception occurred: " + ex.Message);
-                log.Debug("RaceDataAccess Exception occurred", ex);
+                //log.Debug("RaceDataAccess Exception occurred", ex);
             }
             return dataTable;
         }

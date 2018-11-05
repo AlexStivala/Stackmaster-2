@@ -83,7 +83,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("ApplicationSettingsFlagsCollection Exception occurred: " + ex.Message);
-                log.Debug("ApplicationSettingsFlagsCollection Exception occurred", ex);
+                //log.Debug("ApplicationSettingsFlagsCollection Exception occurred", ex);
             }
 
             ApplicationSettingsFlagsModel flags = null;

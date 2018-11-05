@@ -27,6 +27,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Net;
+using System.Net.Sockets;
+
 
 // Required for implementing logging to status bar
 
@@ -39,10 +42,13 @@ using System.Configuration;
 namespace GUILayer.Forms
 {
     // Implement IAppender interface from log4net
+
+        
     public partial class frmMain : Form, IAppender
     {
 
         #region Globals
+
         Boolean nonNumberEntered = false;
         public static Boolean UseSimulatedTime = false;
         public static Boolean PollClosinglockout = false;
@@ -105,7 +111,9 @@ namespace GUILayer.Forms
         public bool Governor;
         public List<string> autoOfc = new List<string>();
         public int acrIndx = -1;
-        
+
+        public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
 
         public List<TabDefinitionModel> tabConfig = new List<TabDefinitionModel>();
 
@@ -116,8 +124,10 @@ namespace GUILayer.Forms
         public List<VoterAnalysisQuestionsModel> VA_Qdata_FS = new List<VoterAnalysisQuestionsModel>();
         public List<VoterAnalysisMapQuestionsModel> VA_Qdata_Map = new List<VoterAnalysisMapQuestionsModel>();
 
+        public TcpListener server;
+        public TcpClient client;
+        public NetworkStream stream;
 
-        
         #endregion
 
         #region Collection & binding list definitions
@@ -223,6 +233,8 @@ namespace GUILayer.Forms
         string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
         string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
         string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+        //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
+        bool useBackupServer = Convert.ToBoolean(config.AppSettings.Settings["UseBackupServer"].Value);
 
         //Read in default Trio profile and channel
         string defaultTrioProfile = Properties.Settings.Default.DefaultTrioProfile;
@@ -299,6 +311,8 @@ namespace GUILayer.Forms
                 {
                     miSelectDefaultShow.Enabled = false;
                 }
+                // Log application start
+                log.Info("\n********** Starting Stack Builder application **********\n ");
 
                 // Update status
                 toolStripStatusLabel.Text = "Starting program initialization - loading data from SQL database.";
@@ -358,20 +372,70 @@ namespace GUILayer.Forms
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                 this.Text = String.Format("Election Graphics Stack Builder Application  Version {0}", version);
 
-
-
+                
             }
             catch (Exception ex)
             {
                 // Log error
                 log.Error("frmMain Exception occurred during program init: " + ex.Message);
-                log.Debug("frmMain Exception occurred during program init", ex);
+                //log.Debug("frmMain Exception occurred during program init", ex);
             }
 
             // Update status labels
             toolStripStatusLabel.Text = "Program initialization complete.";
             lblPlaylistName.Text = currentPlaylistName;
             lblTrioChannel.Text = defaultTrioChannel;
+        }
+
+        // Lister function for server socket process
+        public void StartListener(object sender, EventArgs e)
+        {
+            try
+            {
+                //Sets up the listener
+                server = null;
+                server = new TcpListener(IPAddress.Parse(ipAddress), 6200);
+                string data = "";
+                Byte[] bytes = new byte[2048];
+
+                while (true)
+                {
+                    server.Start();
+                    client = server.AcceptTcpClient();
+                    stream = client.GetStream();
+                    if (client.Connected)
+                        Invoke(new Action(() => pbExt.Visible = true)); 
+                    else
+                        Invoke(new Action(() => pbExt.Visible = false));
+
+                    int i;
+                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        data = data.ToUpper();
+                        Invoke(new Action(() => listBox2.Items.Add("[" + DateTime.Now + "] RECEIVED: " + data)));
+
+                        switch (data)
+                        {
+                            case "LK":
+                                Invoke(new Action(() => Lock()));
+                                break;
+                            case "UL":
+                                Invoke(new Action(() => Unlock()));
+                                break;
+                            case "TN":
+                                Invoke(new Action(() => TakeNext()));
+                                break;
+
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                server.Stop();
+            }
         }
 
         // Handler for main form load
@@ -395,15 +459,17 @@ namespace GUILayer.Forms
             //string sceneDescription = Properties.Settings.Default.Scene_Name;
             //var useSceneName = Properties.Settings.Default[sceneDescription];
 
-
             // Get host IP
             ipAddress = HostIPNameFunctions.GetLocalIPAddress();
             hostName = HostIPNameFunctions.GetHostName(ipAddress);
             lblIpAddress.Text = ipAddress;
             lblHostName.Text = hostName;
 
+            log.Debug($"{ipAddress}  {hostName}");
 
-            bool useBackupServer = Properties.Settings.Default.UseBackupServer;
+
+
+            //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
             string primaryServer = Properties.Settings.Default.Server_Pri;
             string backupServer = Properties.Settings.Default.Server_Bk;
             string server;
@@ -428,6 +494,10 @@ namespace GUILayer.Forms
             ElectionsDBConnectionString = builder.ConnectionString;
 
             lblDB.Text = $"{dataSource}  {initCat}";
+            log.Info($"{dataSource}  {initCat}");
+
+            log.Info($"ElectionsDBConnectionString {ElectionsDBConnectionString}");
+
 
             var sbuilder = new SqlConnectionStringBuilder("");
             sbuilder.UserID = builder.UserID;
@@ -436,6 +506,7 @@ namespace GUILayer.Forms
             sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
             sbuilder.PersistSecurityInfo = true;
             StacksDBConnectionString = sbuilder.ConnectionString;
+            log.Info($"StacksDBConnectionString {StacksDBConnectionString}");
 
             var MPsbuilder = new SqlConnectionStringBuilder("");
             MPsbuilder.UserID = builder.UserID;
@@ -444,13 +515,11 @@ namespace GUILayer.Forms
             MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
             MPsbuilder.PersistSecurityInfo = true;
             GraphicsDBConnectionString = MPsbuilder.ConnectionString;
-
+            log.Info($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
 
             usingPrimaryMediaSequencer = true;
 
-            // Log application start
-            log.Info("Starting Stack Builder application");
-
+            
             lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + Convert.ToString(Properties.Settings.Default.MSEEndpoint1);
             lblMediaSequencer.BackColor = System.Drawing.Color.White;
             usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
@@ -477,9 +546,12 @@ namespace GUILayer.Forms
 
             cbAutoCalledRaces.Enabled = autoCalledRacesEnable;
 
-                LoadConfig();
+
+
+            LoadConfig();
 
         }
+
         private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadConfig();
@@ -513,6 +585,9 @@ namespace GUILayer.Forms
                 else
                     configName = "DEFAULT";
 
+                log.Debug($"{configName}");
+
+
                 // get tab enables and mode and network
                 DataTable dtEnab = new DataTable();
                 cmdStr = $"SELECT * FROM FE_Tabs WHERE Config = '{configName}'";
@@ -529,7 +604,12 @@ namespace GUILayer.Forms
                 Network = row["Network"].ToString() ?? "";
 
                 //bool useBackup = Convert.ToBoolean(row["useBackup"] ?? 0);
-                //UpdateSetting("UseBackupServer", useBackup);
+                //bool useBackup = !useBackupServer;
+                //string ub = "false";
+                //if (useBackup)
+                    //ub = "true";
+
+                //UpdateSetting("UseBackupServer", ub);
 
 
                 if (Network == "FNC")
@@ -651,6 +731,10 @@ namespace GUILayer.Forms
                     {
                         tpReferendums.Enabled = true;
                     }
+                    else
+                    {
+                        tpReferendums.Enabled = false;
+                    }
 
                     if (SPenable)
                     {
@@ -658,7 +742,7 @@ namespace GUILayer.Forms
                     }
                     else
                     {
-                        tpReferendums.Enabled = false;
+                        tpSidePanel.Enabled = false;
                     }
 
                     if (MAPenable)
@@ -680,6 +764,10 @@ namespace GUILayer.Forms
                     }
 
 
+                    // Setup background process for server socket
+                    var startListening = new BackgroundWorker();
+                    startListening.DoWork += new DoWorkEventHandler(StartListener);
+                    startListening.RunWorkerAsync();
 
                     // get viz engine info
 
@@ -742,7 +830,11 @@ namespace GUILayer.Forms
                                 vizClientSockets[i - 1].DataReceived += vizDataReceived;
                                 vizClientSockets[i - 1].ConnectionStatusChanged += vizConnectionStatusChanged;
 
+                                //gbNamelbl1.Text = viz.EngineName;
+                                //gbIPlbl1.Text = "IP: " + viz.IPAddress;
+                                //gbPortlbl1.Text = "Port: " + viz.Port.ToString();
 
+                                log.Debug($"{viz.EngineName}  IP: {viz.IPAddress}  Port: {viz.Port}");
                                 // set viz address labels
                                 switch (i)
                                 {
@@ -1005,11 +1097,19 @@ namespace GUILayer.Forms
         
         private static void UpdateSetting(string key, string value)
         {
-            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            configuration.AppSettings.Settings[key].Value = value;
-            configuration.Save();
+            try
+            {
+                config.AppSettings.Settings["UseBackupServer"].Value = value;
+                config.Save(ConfigurationSaveMode.Full);
 
-            ConfigurationManager.RefreshSection("appSettings");
+                ConfigurationManager.RefreshSection("appSettings");
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("frmMain Exception occurred: " + ex.Message);
+                //log.Debug("frmMain Exception occurred", ex);
+            }
         }
 
         public void ConnectToVizEngines()
@@ -1494,7 +1594,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred during stacks list refresh: " + ex.Message);
-                log.Debug("frmMain Exception occurred during stacks list refresh", ex);
+                //log.Debug("frmMain Exception occurred during stacks list refresh", ex);
             }
         }
         #endregion
@@ -1526,7 +1626,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
         // Refresh the Application settings from the Flags DB
@@ -1549,7 +1649,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1594,7 +1694,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
         // Refresh the list of exit polls for the list
@@ -1638,7 +1738,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1665,7 +1765,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1689,7 +1789,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1705,7 +1805,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1723,7 +1823,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1755,7 +1855,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred while trying to create graphics concepts collection: " + ex.Message);
-                log.Debug("frmMain Exception occurred while trying to create graphics concepts collection", ex);
+                //log.Debug("frmMain Exception occurred while trying to create graphics concepts collection", ex);
             }
         }
         #endregion
@@ -1789,7 +1889,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
         #endregion
@@ -1812,7 +1912,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -1981,7 +2081,7 @@ namespace GUILayer.Forms
                 {
                     // Log error
                     log.Error("Exception occurred while trying to add board to stack: " + ex.Message);
-                    log.Debug("Exception occurred while trying to add board to stack", ex);
+                    //log.Debug("Exception occurred while trying to add board to stack", ex);
                 }
             }
         }
@@ -2264,7 +2364,7 @@ namespace GUILayer.Forms
                     //if (stackType == 50)
                     //stackType = 10;
 
-                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset);
+                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
 
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
@@ -2279,6 +2379,8 @@ namespace GUILayer.Forms
                         stackMetadata.ixStackID = stackID;
                         stackMetadata.StackName = stackDescription;
                         stackMetadata.StackType = (short)stackType;
+
+                        log.Debug($"\n ***** Save start - StackID: {stackID}   Stack Type: {stackType}   Stack Description: {stackDescription}");
 
                         if (builderOnlyMode)
                         {
@@ -2333,7 +2435,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -2357,7 +2459,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -2380,7 +2482,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -2417,7 +2519,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -2449,7 +2551,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -2477,7 +2579,7 @@ namespace GUILayer.Forms
                 //stackType = 10;
 
                 //frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
-                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset);
+                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
 
@@ -2497,6 +2599,8 @@ namespace GUILayer.Forms
                     bool multiplay = loadStack.multiplayMode;
                     stackDescription = loadStack.StackDesc;
                     stacks = loadStack.stacks;
+
+                    log.Debug($"\n ***** Load stack start:  StackId: {stackID}   Stack description: {stackDescription}");
 
                     // Clear the collection
                     stackElements.Clear();
@@ -2520,6 +2624,7 @@ namespace GUILayer.Forms
 
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
 
+                    log.Debug($"StackElemants  DBconn: {stackElementsCollection.MainDBConnectionString} ");
 
                     // Load the collection
                     stackElementsCollection.GetStackElementsCollection(selectedStack.ixStackID);
@@ -2671,7 +2776,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred during stack load: " + ex.Message);
-                log.Debug("frmMain Exception occurred during stack load", ex);
+                //log.Debug("frmMain Exception occurred during stack load", ex);
             }
         }
 
@@ -2709,7 +2814,7 @@ namespace GUILayer.Forms
                     if (cbPromptForInfo.Checked == true)
                     {
                         DialogResult dr = new DialogResult();
-                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset);
+                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
                         //FrmSaveStack saveStack = new FrmSaveStack();
 
                         saveStack.EnableShowControls = enableShowSelectControls;
@@ -2786,7 +2891,7 @@ namespace GUILayer.Forms
 
             catch (Exception ex)
             {
-                log.Debug("Exception occurred", ex);
+                //log.Debug("Exception occurred", ex);
                 log.Error("Exception occurred while trying to save and activate group: " + ex.Message);
             }
         }
@@ -3039,7 +3144,7 @@ namespace GUILayer.Forms
                 if (showPlaylistsDirectoryURI == string.Empty)
                 {
                     log.Error("Could not resolve Show Playlist Directory URI");
-                    log.Debug("Could not resolve Show Playlist Directory URI");
+                    //log.Debug("Could not resolve Show Playlist Directory URI");
                 }
 
                 // Get templates directory URI based on current show
@@ -3049,7 +3154,7 @@ namespace GUILayer.Forms
                 if (showTemplatesDirectoryURI == string.Empty)
                 {
                     log.Error("Could not resolve Show Templates Directory URI");
-                    log.Debug("Could not resolve Show Templates Directory URI");
+                    //log.Debug("Could not resolve Show Templates Directory URI");
                 }
 
                 // Check for a playlist in the VDOM with the specified name & return the Alt link; if the playlist doesn't exist, create it first
@@ -3106,7 +3211,7 @@ namespace GUILayer.Forms
                             if (elementCollectionURIShow == string.Empty)
                             {
                                 log.Error("Could not resolve Show Elements Collection URI");
-                                log.Debug("Could not resolve Show Elements Collection URI");
+                                //log.Debug("Could not resolve Show Elements Collection URI");
                             }
 
 
@@ -3117,7 +3222,7 @@ namespace GUILayer.Forms
                             if (templateCollectionURIShow == string.Empty)
                             {
                                 log.Error("Could not resolve Show Templates Collection URI");
-                                log.Debug("Could not resolve Show Templates Collection URI");
+                                //log.Debug("Could not resolve Show Templates Collection URI");
                             }
 
                             //Get the URI to the model for the specified template within the specified show
@@ -3128,7 +3233,7 @@ namespace GUILayer.Forms
                             {
                                 // Log error
                                 log.Error("Could not resolve template model - template might not exist");
-                                log.Debug("Could not resolve template model - template might not exist");
+                                //log.Debug("Could not resolve template model - template might not exist");
                             }
 
                             //Get the URI to the currently-specified playlist                                
@@ -3138,7 +3243,7 @@ namespace GUILayer.Forms
                             if (elementCollectionURIPlaylist == null)
                             {
                                 log.Error("Could not resolve URI for specified playlist");
-                                log.Debug("Could not resolve URI for specified playlist");
+                                //log.Debug("Could not resolve URI for specified playlist");
                             }
 
 
@@ -3164,13 +3269,13 @@ namespace GUILayer.Forms
                 else
                 {
                     log.Error("Could not resolve Playlist Down link");
-                    log.Debug("Could not resolve Playlist Down link");
+                    //log.Debug("Could not resolve Playlist Down link");
                 }
             }
 
             catch (Exception ex)
             {
-                log.Debug("Exception occurred", ex);
+                //log.Debug("Exception occurred", ex);
                 log.Error("Exception occurred while trying to save and activate group: " + ex.Message);
             }
         }
@@ -3331,7 +3436,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
 
             return previewField;
@@ -3366,7 +3471,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
 
             return previewField;
@@ -3417,7 +3522,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
 
             return previewField;
@@ -3458,7 +3563,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
 
             return previewField;
@@ -3520,7 +3625,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -3596,7 +3701,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
         #endregion
@@ -3682,7 +3787,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -3729,9 +3834,16 @@ namespace GUILayer.Forms
                 newStackElement.CD = 0;
                 newStackElement.County_Number = 0;
                 newStackElement.County_Name = "N/A";
-                newStackElement.Listbox_Description = $"{selectedPoll.state} - {selectedPoll.ofc} - {selectedPoll.r_type} - {selectedPoll.preface} - {selectedPoll.question}";
+                newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.preface}-{selectedPoll.question}";
                 if (selectedPoll.r_type == "A")
                     newStackElement.Listbox_Description += $" - {selectedPoll.answer}";
+
+                string str = newStackElement.Listbox_Description;
+                if (str.Length  > 100)
+                    newStackElement.Listbox_Description = str.Substring(0, 98);
+
+
+
 
                 // Specific to race boards
                 newStackElement.Race_ID = 0;
@@ -3780,7 +3892,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
         private void AddVoterAnalysisMap()
@@ -3857,7 +3969,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -3975,7 +4087,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmMain Exception occurred: " + ex.Message);
-                log.Debug("frmMain Exception occurred", ex);
+                //log.Debug("frmMain Exception occurred", ex);
             }
         }
 
@@ -4180,7 +4292,7 @@ namespace GUILayer.Forms
                 {
                     // Log error
                     log.Error("frmMain Exception occurred: " + ex.Message);
-                    log.Debug("frmMain Exception occurred", ex);
+                    //log.Debug("frmMain Exception occurred", ex);
                 }
             }
         }
@@ -4236,7 +4348,7 @@ namespace GUILayer.Forms
                 {
                     // Log error
                     log.Error("frmMain Exception occurred: " + ex.Message);
-                    log.Debug("frmMain Exception occurred", ex);
+                    //log.Debug("frmMain Exception occurred", ex);
                 }
             }
 
@@ -4294,7 +4406,7 @@ namespace GUILayer.Forms
                 {
                     // Log error
                     log.Error("frmMain Exception occurred: " + ex.Message);
-                    log.Debug("frmMain Exception occurred", ex);
+                    //log.Debug("frmMain Exception occurred", ex);
                 }
             }
         }
@@ -4356,7 +4468,7 @@ namespace GUILayer.Forms
                 {
                     // Log error
                     log.Error("frmMain Exception occurred: " + ex.Message);
-                    log.Debug("frmMain Exception occurred", ex);
+                    //log.Debug("frmMain Exception occurred", ex);
                 }
             }
 
@@ -4459,7 +4571,7 @@ namespace GUILayer.Forms
                 {
                     // Log error
                     log.Error("frmMain Exception occurred: " + ex.Message);
-                    log.Debug("frmMain Exception occurred", ex);
+                    //log.Debug("frmMain Exception occurred", ex);
                 }
             }
         }
@@ -4847,6 +4959,7 @@ namespace GUILayer.Forms
                             vizClientSockets[engine - 1].Send(bCmd);
                         listBox2.Items.Add(vizCmd);
                         listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                        log.Debug($"Eng:{engine}: {vizCmd}");
 
                     }
                 }
@@ -4855,6 +4968,8 @@ namespace GUILayer.Forms
             catch (Exception ex)
             {
                 listBox2.Items.Add($"Send Cmd Error: {ex}");
+                // Log error
+                log.Error($"Send Cmd Error: {ex}");
 
             }
 
@@ -4889,6 +5004,7 @@ namespace GUILayer.Forms
                             vizClientSockets[engine - 1].Send(bCmd);
                         listBox2.Items.Add(vizCmd);
                         listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                        log.Debug($"Eng:{engine}: {vizCmd}");
 
                     }
                 }
@@ -4896,8 +5012,10 @@ namespace GUILayer.Forms
             }
             catch (Exception ex)
             {
-                listBox2.Items.Add($"Send Cmd Error: {ex}");
-
+                listBox2.Items.Add($"Send Cmd2 Error: {ex}");
+                // Log error
+                log.Error($"Send Cmd2 Error: {ex}");
+                
             }
 
         }
@@ -4913,6 +5031,11 @@ namespace GUILayer.Forms
         }
 
         private void btnUnlock_Click(object sender, EventArgs e)
+        {
+            Unlock();
+        }
+
+        public void Unlock()
         {
             LiveUpdateTimer.Enabled = false;
             panel2.BackColor = Color.Navy;
@@ -4931,13 +5054,18 @@ namespace GUILayer.Forms
             else
                 btnSaveStack.Enabled = true;
 
-
+            cbAutoCalledRaces.Checked = false;
             LoopTimer.Enabled = false;
         }
 
         private void btnLock_Click(object sender, EventArgs e)
         {
-            if (stackGrid.Rows.Count > 0)
+            Lock();
+        }
+
+        public void Lock()
+        {
+            if (stackGrid.Rows.Count > 0 || autoCalledRacesActive)
             {
                 stackLocked = true;
                 dataModeSelect.Enabled = false;
@@ -4951,7 +5079,8 @@ namespace GUILayer.Forms
 
                 //LoadScene(RBSceneName, 1);
                 currentRaceIndex = -1;
-                stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
+                if (stackGrid.Rows.Count > 0)
+                    stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
                 panel2.BackColor = Color.Lime;
 
                 int index = dataModeSelect.SelectedIndex;
@@ -4983,10 +5112,11 @@ namespace GUILayer.Forms
                 // if Looping checked start
                 if (cbLooping.Checked)
                 {
+                    LoopTimer.Enabled = true;
                     if (stackLocked && stackGrid.Rows.Count > 0)
                     {
                         TakeNext();
-                        LoopTimer.Enabled = true;
+                        
                     }
                 }
                 else
@@ -4997,6 +5127,18 @@ namespace GUILayer.Forms
                 stackGrid.Focus();
 
             }
+
+            /*
+            else
+            {
+                if (autoCalledRacesActive)
+                {
+                    panel2.BackColor = Color.Lime;
+                    LoopTimer.Enabled = true;
+                }
+                
+            }
+            */
         }
 
         public static DataTable GetDBData(string cmdStr, string dbConnection)
@@ -5029,7 +5171,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 //log.Error("GetDBData Exception occurred: " + ex.Message);
-                //log.Debug("GetDBData Exception occurred", ex);
+                ////log.Debug("GetDBData Exception occurred", ex);
             }
 
             return dataTable;
@@ -5045,16 +5187,45 @@ namespace GUILayer.Forms
                 if (vizEngines[i].enable)
                 {
                     if (i == 0)
+                    {
                         pbEng1.Visible = tabConfig[index].outputEngine[i];
+                    }
+
                     if (i == 1)
+                    {
                         pbEng2.Visible = tabConfig[index].outputEngine[i];
+                    }
                     if (i == 2)
+                    {
                         pbEng3.Visible = tabConfig[index].outputEngine[i];
+                    }
                     if (i == 3)
+                    {
                         pbEng4.Visible = tabConfig[index].outputEngine[i];
+                    }
 
                 }
 
+                lblScene1.Text = $"Scene: ";
+                lblScene2.Text = $"Scene: ";
+                lblScene3.Text = $"Scene: ";
+                lblScene4.Text = $"Scene: ";
+
+                for (int j = 0; j < tabConfig[index].TabOutput.Count; j++)
+                {
+                    //if (tabConfig[index].TabOutput[j].engine == j + 1)
+                    {
+                        int n = tabConfig[index].TabOutput[j].engine;
+                        if (n == 1)
+                            lblScene1.Text = $"Scene: {tabConfig[index].TabOutput[j].sceneCode}";
+                        if (n == 2)
+                            lblScene2.Text = $"Scene: {tabConfig[index].TabOutput[j].sceneCode}";
+                        if (n == 3)
+                            lblScene3.Text = $"Scene: {tabConfig[index].TabOutput[j].sceneCode}";
+                        if (n == 4)
+                            lblScene4.Text = $"Scene: {tabConfig[index].TabOutput[j].sceneCode}";
+                    }
+                }
             }
             lblScenes.Text = $"Scenes: {tabConfig[index].engineSceneDef}";
 
@@ -5081,6 +5252,20 @@ namespace GUILayer.Forms
 
         private void LoopTimer_Tick(object sender, EventArgs e)
         {
+            if (stackGrid.RowCount == 0 && autoCalledRacesActive)
+            {
+                acrIndx++;
+                if (acrIndx >= autoOfc.Count)
+                    acrIndx = 0;
+
+                ofcID = autoOfc[acrIndx];
+                stackElements.Clear();
+                RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+                AddAll();
+            }
+
+
+
             if (currentRaceIndex >= stackGrid.RowCount - 1)
             {
                 if (autoCalledRacesActive)
@@ -5096,9 +5281,13 @@ namespace GUILayer.Forms
 
                 }
 
-                currentRaceIndex = 0;
-                stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
-                TakeCurrent();
+                if (stackGrid.RowCount > 0)
+                {
+                    currentRaceIndex = 0;
+                    stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
+                    TakeCurrent();
+                }
+
             }
             else
                 TakeNext();
@@ -5434,8 +5623,8 @@ namespace GUILayer.Forms
                 party = "0";
             else if (rd.CandidatePartyID == "Dem")
                 party = "1";
-            else if (rd.CandidatePartyID == "Lib")
-                party = "3";
+            //else if (rd.CandidatePartyID == "Lib")
+                //party = "3";
             else
                 party = "2";
 
@@ -5577,7 +5766,7 @@ namespace GUILayer.Forms
             catch (Exception ex)
             {
                 log.Error("SimulatedDateTimeAccess Exception occurred while trying to convert string to DateTime value: " + ex.Message);
-                log.Debug("SimulatedDateTimeAccess Exception occurred while trying to convert string to DateTime value", ex);
+                //log.Debug("SimulatedDateTimeAccess Exception occurred while trying to convert string to DateTime value", ex);
             }
             return apRaceCallDateTimeStr;
         }
@@ -5699,6 +5888,8 @@ namespace GUILayer.Forms
                 SendToViz(outStr, seDataType);
 
             }
+            LiveUpdateTimer.Enabled = false;
+            LiveUpdateTimer.Enabled = true;
 
         }
 
@@ -6343,18 +6534,24 @@ namespace GUILayer.Forms
         {
             autoCalledRacesActive = cbAutoCalledRaces.Checked;
             if (autoCalledRacesActive)
+            {
                 cbLooping.Checked = true;
 
-            acrIndx = 0;
+                acrIndx = 0;
 
-            ofcID = autoOfc[acrIndx];
-            RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
-            stackElements.Clear();
-            AddAll();
+                ofcID = autoOfc[acrIndx];
+                RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+                stackElements.Clear();
+                AddAll();
+            }
 
 
 
+        }
 
+        private void dgvVoterAnalysis_DoubleClick(object sender, EventArgs e)
+        {
+            AddVoterAnalysis();
         }
     }
 

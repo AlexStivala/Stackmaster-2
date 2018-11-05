@@ -56,7 +56,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("ApplicationSettingsFlagsAccess Exception occurred while getting settings: " + ex.Message);
-                log.Debug("ApplicationSettingsFlagsAccess Exception occurred while getting settings", ex);
+                //log.Debug("ApplicationSettingsFlagsAccess Exception occurred while getting settings", ex);
             }
 
             return dataTable;
@@ -153,7 +153,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("ApplicationSettingsFlagsAccess while posting application log entry: " + ex.Message);
-                log.Debug("ApplicationSettingsFlagsAccess while posting application log entry", ex);
+                //log.Debug("ApplicationSettingsFlagsAccess while posting application log entry", ex);
             }
         }
 

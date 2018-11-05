@@ -37,6 +37,8 @@ namespace DataInterface.DataAccess
             try
             {
                 // Instantiate the connection
+                log.Debug($"GetStackElements stackID: {stackID}");
+                log.Debug($"GetStackElements DBconn: {MainDBConnectionString}");
                 using (SqlConnection connection = new SqlConnection(MainDBConnectionString))
                 {
                     // Create the command and set its properties
@@ -60,7 +62,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("StackElementAccess Exception occurred: " + ex.Message);
-                log.Debug("StackElementAccess Exception occurred", ex);
+                //log.Debug("StackElementAccess Exception occurred", ex);
             }
 
             return dataTable;
@@ -77,6 +79,8 @@ namespace DataInterface.DataAccess
                 try
                 {
                     // Instantiate the connection
+                    log.Debug($"SaveStackElements DBconn: {MainDBConnectionString}");
+
                     using (SqlConnection connection = new SqlConnection(MainDBConnectionString))
                     {
                         connection.Open();
@@ -122,10 +126,15 @@ namespace DataInterface.DataAccess
 
                                     //Attempt to commit the transaction
                                     transaction.Commit();
+                                    log.Debug($"Saving Stack Elements Complete");
+
+
                                 }
                                 catch (Exception ex)
                                 {
                                     transaction.Rollback();
+                                    log.Error("StackElementAccess Exception occurred: " + ex.Message);
+
                                 }
                             }
                         }
@@ -136,7 +145,7 @@ namespace DataInterface.DataAccess
                 {
                     // Log error
                     log.Error("StackElementAccess Exception occurred: " + ex.Message);
-                    log.Debug("StackElementAccess Exception occurred", ex);
+                    //log.Debug("StackElementAccess Exception occurred", ex);
                 }
             }
         }
@@ -246,7 +255,7 @@ namespace DataInterface.DataAccess
                 {
                     // Log error
                     log.Error("StackElementAccess Exception occurred: " + ex.Message);
-                    log.Debug("StackElementAccess Exception occurred", ex);
+                    //log.Debug("StackElementAccess Exception occurred", ex);
                 }
             }
         }

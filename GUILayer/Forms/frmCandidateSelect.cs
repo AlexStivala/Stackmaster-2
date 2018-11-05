@@ -169,7 +169,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 Log.Error("frmCandidateSelect Exception occurred: " + ex.Message);
-                Log.Debug("frmCandidateSelect Exception occurred", ex);
+                //Log.Debug("frmCandidateSelect Exception occurred", ex);
             }
         }
 

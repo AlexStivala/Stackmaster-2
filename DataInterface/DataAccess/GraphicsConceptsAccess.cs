@@ -62,7 +62,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("GraphicsConceptsAccess Exception occurred: " + ex.Message);
-                log.Debug("GraphicsConceptsAccess Exception occurred", ex);
+                //log.Debug("GraphicsConceptsAccess Exception occurred", ex);
             }
 
             return dataTable;
@@ -96,7 +96,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("GraphicsConceptsAccess Exception occurred: " + ex.Message);
-                log.Debug("GraphicsConceptsAccess Exception occurred", ex);
+                //log.Debug("GraphicsConceptsAccess Exception occurred", ex);
             }
 
             return dataTable;

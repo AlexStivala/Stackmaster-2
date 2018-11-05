@@ -87,7 +87,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return showList;
@@ -138,7 +138,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return elementCollectionURI;
@@ -168,7 +168,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return link;
@@ -219,7 +219,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return playlistDirectoryURI;
@@ -250,7 +250,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return link;
@@ -300,7 +300,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return templateCollectionURI;
@@ -334,7 +334,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_SHOWS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_SHOWS Exception occurred", ex);
+                //log.Debug("MANAGE_SHOWS Exception occurred", ex);
             }
 
             return link;

@@ -73,7 +73,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
             return playlistList;
         }
@@ -124,7 +124,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
             return playlistURI;
         }
@@ -174,7 +174,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
             return playlistAltLink;
         }
@@ -224,7 +224,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
             return playlistDownLink;
         }
@@ -264,7 +264,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
 
             return playlistExists;
@@ -315,7 +315,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
 
             return restResponse;
@@ -335,7 +335,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }
         }
 
@@ -360,7 +360,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_PLAYLISTS Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
+                //log.Debug("MANAGE_PLAYLISTS Exception occurred", ex);
             }          
 
             return collectionURI;

@@ -59,7 +59,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmSelectShow Exception occurred: " + ex.Message);
-                log.Debug("frmSelectShow Exception occurred", ex);
+                //log.Debug("frmSelectShow Exception occurred", ex);
             }
         }
 
@@ -103,7 +103,7 @@ namespace GUILayer.Forms
             {
                 // Log error
                 log.Error("frmSelectShow Exception occurred: " + ex.Message);
-                log.Debug("frmSelectShow Exception occurred", ex);
+                //log.Debug("frmSelectShow Exception occurred", ex);
             }
 
             this.DialogResult = DialogResult.OK;

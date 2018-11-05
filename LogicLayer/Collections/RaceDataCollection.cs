@@ -121,7 +121,7 @@ namespace LogicLayer.Collections
             {
                 // Log error
                 log.Error("RaceDataCollection Exception occurred: " + ex.Message);
-                log.Debug("RaceDataCollection Exception occurred", ex);
+                //log.Debug("RaceDataCollection Exception occurred", ex);
             }
             // Return 
             return raceData;

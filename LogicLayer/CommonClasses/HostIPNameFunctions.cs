@@ -34,7 +34,7 @@ namespace LogicLayer.CommonClasses
             {
                 // Log error
                 log.Error("HostIPNameFunctions Exception occurred while trying to get IP address: " + ex.Message);
-                log.Debug("HostIPNameFunctions Exception occurred while trying to get IP address", ex);
+                //log.Debug("HostIPNameFunctions Exception occurred while trying to get IP address", ex);
             }
             return ipAddress;
         }
@@ -54,7 +54,7 @@ namespace LogicLayer.CommonClasses
             {
                 // Log error
                 log.Error("HostIPNameFunctions Exception occurred while trying to get host name: " + ex.Message);
-                log.Debug("HostIPNameFunctions Exception occurred while trying to get host name", ex);
+                //log.Debug("HostIPNameFunctions Exception occurred while trying to get host name", ex);
             }
 
             return null;

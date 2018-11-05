@@ -70,7 +70,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_TEMPLATES Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
+                //log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
             }
 
             return templateList;
@@ -116,7 +116,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_TEMPLATES Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
+                //log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
             }
 
             return model;
@@ -148,7 +148,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_TEMPLATES Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
+                //log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
             }
 
             return link;
@@ -199,7 +199,7 @@ namespace MSEInterface
             {
                 // Log error
                 log.Error("MANAGE_TEMPLATES Exception occurred: " + ex.Message);
-                log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
+                //log.Debug("MANAGE_TEMPLATES Exception occurred", ex);
             }
 
             return templateAltLink;

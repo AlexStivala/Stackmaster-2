@@ -58,7 +58,7 @@ namespace DataInterface.DataAccess
             {
                 // Log error
                 log.Error("ReferendumDataAccess Exception occurred: " + ex.Message);
-                log.Debug("ReferendumDataAccess Exception occurred", ex);
+                //log.Debug("ReferendumDataAccess Exception occurred", ex);
             }
 
             return dataTable;

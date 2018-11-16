@@ -316,5 +316,32 @@ namespace GUILayer.Properties {
                 return ((bool)(this["AutoCalledRacesEnable"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("gfxuser")]
+        public string User {
+            get {
+                return ((string)(this["User"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("elect2018")]
+        public string PW {
+            get {
+                return ((string)(this["PW"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd")]
+        public string ConfigDB {
+            get {
+                return ((string)(this["ConfigDB"]));
+            }
+        }
     }
 }

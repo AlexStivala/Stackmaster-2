@@ -46,3 +46,4 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInter
 C:\_dev\bitbucket\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.dll
 C:\_dev\bitbucket\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.pdb
 C:\X\ElectionGraphicsStackBuilder\DataInterface\obj\Debug\DataInterface.csproj.CopyComplete
+C:\X\ElectionGraphicsStackBuilder\DataInterface\obj\Debug\DataInterface.csprojAssemblyReference.cache

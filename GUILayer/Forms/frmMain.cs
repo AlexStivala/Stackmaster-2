@@ -230,10 +230,18 @@ namespace GUILayer.Forms
         */
 
         // Read in database connection strings
-        string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
-        string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
-        string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
+        //string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
+        //string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
+        //string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
         //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
+
+        string GraphicsDBConnectionString = string.Empty;
+        string ElectionsDBConnectionString = string.Empty;
+        string StacksDBConnectionString = string.Empty;
+        string ConfigDBConnectionString = string.Empty;
+
+
+
         bool useBackupServer = Convert.ToBoolean(config.AppSettings.Settings["UseBackupServer"].Value);
 
         //Read in default Trio profile and channel
@@ -472,6 +480,10 @@ namespace GUILayer.Forms
             //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
             string primaryServer = Properties.Settings.Default.Server_Pri;
             string backupServer = Properties.Settings.Default.Server_Bk;
+            string User = Properties.Settings.Default.User;
+            string Pw = Properties.Settings.Default.PW;
+
+
             string server;
 
             if (useBackupServer)
@@ -483,39 +495,63 @@ namespace GUILayer.Forms
                 server = primaryServer;
             }
             
-            var builder = new SqlConnectionStringBuilder(ElectionsDBConnectionString);
+            //var builder = new SqlConnectionStringBuilder(ElectionsDBConnectionString);
 
+            var builder = new SqlConnectionStringBuilder();
+
+            //builder.DataSource = server;
+
+            //var dataSource = builder.DataSource;
+            //var initCat = builder.InitialCatalog;
+            //var user = User;
+            //var pw = Pw;
+            //ElectionsDBConnectionString = builder.ConnectionString;
+
+            builder.UserID = User;
+            builder.Password = Pw;
             builder.DataSource = server;
+            builder.InitialCatalog = Properties.Settings.Default.MainDB;
+            builder.PersistSecurityInfo = true;
+            ElectionsDBConnectionString = builder.ConnectionString;
 
             var dataSource = builder.DataSource;
             var initCat = builder.InitialCatalog;
-            var user = builder.UserID;
-            var pw = builder.Password;
-            ElectionsDBConnectionString = builder.ConnectionString;
 
             lblDB.Text = $"{dataSource}  {initCat}";
             log.Info($"{dataSource}  {initCat}");
 
+            
             log.Info($"ElectionsDBConnectionString {ElectionsDBConnectionString}");
 
 
             var sbuilder = new SqlConnectionStringBuilder("");
-            sbuilder.UserID = builder.UserID;
-            sbuilder.Password = builder.Password;
-            sbuilder.DataSource = builder.DataSource;
+            sbuilder.UserID = User;
+            sbuilder.Password = Pw;
+            sbuilder.DataSource = server;
             sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
             sbuilder.PersistSecurityInfo = true;
             StacksDBConnectionString = sbuilder.ConnectionString;
             log.Info($"StacksDBConnectionString {StacksDBConnectionString}");
 
             var MPsbuilder = new SqlConnectionStringBuilder("");
-            MPsbuilder.UserID = builder.UserID;
-            MPsbuilder.Password = builder.Password;
-            MPsbuilder.DataSource = builder.DataSource;
+            MPsbuilder.UserID = User;
+            MPsbuilder.Password = Pw;
+            MPsbuilder.DataSource = server;
             MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
             MPsbuilder.PersistSecurityInfo = true;
             GraphicsDBConnectionString = MPsbuilder.ConnectionString;
             log.Info($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
+
+
+            var cbuilder = new SqlConnectionStringBuilder("");
+            cbuilder.UserID = User;
+            cbuilder.Password = Pw;
+            cbuilder.DataSource = server;
+            cbuilder.InitialCatalog = Properties.Settings.Default.ConfigDB;
+            cbuilder.PersistSecurityInfo = true;
+            ConfigDBConnectionString = cbuilder.ConnectionString;
+            log.Info($"ConfigDBConnectionString {ConfigDBConnectionString}");
+
 
             usingPrimaryMediaSequencer = true;
 
@@ -571,7 +607,7 @@ namespace GUILayer.Forms
                 // get configuration info based on computer's IP Address 
                 DataTable dtComp = new DataTable();
                 string cmdStr = $"SELECT * FROM FE_Devices WHERE IP_Address = '{ipAddress}'";
-                dtComp = GetDBData(cmdStr, ElectionsDBConnectionString);
+                dtComp = GetDBData(cmdStr, ConfigDBConnectionString);
                 DataRow row;
 
                 if (dtComp.Rows.Count > 0)
@@ -591,7 +627,7 @@ namespace GUILayer.Forms
                 // get tab enables and mode and network
                 DataTable dtEnab = new DataTable();
                 cmdStr = $"SELECT * FROM FE_Tabs WHERE Config = '{configName}'";
-                dtEnab = GetDBData(cmdStr, ElectionsDBConnectionString);
+                dtEnab = GetDBData(cmdStr, ConfigDBConnectionString);
 
                 row = dtEnab.Rows[0];
                 bool RBenable = Convert.ToBoolean(row["RaceBoards"] ?? 0);
@@ -773,7 +809,7 @@ namespace GUILayer.Forms
 
                     cmdStr = $"SELECT * FROM FE_EngineDefs WHERE Config = '{configName}'";
                     DataTable dtEng = new DataTable();
-                    dtEng = GetDBData(cmdStr, ElectionsDBConnectionString);
+                    dtEng = GetDBData(cmdStr, ConfigDBConnectionString);
                     row = dtEng.Rows[0];
 
 
@@ -971,7 +1007,7 @@ namespace GUILayer.Forms
 
 
                     cmdStr = $"SELECT * FROM FE_TabConfig WHERE Config = '{configName}' AND TabName = '{tabName}'";
-                    dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+                    dt = GetDBData(cmdStr, ConfigDBConnectionString);
 
                     string tabN;
                     TabDefinitionModel td = new TabDefinitionModel();
@@ -1087,7 +1123,8 @@ namespace GUILayer.Forms
             }
             catch (Exception ex)
             {
-                listBox2.Items.Add($"Send Cmd Error: {ex}");
+                listBox2.Items.Add($"Load Config Error: {ex}");
+                log.Error($"Load Config Error: {ex}");
 
             }
 
@@ -1929,7 +1966,7 @@ namespace GUILayer.Forms
             {
                 mseEndpoint = mseEndpoint2;
             }
-            frmSelectShow selectShow = new frmSelectShow(mseEndpoint);
+            frmSelectShow selectShow = new frmSelectShow(mseEndpoint,GraphicsDBConnectionString);
             dr = selectShow.ShowDialog();
             if (dr == DialogResult.OK)
             {
@@ -6051,11 +6088,14 @@ namespace GUILayer.Forms
                 }
             }
             
-            List<VoterAnalysisMapLegendModel> mapLegend = new List<VoterAnalysisMapLegendModel>();
-            mapLegend = GetVoterAnalysisMapLegendData(mapID);
+            List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
+            //mapLegend = GetVoterAnalysisMapLegendData(mapID);
+            mapLegend = GetLegend(VA_Data_Id);
 
-            SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            //SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
+
             SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates {quot}{VA_Data_Id}{quot}", connection1);
             SqlDataReader sqlData = cmd1.ExecuteReader();
 
@@ -6083,12 +6123,30 @@ namespace GUILayer.Forms
             string legendDataCommand = $"{quot}VOTER_INFO{quot} {outStr}{term}";
             SendToViz2(legendDataCommand, seDataType);
 
+            
+
+            SqlCommand cmd2 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state = 'US'", connection1);
+            cmd2.CommandType = CommandType.Text;
+
+            SqlDataReader sqlData1 = cmd2.ExecuteReader();
+            DataTable dt1 = new DataTable();
+            dt1.Load(sqlData1);
+
+            DataRow row;
+            row = dt1.Rows[0];
+
+            string Title = row["answer"].ToString().Trim();
+            nat = Convert.ToInt32(row["percent"]);
+
+
             outStr = $"{nat}%";
             //string nationalDataCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_BOX{quot} {outStr}";
             string nationalDataCommand = $"{quot}VOTER_BOX{quot} {outStr}{term}";
             SendToViz2(nationalDataCommand, seDataType);
 
-            outStr = $"{mapLegend[0].Title}";
+
+            //outStr = $"{mapLegend[0].Title}";
+            outStr = $"{Title}";
             //string titleCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_TITLE{quot} {outStr}";
             string titleCommand = $"{quot}VOTER_TITLE{quot} {outStr}{term}";
             SendToViz2(titleCommand, seDataType);
@@ -6100,24 +6158,119 @@ namespace GUILayer.Forms
         public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id)
         {
             // Get data for newly selected map - will want to do this just in time
-            SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
-            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData {quot}{VA_Data_Id}{quot}", connection1);
+
+            SqlCommand cmd1 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
             cmd1.CommandType = CommandType.Text;
 
             SqlDataReader sqlData1 = cmd1.ExecuteReader();
-            
             DataTable dt1 = new DataTable();
-            
             dt1.Load(sqlData1);
+
+            List<double> mapPercent = new List<double>();
+            DataRow row;
+            row = dt1.Rows[0];
+
+            string Title = row["answer"].ToString().Trim();
+
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                double md;
+                
+                row = dt1.Rows[i];
+                md = Convert.ToDouble(row["percent"]);
+
+                mapPercent.Add(md);
+            }
+
+            StatFunctions sf = new StatFunctions();
+            int n = mapPercent.Count;
+            double max = sf.Max(mapPercent);
+            double min = sf.Min(mapPercent);
+            double sdev = sf.StandardDeviation(mapPercent);
+            double mean = sf.Mean(mapPercent);
+            double median = sf.Median(mapPercent);
+            double sdevHi1 = median + sdev;
+            double sdevLo1 = median - sdev;
+            double sdevHi2 = median + 2 * sdev;
+            double sdevLo2 = median - 2 * sdev;
+            int n1 = 0;
+            int n2 = 0;
+
+            double range = (max - min) / 4.0;
+            double band = Math.Truncate(range) + 1;
+            int iBand = Convert.ToInt32(band);
+            int iband1 = iBand + 1;
+            int mid = Convert.ToInt32((max + min) / 2);
+
+
+            int[] bandLo = new int[4];
+            int[] bandHi = new int[4];
+
+            int[] bandLo2 = new int[4];
+            int[] bandHi2 = new int[4];
+
+
+            bandLo[2] = Convert.ToInt32(mid);
+            bandHi[2] = Convert.ToInt32(mid + band);
+
+            bandLo[3] = bandHi[2] + 1;
+            bandHi[3] = bandLo[3] + Convert.ToInt32(band);
+
+            bandHi[1] = bandLo[2] - 1;
+            bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+
+            bandHi[0] = bandLo[1] - 1;
+            bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+
+            //option2 
+
+
+            double range2 = (max - median) / 2.0;
+
+            if ((median - min) / 2.0 > range2)
+                range2 = (median - min) / 2.0;
+
+            double band2 = Math.Truncate(range2) + 1;
+
+            int iBand2 = Convert.ToInt32(band2);
+            int iband2 = iBand2 + 1;
+
+            bandLo2[2] = Convert.ToInt32(median);
+            bandHi2[2] = Convert.ToInt32(median + band2);
+
+            bandLo2[3] = bandHi2[2] + 1;
+            bandHi2[3] = bandLo2[3] + Convert.ToInt32(band2);
+
+            bandHi2[1] = bandLo2[2] - 1;
+            bandLo2[1] = bandHi2[1] - Convert.ToInt32(band2);
+
+            bandHi2[0] = bandLo2[1] - 1;
+            bandLo2[0] = bandHi2[0] - Convert.ToInt32(band2);
+
+
+            sqlData1.Close();            
+            
+            //SqlCommand cmd2 = new SqlCommand($"getFE_VoterAnalysis_MapData {quot}{VA_Data_Id}{quot}", connection1);
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2 = new SqlCommand($"SELECT state, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
+            cmd2.CommandType = CommandType.Text;
+
+            SqlDataReader sqlData2 = cmd2.ExecuteReader();
+            
+            DataTable dt2 = new DataTable();
+            
+            dt2.Load(sqlData2);
             
             List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
             
-            for (int i = 0; i < dt1.Rows.Count; i++)
+            for (int i = 0; i < dt2.Rows.Count; i++)
             {
                 VoterAnalysisMapDataModel md = new VoterAnalysisMapDataModel();
-                DataRow row;
+                //DataRow row;
 
+                /*
                 row = dt1.Rows[i];
                 md.State = row["State"].ToString().Trim();
                 md.Percent = Convert.ToInt32(row["Percent"]);
@@ -6126,6 +6279,18 @@ namespace GUILayer.Forms
                 md.MapId = Convert.ToInt32(row["MapID"]);
                 md.Color = Convert.ToInt32(row["Color"]);
                 md.Position = Convert.ToInt32(row["Position"]);
+                */
+
+                row = dt2.Rows[i];
+                md.State = row["state"].ToString().Trim();
+                md.Percent = Convert.ToInt32(row["percent"]);
+
+                md.RowNumber = GetRowNumber(md.Percent, bandHi, bandLo);
+                md.RowLabel = $"{bandLo[md.RowNumber]}% - {bandHi[md.RowNumber]}%";
+                md.MapId = 0;
+
+                md.Color = GetColor(1, md.RowNumber);
+                md.Position = md.RowNumber + 1;
 
                 mapdata.Add(md);
 
@@ -6134,10 +6299,148 @@ namespace GUILayer.Forms
             return mapdata;
         }
 
+        public int GetRowNumber(int percent, int[] bandHi, int[] bandLo)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (percent >= bandLo[i] && percent <= bandHi[i])
+                    return i;
+            }
+            return -1;
+        }
+
+
+        public int GetColor(int colorSet, int RowNum)
+        {
+            SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
+            connection1.Open();
+            SqlCommand cmd1 = new SqlCommand($"SELECT ColorValue FROM FE_VoterAnalysis_Map_Color_Sets WHERE ColorSetID = '{colorSet}' AND ColorIndex = '{RowNum + 1}'", connection1);
+            cmd1.CommandType = CommandType.Text;
+
+            SqlDataReader sqlData1 = cmd1.ExecuteReader();
+
+            DataTable dt1 = new DataTable();
+            dt1.Load(sqlData1);
+            DataRow row;
+            row = dt1.Rows[0];
+            int color = Convert.ToInt32(row["ColorValue"]);
+            return color;
+
+        }
+
+        public List<VoterAnalysisMapLegendDefModel> GetLegend(string VA_Data_Id)
+        {
+            SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
+            connection1.Open();
+
+            SqlCommand cmd1 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
+            cmd1.CommandType = CommandType.Text;
+
+            SqlDataReader sqlData1 = cmd1.ExecuteReader();
+            DataTable dt1 = new DataTable();
+            dt1.Load(sqlData1);
+
+            List<double> mapPercent = new List<double>();
+            DataRow row;
+            row = dt1.Rows[0];
+
+            string Title = row["answer"].ToString().Trim();
+
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                double md;
+
+                row = dt1.Rows[i];
+                md = Convert.ToDouble(row["percent"]);
+
+                mapPercent.Add(md);
+            }
+
+            StatFunctions sf = new StatFunctions();
+            int n = mapPercent.Count;
+            double max = sf.Max(mapPercent);
+            double min = sf.Min(mapPercent);
+            double sdev = sf.StandardDeviation(mapPercent);
+            double mean = sf.Mean(mapPercent);
+            double median = sf.Median(mapPercent);
+            double sdevHi1 = median + sdev;
+            double sdevLo1 = median - sdev;
+            double sdevHi2 = median + 2 * sdev;
+            double sdevLo2 = median - 2 * sdev;
+            int n1 = 0;
+            int n2 = 0;
+
+            double range = (max - min) / 4.0;
+            double band = Math.Truncate(range) + 1;
+            int iBand = Convert.ToInt32(band);
+            int iband1 = iBand + 1;
+            int mid = Convert.ToInt32((max + min) / 2);
+
+
+            int[] bandLo = new int[4];
+            int[] bandHi = new int[4];
+
+            int[] bandLo2 = new int[4];
+            int[] bandHi2 = new int[4];
+
+            List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
+
+            bandLo[2] = Convert.ToInt32(mid);
+            bandHi[2] = Convert.ToInt32(mid + band);
+
+            bandLo[3] = bandHi[2] + 1;
+            bandHi[3] = bandLo[3] + Convert.ToInt32(band);
+
+            bandHi[1] = bandLo[2] - 1;
+            bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+
+            bandHi[0] = bandLo[1] - 1;
+            bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+
+            for (int i = 0; i < 4; i++)
+            {
+                VoterAnalysisMapLegendDefModel ml = new VoterAnalysisMapLegendDefModel();
+                ml.bandHi = bandHi[i];
+                ml.bandLo = bandLo[i];
+                ml.legend = $"{bandLo[i]}% - {bandHi[i]}%";
+                mapLegend.Add(ml);
+            }
+            
+            //option2 
+
+            double range2 = (max - median) / 2.0;
+
+            if ((median - min) / 2.0 > range2)
+                range2 = (median - min) / 2.0;
+
+            double band2 = Math.Truncate(range2) + 1;
+
+            int iBand2 = Convert.ToInt32(band2);
+            int iband2 = iBand2 + 1;
+
+            bandLo2[2] = Convert.ToInt32(median);
+            bandHi2[2] = Convert.ToInt32(median + band2);
+
+            bandLo2[3] = bandHi2[2] + 1;
+            bandHi2[3] = bandLo2[3] + Convert.ToInt32(band2);
+
+            bandHi2[1] = bandLo2[2] - 1;
+            bandLo2[1] = bandHi2[1] - Convert.ToInt32(band2);
+
+            bandHi2[0] = bandLo2[1] - 1;
+            bandLo2[0] = bandHi2[0] - Convert.ToInt32(band2);
+
+
+            sqlData1.Close();
+
+            return mapLegend;
+        }
+
+
         public List<VoterAnalysisMapLegendModel> GetVoterAnalysisMapLegendData(int mapID)
         {
             // Get data for newly selected map - will want to do this just in time
-            SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
+            SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
             SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapLegend {mapID}", connection1);
             cmd1.CommandType = CommandType.Text;
@@ -6201,7 +6504,7 @@ namespace GUILayer.Forms
             return outStr;
 
         }
-        public string GetVoterAnalysisMapLegendMapKeyStr(List<VoterAnalysisMapLegendModel> mapLegend)
+        public string GetVoterAnalysisMapLegendMapKeyStr(List<VoterAnalysisMapLegendDefModel> mapLegend)
         {
 
             string outStr = string.Empty;
@@ -6219,8 +6522,9 @@ namespace GUILayer.Forms
                     }
                     // Build data for string
                     // Note that legend is numbered from top to bottom but values are assigned from bottom to top
-                    outStr += $"{mapLegend[mapLegend.Count - i - 1].RowNumber}^{mapLegend[i].RowColor}^{mapLegend[i].RowLabel}";
-                    
+                    //outStr += $"{mapLegend[mapLegend.Count - i - 1].RowNumber}^{mapLegend[i].RowColor}^{mapLegend[i].RowLabel}";
+                    outStr += $"{mapLegend.Count - i - 1}^{GetColor(1,i)}^{mapLegend[i].legend}";
+
                 }
                 // Send blanks for unused legend rows
                 if (mapLegend.Count == 4)

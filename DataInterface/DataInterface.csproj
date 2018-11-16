@@ -77,6 +77,7 @@
     <Compile Include="DataModel\StateMetadataModel.cs" />
     <Compile Include="DataModel\VoterAnalysisDataModel.cs" />
     <Compile Include="DataModel\VoterAnalysisMapDataModel.cs" />
+    <Compile Include="DataModel\VoterAnalysisMapLegendDefModel.cs" />
     <Compile Include="DataModel\VoterAnalysisMapLegendModel.cs" />
     <Compile Include="DataModel\VoterAnalysisMapQuestionsModel.cs" />
     <Compile Include="DataModel\VoterAnalysisQuestionsModel.cs" />

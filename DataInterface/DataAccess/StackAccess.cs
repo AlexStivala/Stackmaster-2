@@ -47,7 +47,7 @@ namespace DataInterface.DataAccess
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
                             cmd.CommandText = SQLCommands.sqlGetStacksList;
-                            cmd.Parameters.Add("@StackType", SqlDbType.Float).Value = stackType;
+                            cmd.Parameters.Add("@StackType", SqlDbType.Int).Value = stackType;
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;
                             sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;

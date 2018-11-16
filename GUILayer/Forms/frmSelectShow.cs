@@ -32,7 +32,7 @@ namespace GUILayer.Forms
         public string selectedShow { get; set; }
         #endregion
 
-        public frmSelectShow(string mediaSequencerEndPoint)
+        public frmSelectShow(string mediaSequencerEndPoint, string DBconn)
         {
             try
             {
@@ -42,7 +42,8 @@ namespace GUILayer.Forms
                 MANAGE_SHOWS getShowList = new MANAGE_SHOWS();
 
                 //Read in values from the config file
-                GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
+                //GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
+                GraphicsDBConnectionString = DBconn;
 
                 showNames = getShowList.GetListOfShows(mediaSequencerEndPoint + Properties.Settings.Default.TopLevelShowsDirectory);
 

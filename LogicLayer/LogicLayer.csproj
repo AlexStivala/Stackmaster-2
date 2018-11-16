@@ -57,6 +57,7 @@
     <Compile Include="Collections\StateMetadataCollection.cs" />
     <Compile Include="Collections\VoterAnalysisDataCollection.cs" />
     <Compile Include="CommonClasses\HostIPNameFunctions.cs" />
+    <Compile Include="CommonClasses\StatFunctions.cs" />
     <Compile Include="CommonClasses\TimeFunctions.cs" />
     <Compile Include="CommonClasses\SortableBindingList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

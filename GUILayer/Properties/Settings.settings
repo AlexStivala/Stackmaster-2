@@ -107,5 +107,14 @@
     <Setting Name="AutoCalledRacesEnable" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="User" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">gfxuser</Value>
+    </Setting>
+    <Setting Name="PW" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">elect2018</Value>
+    </Setting>
+    <Setting Name="ConfigDB" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ElectionProd</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

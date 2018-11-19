@@ -331,50 +331,7 @@ namespace GUILayer.Forms
                 // Query the elections DB to get the list of exit poll questions
                 //RefreshExitPollQuestions();
 
-                // Query the elections DB to get the list of available races
-                RefreshAvailableRacesList();
-
-                //Query the elections DB to get the list of Referendums
-                RefreshReferendums();
-
-                // Query the elections DB to get application flags(option settings)
-                RefreshApplicationFlags();
-
-                // Init the stack elements collections
-                CreateStackElementsCollections();
-
-                // Setup data binding for stacks grid
-                stackGrid.AutoGenerateColumns = false;
-                var stackGridDataSource = new BindingSource(stackElements, null);
-                stackGrid.DataSource = stackGridDataSource;
-
-                // Init the race data collection
-                CreateRaceDataCollection();
-
-                // Init the state metadata collection
-                CreateStateMetadataCollection();
-
-                // Init the race preview collection
-                CreateRacePreviewCollection();
-
-                // Init Graphics Concepts Collection
-                CreateGraphicsConceptsCollection();
-
-                // Set current show label
-                lblCurrentShow.Text = currentShowName;
-
-                // Load the BOP Grid
-                LoadBOPDGV();
-
-                // Enable handling of function keys; setup method for function keys and assign delegate
-                KeyPreview = true;
-                this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
-
-                timerStatusUpdate.Enabled = true;
-
-                // Set connection string for functions to get simulated time
-                TimeFunctions.ElectionsDBConnectionString = ElectionsDBConnectionString;
-
+                
 
                 // Set version number
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -499,14 +456,6 @@ namespace GUILayer.Forms
 
             var builder = new SqlConnectionStringBuilder();
 
-            //builder.DataSource = server;
-
-            //var dataSource = builder.DataSource;
-            //var initCat = builder.InitialCatalog;
-            //var user = User;
-            //var pw = Pw;
-            //ElectionsDBConnectionString = builder.ConnectionString;
-
             builder.UserID = User;
             builder.Password = Pw;
             builder.DataSource = server;
@@ -582,9 +531,53 @@ namespace GUILayer.Forms
 
             cbAutoCalledRaces.Enabled = autoCalledRacesEnable;
 
-
-
             LoadConfig();
+
+
+            // Query the elections DB to get the list of available races
+            RefreshAvailableRacesList();
+
+            //Query the elections DB to get the list of Referendums
+            RefreshReferendums();
+
+            // Query the elections DB to get application flags(option settings)
+            RefreshApplicationFlags();
+
+            // Init the stack elements collections
+            CreateStackElementsCollections();
+
+            // Setup data binding for stacks grid
+            stackGrid.AutoGenerateColumns = false;
+            var stackGridDataSource = new BindingSource(stackElements, null);
+            stackGrid.DataSource = stackGridDataSource;
+
+            // Init the race data collection
+            CreateRaceDataCollection();
+
+            // Init the state metadata collection
+            CreateStateMetadataCollection();
+
+            // Init the race preview collection
+            CreateRacePreviewCollection();
+
+            // Init Graphics Concepts Collection
+            CreateGraphicsConceptsCollection();
+
+            // Set current show label
+            lblCurrentShow.Text = currentShowName;
+
+            // Load the BOP Grid
+            LoadBOPDGV();
+
+            // Enable handling of function keys; setup method for function keys and assign delegate
+            KeyPreview = true;
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
+
+            timerStatusUpdate.Enabled = true;
+
+            // Set connection string for functions to get simulated time
+            TimeFunctions.ElectionsDBConnectionString = ElectionsDBConnectionString;
+
 
         }
 
@@ -3941,72 +3934,87 @@ namespace GUILayer.Forms
 
                 //Get the selected race list object
                 int currentPollIndex = dgvVoterAnalysisMap.CurrentCell.RowIndex;
-                VoterAnalysisMapQuestionsModel selectedPoll = new VoterAnalysisMapQuestionsModel();
-                StateMetadataModel st = new StateMetadataModel();
 
-                newStackElement.fkey_StackID = 0;
-                newStackElement.Stack_Element_ID = stackElements.Count;
 
-                newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
-                selectedPoll = VA_Qdata_Map[currentPollIndex];
-                newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
+                DialogResult dr = new DialogResult();
+                frmColorSelect cs = new frmColorSelect();
 
-                newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
-                newStackElement.Stack_Element_Description = "Voter Analysis Maps";
-                // Get the template ID for the specified element type
+                dr = cs.ShowDialog();
 
-                newStackElement.Election_Type = "G";
-                newStackElement.Office_Code = " ";
-                newStackElement.State_Number = 0;
-                newStackElement.State_Mnemonic = "US";
+                if (dr == DialogResult.OK)
+                {
+                    int selectedColorNum = cs.selectedColorNum + 1;
+                    string selectedColor = cs.selectedColor;
 
-                st = GetStateMetadata(0);
+                    VoterAnalysisMapQuestionsModel selectedPoll = new VoterAnalysisMapQuestionsModel();
+                    StateMetadataModel st = new StateMetadataModel();
 
-                newStackElement.State_Name = st.State_Name;
-                newStackElement.CD = 0;
-                newStackElement.County_Number = 0;
-                newStackElement.County_Name = "N/A";
-                newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type}";
+                    newStackElement.fkey_StackID = 0;
+                    newStackElement.Stack_Element_ID = stackElements.Count;
 
-                // Specific to race boards
-                newStackElement.Race_ID = 0;
-                newStackElement.Race_RecordType = string.Empty;
-                newStackElement.Race_Office = string.Empty;
-                newStackElement.Race_District = 0;
-                newStackElement.Race_CandidateID_1 = 0;
-                newStackElement.Race_CandidateID_2 = 0;
-                newStackElement.Race_CandidateID_3 = 0;
-                newStackElement.Race_CandidateID_4 = 0;
-                newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
-                newStackElement.Race_UseAPRaceCall = false;
+                    newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
+                    selectedPoll = VA_Qdata_Map[currentPollIndex];
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
+                    newStackElement.Stack_Element_TemplateID = string.Empty;
 
-                //Specific to exit polls - set to default values
-                newStackElement.ExitPoll_mxID = 0;
-                newStackElement.ExitPoll_BoardID = 0;
-                newStackElement.ExitPoll_ShortMxLabel = selectedPoll.VA_Data_Id;
-                newStackElement.ExitPoll_NumRows = 0;
-                newStackElement.ExitPoll_xRow = 0;
+                    newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
+                    newStackElement.Stack_Element_Description = "Voter Analysis Maps";
+                    // Get the template ID for the specified element type
 
-                newStackElement.ExitPoll_BaseQuestion = false;
-                newStackElement.ExitPoll_RowQuestion = true;
+                    newStackElement.Election_Type = "G";
+                    newStackElement.Office_Code = " ";
+                    newStackElement.State_Number = 0;
+                    newStackElement.State_Mnemonic = "US";
 
-                newStackElement.ExitPoll_Subtitle = string.Empty;
-                newStackElement.ExitPoll_Suffix = selectedPoll.r_type;
-                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                newStackElement.ExitPoll_SubsetName = string.Empty;
-                newStackElement.ExitPoll_SubsetID = 0;
+                    st = GetStateMetadata(0);
 
-                // Add element
-                stackElementsCollection.AppendStackElement(newStackElement);
-                // Update stack entries count label
-                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                    newStackElement.State_Name = st.State_Name;
+                    newStackElement.CD = 0;
+                    newStackElement.County_Number = 0;
+                    newStackElement.County_Name = "N/A";
+                    newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type}";
+
+                    // Specific to race boards
+                    newStackElement.Race_ID = 0;
+                    newStackElement.Race_RecordType = string.Empty;
+                    newStackElement.Race_Office = string.Empty;
+                    newStackElement.Race_District = 0;
+                    newStackElement.Race_CandidateID_1 = 0;
+                    newStackElement.Race_CandidateID_2 = 0;
+                    newStackElement.Race_CandidateID_3 = 0;
+                    newStackElement.Race_CandidateID_4 = 0;
+                    newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
+                    newStackElement.Race_UseAPRaceCall = false;
+
+                    //Specific to exit polls - set to default values
+                    newStackElement.ExitPoll_mxID = 0;
+                    newStackElement.ExitPoll_BoardID = 0;
+                    newStackElement.ExitPoll_ShortMxLabel = selectedPoll.VA_Data_Id;
+                    newStackElement.ExitPoll_NumRows = 0;
+                    newStackElement.ExitPoll_xRow = 0;
+
+                    newStackElement.ExitPoll_BaseQuestion = false;
+                    newStackElement.ExitPoll_RowQuestion = true;
+
+                    newStackElement.ExitPoll_Subtitle = string.Empty;
+                    newStackElement.ExitPoll_Suffix = selectedPoll.r_type;
+                    newStackElement.ExitPoll_HeaderText_1 = string.Empty;
+                    newStackElement.ExitPoll_HeaderText_2 = string.Empty;
+                    newStackElement.ExitPoll_SubsetName = selectedColor;
+                    newStackElement.ExitPoll_SubsetID = selectedColorNum;
+
+                    // Add element
+                    stackElementsCollection.AppendStackElement(newStackElement);
+                    // Update stack entries count label
+                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+
+                }
             }
             catch (Exception ex)
             {
                 // Log error
-                log.Error("frmMain Exception occurred: " + ex.Message);
-                //log.Debug("frmMain Exception occurred", ex);
+                log.Error("Add Map Error: " + ex.Message);
+                
             }
         }
 
@@ -6072,14 +6080,16 @@ namespace GUILayer.Forms
             currentRaceIndex = stackGrid.CurrentCell.RowIndex;
             string VA_Data_Id = stackElements[currentRaceIndex].ExitPoll_ShortMxLabel;
             string r_type = stackElements[currentRaceIndex].ExitPoll_Suffix;
+            string color = stackElements[currentRaceIndex].ExitPoll_SubsetName;
+            int colorNum = stackElements[currentRaceIndex].ExitPoll_SubsetID;
             int seDataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
 
             List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
-            mapdata = GetVoterAnalysisMapData(VA_Data_Id);
+            mapdata = GetVoterAnalysisMapData(VA_Data_Id, colorNum);
             int mapID = mapdata[0].MapId;
 
+            /*
             int nat = 0;
-
             for (int i = 0; i < mapdata.Count; i++)
             {
                 if (mapdata[i].State == "US")
@@ -6087,7 +6097,8 @@ namespace GUILayer.Forms
                     nat = mapdata[i].Percent;
                 }
             }
-            
+            */
+
             List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
             //mapLegend = GetVoterAnalysisMapLegendData(mapID);
             mapLegend = GetLegend(VA_Data_Id);
@@ -6105,11 +6116,11 @@ namespace GUILayer.Forms
                 missingStateList.Add(sqlData[0].ToString());
             }
             sqlData.Close();
-
+            
 
             // Final assembly of command strings with map-keys
-            
-            
+
+
             string outStr = "";
             //vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}BOP_DATA{quot} {cmd}{term}";
 
@@ -6118,7 +6129,7 @@ namespace GUILayer.Forms
             string mapDataCommand = $"{quot}VOTER_DATA{quot} {outStr}{term}";
             SendToViz2(mapDataCommand, seDataType);
 
-            outStr = GetVoterAnalysisMapLegendMapKeyStr(mapLegend);
+            outStr = GetVoterAnalysisMapLegendMapKeyStr(mapLegend, colorNum);
             //string legendDataCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_INFO{quot} {outStr}";
             string legendDataCommand = $"{quot}VOTER_INFO{quot} {outStr}{term}";
             SendToViz2(legendDataCommand, seDataType);
@@ -6136,7 +6147,7 @@ namespace GUILayer.Forms
             row = dt1.Rows[0];
 
             string Title = row["answer"].ToString().Trim();
-            nat = Convert.ToInt32(row["percent"]);
+            int nat = Convert.ToInt32(row["percent"]);
 
 
             outStr = $"{nat}%";
@@ -6151,11 +6162,12 @@ namespace GUILayer.Forms
             string titleCommand = $"{quot}VOTER_TITLE{quot} {outStr}{term}";
             SendToViz2(titleCommand, seDataType);
 
+            connection1.Close();
 
 
         }
 
-        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id)
+        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id, int colorSet)
         {
             // Get data for newly selected map - will want to do this just in time
             SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
@@ -6172,7 +6184,7 @@ namespace GUILayer.Forms
             DataRow row;
             row = dt1.Rows[0];
 
-            string Title = row["answer"].ToString().Trim();
+            //string Title = row["answer"].ToString().Trim();
 
             for (int i = 0; i < dt1.Rows.Count; i++)
             {
@@ -6289,12 +6301,39 @@ namespace GUILayer.Forms
                 md.RowLabel = $"{bandLo[md.RowNumber]}% - {bandHi[md.RowNumber]}%";
                 md.MapId = 0;
 
-                md.Color = GetColor(1, md.RowNumber);
-                md.Position = md.RowNumber + 1;
+                md.Color = GetColor(colorSet, md.RowNumber);
+
+                int pos;
+                switch (md.RowNumber + 1)
+                {
+                    case 1:
+                        pos = -5;
+                        break;
+
+                    case 2:
+                        pos = -2;
+                        break;
+
+                    case 3:
+                        pos = 2;
+                        break;
+
+                    case 4:
+                        pos = 5;
+                        break;
+
+                    default:
+                        pos = 0;
+                        break;
+                            
+                }
+
+                md.Position = pos;
 
                 mapdata.Add(md);
 
             }
+            connection1.Close();
 
             return mapdata;
         }
@@ -6324,8 +6363,11 @@ namespace GUILayer.Forms
             DataRow row;
             row = dt1.Rows[0];
             int color = Convert.ToInt32(row["ColorValue"]);
+            connection1.Close();
+
             return color;
 
+            
         }
 
         public List<VoterAnalysisMapLegendDefModel> GetLegend(string VA_Data_Id)
@@ -6344,7 +6386,7 @@ namespace GUILayer.Forms
             DataRow row;
             row = dt1.Rows[0];
 
-            string Title = row["answer"].ToString().Trim();
+            //string Title = row["answer"].ToString().Trim();
 
             for (int i = 0; i < dt1.Rows.Count; i++)
             {
@@ -6432,6 +6474,7 @@ namespace GUILayer.Forms
 
 
             sqlData1.Close();
+            connection1.Close();
 
             return mapLegend;
         }
@@ -6467,6 +6510,8 @@ namespace GUILayer.Forms
                 mapdata.Add(md);
 
             }
+
+            connection1.Close();
 
             return mapdata;
         }
@@ -6504,7 +6549,7 @@ namespace GUILayer.Forms
             return outStr;
 
         }
-        public string GetVoterAnalysisMapLegendMapKeyStr(List<VoterAnalysisMapLegendDefModel> mapLegend)
+        public string GetVoterAnalysisMapLegendMapKeyStr(List<VoterAnalysisMapLegendDefModel> mapLegend, int colorSet)
         {
 
             string outStr = string.Empty;
@@ -6523,7 +6568,7 @@ namespace GUILayer.Forms
                     // Build data for string
                     // Note that legend is numbered from top to bottom but values are assigned from bottom to top
                     //outStr += $"{mapLegend[mapLegend.Count - i - 1].RowNumber}^{mapLegend[i].RowColor}^{mapLegend[i].RowLabel}";
-                    outStr += $"{mapLegend.Count - i - 1}^{GetColor(1,i)}^{mapLegend[i].legend}";
+                    outStr += $"{mapLegend.Count - i}^{GetColor(colorSet, i)}^{mapLegend[i].legend}";
 
                 }
                 // Send blanks for unused legend rows

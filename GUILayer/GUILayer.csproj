@@ -76,6 +76,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\frmColorSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmColorSelect.Designer.cs">
+      <DependentUpon>frmColorSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmLoadStack.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\frmColorSelect.resx">
+      <DependentUpon>frmColorSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLoadStack.resx">
       <DependentUpon>frmLoadStack.cs</DependentUpon>
     </EmbeddedResource>

@@ -32,8 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -176,6 +174,7 @@
             this.rbSenateSP = new System.Windows.Forms.RadioButton();
             this.rbPresidentSP = new System.Windows.Forms.RadioButton();
             this.tpMaps = new System.Windows.Forms.TabPage();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button11 = new System.Windows.Forms.Button();
             this.lblMapCnt = new System.Windows.Forms.Label();
             this.dgvVoterAnalysisMap = new System.Windows.Forms.DataGridView();
@@ -342,6 +341,7 @@
             this.groupBox13.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.tpMaps.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisMap)).BeginInit();
             this.gbTime.SuspendLayout();
             this.pnlStack.SuspendLayout();
@@ -1206,7 +1206,7 @@
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -1372,14 +1372,6 @@
             this.ReferendumsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ReferendumsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn6});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ReferendumsGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.ReferendumsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ReferendumsGrid.Location = new System.Drawing.Point(10, 91);
             this.ReferendumsGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2229,6 +2221,7 @@
             // 
             // tpMaps
             // 
+            this.tpMaps.Controls.Add(this.numericUpDown1);
             this.tpMaps.Controls.Add(this.button11);
             this.tpMaps.Controls.Add(this.lblMapCnt);
             this.tpMaps.Controls.Add(this.dgvVoterAnalysisMap);
@@ -2239,6 +2232,28 @@
             this.tpMaps.TabIndex = 5;
             this.tpMaps.Text = "Maps";
             this.tpMaps.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(871, 33);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(83, 35);
+            this.numericUpDown1.TabIndex = 137;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // button11
             // 
@@ -2265,14 +2280,6 @@
             // dgvVoterAnalysisMap
             // 
             this.dgvVoterAnalysisMap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysisMap.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvVoterAnalysisMap.Location = new System.Drawing.Point(13, 97);
             this.dgvVoterAnalysisMap.MultiSelect = false;
             this.dgvVoterAnalysisMap.Name = "dgvVoterAnalysisMap";
@@ -3845,6 +3852,7 @@
             this.groupBox14.PerformLayout();
             this.tpMaps.ResumeLayout(false);
             this.tpMaps.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisMap)).EndInit();
             this.gbTime.ResumeLayout(false);
             this.pnlStack.ResumeLayout(false);
@@ -4180,6 +4188,7 @@
         private System.Windows.Forms.Label lblScene3;
         private System.Windows.Forms.Label lblScene2;
         private System.Windows.Forms.Label lblScene1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 

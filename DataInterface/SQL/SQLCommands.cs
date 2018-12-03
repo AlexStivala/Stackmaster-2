@@ -22,12 +22,14 @@ namespace DataInterface.SQL
         /// <summary>
         /// Sql to get the top-level stack metadata
         /// </summary>
-        public static readonly string sqlGetStacksList = "SELECT * FROM MSE_Stacks WHERE StackType = @StackType";
+        //public static readonly string sqlGetStacksList = "SELECT * FROM MSE_Stacks WHERE StackType = @StackType";
+        public static readonly string sqlGetStacksList = "SELECT * FROM Stacks WHERE StackType = @StackType";
 
         /// <summary>
         /// Sql to get the elements for a specified stack
         /// </summary>
-        public static readonly string sqlGetStackElements = "SELECT * FROM MSE_Stack_Elements WHERE fkey_StackID = @StackID";
+        //public static readonly string sqlGetStackElements = "SELECT * FROM MSE_Stack_Elements WHERE fkey_StackID = @StackID";
+        public static readonly string sqlGetStackElements = "SELECT * FROM Stack_Elements WHERE fkey_StackID = @StackID";
 
         /// <summary>
         /// Sql to save the top-level stack metadata
@@ -44,17 +46,20 @@ namespace DataInterface.SQL
         /// <summary>
         /// Sql to delete the specified stack
         /// </summary>
-        public static readonly string sqlDeleteStack = "DELETE FROM MSE_Stacks WHERE ixStackID = @StackID";
+        //public static readonly string sqlDeleteStack = "DELETE FROM MSE_Stacks WHERE ixStackID = @StackID";
+        public static readonly string sqlDeleteStack = "DELETE FROM Stacks WHERE ixStackID = @StackID";
 
         /// <summary>
         /// Sql to check for an existing stack with the same name
         /// </summary>
-        public static readonly string sqlCheckIfStackExists = "SELECT * FROM MSE_Stacks WHERE StackName = @StackName";
+        //public static readonly string sqlCheckIfStackExists = "SELECT * FROM MSE_Stacks WHERE StackName = @StackName";
+        public static readonly string sqlCheckIfStackExists = "SELECT * FROM Stacks WHERE StackName = @StackName";
 
         /// <summary>
         /// Sql to save the stack elements - takes table-valued parameter
         /// </summary>
-        public static readonly string sqlSaveStackElements = "dbo.MSE_Stack_Add_Elements " + 
+        //public static readonly string sqlSaveStackElements = "dbo.MSE_Stack_Add_Elements " +
+        public static readonly string sqlSaveStackElements = "dbo.Stack_Add_Elements " +
             "@Stack_Elements_In, " + 
             "@StackID, " + 
             "@ClearStackBeforeAdding";
@@ -62,44 +67,37 @@ namespace DataInterface.SQL
         /// <summary>
         /// Sql to save the stack elements
         /// </summary>
-        public static readonly string sqlSaveStackElementsDiscrete = "MSE_Stack_Add_Single_Element " +
-	        "@fkey_StackID, " + 
-	        "@Stack_Element_ID, " + 
-	        "@Stack_Element_Type, " + 
-	        "@Stack_Element_Description, " +
+     //   public static readonly string sqlSaveStackElementsDiscrete = "MSE_Stack_Add_Single_Element " +
+
+        public static readonly string sqlSaveStackElementsDiscrete = "Stack_Add_Single_Element " +
+            "@fkey_StackID, " +
+            "@Stack_Element_ID, " +
+            "@Stack_Element_Type, " +
+            "@Stack_Element_Data_Type, " +
+            "@Stack_Element_Description, " +
             "@Stack_Element_TemplateID, " +
-            "@Election_Type, " + 
-	        "@Office_Code, " + 
-	        "@State_Number, " + 
-	        "@State_Mnemonic, " + 
-	        "@State_Name, " + 
-	        "@CD, " + 
-	        "@County_Number, " + 
-	        "@County_Name, " + 
-	        "@Listbox_Description, " + 
-	        "@Race_ID, " + 
-	        "@Race_RecordType, " + 
-	        "@Race_Office, " + 
-	        "@Race_District, " + 
-	        "@Race_CandidateID_1, " + 
-	        "@Race_CandidateID_2, " + 
-	        "@Race_CandidateID_3, " + 
-	        "@Race_CandidateID_4, " + 
-	        "@Race_PollClosingTime, " + 
-	        "@Race_UseAPRaceCall, " + 
-	        "@ExitPoll_mxID, " + 
-	        "@ExitPoll_BoardID, " + 
-	        "@ExitPoll_ShortMxLabel, " + 
-	        "@ExitPoll_NumRows, " + 
-	        "@ExitPoll_xRow, " + 
-	        "@ExitPoll_BaseQuestion, " + 
-	        "@ExitPoll_RowQuestion, " + 
-	        "@ExitPoll_Subtitle, " + 
-	        "@ExitPoll_Suffix, " + 
-	        "@ExitPoll_HeaderText_1, " + 
-	        "@ExitPoll_HeaderText_2, " + 
-	        "@ExitPoll_SubsetName, " + 
-	        "@ExitPoll_SubsetID";
+            "@Election_Type, " +
+            "@Office_Code, " +
+            "@State_Number, " +
+            "@State_Mnemonic, " +
+            "@State_Name, " +
+            "@CD, " +
+            "@County_Number, " +
+            "@County_Name, " +
+            "@Listbox_Description, " +
+            "@Race_ID, " +
+            "@Race_Office, " +
+            "@Race_CandidateID_1, " +
+            "@Race_CandidateID_2, " +
+            "@Race_CandidateID_3, " +
+            "@Race_CandidateID_4, " +
+            "@Race_PollClosingTime, " +
+            "@Race_UseAPRaceCall, " +
+            "@VA_Data_ID," +
+            "@VA_Title," +
+            "@VA_Type," +
+            "@VA_Map_Color," +
+            "@VA_Map_ColorNum";
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Race list related functions

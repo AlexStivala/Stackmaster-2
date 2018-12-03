@@ -29,14 +29,12 @@ namespace DataInterface.DataModel
         public Int16 CD { get; set; }
         public Int32 County_Number { get; set; }
         public string County_Name { get; set; }
-        [MaxLength(100)]
+        [MaxLength(200)]
         public string Listbox_Description { get; set; }
 
         // Specific to race boards
         public Int32 Race_ID { get; set; }
-        public string Race_RecordType { get; set; }
         public string Race_Office { get; set; }
-        public Int16 Race_District { get; set; }
         public Int32 Race_CandidateID_1 { get; set; }
         public Int32 Race_CandidateID_2 { get; set; }
         public Int32 Race_CandidateID_3 { get; set; }
@@ -45,18 +43,10 @@ namespace DataInterface.DataModel
         public Boolean Race_UseAPRaceCall { get; set; }
 
         //Specific to exit polls
-        public Int32 ExitPoll_mxID { get; set; }
-        public Int16 ExitPoll_BoardID { get; set; }
-        public string ExitPoll_ShortMxLabel { get; set; }
-        public Int16 ExitPoll_NumRows { get; set; }
-        public Int16 ExitPoll_xRow { get; set; }
-        public Boolean ExitPoll_BaseQuestion { get; set; }
-        public Boolean ExitPoll_RowQuestion { get; set; }
-        public string ExitPoll_Subtitle { get; set; }
-        public string ExitPoll_Suffix { get; set; }
-        public string ExitPoll_HeaderText_1 { get; set; }
-        public string ExitPoll_HeaderText_2 { get; set; }
-        public string ExitPoll_SubsetName { get; set; }
-        public Int32 ExitPoll_SubsetID { get; set; }
+        public string VA_Data_ID { get; set; }
+        public string VA_Title { get; set; }
+        public string VA_Type { get; set; }
+        public string VA_Map_Color { get; set; }
+        public Int32 VA_Map_ColorNum { get; set; }
     }
 }

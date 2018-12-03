@@ -18,6 +18,8 @@ namespace GUILayer.Forms
         public frmColorSelect()
         {
             InitializeComponent();
+            selectedColor = comboBox1.Text.Trim();
+            selectedColorNum = comboBox1.SelectedIndex;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

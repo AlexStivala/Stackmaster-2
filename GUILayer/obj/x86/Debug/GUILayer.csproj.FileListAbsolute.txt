@@ -188,3 +188,5 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGr
 C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csprojAssemblyReference.cache
 C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyComplete
 C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmColorSelect.resources
+C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.dll
+C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.pdb

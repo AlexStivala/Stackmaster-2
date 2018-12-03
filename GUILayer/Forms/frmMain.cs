@@ -2077,9 +2077,7 @@ namespace GUILayer.Forms
 
                     // Specific to race boards
                     newStackElement.Race_ID = selectedRace.Race_ID;
-                    newStackElement.Race_RecordType = string.Empty;
                     newStackElement.Race_Office = selectedRace.Race_Office;
-                    newStackElement.Race_District = selectedRace.CD;
                     newStackElement.Race_CandidateID_1 = 0;
                     newStackElement.Race_CandidateID_2 = 0;
                     newStackElement.Race_CandidateID_3 = 0;
@@ -2088,19 +2086,11 @@ namespace GUILayer.Forms
                     newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
 
                     //Specific to exit polls - set to default values
-                    newStackElement.ExitPoll_mxID = 0;
-                    newStackElement.ExitPoll_BoardID = 0;
-                    newStackElement.ExitPoll_ShortMxLabel = string.Empty;
-                    newStackElement.ExitPoll_NumRows = 0;
-                    newStackElement.ExitPoll_xRow = 0;
-                    newStackElement.ExitPoll_BaseQuestion = false;
-                    newStackElement.ExitPoll_RowQuestion = false;
-                    newStackElement.ExitPoll_Subtitle = string.Empty;
-                    newStackElement.ExitPoll_Suffix = string.Empty;
-                    newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                    newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                    newStackElement.ExitPoll_SubsetName = string.Empty;
-                    newStackElement.ExitPoll_SubsetID = 0;
+                    newStackElement.VA_Data_ID = string.Empty;
+                    newStackElement.VA_Title = string.Empty;
+                    newStackElement.VA_Type = string.Empty;
+                    newStackElement.VA_Map_Color = string.Empty;
+                    newStackElement.VA_Map_ColorNum = 0;
 
                     // Add element
                     stackElementsCollection.AppendStackElement(newStackElement);
@@ -2446,7 +2436,7 @@ namespace GUILayer.Forms
                         // Save out stack elements; specify stack ID, and set flag to delete existing elements before adding
                         //stackElementsCollection.MainDBConnectionString = stacksDB;
                         stackElementsCollection.SaveStackElementsCollection(stackMetadata.ixStackID, true);
-
+                        
 
                         // Update stack entries count label & name label
                         txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
@@ -3048,6 +3038,12 @@ namespace GUILayer.Forms
                             dataType = (Int16)DataTypes.Referendums;
                             break;
 
+                        case (Int16)StackElementTypes.Voter_Analysis_Full_Screen:
+                            raceBoardTypeDescription = "Voter Analysis";
+                            dataType = (Int16)DataTypes.Voter_Analysis;
+                            break;
+
+
                     }
 
                     // Instantiate and set the values of a race preview element
@@ -3081,23 +3077,14 @@ namespace GUILayer.Forms
                             }
                             break;
 
+                            
                         case (Int16)DataTypes.Voter_Analysis:
-
-                            string epType = _stackElements[i].Race_RecordType[0].ToString();
-                            Int32 epID = _stackElements[i].ExitPoll_mxID;
-                            string st = _stackElements[i].State_Mnemonic;
-                            string ofc = _stackElements[i].Office_Code;
-                            Int32 jCde = _stackElements[i].County_Number;
-                            Int16 rowNum = _stackElements[i].ExitPoll_xRow;
-                            Int32 subID = _stackElements[i].ExitPoll_SubsetID;
-                            string eType = _stackElements[i].Election_Type;
-                            string q = _stackElements[i].ExitPoll_ShortMxLabel;
 
                             StackElementModel stElement = new StackElementModel();
                             stElement = _stackElements[i];
 
-                            // Setup the referendums collection
-                            var records = ExitPollDataCollection.GetExitPollDataCollection(ElectionsDBConnectionString, epType, epID, st, ofc, (short)jCde, rowNum, (short)subID, eType);
+                            // Setup the Voter Analysis collection
+                            var records = VoterAnalysisDataCollection.GetVoterAnalysisDataCollection(_stackElements[i].VA_Type, _stackElements[i].VA_Data_ID, ElectionsDBConnectionString,0);
 
                             // Check for data returned for race
                             if (records.Count > 0)
@@ -3110,12 +3097,13 @@ namespace GUILayer.Forms
                                 newRacePreviewElement.Raceboard_Type_Field_Text = stack_ID.ToString() + "|" + i.ToString();
 
                                 // Call method to assemble the race data into the required command string for the raceboards scene
-                                newRacePreviewElement.Raceboard_Preview_Field_Text = GetExitPollPreviewString(records, stElement);
+                                newRacePreviewElement.Raceboard_Preview_Field_Text = GetVoterAnalysisPreviewString(records, stElement);
 
                                 // Append the preview element to the race preview collection
                                 racePreviewCollection.AppendRacePreviewElement(newRacePreviewElement);
                             }
                             break;
+                            
 
                         case (Int16)DataTypes.Balance_of_Power:
 
@@ -3422,7 +3410,7 @@ namespace GUILayer.Forms
                             }
                             else
                             {
-                                previewField = previewField + "U.S. House CD " + stackElement.Race_District.ToString();
+                                previewField = previewField + "U.S. House CD " + stackElement.CD.ToString();
                             }
                         }
                     }
@@ -3507,7 +3495,8 @@ namespace GUILayer.Forms
             return previewField;
         }
 
-        // Method to get the Referendum string 
+        // Method to get the Exit Poll string 
+        /*
         private string GetExitPollPreviewString(BindingList<ExitPollDataModel> exitPollData, StackElementModel stackElement)
         {
 
@@ -3557,7 +3546,50 @@ namespace GUILayer.Forms
 
             return previewField;
         }
+        */
 
+        // Method to get the Exit Poll string 
+        
+        private string GetVoterAnalysisPreviewString(BindingList<VoterAnalysisDataModel> voterAnalysisData, StackElementModel stackElement)
+        {
+
+
+            Int32 numResp = voterAnalysisData.Count;
+
+            // Init
+            string previewField = "!"; // Bang
+            string Title = "VOTER ANALYSIS";
+
+            string Question = voterAnalysisData[0].Title;
+            
+            try
+            {
+                // ex # of Repomses|Title|Question|State|Response 1^Response2[^Response3][^Response4]|+/- Percent1^+/- Percent2[^+/- Percent3][^+/- Percent4]|
+                previewField = previewField + numResp + "|";
+                previewField = previewField + Title + "|";
+                previewField = previewField + Question + "|";
+                previewField = previewField + stackElement.State_Mnemonic + "|";
+
+                for (Int16 i = 0; i < numResp; i++)
+                {
+                    if (i > 0)
+                        previewField = previewField + "^";
+                    previewField = previewField + voterAnalysisData[i].Response;
+                }
+
+                previewField = previewField + "||";
+
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("GetVoterAnalysisPreviewString Exception occurred: " + ex.Message);
+                
+            }
+
+            return previewField;
+        }
+        
 
         #endregion
 
@@ -3697,9 +3729,7 @@ namespace GUILayer.Forms
 
                 // Specific to race boards
                 newStackElement.Race_ID = 0;
-                newStackElement.Race_RecordType = string.Empty;
                 newStackElement.Race_Office = string.Empty;
-                newStackElement.Race_District = 0;
                 newStackElement.Race_CandidateID_1 = 0;
                 newStackElement.Race_CandidateID_2 = 0;
                 newStackElement.Race_CandidateID_3 = 0;
@@ -3708,19 +3738,11 @@ namespace GUILayer.Forms
                 newStackElement.Race_UseAPRaceCall = false;
 
                 //Specific to exit polls - set to default values
-                newStackElement.ExitPoll_mxID = 0;
-                newStackElement.ExitPoll_BoardID = 0;
-                newStackElement.ExitPoll_ShortMxLabel = string.Empty;
-                newStackElement.ExitPoll_NumRows = 0;
-                newStackElement.ExitPoll_xRow = 0;
-                newStackElement.ExitPoll_BaseQuestion = false;
-                newStackElement.ExitPoll_RowQuestion = false;
-                newStackElement.ExitPoll_Subtitle = string.Empty;
-                newStackElement.ExitPoll_Suffix = string.Empty;
-                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                newStackElement.ExitPoll_SubsetName = string.Empty;
-                newStackElement.ExitPoll_SubsetID = 0;
+                newStackElement.VA_Data_ID = string.Empty;
+                newStackElement.VA_Title = string.Empty;
+                newStackElement.VA_Type = string.Empty;
+                newStackElement.VA_Map_Color = string.Empty;
+                newStackElement.VA_Map_ColorNum = 0;
 
                 // Add element
                 stackElementsCollection.AppendStackElement(newStackElement);
@@ -3745,6 +3767,7 @@ namespace GUILayer.Forms
             //AddExitPoll();
             AddVoterAnalysis();
         }
+        /*
         private void availableExitPollsGrid_DoubleClick(object sender, EventArgs e)
         {
             AddExitPoll();
@@ -3820,7 +3843,7 @@ namespace GUILayer.Forms
                 //log.Debug("frmMain Exception occurred", ex);
             }
         }
-
+        */
         private void AddVoterAnalysis()
         {
             try
@@ -3877,9 +3900,7 @@ namespace GUILayer.Forms
 
                 // Specific to race boards
                 newStackElement.Race_ID = 0;
-                newStackElement.Race_RecordType = string.Empty;
                 newStackElement.Race_Office = selectedPoll.ofc;
-                newStackElement.Race_District = 0;
                 newStackElement.Race_CandidateID_1 = 0;
                 newStackElement.Race_CandidateID_2 = 0;
                 newStackElement.Race_CandidateID_3 = 0;
@@ -3888,30 +3909,11 @@ namespace GUILayer.Forms
                 newStackElement.Race_UseAPRaceCall = false;
 
                 //Specific to exit polls - set to default values
-                newStackElement.ExitPoll_mxID = 0;
-                newStackElement.ExitPoll_BoardID = 0;
-                newStackElement.ExitPoll_ShortMxLabel = selectedPoll.VA_Data_Id;
-                newStackElement.ExitPoll_NumRows = 0;
-                newStackElement.ExitPoll_xRow = 0;
-
-                if (selectedPoll.r_type == "Q")
-                {
-                    newStackElement.ExitPoll_BaseQuestion = true;
-                    newStackElement.ExitPoll_RowQuestion = false;
-
-                }
-                else
-                {
-                    newStackElement.ExitPoll_BaseQuestion = false;
-                    newStackElement.ExitPoll_RowQuestion = true;
-
-                }
-                newStackElement.ExitPoll_Subtitle = selectedPoll.preface;
-                newStackElement.ExitPoll_Suffix = selectedPoll.r_type;
-                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                newStackElement.ExitPoll_SubsetName = string.Empty;
-                newStackElement.ExitPoll_SubsetID = 0;
+                newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                newStackElement.VA_Title = selectedPoll.preface;
+                newStackElement.VA_Type = selectedPoll.r_type;
+                newStackElement.VA_Map_Color = string.Empty;
+                newStackElement.VA_Map_ColorNum = 0;
 
                 // Add element
                 stackElementsCollection.AppendStackElement(newStackElement);
@@ -3972,13 +3974,11 @@ namespace GUILayer.Forms
                     newStackElement.CD = 0;
                     newStackElement.County_Number = 0;
                     newStackElement.County_Name = "N/A";
-                    newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type}";
+                    newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type} - {selectedColor}";
 
                     // Specific to race boards
                     newStackElement.Race_ID = 0;
-                    newStackElement.Race_RecordType = string.Empty;
                     newStackElement.Race_Office = string.Empty;
-                    newStackElement.Race_District = 0;
                     newStackElement.Race_CandidateID_1 = 0;
                     newStackElement.Race_CandidateID_2 = 0;
                     newStackElement.Race_CandidateID_3 = 0;
@@ -3986,22 +3986,12 @@ namespace GUILayer.Forms
                     newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
                     newStackElement.Race_UseAPRaceCall = false;
 
-                    //Specific to exit polls - set to default values
-                    newStackElement.ExitPoll_mxID = 0;
-                    newStackElement.ExitPoll_BoardID = 0;
-                    newStackElement.ExitPoll_ShortMxLabel = selectedPoll.VA_Data_Id;
-                    newStackElement.ExitPoll_NumRows = 0;
-                    newStackElement.ExitPoll_xRow = 0;
-
-                    newStackElement.ExitPoll_BaseQuestion = false;
-                    newStackElement.ExitPoll_RowQuestion = true;
-
-                    newStackElement.ExitPoll_Subtitle = string.Empty;
-                    newStackElement.ExitPoll_Suffix = selectedPoll.r_type;
-                    newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                    newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                    newStackElement.ExitPoll_SubsetName = selectedColor;
-                    newStackElement.ExitPoll_SubsetID = selectedColorNum;
+                    //Specific to Voter Analysis
+                    newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                    newStackElement.VA_Title = string.Empty;
+                    newStackElement.VA_Type = selectedPoll.r_type;
+                    newStackElement.VA_Map_Color = selectedColor;
+                    newStackElement.VA_Map_ColorNum = selectedColorNum;
 
                     // Add element
                     stackElementsCollection.AppendStackElement(newStackElement);
@@ -4098,9 +4088,7 @@ namespace GUILayer.Forms
 
                 // Specific to race boards
                 newStackElement.Race_ID = 0;
-                newStackElement.Race_RecordType = string.Empty;
                 newStackElement.Race_Office = selectedReferendum.race_OfficeCode;
-                newStackElement.Race_District = 0;
                 newStackElement.Race_CandidateID_1 = 0;
                 newStackElement.Race_CandidateID_2 = 0;
                 newStackElement.Race_CandidateID_3 = 0;
@@ -4108,20 +4096,13 @@ namespace GUILayer.Forms
                 newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
                 newStackElement.Race_UseAPRaceCall = false;
 
-                //Specific to exit polls - set to default values
-                newStackElement.ExitPoll_mxID = 0;
-                newStackElement.ExitPoll_BoardID = 0;
-                newStackElement.ExitPoll_ShortMxLabel = String.Empty;
-                newStackElement.ExitPoll_NumRows = 0;
-                newStackElement.ExitPoll_xRow = 0;
-                newStackElement.ExitPoll_BaseQuestion = false;
-                newStackElement.ExitPoll_RowQuestion = false;
-                newStackElement.ExitPoll_Subtitle = string.Empty;
-                newStackElement.ExitPoll_Suffix = string.Empty;
-                newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                newStackElement.ExitPoll_SubsetName = string.Empty;
-                newStackElement.ExitPoll_SubsetID = 0;
+                //Specific to Voter Analysis - set to default values
+                newStackElement.VA_Data_ID = string.Empty;
+                newStackElement.VA_Title = string.Empty;
+                newStackElement.VA_Type = string.Empty;
+                newStackElement.VA_Map_Color = string.Empty;
+                newStackElement.VA_Map_ColorNum = 0;
+
 
                 // Add element
                 stackElementsCollection.AppendStackElement(newStackElement);
@@ -4582,9 +4563,7 @@ namespace GUILayer.Forms
 
                     // Specific to race boards
                     newStackElement.Race_ID = selectedRace.Race_ID;
-                    newStackElement.Race_RecordType = string.Empty;
                     newStackElement.Race_Office = selectedRace.Race_Office;
-                    newStackElement.Race_District = selectedRace.CD;
                     newStackElement.Race_CandidateID_1 = cID1;
                     newStackElement.Race_CandidateID_2 = cID2;
                     newStackElement.Race_CandidateID_3 = cID3;
@@ -4592,20 +4571,12 @@ namespace GUILayer.Forms
                     newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
                     newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
 
-                    //Specific to exit polls - set to default values
-                    newStackElement.ExitPoll_mxID = 0;
-                    newStackElement.ExitPoll_BoardID = 0;
-                    newStackElement.ExitPoll_ShortMxLabel = string.Empty;
-                    newStackElement.ExitPoll_NumRows = 0;
-                    newStackElement.ExitPoll_xRow = 0;
-                    newStackElement.ExitPoll_BaseQuestion = false;
-                    newStackElement.ExitPoll_RowQuestion = false;
-                    newStackElement.ExitPoll_Subtitle = string.Empty;
-                    newStackElement.ExitPoll_Suffix = string.Empty;
-                    newStackElement.ExitPoll_HeaderText_1 = string.Empty;
-                    newStackElement.ExitPoll_HeaderText_2 = string.Empty;
-                    newStackElement.ExitPoll_SubsetName = string.Empty;
-                    newStackElement.ExitPoll_SubsetID = 0;
+                    //Specific to Voter Analysis - set to default values
+                    newStackElement.VA_Data_ID = string.Empty;
+                    newStackElement.VA_Title = string.Empty;
+                    newStackElement.VA_Type = string.Empty;
+                    newStackElement.VA_Map_Color = string.Empty;
+                    newStackElement.VA_Map_ColorNum = 0;
 
                     // Add element
                     stackElementsCollection.AppendStackElement(newStackElement);
@@ -6055,8 +6026,8 @@ namespace GUILayer.Forms
         {
             //Get the selected race list object
             currentRaceIndex = stackGrid.CurrentCell.RowIndex;
-            string VA_Data_Id = stackElements[currentRaceIndex].ExitPoll_ShortMxLabel;
-            string r_type = stackElements[currentRaceIndex].ExitPoll_Suffix;
+            string VA_Data_Id = stackElements[currentRaceIndex].VA_Data_ID;
+            string r_type = stackElements[currentRaceIndex].VA_Type;
             short stateNumber = stackElements[currentRaceIndex].State_Number;
             string raceOffice = stackElements[currentRaceIndex].Office_Code;
             int seDataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
@@ -6078,30 +6049,23 @@ namespace GUILayer.Forms
         {
             //Get the selected race list object
             currentRaceIndex = stackGrid.CurrentCell.RowIndex;
-            string VA_Data_Id = stackElements[currentRaceIndex].ExitPoll_ShortMxLabel;
-            string r_type = stackElements[currentRaceIndex].ExitPoll_Suffix;
-            string color = stackElements[currentRaceIndex].ExitPoll_SubsetName;
-            int colorNum = stackElements[currentRaceIndex].ExitPoll_SubsetID;
+            string VA_Data_Id = stackElements[currentRaceIndex].VA_Data_ID;
+            string r_type = stackElements[currentRaceIndex].VA_Type;
+            string color = stackElements[currentRaceIndex].VA_Map_Color;
+            int colorNum = stackElements[currentRaceIndex].VA_Map_ColorNum;
             int seDataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
 
-            List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
-            mapdata = GetVoterAnalysisMapData(VA_Data_Id, colorNum);
-            int mapID = mapdata[0].MapId;
-
-            /*
-            int nat = 0;
-            for (int i = 0; i < mapdata.Count; i++)
-            {
-                if (mapdata[i].State == "US")
-                {
-                    nat = mapdata[i].Percent;
-                }
-            }
-            */
 
             List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
-            //mapLegend = GetVoterAnalysisMapLegendData(mapID);
             mapLegend = GetLegend(VA_Data_Id);
+
+
+            List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
+            //mapdata = GetVoterAnalysisMapData(VA_Data_Id, colorNum);
+            mapdata = GetVoterAnalysisMapData(VA_Data_Id, colorNum, mapLegend);
+            int mapID = mapdata[0].MapId;
+
+
 
             //SqlConnection connection1 = new SqlConnection(Properties.Settings.Default.ElectionsDBConnectionString);
             SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
@@ -6167,104 +6131,14 @@ namespace GUILayer.Forms
 
         }
 
-        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id, int colorSet)
+        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id, int colorSet, List<VoterAnalysisMapLegendDefModel> mapLegend)
         {
-            // Get data for newly selected map - will want to do this just in time
+
+            
             SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
 
-            SqlCommand cmd1 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
-            cmd1.CommandType = CommandType.Text;
 
-            SqlDataReader sqlData1 = cmd1.ExecuteReader();
-            DataTable dt1 = new DataTable();
-            dt1.Load(sqlData1);
-
-            List<double> mapPercent = new List<double>();
-            DataRow row;
-            row = dt1.Rows[0];
-
-            //string Title = row["answer"].ToString().Trim();
-
-            for (int i = 0; i < dt1.Rows.Count; i++)
-            {
-                double md;
-                
-                row = dt1.Rows[i];
-                md = Convert.ToDouble(row["percent"]);
-
-                mapPercent.Add(md);
-            }
-
-            StatFunctions sf = new StatFunctions();
-            int n = mapPercent.Count;
-            double max = sf.Max(mapPercent);
-            double min = sf.Min(mapPercent);
-            double sdev = sf.StandardDeviation(mapPercent);
-            double mean = sf.Mean(mapPercent);
-            double median = sf.Median(mapPercent);
-            double sdevHi1 = median + sdev;
-            double sdevLo1 = median - sdev;
-            double sdevHi2 = median + 2 * sdev;
-            double sdevLo2 = median - 2 * sdev;
-            int n1 = 0;
-            int n2 = 0;
-
-            double range = (max - min) / 4.0;
-            double band = Math.Truncate(range) + 1;
-            int iBand = Convert.ToInt32(band);
-            int iband1 = iBand + 1;
-            int mid = Convert.ToInt32((max + min) / 2);
-
-
-            int[] bandLo = new int[4];
-            int[] bandHi = new int[4];
-
-            int[] bandLo2 = new int[4];
-            int[] bandHi2 = new int[4];
-
-
-            bandLo[2] = Convert.ToInt32(mid);
-            bandHi[2] = Convert.ToInt32(mid + band);
-
-            bandLo[3] = bandHi[2] + 1;
-            bandHi[3] = bandLo[3] + Convert.ToInt32(band);
-
-            bandHi[1] = bandLo[2] - 1;
-            bandLo[1] = bandHi[1] - Convert.ToInt32(band);
-
-            bandHi[0] = bandLo[1] - 1;
-            bandLo[0] = bandHi[0] - Convert.ToInt32(band);
-
-            //option2 
-
-
-            double range2 = (max - median) / 2.0;
-
-            if ((median - min) / 2.0 > range2)
-                range2 = (median - min) / 2.0;
-
-            double band2 = Math.Truncate(range2) + 1;
-
-            int iBand2 = Convert.ToInt32(band2);
-            int iband2 = iBand2 + 1;
-
-            bandLo2[2] = Convert.ToInt32(median);
-            bandHi2[2] = Convert.ToInt32(median + band2);
-
-            bandLo2[3] = bandHi2[2] + 1;
-            bandHi2[3] = bandLo2[3] + Convert.ToInt32(band2);
-
-            bandHi2[1] = bandLo2[2] - 1;
-            bandLo2[1] = bandHi2[1] - Convert.ToInt32(band2);
-
-            bandHi2[0] = bandLo2[1] - 1;
-            bandLo2[0] = bandHi2[0] - Convert.ToInt32(band2);
-
-
-            sqlData1.Close();            
-            
-            //SqlCommand cmd2 = new SqlCommand($"getFE_VoterAnalysis_MapData {quot}{VA_Data_Id}{quot}", connection1);
             SqlCommand cmd2 = new SqlCommand();
             cmd2 = new SqlCommand($"SELECT state, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
             cmd2.CommandType = CommandType.Text;
@@ -6276,29 +6150,22 @@ namespace GUILayer.Forms
             dt2.Load(sqlData2);
             
             List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
-            
+            DataRow row;
+
             for (int i = 0; i < dt2.Rows.Count; i++)
             {
                 VoterAnalysisMapDataModel md = new VoterAnalysisMapDataModel();
-                //DataRow row;
-
-                /*
-                row = dt1.Rows[i];
-                md.State = row["State"].ToString().Trim();
-                md.Percent = Convert.ToInt32(row["Percent"]);
-                md.RowNumber = Convert.ToInt32(row["RowNumber"]);
-                md.RowLabel = row["RowLabel"].ToString().Trim();
-                md.MapId = Convert.ToInt32(row["MapID"]);
-                md.Color = Convert.ToInt32(row["Color"]);
-                md.Position = Convert.ToInt32(row["Position"]);
-                */
-
+                
                 row = dt2.Rows[i];
                 md.State = row["state"].ToString().Trim();
                 md.Percent = Convert.ToInt32(row["percent"]);
 
-                md.RowNumber = GetRowNumber(md.Percent, bandHi, bandLo);
-                md.RowLabel = $"{bandLo[md.RowNumber]}% - {bandHi[md.RowNumber]}%";
+                //md.RowNumber = GetRowNumber(md.Percent, bandHi, bandLo);
+                md.RowNumber = GetRowNumber(md.Percent, mapLegend);
+
+                //md.RowLabel = $"{bandLo[md.RowNumber]}% - {bandHi[md.RowNumber]}%";
+                md.RowLabel = $"{mapLegend[md.RowNumber].bandLo}% - {mapLegend[md.RowNumber].bandHi}%";
+
                 md.MapId = 0;
 
                 md.Color = GetColor(colorSet, md.RowNumber);
@@ -6338,11 +6205,20 @@ namespace GUILayer.Forms
             return mapdata;
         }
 
-        public int GetRowNumber(int percent, int[] bandHi, int[] bandLo)
+        public int GetRowNumber2(int percent, int[] bandHi, int[] bandLo)
         {
             for (int i = 0; i < 4; i++)
             {
                 if (percent >= bandLo[i] && percent <= bandHi[i])
+                    return i;
+            }
+            return -1;
+        }
+        public int GetRowNumber(int percent, List<VoterAnalysisMapLegendDefModel> mapLegend)
+        {
+            for (int i = 0; i < mapLegend.Count; i++)
+            {
+                if (percent >= mapLegend[i].bandLo && percent <= mapLegend[i].bandHi)
                     return i;
             }
             return -1;
@@ -6375,7 +6251,7 @@ namespace GUILayer.Forms
             SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
 
-            SqlCommand cmd1 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
+            SqlCommand cmd1 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US' ORDER BY [percent] ASC", connection1);
             cmd1.CommandType = CommandType.Text;
 
             SqlDataReader sqlData1 = cmd1.ExecuteReader();
@@ -6386,7 +6262,7 @@ namespace GUILayer.Forms
             DataRow row;
             row = dt1.Rows[0];
 
-            //string Title = row["answer"].ToString().Trim();
+            string Title = row["answer"].ToString().Trim();
 
             for (int i = 0; i < dt1.Rows.Count; i++)
             {
@@ -6412,34 +6288,158 @@ namespace GUILayer.Forms
             int n1 = 0;
             int n2 = 0;
 
-            double range = (max - min) / 4.0;
-            double band = Math.Truncate(range) + 1;
-            int iBand = Convert.ToInt32(band);
-            int iband1 = iBand + 1;
+            double range;
+            double band = 0;
+            int iBand;
+            int iband1;
             int mid = Convert.ToInt32((max + min) / 2);
-
-
+            int numBands = 4;
             int[] bandLo = new int[4];
             int[] bandHi = new int[4];
+            int bandRef;
 
-            int[] bandLo2 = new int[4];
-            int[] bandHi2 = new int[4];
 
             List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
 
-            bandLo[2] = Convert.ToInt32(mid);
-            bandHi[2] = Convert.ToInt32(mid + band);
+            //int mapOption = 2;
+            int mapOption = Convert.ToInt32(numericUpDown1.Value);
 
-            bandLo[3] = bandHi[2] + 1;
-            bandHi[3] = bandLo[3] + Convert.ToInt32(band);
+            if (mapOption == 1)
+            {
 
-            bandHi[1] = bandLo[2] - 1;
-            bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+                numBands = 4;
+                range = (max - min) / 4.0;
+                band = Math.Truncate(range) + 1;
+                iBand = Convert.ToInt32(band);
+                iband1 = iBand + 1;
 
-            bandHi[0] = bandLo[1] - 1;
-            bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+                bandLo[2] = Convert.ToInt32(mid);
+                bandHi[2] = Convert.ToInt32(mid + band);
 
-            for (int i = 0; i < 4; i++)
+                bandLo[3] = bandHi[2] + 1;
+                bandHi[3] = bandLo[3] + Convert.ToInt32(band);
+
+                bandHi[1] = bandLo[2] - 1;
+                bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+
+                bandHi[0] = bandLo[1] - 1;
+                bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+                
+            }
+
+
+            //option2 
+            if (mapOption == 2)
+            {
+
+
+                double mmm = max - min;
+
+                range = (max - median) / 2.0;
+
+                if ((median - min) / 2.0 > range)
+                    range = (median - min) / 2.0;
+
+                band = Math.Truncate(range) + 1;
+                iBand = Convert.ToInt32(band);
+                iband1 = iBand + 1;
+                bandRef = Convert.ToInt32(median);
+
+                // Check if data in all bands
+                // i.e. check if 1st band < min or 4th band > max
+                // then make 3 bands
+                if ((bandRef - band - 2) < min || (bandRef + band + 1) > max)
+                    numBands = 3;
+                else
+                    numBands = 4;
+
+
+                if (numBands == 4)
+                {
+                    bandLo[2] = bandRef;
+                    bandHi[2] = Convert.ToInt32(median + band);
+
+                    bandLo[3] = bandHi[2] + 1;
+                    bandHi[3] = bandLo[3] + Convert.ToInt32(band);
+
+                    bandHi[1] = bandLo[2] - 1;
+                    bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+
+                    bandHi[0] = bandLo[1] - 1;
+                    bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+                }
+
+                // skip first band
+                if (numBands == 3 && (bandRef - band - 2) < min)
+                {
+                    bandLo[1] = bandRef;
+                    bandHi[1] = Convert.ToInt32(median + band);
+
+                    bandHi[0] = bandLo[1] - 1;
+                    bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+
+                    bandLo[2] = bandHi[1] + 1;
+                    bandHi[2] = bandLo[2] + Convert.ToInt32(band);
+                }
+
+                // skip top band
+                if (numBands == 3 && (bandRef + band + 1) > max)
+                {
+                    bandLo[2] = bandRef;
+                    bandHi[2] = Convert.ToInt32(median + band);
+
+                    bandHi[1] = bandLo[2] - 1;
+                    bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+
+                    bandHi[0] = bandLo[1] - 1;
+                    bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+                }
+
+            }
+
+            if (mapOption == 3)
+            {
+
+                if (sdev > 3.5)
+                    numBands = 4;
+                else
+                    numBands = 3;
+
+                range = (max - min) / Convert.ToDouble(numBands);
+                band = Math.Truncate(range) + 1;
+                iBand = Convert.ToInt32(band);
+                iband1 = iBand + 1;
+
+                if (numBands == 4)
+                {
+                    bandLo[2] = Convert.ToInt32(mid);
+                    bandHi[2] = Convert.ToInt32(mid + band);
+
+                    bandLo[3] = bandHi[2] + 1;
+                    bandHi[3] = bandLo[3] + Convert.ToInt32(band);
+
+                    bandHi[1] = bandLo[2] - 1;
+                    bandLo[1] = bandHi[1] - Convert.ToInt32(band);
+
+                    bandHi[0] = bandLo[1] - 1;
+                    bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+                }
+
+                if (numBands == 3)
+                {
+                    bandLo[1] = Convert.ToInt32(mid) - (iBand / 2);
+                    bandHi[1] = Convert.ToInt32(mid + band);
+
+                    bandHi[0] = bandLo[1] - 1;
+                    bandLo[0] = bandHi[0] - Convert.ToInt32(band);
+
+                    bandLo[2] = bandHi[1] + 1;
+                    bandHi[2] = bandLo[2] + Convert.ToInt32(band);
+                }
+                
+            }
+
+            for (int i = 0; i < numBands; i++)
             {
                 VoterAnalysisMapLegendDefModel ml = new VoterAnalysisMapLegendDefModel();
                 ml.bandHi = bandHi[i];
@@ -6447,34 +6447,26 @@ namespace GUILayer.Forms
                 ml.legend = $"{bandLo[i]}% - {bandHi[i]}%";
                 mapLegend.Add(ml);
             }
-            
-            //option2 
-
-            double range2 = (max - median) / 2.0;
-
-            if ((median - min) / 2.0 > range2)
-                range2 = (median - min) / 2.0;
-
-            double band2 = Math.Truncate(range2) + 1;
-
-            int iBand2 = Convert.ToInt32(band2);
-            int iband2 = iBand2 + 1;
-
-            bandLo2[2] = Convert.ToInt32(median);
-            bandHi2[2] = Convert.ToInt32(median + band2);
-
-            bandLo2[3] = bandHi2[2] + 1;
-            bandHi2[3] = bandLo2[3] + Convert.ToInt32(band2);
-
-            bandHi2[1] = bandLo2[2] - 1;
-            bandLo2[1] = bandHi2[1] - Convert.ToInt32(band2);
-
-            bandHi2[0] = bandLo2[1] - 1;
-            bandLo2[0] = bandHi2[0] - Convert.ToInt32(band2);
-
 
             sqlData1.Close();
             connection1.Close();
+
+            log.Debug(" ");
+
+            string logStr = $"Map: {VA_Data_Id} - {Title}";
+            log.Debug(logStr);
+
+            logStr = $"Std Dev: {sdev} -  Max : {max} - Min: {min} - Mean: {mean} - Median: {median} - Band {band}";
+            log.Debug(logStr);
+
+            logStr = $"{numBands} Bands : ";
+            for (int i = 0; i < numBands; i++)
+            {
+                logStr += $"{bandLo[i]}% - {bandHi[i]}%, ";
+            }
+
+
+            log.Debug(logStr);
 
             return mapLegend;
         }

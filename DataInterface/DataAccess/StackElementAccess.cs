@@ -112,7 +112,8 @@ namespace DataInterface.DataAccess
                                     //Setup table-valued parameter
                                     SqlParameter tableParam = cmd.Parameters.Add(new SqlParameter("@Stack_Elements_In", SqlDbType.Structured));
                                     tableParam.Value = stackElements;
-                                    tableParam.TypeName = "dbo.UDTT_MSE_Stack_Elements";
+                                    //tableParam.TypeName = "dbo.UDTT_MSE_Stack_Elements";
+                                    tableParam.TypeName = "dbo.UDTT_Stack_Elements";
 
                                     cmd.Parameters.Add("@StackID", SqlDbType.Float).Value = stackID;
                                     cmd.Parameters.Add("@ClearStackBeforeAdding", SqlDbType.Bit).Value = clearStackBeforeAdding;

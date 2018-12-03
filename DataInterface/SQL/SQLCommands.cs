@@ -34,8 +34,9 @@ namespace DataInterface.SQL
         /// <summary>
         /// Sql to save the top-level stack metadata
         /// </summary>
-        public static readonly string sqlSaveStack = "MSE_Stack_Save_Metadata " +
-	        "@ixStackID, " + 
+        //public static readonly string sqlSaveStack = "MSE_Stack_Save_Metadata " +
+        public static readonly string sqlSaveStack = "Stack_Save_Metadata " +
+            "@ixStackID, " + 
 	        "@StackName, " + 
 	        "@StackType, " + 
             "@ShowName, " +

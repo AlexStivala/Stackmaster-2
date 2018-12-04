@@ -205,11 +205,10 @@ namespace DataInterface.DataAccess
                                         cmd.Parameters.Add("@County_Name", SqlDbType.Text).Value = row["County_Name"];
                                         cmd.Parameters.Add("@Listbox_Description", SqlDbType.Text).Value = row["Listbox_Description"];
                                         
+                                        
                                         // Specific to race boards
                                         cmd.Parameters.Add("@Race_ID", SqlDbType.BigInt).Value = row["Race_ID"];
-                                        cmd.Parameters.Add("@Race_RecordType", SqlDbType.Text).Value = row["Race_RecordType"];
                                         cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = row["Race_Office"];
-                                        cmd.Parameters.Add("@Race_District", SqlDbType.SmallInt).Value = row["Race_District"];
                                         cmd.Parameters.Add("@Race_CandidateID_1", SqlDbType.BigInt).Value = row["Race_CandidateID_1"];
                                         cmd.Parameters.Add("@Race_CandidateID_2", SqlDbType.BigInt).Value = row["Race_CandidateID_2"];
                                         cmd.Parameters.Add("@Race_CandidateID_3", SqlDbType.BigInt).Value = row["Race_CandidateID_3"];
@@ -218,19 +217,11 @@ namespace DataInterface.DataAccess
                                         cmd.Parameters.Add("@Race_UseAPRaceCall", SqlDbType.Bit).Value = row["Race_UseAPRaceCall"];
 
                                         //Specific to exit polls
-                                        cmd.Parameters.Add("@ExitPoll_mxID", SqlDbType.BigInt).Value = row["ExitPoll_mxID"];
-                                        cmd.Parameters.Add("@ExitPoll_BoardID", SqlDbType.SmallInt).Value = row["ExitPoll_BoardID"];
-                                        cmd.Parameters.Add("@ExitPoll_ShortMxLabel", SqlDbType.Text).Value = row["ExitPoll_ShortMxLabel"];
-                                        cmd.Parameters.Add("@ExitPoll_NumRows", SqlDbType.SmallInt).Value = row["ExitPoll_NumRows"];
-                                        cmd.Parameters.Add("@ExitPoll_xRow", SqlDbType.SmallInt).Value = row["ExitPoll_xRow"];
-                                        cmd.Parameters.Add("@ExitPoll_BaseQuestion", SqlDbType.Bit).Value = row["ExitPoll_BaseQuestion"];
-                                        cmd.Parameters.Add("@ExitPoll_RowQuestion", SqlDbType.Bit).Value = row["ExitPoll_RowQuestion"];
-                                        cmd.Parameters.Add("@ExitPoll_Subtitle", SqlDbType.Text).Value = row["ExitPoll_Subtitle"];
-                                        cmd.Parameters.Add("@ExitPoll_Suffix", SqlDbType.Text).Value = row["ExitPoll_Suffix"];
-                                        cmd.Parameters.Add("@ExitPoll_HeaderText_1", SqlDbType.Text).Value = row["ExitPoll_HeaderText_1"];
-                                        cmd.Parameters.Add("@ExitPoll_HeaderText_2", SqlDbType.Text).Value = row["ExitPoll_HeaderText_2"];
-                                        cmd.Parameters.Add("@ExitPoll_SubsetName", SqlDbType.Text).Value = row["ExitPoll_SubsetName"];
-                                        cmd.Parameters.Add("@ExitPoll_SubsetID", SqlDbType.BigInt).Value = row["ExitPoll_SubsetID"];
+                                        cmd.Parameters.Add("@VA_Data_ID", SqlDbType.Text).Value = row["VA_Data_ID"];
+                                        cmd.Parameters.Add("@VA_Title", SqlDbType.Text).Value = row["VA_Title"];
+                                        cmd.Parameters.Add("@VA_Type", SqlDbType.Text).Value = row["VA_Type"];
+                                        cmd.Parameters.Add("@VA_Map_Color", SqlDbType.Text).Value = row["VA_Map_Color"];
+                                        cmd.Parameters.Add("@VA_Map_ColorNum", SqlDbType.BigInt).Value = row["VA_Map_ColorNum"];
 
                                         sqlDataAdapter.SelectCommand = cmd;
                                         sqlDataAdapter.SelectCommand.Connection = connection;

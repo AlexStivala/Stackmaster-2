@@ -22,7 +22,7 @@ namespace GUILayer.Forms
 
         public int stackType = 0;
         // Read in database connection strings
-        public string GraphicsDBConnectionString;
+        //public string GraphicsDBConnectionString;
         public string StacksDBConnectionString;
 
         //private Double stackId;
@@ -38,12 +38,13 @@ namespace GUILayer.Forms
 
         public Boolean EnableShowControls { get; set; }
 
-        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType, bool mindyMode, int stacktypeOffset, string graphicsDBConnectionString, string stacksDBConnectionString)
+        //public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType, bool mindyMode, int stacktypeOffset, string graphicsDBConnectionString, string stacksDBConnectionString)
+        public FrmSaveStack(Double stID, string stackDesc, bool buildMode, int StackType, bool mindyMode, int stacktypeOffset, string stacksDBConnectionString)
         //public FrmSaveStack()
         {
             InitializeComponent();
 
-            GraphicsDBConnectionString = graphicsDBConnectionString;
+            //GraphicsDBConnectionString = graphicsDBConnectionString;
             StacksDBConnectionString = stacksDBConnectionString;
 
             BuildOnlyMode = buildMode;
@@ -250,17 +251,18 @@ namespace GUILayer.Forms
             if (multiplayMode)
             {
                 btnShowMultiplay.Text = "Show Raceboard Stacks(Ctrl - M)";
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
                 stackType = 0;
             }
             else
             {
                 btnShowMultiplay.Text = "Show Multiplay Stacks(Ctrl - M)";
-                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
                 stackType = 10;
             }
 
             stackType += stackTypeOffset;
+            this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
 
             RefreshStacksList();
             availableStacksGrid.Focus();
@@ -272,6 +274,8 @@ namespace GUILayer.Forms
                 btnShowMultiplay_Click(sender, e);
             else
             {
+
+                /*
                 if (BuildOnlyMode)
                 {
                     this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -280,6 +284,9 @@ namespace GUILayer.Forms
                 {
                     this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
                 }
+                */
+
+                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
                 RefreshStacksList();
                 availableStacksGrid.Focus();
 

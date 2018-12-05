@@ -81,8 +81,6 @@ namespace GUILayer.Forms
         public string quot = "\"";
         public string term = "\0";
 
-        public string RBSceneName = "_ELECTIONS/2018/FNC/MIDTERMS/FINALS/16X9_RACEBOARDS";
-        public string RaceboardCmd = "";
         public int currentRaceIndex = -1;
         public bool stackLocked = false;
         public bool takeIn = false;
@@ -655,7 +653,8 @@ namespace GUILayer.Forms
 
                 if (builderOnlyMode)
                 {
-                    stacksDB = GraphicsDBConnectionString;
+                    //stacksDB = GraphicsDBConnectionString;
+                    stacksDB = StacksDBConnectionString;
                     stackType = 0;
                     label2.Visible = true;
                     cbGraphicConcept.Visible = true;
@@ -1881,7 +1880,8 @@ namespace GUILayer.Forms
             {
                 // Setup the master stack collection & bind to grid
                 this.stackElementsCollection = new StackElementsCollection();
-                this.stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //this.stackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                this.stackElementsCollection.MainDBConnectionString = StacksDBConnectionString;
                 stackElements = this.stackElementsCollection.GetStackElementsCollection(-1);
 
                 // Setup the stacks grid
@@ -1891,7 +1891,8 @@ namespace GUILayer.Forms
 
                 // Setup the stack collection used for loading to MSE only
                 this.activateStackElementsCollection = new StackElementsCollection();
-                this.activateStackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //this.activateStackElementsCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                this.activateStackElementsCollection.MainDBConnectionString = StacksDBConnectionString;
                 activateStackElements = this.stackElementsCollection.GetStackElementsCollection(-1);
 
             }
@@ -2360,7 +2361,7 @@ namespace GUILayer.Forms
                     //if (stackType == 50)
                     //stackType = 10;
 
-                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
+                    FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, StacksDBConnectionString);
 
                     dr = saveStack.ShowDialog();
                     if (dr == DialogResult.OK)
@@ -2394,6 +2395,7 @@ namespace GUILayer.Forms
 
                         StacksCollection stacksCollection = new StacksCollection();
 
+                        /*
                         if (multiplay)
                         {
                             stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -2404,7 +2406,9 @@ namespace GUILayer.Forms
                             stacksCollection.MainDBConnectionString = stacksDB;
                             stackElementsCollection.MainDBConnectionString = stacksDB;
                         }
-
+                        */
+                        stacksCollection.MainDBConnectionString = stacksDB;
+                        stackElementsCollection.MainDBConnectionString = stacksDB;
 
                         stackMetadata.Notes = "Not currently used";
                         stacksCollection.SaveStack(stackMetadata);
@@ -2575,7 +2579,8 @@ namespace GUILayer.Forms
                 //stackType = 10;
 
                 //frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType);
-                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
+                //frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
+                frmLoadStack loadStack = new frmLoadStack(builderOnlyMode, stackType, MindyMode, stackTypeOffset, StacksDBConnectionString);
 
                 loadStack.EnableShowControls = enableShowSelectControls;
 
@@ -2606,6 +2611,7 @@ namespace GUILayer.Forms
                     int currentStackIndex = stackIndex;
                     StacksCollection stacksCollection = new StacksCollection();
 
+                    /*
                     if (multiplay)
                     {
                         stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -2616,7 +2622,10 @@ namespace GUILayer.Forms
                         stacksCollection.MainDBConnectionString = stacksDB;
                         stackElementsCollection.MainDBConnectionString = stacksDB;
                     }
+                    */
 
+                    stacksCollection.MainDBConnectionString = stacksDB;
+                    stackElementsCollection.MainDBConnectionString = stacksDB;
 
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
 
@@ -2650,6 +2659,8 @@ namespace GUILayer.Forms
                         {
 
                             StacksCollection stacksCollection = new StacksCollection();
+
+                            /*
                             if (multiplay)
                             {
                                 stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
@@ -2660,8 +2671,10 @@ namespace GUILayer.Forms
                                 stacksCollection.MainDBConnectionString = stacksDB;
                                 stackElementsCollection.MainDBConnectionString = stacksDB;
                             }
+                            */
 
-
+                            stacksCollection.MainDBConnectionString = stacksDB;
+                            stackElementsCollection.MainDBConnectionString = stacksDB;
 
 
                             // Get the stack index from the dialog
@@ -2810,7 +2823,8 @@ namespace GUILayer.Forms
                     if (cbPromptForInfo.Checked == true)
                     {
                         DialogResult dr = new DialogResult();
-                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
+                        //FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
+                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, StacksDBConnectionString);
                         //FrmSaveStack saveStack = new FrmSaveStack();
 
                         saveStack.EnableShowControls = enableShowSelectControls;
@@ -5084,7 +5098,6 @@ namespace GUILayer.Forms
                 btnStackElementUp.Enabled = false;
                 btnStackElementDown.Enabled = false;
 
-                //LoadScene(RBSceneName, 1);
                 currentRaceIndex = -1;
                 if (stackGrid.Rows.Count > 0)
                     stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
@@ -5351,7 +5364,6 @@ namespace GUILayer.Forms
 
             string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn);
 
-            //SendToViz(RBSceneName, outStr, 1);
             SendToViz(outStr, dataType);
             LiveUpdateTimer.Enabled = false;
             LiveUpdateTimer.Enabled = true;

@@ -31,7 +31,7 @@ namespace GUILayer.Forms
         //string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
 
 
-        public string GraphicsDBConnectionString;
+        //public string GraphicsDBConnectionString;
         public string StacksDBConnectionString;
 
 
@@ -64,12 +64,13 @@ namespace GUILayer.Forms
 
         //public event DelDeleteStack DeleteStack;
 
-        public frmLoadStack(bool buildMode, int StackType, bool mindyMode, int stackTypeOffset, string graphicsDBConnectionString, string stacksDBConnectionString)
+        //public frmLoadStack(bool buildMode, int StackType, bool mindyMode, int stackTypeOffset, string graphicsDBConnectionString, string stacksDBConnectionString)
+        public frmLoadStack(bool buildMode, int StackType, bool mindyMode, int stackTypeOffset, string stacksDBConnectionString)
         {
-            
+
             InitializeComponent();
 
-            GraphicsDBConnectionString = graphicsDBConnectionString;
+            //GraphicsDBConnectionString = graphicsDBConnectionString;
             StacksDBConnectionString = stacksDBConnectionString;
 
             MindyMode = mindyMode;
@@ -86,14 +87,16 @@ namespace GUILayer.Forms
 
             if (builderOnlyMode)
             {
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
                 btnActivateStack.Visible = true;
             }
             else
             {
-                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
                 btnActivateStack.Visible = false;
             }
+
+            this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
 
             // Enable handling of function keys
             KeyPreview = true;
@@ -376,15 +379,18 @@ namespace GUILayer.Forms
             if (multiplayMode)
             {
                 btnShowMultiplay.Text = "Show Raceboard Stacks(Ctrl - M)";
-                this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = GraphicsDBConnectionString;
                 stackType = 0;
             }
             else
             {
                 btnShowMultiplay.Text = "Show Multiplay Stacks(Ctrl - M)";
-                this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+                //this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
                 stackType = 10;
             }
+
+            this.stacksCollection.MainDBConnectionString = StacksDBConnectionString;
+
             RefreshStacksList();
             availableStacksGrid.Focus();
         }

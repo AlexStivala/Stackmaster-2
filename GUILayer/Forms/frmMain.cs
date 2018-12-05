@@ -73,7 +73,6 @@ namespace GUILayer.Forms
         Int16 conceptID;
         string conceptName;
 
-        private Boolean manualEPQuestions = false;
         public Boolean enableShowSelectControls = false;
         public List<EngineModel> vizEngines = new List<EngineModel>();
         public bool builderOnlyMode = false;
@@ -162,6 +161,8 @@ namespace GUILayer.Forms
         private ReferendumsDataCollection referendumsDataCollection;
         BindingList<ReferendumDataModel> referendumsData;
 
+        
+        /*
         // Define the collection object for the list of Referendums data
         private VoterAnalysisDataCollection voterAnalysisDataCollection;
         BindingList<VoterAnalysisDataModel> voterAnalysisData;
@@ -170,7 +171,7 @@ namespace GUILayer.Forms
         // Define the collection object for the list of Exit Poll questions
         private ExitPollQuestionsCollection exitPollQuestionsCollection;
         BindingList<ExitPollQuestionsModel> exitPollQuestions;
-
+        */
         // Define the collection object for the list of Exit Poll questions
         //private ExitPollDataCollection exitPollDataCollection;
         //BindingList<ExitPollDataCollection> exitPollData;
@@ -1519,27 +1520,6 @@ namespace GUILayer.Forms
                         break;
                 }
 
-                /*
-                if (dataModeSelect.SelectedIndex == 0)
-                {
-                    gbRCF.Visible = true;
-                    gbROF.Visible = true;
-                    FilterPanel.Visible = true;
-                    RacePanel.Visible = true;
-                }
-                else if (dataModeSelect.SelectedIndex == 4)
-                {
-                    gbRCF.Visible = true;
-                    gbROF.Visible = true;
-                    FilterPanel.Visible = true;
-                    RacePanel.Visible = true;
-                }
-                else
-                {
-                    gbRCF.Visible = false;
-                    gbROF.Visible = false;
-                }
-                */
 
                 if (builderOnlyMode == false)
                 {
@@ -1974,16 +1954,11 @@ namespace GUILayer.Forms
         }
         #endregion
 
-        #region Stack operations (add, etc.)
-        /// <summary>
+        #region Raceboard add to Stack operations 
+        // <summary>
         /// STACK OPERATIONS
         /// </summary>
-        // Handler for delete stack button
-        private void btnDeleteStack_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
         // Handler for Add 1-Way race board button
         private void btnAddRace1Way_Click(object sender, EventArgs e)
         {
@@ -2130,24 +2105,7 @@ namespace GUILayer.Forms
             }
         }
 
-        // Handler for insert button
-        private void btnInsert_Click(object sender, EventArgs e)
-        {
-            if (stackLocked == false)
-            {
-                if (stackGrid.CurrentCell.RowIndex < 0)
-                {
-                    insertPoint = 0;
-                }
-                else
-                {
-                    insertPoint = stackGrid.CurrentCell.RowIndex;
-                }
-                // Set flag
-                insertNext = true;
-            }
-        }
-
+        
         #endregion
 
         #region UI widget data validation methods
@@ -2372,6 +2330,24 @@ namespace GUILayer.Forms
             conceptName = graphicsConceptTypes[cbGraphicConcept.SelectedIndex].ConceptName;
         }
 
+        // Handler for insert button
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            if (stackLocked == false)
+            {
+                if (stackGrid.CurrentCell.RowIndex < 0)
+                {
+                    insertPoint = 0;
+                }
+                else
+                {
+                    insertPoint = stackGrid.CurrentCell.RowIndex;
+                }
+                // Set flag
+                insertNext = true;
+            }
+        }
+        
         // Handler for Save Stack button
         private void btnSaveStack_Click(object sender, EventArgs e)
         {
@@ -3297,9 +3273,24 @@ namespace GUILayer.Forms
                 log.Error("Exception occurred while trying to save and activate group: " + ex.Message);
             }
         }
+
+        private void stackGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+        }
+
+        public void ArrowUp()
+        {
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+        }
+        public void ArrowDn()
+        {
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+        }
+
         #endregion
 
-        #region Race data acquisition methods and Preview
+        #region Preview strings
         /// <summary>
         /// Race data acquisition methods
         /// </summary>
@@ -3758,7 +3749,7 @@ namespace GUILayer.Forms
         }
         #endregion
 
-        #region Exit Polls Methods
+        #region Voter Analysis Stack Methods
         /// <summary>
         /// Methods to add selected Exit Polls to stack
         /// </summary>
@@ -5186,7 +5177,7 @@ namespace GUILayer.Forms
             catch (Exception ex)
             {
                 // Log error
-                //log.Error("GetDBData Exception occurred: " + ex.Message);
+                log.Error("GetDBData Exception occurred: " + ex.Message);
                 ////log.Debug("GetDBData Exception occurred", ex);
             }
 
@@ -6285,9 +6276,7 @@ namespace GUILayer.Forms
             double sdevLo1 = median - sdev;
             double sdevHi2 = median + 2 * sdev;
             double sdevLo2 = median - 2 * sdev;
-            int n1 = 0;
-            int n2 = 0;
-
+            
             double range;
             double band = 0;
             int iBand;
@@ -6587,29 +6576,6 @@ namespace GUILayer.Forms
 
             string MapKeyStr = "";
 
-            /*
-            if (VA_Data[0].r_type == "A")
-                MapKeyStr = $"{VA_Data.Count}| |{VA_Data[0].answer}|{VA_Data[0].preface}|";
-            else
-                MapKeyStr = $"{VA_Data.Count}| |{VA_Data[0].question}|{VA_Data[0].preface}|";
-
-            for (int i = 0; i < VA_Data.Count; i++)
-            {
-                if (i > 0)
-                    MapKeyStr += "^";
-
-                if (VA_Data[0].r_type == "Q")
-                {
-                    MapKeyStr += $"{VA_Data[i].answer}";
-                }
-                else
-                {
-                    MapKeyStr += $"{VA_Data[i].name}";
-
-                }
-            }
-            */
-
             MapKeyStr = $"{VA_Data.Count}| |{VA_Data[0].Title}|{VA_Data[0].State}|";
 
             for (int i = 0; i < VA_Data.Count; i++)
@@ -6638,7 +6604,7 @@ namespace GUILayer.Forms
         }
         #endregion
 
-
+        #region Voter Analysis grid methods
         private void tcVoterAnalysis_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (builderOnlyMode == false)
@@ -6664,7 +6630,6 @@ namespace GUILayer.Forms
 
         public void GetVoterAnalysisGridData()
         {
-            string cmd = "";
             int cnt = 0;
             if (tcVoterAnalysis.SelectedIndex == 0)
             {
@@ -6704,7 +6669,6 @@ namespace GUILayer.Forms
 
         public void GetVoterAnalysisMapGridData()
         {
-            string cmd = "";
             int cnt = 0;
 
             VA_Qdata_Map = GetVoterAnalysisMapQuestionsData();
@@ -6816,39 +6780,7 @@ namespace GUILayer.Forms
             AddVoterAnalysis();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void stackGrid_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
-
-        }
-
-        public void ArrowUp()
-        {
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
-        }
-        public void ArrowDn()
-        {
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
-        }
-
-        /*
-        private void dataModeSelect_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            TabPage page = dataModeSelect.TabPages[e.Index];
-            Color col = e.Index == 0 ? Color.Aqua : Color.Yellow;
-            e.Graphics.FillRectangle(new SolidBrush(col), e.Bounds);
-
-            Rectangle paddedBounds = e.Bounds;
-            int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
-            paddedBounds.Offset(1, yOffset);
-            TextRenderer.DrawText(e.Graphics, page.Text, Font, paddedBounds, page.ForeColor);
-        }
-        */
+        
         private void dataModeSelect_DrawItem(object sender, DrawItemEventArgs e)
         {
             TabPage page = dataModeSelect.TabPages[e.Index];
@@ -6865,12 +6797,6 @@ namespace GUILayer.Forms
             AddVoterAnalysisMap();
         }
 
-        private void button11_Click(object sender, EventArgs e)
-        {
-            AddVoterAnalysisMap();
-        }
-
-        
         private void cbAutoCalledRaces_CheckedChanged(object sender, EventArgs e)
         {
             autoCalledRacesActive = cbAutoCalledRaces.Checked;
@@ -6885,15 +6811,20 @@ namespace GUILayer.Forms
                 stackElements.Clear();
                 AddAll();
             }
-
-
-
         }
 
         private void dgvVoterAnalysis_DoubleClick(object sender, EventArgs e)
         {
             AddVoterAnalysis();
         }
+
+        private void btnAddMap_Click(object sender, EventArgs e)
+        {
+            AddVoterAnalysisMap();
+        }
+        #endregion
+
+        
     }
 
 }

@@ -41,7 +41,6 @@ C:\X\electiongraphicsstackbuilder\MSEInterface\bin\Debug\DataInterface.dll
 C:\X\electiongraphicsstackbuilder\MSEInterface\bin\Debug\log4net.dll
 C:\X\electiongraphicsstackbuilder\MSEInterface\bin\Debug\DataInterface.pdb
 C:\X\electiongraphicsstackbuilder\MSEInterface\bin\Debug\log4net.xml
-C:\X\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.csproj.CoreCompileInputs.cache
 C:\X\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.dll
 C:\X\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.pdb
 C:\Users\Dilworth\Documents\Visual Studio 2012\Projects\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.csproj.CoreCompileInputs.cache

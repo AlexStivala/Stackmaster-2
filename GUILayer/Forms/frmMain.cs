@@ -124,6 +124,7 @@ namespace GUILayer.Forms
         public TcpListener server;
         public TcpClient client;
         public NetworkStream stream;
+        public string electionMode = "General";
 
         #endregion
 
@@ -418,6 +419,7 @@ namespace GUILayer.Forms
             currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
             MindyMode = Properties.Settings.Default.MindyMode;
             VictoriaMode = Properties.Settings.Default.VictoriaMode;
+            electionMode = Properties.Settings.Default.ElectionMode;
 
 
             //string sceneDescription = Properties.Settings.Default.Scene_Name;
@@ -1629,6 +1631,33 @@ namespace GUILayer.Forms
 
                 lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
                 lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+
+                availableRacesGrid.Columns[0].HeaderText = "Race ID";
+                availableRacesGrid.Columns[0].DataPropertyName = "Race_ID";
+                availableRacesGrid.Columns[0].Width = 50;
+                
+                availableRacesGrid.Columns[1].HeaderText = "Ofc";
+                availableRacesGrid.Columns[1].DataPropertyName = "Race_Office";
+                availableRacesGrid.Columns[1].Width = 40;
+
+                if (electionMode == "Primary")
+                {
+                    availableRacesGrid.Columns[2].HeaderText = "Party";
+                    //availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGrid.Columns[2].DataPropertyName = "Party";
+                    availableRacesGrid.Columns[2].Width = 50;
+                
+                    availableRacesGrid.Columns[3].HeaderText = "Race Description";
+                    availableRacesGrid.Columns[3].DataPropertyName = "Race_Description";
+                    availableRacesGrid.Columns[3].Width = 400;
+
+                }
+                else
+                {
+                    availableRacesGrid.Columns[2].HeaderText = "Race Description";
+                    availableRacesGrid.Columns[2].DataPropertyName = "Race_Description";
+                    availableRacesGrid.Columns[2].Width = 400;
+                }
 
             }
             catch (Exception ex)
@@ -6834,9 +6863,13 @@ namespace GUILayer.Forms
         {
             AddVoterAnalysisMap();
         }
+
         #endregion
 
-        
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

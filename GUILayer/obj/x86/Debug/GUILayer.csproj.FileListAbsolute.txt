@@ -142,7 +142,6 @@ C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmMain.
 C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmSelectShow.resources
 C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.Properties.Resources.resources
 C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.GenerateResource.Cache
-C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CoreCompileInputs.cache
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\AsyncClientSocket.dll
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\AsyncClientSocket.pdb
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ElectionGraphicsStackBuilder.exe.config

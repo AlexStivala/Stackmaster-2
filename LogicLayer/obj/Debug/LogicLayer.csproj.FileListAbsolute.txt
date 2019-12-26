@@ -41,7 +41,6 @@ C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\DataInterface.dll
 C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\log4net.dll
 C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\DataInterface.pdb
 C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\log4net.xml
-C:\X\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CoreCompileInputs.cache
 C:\X\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.dll
 C:\X\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.pdb
 C:\Users\Dilworth\Documents\Visual Studio 2012\Projects\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CoreCompileInputs.cache

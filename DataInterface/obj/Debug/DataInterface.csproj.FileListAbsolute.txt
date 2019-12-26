@@ -30,7 +30,6 @@ C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\DataInterface.dll
 C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\DataInterface.pdb
 C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\log4net.dll
 C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\log4net.xml
-C:\X\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.csproj.CoreCompileInputs.cache
 C:\X\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.dll
 C:\X\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.pdb
 C:\Users\Dilworth\Documents\Visual Studio 2012\Projects\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.csprojResolveAssemblyReference.cache

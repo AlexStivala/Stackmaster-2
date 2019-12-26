@@ -30,13 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +75,7 @@
             this.availableRacesGrid = new System.Windows.Forms.DataGridView();
             this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ofc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Party = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Race_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FilterPanel = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -422,13 +418,13 @@
             this.programToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miExit});
             this.programToolStripMenuItem.Name = "programToolStripMenuItem";
-            this.programToolStripMenuItem.Size = new System.Drawing.Size(93, 29);
+            this.programToolStripMenuItem.Size = new System.Drawing.Size(97, 29);
             this.programToolStripMenuItem.Text = "&Program";
             // 
             // miExit
             // 
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(123, 30);
+            this.miExit.Size = new System.Drawing.Size(141, 34);
             this.miExit.Text = "E&xit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -444,38 +440,38 @@
             this.toolStripSeparator1,
             this.loadConfigurationToolStripMenuItem});
             this.utilitiesToolStripMenuItem.Name = "utilitiesToolStripMenuItem";
-            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(81, 29);
+            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 29);
             this.utilitiesToolStripMenuItem.Text = "&Utilities";
             // 
             // miSelectDefaultShow
             // 
             this.miSelectDefaultShow.Name = "miSelectDefaultShow";
-            this.miSelectDefaultShow.Size = new System.Drawing.Size(331, 30);
+            this.miSelectDefaultShow.Size = new System.Drawing.Size(349, 34);
             this.miSelectDefaultShow.Text = "&Select Default Show";
             this.miSelectDefaultShow.Click += new System.EventHandler(this.miSelectDefaultShow_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(328, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(346, 6);
             // 
             // resetStatusBarToolStripMenuItem
             // 
             this.resetStatusBarToolStripMenuItem.Name = "resetStatusBarToolStripMenuItem";
-            this.resetStatusBarToolStripMenuItem.Size = new System.Drawing.Size(331, 30);
+            this.resetStatusBarToolStripMenuItem.Size = new System.Drawing.Size(349, 34);
             this.resetStatusBarToolStripMenuItem.Text = "&Reset Status Bar";
             this.resetStatusBarToolStripMenuItem.Click += new System.EventHandler(this.resetStatusBarToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(328, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(346, 6);
             // 
             // usePrimaryMediaSequencerToolStripMenuItem
             // 
             this.usePrimaryMediaSequencerToolStripMenuItem.CheckOnClick = true;
             this.usePrimaryMediaSequencerToolStripMenuItem.Name = "usePrimaryMediaSequencerToolStripMenuItem";
-            this.usePrimaryMediaSequencerToolStripMenuItem.Size = new System.Drawing.Size(331, 30);
+            this.usePrimaryMediaSequencerToolStripMenuItem.Size = new System.Drawing.Size(349, 34);
             this.usePrimaryMediaSequencerToolStripMenuItem.Text = "Use Primary Media Sequencer";
             this.usePrimaryMediaSequencerToolStripMenuItem.Click += new System.EventHandler(this.usePrimaryMediaSequencerToolStripMenuItem_Click);
             // 
@@ -483,19 +479,19 @@
             // 
             this.useBackupMediaSequencerToolStripMenuItem.CheckOnClick = true;
             this.useBackupMediaSequencerToolStripMenuItem.Name = "useBackupMediaSequencerToolStripMenuItem";
-            this.useBackupMediaSequencerToolStripMenuItem.Size = new System.Drawing.Size(331, 30);
+            this.useBackupMediaSequencerToolStripMenuItem.Size = new System.Drawing.Size(349, 34);
             this.useBackupMediaSequencerToolStripMenuItem.Text = "Use Backup Media Sequencer";
             this.useBackupMediaSequencerToolStripMenuItem.Click += new System.EventHandler(this.useBackupMediaSequencerToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(328, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(346, 6);
             // 
             // loadConfigurationToolStripMenuItem
             // 
             this.loadConfigurationToolStripMenuItem.Name = "loadConfigurationToolStripMenuItem";
-            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(331, 30);
+            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(349, 34);
             this.loadConfigurationToolStripMenuItem.Text = "Load Configuration";
             this.loadConfigurationToolStripMenuItem.Click += new System.EventHandler(this.loadConfigurationToolStripMenuItem_Click);
             // 
@@ -504,13 +500,13 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miAboutBox});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(61, 29);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // miAboutBox
             // 
             this.miAboutBox.Name = "miAboutBox";
-            this.miAboutBox.Size = new System.Drawing.Size(146, 30);
+            this.miAboutBox.Size = new System.Drawing.Size(164, 34);
             this.miAboutBox.Text = "&About";
             this.miAboutBox.Click += new System.EventHandler(this.miAboutBox_Click);
             // 
@@ -519,10 +515,10 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 1695);
+            this.statusStrip.Location = new System.Drawing.Point(0, 1693);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip.Size = new System.Drawing.Size(2163, 30);
+            this.statusStrip.Size = new System.Drawing.Size(2163, 32);
             this.statusStrip.TabIndex = 53;
             this.statusStrip.Text = "statusStrip";
             // 
@@ -795,6 +791,7 @@
             this.groupBox3.TabIndex = 126;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "2 - Way";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // btnAddRace2WaySelect
             // 
@@ -885,15 +882,8 @@
             this.availableRacesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Race_ID,
             this.Ofc,
+            this.Party,
             this.Race_Description});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.availableRacesGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.availableRacesGrid.Location = new System.Drawing.Point(0, 5);
             this.availableRacesGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.availableRacesGrid.MultiSelect = false;
@@ -911,22 +901,34 @@
             // 
             this.Race_ID.DataPropertyName = "Race_ID";
             this.Race_ID.HeaderText = "Race ID";
+            this.Race_ID.MinimumWidth = 8;
             this.Race_ID.Name = "Race_ID";
             this.Race_ID.ReadOnly = true;
-            this.Race_ID.Width = 60;
+            this.Race_ID.Width = 50;
             // 
             // Ofc
             // 
             this.Ofc.DataPropertyName = "Race_Office";
             this.Ofc.HeaderText = "Ofc";
+            this.Ofc.MinimumWidth = 8;
             this.Ofc.Name = "Ofc";
             this.Ofc.ReadOnly = true;
             this.Ofc.Width = 40;
+            // 
+            // Party
+            // 
+            this.Party.DataPropertyName = "Election_Type";
+            this.Party.HeaderText = "Party";
+            this.Party.MinimumWidth = 8;
+            this.Party.Name = "Party";
+            this.Party.ReadOnly = true;
+            this.Party.Width = 50;
             // 
             // Race_Description
             // 
             this.Race_Description.DataPropertyName = "Race_Description";
             this.Race_Description.HeaderText = "Race Description";
+            this.Race_Description.MinimumWidth = 8;
             this.Race_Description.Name = "Race_Description";
             this.Race_Description.ReadOnly = true;
             this.Race_Description.Width = 302;
@@ -1213,18 +1215,18 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1308,14 +1310,6 @@
             this.eType,
             this.Branch,
             this.Session});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BOPdataGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.BOPdataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.BOPdataGridView.Location = new System.Drawing.Point(150, 91);
             this.BOPdataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1329,18 +1323,21 @@
             // eType
             // 
             this.eType.HeaderText = "eType";
+            this.eType.MinimumWidth = 8;
             this.eType.Name = "eType";
             this.eType.Width = 70;
             // 
             // Branch
             // 
             this.Branch.HeaderText = "Branch";
+            this.Branch.MinimumWidth = 8;
             this.Branch.Name = "Branch";
             this.Branch.Width = 200;
             // 
             // Session
             // 
             this.Session.HeaderText = "Session";
+            this.Session.MinimumWidth = 8;
             this.Session.Name = "Session";
             this.Session.Width = 200;
             // 
@@ -1393,14 +1390,6 @@
             this.ReferendumsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ReferendumsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn6});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ReferendumsGrid.DefaultCellStyle = dataGridViewCellStyle5;
             this.ReferendumsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ReferendumsGrid.Location = new System.Drawing.Point(10, 91);
             this.ReferendumsGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1417,6 +1406,7 @@
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dataGridViewTextBoxColumn6.DataPropertyName = "race_Description";
             this.dataGridViewTextBoxColumn6.HeaderText = "Referendum Description";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.Width = 700;
             // 
@@ -1684,14 +1674,6 @@
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.availableRacesGridSP.DefaultCellStyle = dataGridViewCellStyle6;
             this.availableRacesGridSP.Location = new System.Drawing.Point(0, 5);
             this.availableRacesGridSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.availableRacesGridSP.MultiSelect = false;
@@ -1709,6 +1691,7 @@
             // 
             this.dataGridViewTextBoxColumn3.DataPropertyName = "Race_ID";
             this.dataGridViewTextBoxColumn3.HeaderText = "Race ID";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.Width = 60;
@@ -1717,6 +1700,7 @@
             // 
             this.dataGridViewTextBoxColumn4.DataPropertyName = "Race_Office";
             this.dataGridViewTextBoxColumn4.HeaderText = "Ofc";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Width = 40;
@@ -1725,6 +1709,7 @@
             // 
             this.dataGridViewTextBoxColumn5.DataPropertyName = "Race_Description";
             this.dataGridViewTextBoxColumn5.HeaderText = "Race Description";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.Width = 302;
@@ -1998,6 +1983,7 @@
             // 
             this.dataGridViewTextBoxColumn1.DataPropertyName = "Race_ID";
             this.dataGridViewTextBoxColumn1.HeaderText = "Race ID";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Width = 90;
@@ -2006,6 +1992,7 @@
             // 
             this.dataGridViewTextBoxColumn2.DataPropertyName = "Race_Description";
             this.dataGridViewTextBoxColumn2.HeaderText = "Race Description";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 8;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 302;
@@ -2317,18 +2304,11 @@
             // dgvVoterAnalysisMap
             // 
             this.dgvVoterAnalysisMap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysisMap.DefaultCellStyle = dataGridViewCellStyle7;
             this.dgvVoterAnalysisMap.Location = new System.Drawing.Point(13, 97);
             this.dgvVoterAnalysisMap.MultiSelect = false;
             this.dgvVoterAnalysisMap.Name = "dgvVoterAnalysisMap";
             this.dgvVoterAnalysisMap.RowHeadersVisible = false;
+            this.dgvVoterAnalysisMap.RowHeadersWidth = 62;
             this.dgvVoterAnalysisMap.RowTemplate.Height = 24;
             this.dgvVoterAnalysisMap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvVoterAnalysisMap.Size = new System.Drawing.Size(992, 887);
@@ -2340,42 +2320,54 @@
             this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Type.DataPropertyName = "questionType";
             this.Type.HeaderText = "Type";
+            this.Type.MinimumWidth = 8;
             this.Type.Name = "Type";
+            this.Type.Width = 150;
             // 
             // st
             // 
             this.st.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.st.DataPropertyName = "stateOffice";
             this.st.HeaderText = "mxID/st/ofc";
+            this.st.MinimumWidth = 8;
             this.st.Name = "st";
+            this.st.Width = 150;
             // 
             // Category
             // 
             this.Category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Category.DataPropertyName = "shortMXLabel";
             this.Category.HeaderText = "Category";
+            this.Category.MinimumWidth = 8;
             this.Category.Name = "Category";
+            this.Category.Width = 150;
             // 
             // Question
             // 
             this.Question.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Question.DataPropertyName = "fullMXLabel";
             this.Question.HeaderText = "Question";
+            this.Question.MinimumWidth = 8;
             this.Question.Name = "Question";
+            this.Question.Width = 150;
             // 
             // rowText
             // 
             this.rowText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.rowText.DataPropertyName = "rowText";
             this.rowText.HeaderText = "rowText";
+            this.rowText.MinimumWidth = 8;
             this.rowText.Name = "rowText";
+            this.rowText.Width = 150;
             // 
             // Subset
             // 
             this.Subset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Subset.DataPropertyName = "subsetName";
             this.Subset.HeaderText = "Subset";
+            this.Subset.MinimumWidth = 8;
             this.Subset.Name = "Subset";
+            this.Subset.Width = 150;
             // 
             // timeLabel
             // 
@@ -2726,6 +2718,7 @@
             this.stackGrid.Name = "stackGrid";
             this.stackGrid.ReadOnly = true;
             this.stackGrid.RowHeadersVisible = false;
+            this.stackGrid.RowHeadersWidth = 62;
             this.stackGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.stackGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.stackGrid.Size = new System.Drawing.Size(972, 715);
@@ -2738,6 +2731,7 @@
             this.Element_Type_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Element_Type_Description.DataPropertyName = "Stack_Element_Description";
             this.Element_Type_Description.HeaderText = "Entry Type";
+            this.Element_Type_Description.MinimumWidth = 8;
             this.Element_Type_Description.Name = "Element_Type_Description";
             this.Element_Type_Description.ReadOnly = true;
             this.Element_Type_Description.Width = 160;
@@ -2747,6 +2741,7 @@
             this.TemplateID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.TemplateID.DataPropertyName = "Stack_Element_TemplateID";
             this.TemplateID.HeaderText = "Template Name";
+            this.TemplateID.MinimumWidth = 8;
             this.TemplateID.Name = "TemplateID";
             this.TemplateID.ReadOnly = true;
             this.TemplateID.Width = 185;
@@ -2756,6 +2751,7 @@
             this.Stack_Entry_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Stack_Entry_Description.DataPropertyName = "Listbox_Description";
             this.Stack_Entry_Description.HeaderText = "Entry Description";
+            this.Stack_Entry_Description.MinimumWidth = 8;
             this.Stack_Entry_Description.Name = "Stack_Entry_Description";
             this.Stack_Entry_Description.ReadOnly = true;
             this.Stack_Entry_Description.Width = 280;
@@ -4213,9 +4209,6 @@
         private System.Windows.Forms.RadioButton rbHouseSP;
         private System.Windows.Forms.RadioButton rbSenateSP;
         private System.Windows.Forms.RadioButton rbPresidentSP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Race_ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ofc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Race_Description;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
@@ -4233,6 +4226,10 @@
         private System.Windows.Forms.Label lblScene2;
         private System.Windows.Forms.Label lblScene1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Race_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ofc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Party;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Race_Description;
     }
 }
 

@@ -20,5 +20,7 @@ namespace DataInterface.DataModel
         public Int16 Race_OfficeSortOrder { get; set; }
         public DateTime Race_PollClosingTime { get; set; }
         public Boolean Race_UseAPRaceCall { get; set; }
+        public string Party { get; set; }
+
     }
 }

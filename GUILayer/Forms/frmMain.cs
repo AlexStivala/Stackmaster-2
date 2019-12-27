@@ -1632,6 +1632,7 @@ namespace GUILayer.Forms
                 lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
                 lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
 
+                // Race Boards
                 availableRacesGrid.Columns[0].HeaderText = "Race ID";
                 availableRacesGrid.Columns[0].DataPropertyName = "Race_ID";
                 availableRacesGrid.Columns[0].Width = 50;
@@ -1642,8 +1643,9 @@ namespace GUILayer.Forms
 
                 if (electionMode == "Primary")
                 {
-                    availableRacesGrid.Columns[2].HeaderText = "Party";
+                    //availableRacesGrid.Columns[2].HeaderText = "eType";
                     //availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGrid.Columns[2].HeaderText = "Party";
                     availableRacesGrid.Columns[2].DataPropertyName = "Party";
                     availableRacesGrid.Columns[2].Width = 50;
                 
@@ -1658,6 +1660,36 @@ namespace GUILayer.Forms
                     availableRacesGrid.Columns[2].DataPropertyName = "Race_Description";
                     availableRacesGrid.Columns[2].Width = 400;
                 }
+
+                // Side Panel
+                availableRacesGridSP.Columns[0].HeaderText = "Race ID";
+                availableRacesGridSP.Columns[0].DataPropertyName = "Race_ID";
+                availableRacesGridSP.Columns[0].Width = 50;
+
+                availableRacesGridSP.Columns[1].HeaderText = "Ofc";
+                availableRacesGridSP.Columns[1].DataPropertyName = "Race_Office";
+                availableRacesGridSP.Columns[1].Width = 40;
+
+                if (electionMode == "Primary")
+                {
+                    //availableRacesGridSP.Columns[2].HeaderText = "eType";
+                    //availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGridSP.Columns[2].HeaderText = "Party";
+                    availableRacesGridSP.Columns[2].DataPropertyName = "Party";
+                    availableRacesGridSP.Columns[2].Width = 50;
+
+                    availableRacesGridSP.Columns[3].HeaderText = "Race Description";
+                    availableRacesGridSP.Columns[3].DataPropertyName = "Race_Description";
+                    availableRacesGridSP.Columns[3].Width = 400;
+
+                }
+                else
+                {
+                    availableRacesGridSP.Columns[2].HeaderText = "Race Description";
+                    availableRacesGridSP.Columns[2].DataPropertyName = "Race_Description";
+                    availableRacesGridSP.Columns[2].Width = 400;
+                }
+
 
             }
             catch (Exception ex)
@@ -2110,6 +2142,72 @@ namespace GUILayer.Forms
                 }
             }
         }
+
+        private void AddCountyBoardToStack(Int16 stackElementType, string stackElementDescription, Int16 stackElementDataType, int countyID, string countyName)
+        {
+            if (stackLocked == false || autoCalledRacesActive)
+            {
+                try
+                {
+                    // Instantiate new stack element model
+                    StackElementModel newStackElement = new StackElementModel();
+
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                    Int32 stackID = 0;
+                    newStackElement.fkey_StackID = stackID;
+                    newStackElement.Stack_Element_ID = stackElements.Count;
+                    newStackElement.Stack_Element_Type = stackElementType;
+                    newStackElement.Stack_Element_Data_Type = stackElementDataType;
+                    newStackElement.Stack_Element_Description = stackElementDescription;
+
+                    // Get the template ID for the specified element type & concept ID
+                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
+
+                    newStackElement.Election_Type = selectedRace.Election_Type;
+                    newStackElement.Office_Code = selectedRace.Race_Office;
+                    newStackElement.State_Number = selectedRace.State_Number;
+                    newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
+                    newStackElement.State_Name = selectedRace.State_Name;
+                    newStackElement.CD = selectedRace.CD;
+                    newStackElement.County_Number = countyID;
+                    newStackElement.County_Name = countyName;
+                    newStackElement.Listbox_Description = $"{countyName} {selectedRace.Race_Description}";
+
+                    // Specific to race boards
+                    newStackElement.Race_ID = selectedRace.Race_ID;
+                    newStackElement.Race_Office = selectedRace.Race_Office;
+                    newStackElement.Race_CandidateID_1 = 0;
+                    newStackElement.Race_CandidateID_2 = 0;
+                    newStackElement.Race_CandidateID_3 = 0;
+                    newStackElement.Race_CandidateID_4 = 0;
+                    newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
+                    newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
+
+                    //Specific to exit polls - set to default values
+                    newStackElement.VA_Data_ID = string.Empty;
+                    newStackElement.VA_Title = string.Empty;
+                    newStackElement.VA_Type = string.Empty;
+                    newStackElement.VA_Map_Color = string.Empty;
+                    newStackElement.VA_Map_ColorNum = 0;
+
+                    // Add element
+                    stackElementsCollection.AppendStackElement(newStackElement);
+                    // Update stack entries count label
+                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("Exception occurred while trying to add board to stack: " + ex.Message);
+                    //log.Debug("Exception occurred while trying to add board to stack", ex);
+                }
+            }
+        }
+
+
 
         private void btnAddAll_Click(object sender, EventArgs e)
         {
@@ -6870,6 +6968,106 @@ namespace GUILayer.Forms
         {
 
         }
+
+        private void btnSelectCounties_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Instantiate new stack element model
+                StackElementModel newStackElement = new StackElementModel();
+                
+                Int16 seType = (short)StackElementTypes.Race_Board_All_Way;
+                string seDescription = "Race Board (All-Way)";
+                Int16 seDataType = (int)DataTypes.Race_Boards;
+
+                //Get the selected race list object
+                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                DataTable dt = new DataTable();
+                dt = GetListOfCounties(selectedRace.State_Number, selectedRace.Race_Office, selectedRace.Election_Type);
+
+                List<string> countyNames = new List<string>();
+                List<int> countyIndicies = new List<int>();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string State_Mnemonic = row["StateAbbv"].ToString() ?? "";
+                    int cntyID = Convert.ToInt16(row["cnty"] ?? 0);
+                    string cntyName = row["cntyName"].ToString() ?? "";
+                    countyNames.Add(cntyName);
+                }
+
+
+                // Setup dialog to load stack
+                DialogResult dr = new DialogResult();
+
+                frmCountySelect countySelect = new frmCountySelect(countyNames);
+
+                dr = countySelect.ShowDialog();
+                countyNames.Clear();
+                // Process result from dialog
+                if (dr == DialogResult.OK)
+                {
+                    for (int i = 0; i < countySelect.countiesChecked.Count; i++)
+                    {
+                        countyNames.Add(countySelect.countiesChecked[i]);
+                        countyIndicies.Add(countySelect.indChecked[i]);
+                        AddCountyBoardToStack(seType, seDescription, seDataType, countySelect.indChecked[i], countySelect.countiesChecked[i]);
+                    }
+                    
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error($"SelectCounties error: {ex.Message}");
+            }
+        }
+
+        public DataTable GetListOfCounties(int StateId, string ofc, string elecType)
+        {
+
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+
+                            cmd.CommandText = SQLCommands.sqlGetCountiesByState;
+                            cmd.Parameters.Add("@State_Number", SqlDbType.Int).Value = StateId;
+                            cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = ofc;
+                            cmd.Parameters.Add("@Election_Type", SqlDbType.Text).Value = elecType;
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("GetListOfCounties Exception occurred: " + ex.Message);
+                //log.Debug("AvailableRaceAccess Exception occurred", ex);
+            }
+
+            return dataTable;
+        }
+
+
+
     }
 
 }

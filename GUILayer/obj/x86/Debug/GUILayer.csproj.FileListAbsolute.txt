@@ -189,3 +189,4 @@ C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyCom
 C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmColorSelect.resources
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.dll
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.pdb
+C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmCountySelect.resources

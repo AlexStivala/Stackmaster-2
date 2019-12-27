@@ -309,6 +309,16 @@ namespace DataInterface.SQL
                                                                         "@VA_Data_Id, " +
                                                                         "@r_type";
 
+        /// <summary>
+        /// Sql to get the counties for state
+        /// </summary>
+        public static readonly string sqlGetCountiesByState = "getVDSCountiesByState_P " +
+                                                             "@State_Number, " +
+                                                             "@Race_Office, " + 
+                                                             "0, " +
+                                                             "@Election_Type ";
+
+
 
     }
 }

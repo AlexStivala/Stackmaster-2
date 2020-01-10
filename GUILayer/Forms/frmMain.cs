@@ -1643,10 +1643,10 @@ namespace GUILayer.Forms
 
                 if (electionMode == "Primary")
                 {
-                    //availableRacesGrid.Columns[2].HeaderText = "eType";
-                    //availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
-                    availableRacesGrid.Columns[2].HeaderText = "Party";
-                    availableRacesGrid.Columns[2].DataPropertyName = "Party";
+                    availableRacesGrid.Columns[2].HeaderText = "eType";
+                    availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
+                    //availableRacesGrid.Columns[2].HeaderText = "Party";
+                    //availableRacesGrid.Columns[2].DataPropertyName = "Party";
                     availableRacesGrid.Columns[2].Width = 50;
                 
                     availableRacesGrid.Columns[3].HeaderText = "Race Description";
@@ -1672,10 +1672,10 @@ namespace GUILayer.Forms
 
                 if (electionMode == "Primary")
                 {
-                    //availableRacesGridSP.Columns[2].HeaderText = "eType";
-                    //availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
-                    availableRacesGridSP.Columns[2].HeaderText = "Party";
-                    availableRacesGridSP.Columns[2].DataPropertyName = "Party";
+                    availableRacesGridSP.Columns[2].HeaderText = "eType";
+                    availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
+                    //availableRacesGridSP.Columns[2].HeaderText = "Party";
+                    //availableRacesGridSP.Columns[2].DataPropertyName = "Party";
                     availableRacesGridSP.Columns[2].Width = 50;
 
                     availableRacesGridSP.Columns[3].HeaderText = "Race Description";

@@ -74,6 +74,44 @@ namespace DataInterface.DataAccess
             }
             return dataTable;
         }
+
+        public DataTable GetRaceDataCounty(string stCode, Int16 cnty, string raceOffice, string electionType)
+            {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+                            cmd.CommandText = SQLCommands.sqlGetRaceData;
+                            cmd.Parameters.Add("@stateAbbv", SqlDbType.Text).Value = stCode;
+                            cmd.Parameters.Add("@cnty", SqlDbType.SmallInt).Value = cnty;
+                            cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
+                            cmd.Parameters.Add("@Election_Type", SqlDbType.Text).Value = electionType;
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("RaceDataAccess Exception occurred: " + ex.Message);
+                //log.Debug("RaceDataAccess Exception occurred", ex);
+            }
+            return dataTable;
+        }
         #endregion
     }
 }

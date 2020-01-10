@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,10 +58,20 @@
             this.tpRaces = new System.Windows.Forms.TabPage();
             this.RacePanel = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnAddAll = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace4Way = new System.Windows.Forms.Button();
+            this.btnSelect4 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace3WaySelect = new System.Windows.Forms.Button();
+            this.btnAddRace3Way = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace2WaySelect = new System.Windows.Forms.Button();
+            this.btnAddRace2Way = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace1Way = new System.Windows.Forms.Button();
+            this.btnAddRace1WaySelect = new System.Windows.Forms.Button();
             this.availableRacesGrid = new System.Windows.Forms.DataGridView();
             this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ofc = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -93,29 +103,61 @@
             this.tcVoterAnalysis = new System.Windows.Forms.TabControl();
             this.tpFullScreen = new System.Windows.Forms.TabPage();
             this.tpTicker = new System.Windows.Forms.TabPage();
+            this.btnAddExitPoll = new System.Windows.Forms.Button();
             this.tpBalanceOfPower = new System.Windows.Forms.TabPage();
             this.BOPdataGridView = new System.Windows.Forms.DataGridView();
             this.eType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Branch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Session = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnAddBalanceOfPower = new System.Windows.Forms.Button();
             this.tpReferendums = new System.Windows.Forms.TabPage();
+            this.btnAddReferendum = new System.Windows.Forms.Button();
             this.ReferendumsGrid = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tpSidePanel = new System.Windows.Forms.TabPage();
+            this.SidePanelPrimary = new System.Windows.Forms.Panel();
+            this.groupBox26 = new System.Windows.Forms.GroupBox();
+            this.btnSelectCounties = new System.Windows.Forms.Button();
+            this.gbAllCandidates = new System.Windows.Forms.GroupBox();
+            this.btnAllSP = new System.Windows.Forms.Button();
             this.RaceSPPanel = new System.Windows.Forms.Panel();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.btnAddAllSP = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace4WaySP = new System.Windows.Forms.Button();
+            this.btnSelect4SP = new System.Windows.Forms.Button();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace3WaySelectSP = new System.Windows.Forms.Button();
+            this.btnAddRace3WaySP = new System.Windows.Forms.Button();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace2WaySelectSP = new System.Windows.Forms.Button();
+            this.btnAddRace2WaySP = new System.Windows.Forms.Button();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
+            this.btnAddRace1WaySP = new System.Windows.Forms.Button();
+            this.btnAddRace1WaySelectSP = new System.Windows.Forms.Button();
             this.availableRacesGridSP = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FilterSPPanel = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -142,6 +184,7 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.lblMapCnt = new System.Windows.Forms.Label();
             this.dgvVoterAnalysisMap = new System.Windows.Forms.DataGridView();
+            this.btnAddMap = new System.Windows.Forms.Button();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.st = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -153,15 +196,25 @@
             this.gbTime = new System.Windows.Forms.GroupBox();
             this.pnlStack = new System.Windows.Forms.Panel();
             this.pnlUpDn = new System.Windows.Forms.Panel();
+            this.btnStackElementDown = new System.Windows.Forms.Button();
+            this.btnStackElementUp = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.TakePanel = new System.Windows.Forms.Panel();
             this.cbAutoCalledRaces = new System.Windows.Forms.CheckBox();
             this.cbLooping = new System.Windows.Forms.CheckBox();
+            this.btnTake = new System.Windows.Forms.Button();
             this.LockPanel = new System.Windows.Forms.Panel();
+            this.btnLock = new System.Windows.Forms.Button();
+            this.btnUnlock = new System.Windows.Forms.Button();
             this.SaveActivatePanel = new System.Windows.Forms.Panel();
             this.cbPromptForInfo = new System.Windows.Forms.CheckBox();
+            this.btnSaveActivateStack = new System.Windows.Forms.Button();
             this.StackPanel = new System.Windows.Forms.Panel();
+            this.btnClearStack = new System.Windows.Forms.Button();
+            this.btnDeleteStackElement = new System.Windows.Forms.Button();
+            this.btnLoadStack = new System.Windows.Forms.Button();
+            this.btnSaveStack = new System.Windows.Forms.Button();
             this.stackGrid = new System.Windows.Forms.DataGridView();
             this.Element_Type_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TemplateID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -182,34 +235,46 @@
             this.connectionPanel = new System.Windows.Forms.Panel();
             this.gbViz6 = new System.Windows.Forms.GroupBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.gbLEDOn6 = new System.Windows.Forms.PictureBox();
+            this.gbLEDOff6 = new System.Windows.Forms.PictureBox();
             this.gbPortlbl6 = new System.Windows.Forms.Label();
             this.gbIPlbl6 = new System.Windows.Forms.Label();
             this.gbViz5 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.gbLEDOn5 = new System.Windows.Forms.PictureBox();
+            this.gbLEDOff5 = new System.Windows.Forms.PictureBox();
             this.gbPortlbl5 = new System.Windows.Forms.Label();
             this.gbIPlbl5 = new System.Windows.Forms.Label();
             this.gbViz4 = new System.Windows.Forms.GroupBox();
             this.lblScene4 = new System.Windows.Forms.Label();
             this.gbNamelbl4 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.gbLEDOn4 = new System.Windows.Forms.PictureBox();
+            this.gbLEDOff4 = new System.Windows.Forms.PictureBox();
             this.gbPortlbl4 = new System.Windows.Forms.Label();
             this.gbIPlbl4 = new System.Windows.Forms.Label();
             this.gbViz3 = new System.Windows.Forms.GroupBox();
             this.lblScene3 = new System.Windows.Forms.Label();
             this.gbNamelbl3 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.gbLEDOn3 = new System.Windows.Forms.PictureBox();
+            this.gbLEDOff3 = new System.Windows.Forms.PictureBox();
             this.gbPortlbl3 = new System.Windows.Forms.Label();
             this.gbIPlbl3 = new System.Windows.Forms.Label();
             this.gbViz2 = new System.Windows.Forms.GroupBox();
             this.lblScene2 = new System.Windows.Forms.Label();
             this.gbNamelbl2 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.gbLEDOn2 = new System.Windows.Forms.PictureBox();
+            this.gbLEDOff2 = new System.Windows.Forms.PictureBox();
             this.gbPortlbl2 = new System.Windows.Forms.Label();
             this.gbIPlbl2 = new System.Windows.Forms.Label();
             this.gbViz1 = new System.Windows.Forms.GroupBox();
             this.lblScene1 = new System.Windows.Forms.Label();
             this.gbNamelbl1 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.gbLEDOn1 = new System.Windows.Forms.PictureBox();
+            this.gbLEDOff1 = new System.Windows.Forms.PictureBox();
             this.gbPortlbl1 = new System.Windows.Forms.Label();
             this.gbIPlbl1 = new System.Windows.Forms.Label();
             this.lblConfig = new System.Windows.Forms.Label();
@@ -219,91 +284,26 @@
             this.enginePanel = new System.Windows.Forms.Panel();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.groupBox29 = new System.Windows.Forms.GroupBox();
+            this.pbExt = new System.Windows.Forms.PictureBox();
+            this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.lblScenes = new System.Windows.Forms.Label();
             this.gbEngines = new System.Windows.Forms.GroupBox();
             this.gbEng4 = new System.Windows.Forms.GroupBox();
+            this.pbEng4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.gbEng3 = new System.Windows.Forms.GroupBox();
+            this.pbEng3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.gbEng2 = new System.Windows.Forms.GroupBox();
+            this.pbEng2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.gbEng1 = new System.Windows.Forms.GroupBox();
+            this.pbEng1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.LoopTimer = new System.Windows.Forms.Timer(this.components);
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.SidePanelPrimary = new System.Windows.Forms.Panel();
-            this.gbAllCandidates = new System.Windows.Forms.GroupBox();
-            this.btnAllSP = new System.Windows.Forms.Button();
-            this.groupBox26 = new System.Windows.Forms.GroupBox();
-            this.btnSelectCounties = new System.Windows.Forms.Button();
-            this.pbExt = new System.Windows.Forms.PictureBox();
-            this.pictureBox12 = new System.Windows.Forms.PictureBox();
-            this.pbEng4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.pbEng3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pbEng2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pbEng1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOn6 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOff6 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOn5 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOff5 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOn4 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOff4 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOn3 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOff3 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOn2 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOff2 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOn1 = new System.Windows.Forms.PictureBox();
-            this.gbLEDOff1 = new System.Windows.Forms.PictureBox();
-            this.btnStackElementDown = new System.Windows.Forms.Button();
-            this.btnStackElementUp = new System.Windows.Forms.Button();
-            this.btnTake = new System.Windows.Forms.Button();
-            this.btnLock = new System.Windows.Forms.Button();
-            this.btnUnlock = new System.Windows.Forms.Button();
-            this.btnSaveActivateStack = new System.Windows.Forms.Button();
-            this.btnClearStack = new System.Windows.Forms.Button();
-            this.btnDeleteStackElement = new System.Windows.Forms.Button();
-            this.btnLoadStack = new System.Windows.Forms.Button();
-            this.btnSaveStack = new System.Windows.Forms.Button();
-            this.btnAddAll = new System.Windows.Forms.Button();
-            this.btnInsert = new System.Windows.Forms.Button();
-            this.btnAddRace4Way = new System.Windows.Forms.Button();
-            this.btnSelect4 = new System.Windows.Forms.Button();
-            this.btnAddRace3WaySelect = new System.Windows.Forms.Button();
-            this.btnAddRace3Way = new System.Windows.Forms.Button();
-            this.btnAddRace2WaySelect = new System.Windows.Forms.Button();
-            this.btnAddRace2Way = new System.Windows.Forms.Button();
-            this.btnAddRace1Way = new System.Windows.Forms.Button();
-            this.btnAddRace1WaySelect = new System.Windows.Forms.Button();
-            this.btnAddExitPoll = new System.Windows.Forms.Button();
-            this.btnAddBalanceOfPower = new System.Windows.Forms.Button();
-            this.btnAddReferendum = new System.Windows.Forms.Button();
-            this.btnAddAllSP = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
-            this.btnAddRace4WaySP = new System.Windows.Forms.Button();
-            this.btnSelect4SP = new System.Windows.Forms.Button();
-            this.btnAddRace3WaySelectSP = new System.Windows.Forms.Button();
-            this.btnAddRace3WaySP = new System.Windows.Forms.Button();
-            this.btnAddRace2WaySelectSP = new System.Windows.Forms.Button();
-            this.btnAddRace2WaySP = new System.Windows.Forms.Button();
-            this.btnAddRace1WaySP = new System.Windows.Forms.Button();
-            this.btnAddRace1WaySelectSP = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.btnAddMap = new System.Windows.Forms.Button();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -328,6 +328,9 @@
             this.tpReferendums.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ReferendumsGrid)).BeginInit();
             this.tpSidePanel.SuspendLayout();
+            this.SidePanelPrimary.SuspendLayout();
+            this.groupBox26.SuspendLayout();
+            this.gbAllCandidates.SuspendLayout();
             this.RaceSPPanel.SuspendLayout();
             this.groupBox20.SuspendLayout();
             this.groupBox21.SuspendLayout();
@@ -363,49 +366,46 @@
             this.connectionPanel.SuspendLayout();
             this.gbViz6.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff6)).BeginInit();
             this.gbViz5.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff5)).BeginInit();
             this.gbViz4.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff4)).BeginInit();
             this.gbViz3.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff3)).BeginInit();
             this.gbViz2.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff2)).BeginInit();
             this.gbViz1.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff1)).BeginInit();
             this.enginePanel.SuspendLayout();
             this.groupBox25.SuspendLayout();
             this.groupBox29.SuspendLayout();
-            this.gbEngines.SuspendLayout();
-            this.gbEng4.SuspendLayout();
-            this.gbEng3.SuspendLayout();
-            this.gbEng2.SuspendLayout();
-            this.gbEng1.SuspendLayout();
-            this.SidePanelPrimary.SuspendLayout();
-            this.gbAllCandidates.SuspendLayout();
-            this.groupBox26.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbExt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
+            this.gbEngines.SuspendLayout();
+            this.gbEng4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            this.gbEng3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            this.gbEng2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.gbEng1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -616,11 +616,11 @@
             this.dataModeSelect.Controls.Add(this.tpSidePanel);
             this.dataModeSelect.Controls.Add(this.tpMaps);
             this.dataModeSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataModeSelect.Location = new System.Drawing.Point(8, 129);
+            this.dataModeSelect.Location = new System.Drawing.Point(8, 122);
             this.dataModeSelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataModeSelect.Name = "dataModeSelect";
             this.dataModeSelect.SelectedIndex = 0;
-            this.dataModeSelect.Size = new System.Drawing.Size(1029, 1222);
+            this.dataModeSelect.Size = new System.Drawing.Size(1029, 1231);
             this.dataModeSelect.TabIndex = 93;
             this.dataModeSelect.SelectedIndexChanged += new System.EventHandler(this.dataModeSelect_SelectedIndexChanged);
             // 
@@ -633,7 +633,7 @@
             this.tpRaces.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpRaces.Name = "tpRaces";
             this.tpRaces.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpRaces.Size = new System.Drawing.Size(1021, 1177);
+            this.tpRaces.Size = new System.Drawing.Size(1021, 1186);
             this.tpRaces.TabIndex = 0;
             this.tpRaces.Text = "Race Boards";
             // 
@@ -655,7 +655,7 @@
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox1.Controls.Add(this.btnAddAll);
             this.groupBox1.Controls.Add(this.btnInsert);
-            this.groupBox1.Location = new System.Drawing.Point(630, 718);
+            this.groupBox1.Location = new System.Drawing.Point(629, 716);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -664,12 +664,41 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quick Add";
             // 
+            // btnAddAll
+            // 
+            this.btnAddAll.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddAll.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnAddAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddAll.Location = new System.Drawing.Point(64, 49);
+            this.btnAddAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddAll.Name = "btnAddAll";
+            this.btnAddAll.Size = new System.Drawing.Size(228, 85);
+            this.btnAddAll.TabIndex = 70;
+            this.btnAddAll.Text = "All\r\n(Ctrl-A)";
+            this.btnAddAll.UseVisualStyleBackColor = false;
+            this.btnAddAll.Click += new System.EventHandler(this.btnAddAll_Click);
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.BackColor = System.Drawing.SystemColors.Control;
+            this.btnInsert.Image = ((System.Drawing.Image)(resources.GetObject("btnInsert.Image")));
+            this.btnInsert.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInsert.Location = new System.Drawing.Point(110, 58);
+            this.btnInsert.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(136, 71);
+            this.btnInsert.TabIndex = 71;
+            this.btnInsert.Text = "Insert\r\n(Ctrl-I)";
+            this.btnInsert.UseVisualStyleBackColor = false;
+            // 
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox5.Controls.Add(this.btnAddRace4Way);
             this.groupBox5.Controls.Add(this.btnSelect4);
-            this.groupBox5.Location = new System.Drawing.Point(630, 538);
+            this.groupBox5.Location = new System.Drawing.Point(629, 536);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -678,12 +707,46 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "4 - Way";
             // 
+            // btnAddRace4Way
+            // 
+            this.btnAddRace4Way.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace4Way.Enabled = false;
+            this.btnAddRace4Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace4Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace4Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4Way.Image")));
+            this.btnAddRace4Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace4Way.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace4Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace4Way.Name = "btnAddRace4Way";
+            this.btnAddRace4Way.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace4Way.TabIndex = 67;
+            this.btnAddRace4Way.Text = "Top\r\n(Ctrl-4)";
+            this.btnAddRace4Way.UseVisualStyleBackColor = false;
+            this.btnAddRace4Way.Click += new System.EventHandler(this.btnAddRace4Way_Click);
+            // 
+            // btnSelect4
+            // 
+            this.btnSelect4.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSelect4.Enabled = false;
+            this.btnSelect4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelect4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelect4.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnSelect4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSelect4.Location = new System.Drawing.Point(208, 51);
+            this.btnSelect4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelect4.Name = "btnSelect4";
+            this.btnSelect4.Size = new System.Drawing.Size(150, 85);
+            this.btnSelect4.TabIndex = 66;
+            this.btnSelect4.Text = "Select\r\n(Alt-4)";
+            this.btnSelect4.UseVisualStyleBackColor = false;
+            this.btnSelect4.Click += new System.EventHandler(this.btnSelect4_Click);
+            // 
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox4.Controls.Add(this.btnAddRace3WaySelect);
             this.groupBox4.Controls.Add(this.btnAddRace3Way);
-            this.groupBox4.Location = new System.Drawing.Point(630, 362);
+            this.groupBox4.Location = new System.Drawing.Point(629, 360);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -692,12 +755,44 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "3 - Way";
             // 
+            // btnAddRace3WaySelect
+            // 
+            this.btnAddRace3WaySelect.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace3WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace3WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace3WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySelect.Image")));
+            this.btnAddRace3WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace3WaySelect.Location = new System.Drawing.Point(208, 51);
+            this.btnAddRace3WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace3WaySelect.Name = "btnAddRace3WaySelect";
+            this.btnAddRace3WaySelect.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace3WaySelect.TabIndex = 65;
+            this.btnAddRace3WaySelect.Text = "Select\r\n(Alt-3)";
+            this.btnAddRace3WaySelect.UseVisualStyleBackColor = false;
+            this.btnAddRace3WaySelect.Click += new System.EventHandler(this.btnSelect3_Click);
+            // 
+            // btnAddRace3Way
+            // 
+            this.btnAddRace3Way.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace3Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace3Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace3Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3Way.Image")));
+            this.btnAddRace3Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace3Way.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace3Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace3Way.Name = "btnAddRace3Way";
+            this.btnAddRace3Way.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace3Way.TabIndex = 62;
+            this.btnAddRace3Way.Text = "Top\r\n(Ctrl-3)";
+            this.btnAddRace3Way.UseVisualStyleBackColor = false;
+            this.btnAddRace3Way.Click += new System.EventHandler(this.btnAddRace3Way_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox3.Controls.Add(this.btnAddRace2WaySelect);
             this.groupBox3.Controls.Add(this.btnAddRace2Way);
-            this.groupBox3.Location = new System.Drawing.Point(630, 183);
+            this.groupBox3.Location = new System.Drawing.Point(629, 181);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -707,12 +802,44 @@
             this.groupBox3.Text = "2 - Way";
             this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
+            // btnAddRace2WaySelect
+            // 
+            this.btnAddRace2WaySelect.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace2WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace2WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace2WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySelect.Image")));
+            this.btnAddRace2WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace2WaySelect.Location = new System.Drawing.Point(208, 51);
+            this.btnAddRace2WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace2WaySelect.Name = "btnAddRace2WaySelect";
+            this.btnAddRace2WaySelect.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace2WaySelect.TabIndex = 64;
+            this.btnAddRace2WaySelect.Text = "Select\r\n(Alt-2)";
+            this.btnAddRace2WaySelect.UseVisualStyleBackColor = false;
+            this.btnAddRace2WaySelect.Click += new System.EventHandler(this.btnSelect2_Click);
+            // 
+            // btnAddRace2Way
+            // 
+            this.btnAddRace2Way.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace2Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace2Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace2Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2Way.Image")));
+            this.btnAddRace2Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace2Way.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace2Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace2Way.Name = "btnAddRace2Way";
+            this.btnAddRace2Way.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace2Way.TabIndex = 61;
+            this.btnAddRace2Way.Text = "Top\r\n(Ctrl-2)";
+            this.btnAddRace2Way.UseVisualStyleBackColor = false;
+            this.btnAddRace2Way.Click += new System.EventHandler(this.btnAddRace2Way_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox2.Controls.Add(this.btnAddRace1Way);
             this.groupBox2.Controls.Add(this.btnAddRace1WaySelect);
-            this.groupBox2.Location = new System.Drawing.Point(630, 5);
+            this.groupBox2.Location = new System.Drawing.Point(629, 3);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -720,6 +847,38 @@
             this.groupBox2.TabIndex = 122;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "1 - Way";
+            // 
+            // btnAddRace1Way
+            // 
+            this.btnAddRace1Way.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace1Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace1Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace1Way.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnAddRace1Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace1Way.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace1Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace1Way.Name = "btnAddRace1Way";
+            this.btnAddRace1Way.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace1Way.TabIndex = 64;
+            this.btnAddRace1Way.Text = "Top\r\n(Ctrl-1)";
+            this.btnAddRace1Way.UseVisualStyleBackColor = false;
+            this.btnAddRace1Way.Click += new System.EventHandler(this.btnAddRace1Way_Click);
+            // 
+            // btnAddRace1WaySelect
+            // 
+            this.btnAddRace1WaySelect.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace1WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace1WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace1WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace1WaySelect.Image")));
+            this.btnAddRace1WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace1WaySelect.Location = new System.Drawing.Point(208, 51);
+            this.btnAddRace1WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace1WaySelect.Name = "btnAddRace1WaySelect";
+            this.btnAddRace1WaySelect.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace1WaySelect.TabIndex = 63;
+            this.btnAddRace1WaySelect.Text = "Select\r\n(Alt-1)";
+            this.btnAddRace1WaySelect.UseVisualStyleBackColor = false;
+            this.btnAddRace1WaySelect.Click += new System.EventHandler(this.btnSelect1_Click);
             // 
             // availableRacesGrid
             // 
@@ -734,7 +893,7 @@
             this.Ofc,
             this.Party,
             this.Race_Description});
-            this.availableRacesGrid.Location = new System.Drawing.Point(0, 5);
+            this.availableRacesGrid.Location = new System.Drawing.Point(-1, 3);
             this.availableRacesGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.availableRacesGrid.MultiSelect = false;
             this.availableRacesGrid.Name = "availableRacesGrid";
@@ -800,7 +959,7 @@
             this.panel4.Controls.Add(this.txtNextPollClosingTime);
             this.panel4.Controls.Add(this.txtNextPollClosingTimeHeader);
             this.panel4.Controls.Add(this.lblAvailRaceCnt);
-            this.panel4.Location = new System.Drawing.Point(6, 228);
+            this.panel4.Location = new System.Drawing.Point(5, 226);
             this.panel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(999, 49);
@@ -843,7 +1002,7 @@
             this.gbSpF.Controls.Add(this.rbPollClosing);
             this.gbSpF.Controls.Add(this.rbBattleground);
             this.gbSpF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSpF.Location = new System.Drawing.Point(4, 152);
+            this.gbSpF.Location = new System.Drawing.Point(3, 152);
             this.gbSpF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbSpF.Name = "gbSpF";
             this.gbSpF.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -899,7 +1058,7 @@
             this.gbRCF.Controls.Add(this.rbJustCalled);
             this.gbRCF.Controls.Add(this.rbTCTC);
             this.gbRCF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbRCF.Location = new System.Drawing.Point(4, 80);
+            this.gbRCF.Location = new System.Drawing.Point(3, 78);
             this.gbRCF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbRCF.Name = "gbRCF";
             this.gbRCF.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -968,7 +1127,7 @@
             this.gbROF.Controls.Add(this.rbSenate);
             this.gbROF.Controls.Add(this.rbPresident);
             this.gbROF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbROF.Location = new System.Drawing.Point(4, 5);
+            this.gbROF.Location = new System.Drawing.Point(3, 3);
             this.gbROF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbROF.Name = "gbROF";
             this.gbROF.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1065,18 +1224,18 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle10;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1122,6 +1281,19 @@
             this.tpTicker.TabIndex = 1;
             this.tpTicker.Text = "Ticker";
             this.tpTicker.UseVisualStyleBackColor = true;
+            // 
+            // btnAddExitPoll
+            // 
+            this.btnAddExitPoll.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
+            this.btnAddExitPoll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddExitPoll.Location = new System.Drawing.Point(350, 1054);
+            this.btnAddExitPoll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddExitPoll.Name = "btnAddExitPoll";
+            this.btnAddExitPoll.Size = new System.Drawing.Size(328, 92);
+            this.btnAddExitPoll.TabIndex = 2;
+            this.btnAddExitPoll.Text = "Add Voter Analysis";
+            this.btnAddExitPoll.UseVisualStyleBackColor = true;
+            this.btnAddExitPoll.Click += new System.EventHandler(this.btnAddExitPoll_Click);
             // 
             // tpBalanceOfPower
             // 
@@ -1178,6 +1350,19 @@
             this.Session.Name = "Session";
             this.Session.Width = 200;
             // 
+            // btnAddBalanceOfPower
+            // 
+            this.btnAddBalanceOfPower.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
+            this.btnAddBalanceOfPower.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddBalanceOfPower.Location = new System.Drawing.Point(345, 709);
+            this.btnAddBalanceOfPower.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddBalanceOfPower.Name = "btnAddBalanceOfPower";
+            this.btnAddBalanceOfPower.Size = new System.Drawing.Size(328, 92);
+            this.btnAddBalanceOfPower.TabIndex = 1;
+            this.btnAddBalanceOfPower.Text = "Add Balance of Power";
+            this.btnAddBalanceOfPower.UseVisualStyleBackColor = true;
+            this.btnAddBalanceOfPower.Click += new System.EventHandler(this.button2_Click);
+            // 
             // tpReferendums
             // 
             this.tpReferendums.BackColor = System.Drawing.Color.LightSkyBlue;
@@ -1190,6 +1375,19 @@
             this.tpReferendums.Size = new System.Drawing.Size(1021, 1177);
             this.tpReferendums.TabIndex = 3;
             this.tpReferendums.Text = "Referendums";
+            // 
+            // btnAddReferendum
+            // 
+            this.btnAddReferendum.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
+            this.btnAddReferendum.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddReferendum.Location = new System.Drawing.Point(387, 895);
+            this.btnAddReferendum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddReferendum.Name = "btnAddReferendum";
+            this.btnAddReferendum.Size = new System.Drawing.Size(258, 92);
+            this.btnAddReferendum.TabIndex = 2;
+            this.btnAddReferendum.Text = "Add Referendum";
+            this.btnAddReferendum.UseVisualStyleBackColor = true;
+            this.btnAddReferendum.Click += new System.EventHandler(this.button1_Click);
             // 
             // ReferendumsGrid
             // 
@@ -1234,6 +1432,55 @@
             this.tpSidePanel.TabIndex = 4;
             this.tpSidePanel.Text = "Side Panel";
             // 
+            // SidePanelPrimary
+            // 
+            this.SidePanelPrimary.BackColor = System.Drawing.Color.DarkGray;
+            this.SidePanelPrimary.Controls.Add(this.groupBox26);
+            this.SidePanelPrimary.Controls.Add(this.gbAllCandidates);
+            this.SidePanelPrimary.Location = new System.Drawing.Point(640, 282);
+            this.SidePanelPrimary.Name = "SidePanelPrimary";
+            this.SidePanelPrimary.Size = new System.Drawing.Size(368, 889);
+            this.SidePanelPrimary.TabIndex = 65;
+            // 
+            // groupBox26
+            // 
+            this.groupBox26.Controls.Add(this.btnSelectCounties);
+            this.groupBox26.Location = new System.Drawing.Point(7, 499);
+            this.groupBox26.Name = "groupBox26";
+            this.groupBox26.Size = new System.Drawing.Size(351, 166);
+            this.groupBox26.TabIndex = 1;
+            this.groupBox26.TabStop = false;
+            this.groupBox26.Text = "County Data";
+            // 
+            // btnSelectCounties
+            // 
+            this.btnSelectCounties.Location = new System.Drawing.Point(20, 46);
+            this.btnSelectCounties.Name = "btnSelectCounties";
+            this.btnSelectCounties.Size = new System.Drawing.Size(314, 87);
+            this.btnSelectCounties.TabIndex = 0;
+            this.btnSelectCounties.Text = "Select Counties";
+            this.btnSelectCounties.UseVisualStyleBackColor = true;
+            this.btnSelectCounties.Click += new System.EventHandler(this.btnSelectCounties_Click);
+            // 
+            // gbAllCandidates
+            // 
+            this.gbAllCandidates.Controls.Add(this.btnAllSP);
+            this.gbAllCandidates.Location = new System.Drawing.Point(7, 234);
+            this.gbAllCandidates.Name = "gbAllCandidates";
+            this.gbAllCandidates.Size = new System.Drawing.Size(351, 166);
+            this.gbAllCandidates.TabIndex = 0;
+            this.gbAllCandidates.TabStop = false;
+            this.gbAllCandidates.Text = "All Candidates";
+            // 
+            // btnAllSP
+            // 
+            this.btnAllSP.Location = new System.Drawing.Point(20, 46);
+            this.btnAllSP.Name = "btnAllSP";
+            this.btnAllSP.Size = new System.Drawing.Size(314, 87);
+            this.btnAllSP.TabIndex = 0;
+            this.btnAllSP.Text = "Add";
+            this.btnAllSP.UseVisualStyleBackColor = true;
+            // 
             // RaceSPPanel
             // 
             this.RaceSPPanel.Controls.Add(this.groupBox20);
@@ -1261,6 +1508,35 @@
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "Quick Add";
             // 
+            // btnAddAllSP
+            // 
+            this.btnAddAllSP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddAllSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddAllSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddAllSP.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnAddAllSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddAllSP.Location = new System.Drawing.Point(64, 49);
+            this.btnAddAllSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddAllSP.Name = "btnAddAllSP";
+            this.btnAddAllSP.Size = new System.Drawing.Size(228, 85);
+            this.btnAddAllSP.TabIndex = 70;
+            this.btnAddAllSP.Text = "All\r\n(Ctrl-A)";
+            this.btnAddAllSP.UseVisualStyleBackColor = false;
+            this.btnAddAllSP.Click += new System.EventHandler(this.btnAddAll_Click);
+            // 
+            // button12
+            // 
+            this.button12.BackColor = System.Drawing.SystemColors.Control;
+            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
+            this.button12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button12.Location = new System.Drawing.Point(110, 58);
+            this.button12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(136, 71);
+            this.button12.TabIndex = 71;
+            this.button12.Text = "Insert\r\n(Ctrl-I)";
+            this.button12.UseVisualStyleBackColor = false;
+            // 
             // groupBox21
             // 
             this.groupBox21.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1274,6 +1550,38 @@
             this.groupBox21.TabIndex = 128;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "4 - Way";
+            // 
+            // btnAddRace4WaySP
+            // 
+            this.btnAddRace4WaySP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace4WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace4WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace4WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4WaySP.Image")));
+            this.btnAddRace4WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace4WaySP.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace4WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace4WaySP.Name = "btnAddRace4WaySP";
+            this.btnAddRace4WaySP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace4WaySP.TabIndex = 67;
+            this.btnAddRace4WaySP.Text = "Top\r\n(Ctrl-4)";
+            this.btnAddRace4WaySP.UseVisualStyleBackColor = false;
+            this.btnAddRace4WaySP.Click += new System.EventHandler(this.btnAddRace4Way_Click);
+            // 
+            // btnSelect4SP
+            // 
+            this.btnSelect4SP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSelect4SP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelect4SP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelect4SP.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnSelect4SP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSelect4SP.Location = new System.Drawing.Point(208, 51);
+            this.btnSelect4SP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelect4SP.Name = "btnSelect4SP";
+            this.btnSelect4SP.Size = new System.Drawing.Size(150, 85);
+            this.btnSelect4SP.TabIndex = 66;
+            this.btnSelect4SP.Text = "Select\r\n(Alt-4)";
+            this.btnSelect4SP.UseVisualStyleBackColor = false;
+            this.btnSelect4SP.Click += new System.EventHandler(this.btnSelect4_Click);
             // 
             // groupBox22
             // 
@@ -1289,6 +1597,38 @@
             this.groupBox22.TabStop = false;
             this.groupBox22.Text = "3 - Way";
             // 
+            // btnAddRace3WaySelectSP
+            // 
+            this.btnAddRace3WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace3WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace3WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace3WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySelectSP.Image")));
+            this.btnAddRace3WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace3WaySelectSP.Location = new System.Drawing.Point(208, 51);
+            this.btnAddRace3WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace3WaySelectSP.Name = "btnAddRace3WaySelectSP";
+            this.btnAddRace3WaySelectSP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace3WaySelectSP.TabIndex = 65;
+            this.btnAddRace3WaySelectSP.Text = "Select\r\n(Alt-3)";
+            this.btnAddRace3WaySelectSP.UseVisualStyleBackColor = false;
+            this.btnAddRace3WaySelectSP.Click += new System.EventHandler(this.btnSelect3_Click);
+            // 
+            // btnAddRace3WaySP
+            // 
+            this.btnAddRace3WaySP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace3WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace3WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace3WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySP.Image")));
+            this.btnAddRace3WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace3WaySP.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace3WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace3WaySP.Name = "btnAddRace3WaySP";
+            this.btnAddRace3WaySP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace3WaySP.TabIndex = 62;
+            this.btnAddRace3WaySP.Text = "Top\r\n(Ctrl-3)";
+            this.btnAddRace3WaySP.UseVisualStyleBackColor = false;
+            this.btnAddRace3WaySP.Click += new System.EventHandler(this.btnAddRace3Way_Click);
+            // 
             // groupBox23
             // 
             this.groupBox23.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1303,6 +1643,38 @@
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "2 - Way";
             // 
+            // btnAddRace2WaySelectSP
+            // 
+            this.btnAddRace2WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace2WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace2WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace2WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySelectSP.Image")));
+            this.btnAddRace2WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace2WaySelectSP.Location = new System.Drawing.Point(208, 51);
+            this.btnAddRace2WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace2WaySelectSP.Name = "btnAddRace2WaySelectSP";
+            this.btnAddRace2WaySelectSP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace2WaySelectSP.TabIndex = 64;
+            this.btnAddRace2WaySelectSP.Text = "Select\r\n(Alt-2)";
+            this.btnAddRace2WaySelectSP.UseVisualStyleBackColor = false;
+            this.btnAddRace2WaySelectSP.Click += new System.EventHandler(this.btnSelect2_Click);
+            // 
+            // btnAddRace2WaySP
+            // 
+            this.btnAddRace2WaySP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace2WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace2WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace2WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySP.Image")));
+            this.btnAddRace2WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace2WaySP.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace2WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace2WaySP.Name = "btnAddRace2WaySP";
+            this.btnAddRace2WaySP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace2WaySP.TabIndex = 61;
+            this.btnAddRace2WaySP.Text = "Top\r\n(Ctrl-2)";
+            this.btnAddRace2WaySP.UseVisualStyleBackColor = false;
+            this.btnAddRace2WaySP.Click += new System.EventHandler(this.btnAddRace2Way_Click);
+            // 
             // groupBox24
             // 
             this.groupBox24.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1316,6 +1688,38 @@
             this.groupBox24.TabIndex = 122;
             this.groupBox24.TabStop = false;
             this.groupBox24.Text = "1 - Way";
+            // 
+            // btnAddRace1WaySP
+            // 
+            this.btnAddRace1WaySP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace1WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace1WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace1WaySP.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnAddRace1WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace1WaySP.Location = new System.Drawing.Point(16, 51);
+            this.btnAddRace1WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace1WaySP.Name = "btnAddRace1WaySP";
+            this.btnAddRace1WaySP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace1WaySP.TabIndex = 64;
+            this.btnAddRace1WaySP.Text = "Top\r\n(Ctrl-1)";
+            this.btnAddRace1WaySP.UseVisualStyleBackColor = false;
+            this.btnAddRace1WaySP.Click += new System.EventHandler(this.btnAddRace1Way_Click);
+            // 
+            // btnAddRace1WaySelectSP
+            // 
+            this.btnAddRace1WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddRace1WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddRace1WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRace1WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace1WaySelectSP.Image")));
+            this.btnAddRace1WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddRace1WaySelectSP.Location = new System.Drawing.Point(208, 51);
+            this.btnAddRace1WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRace1WaySelectSP.Name = "btnAddRace1WaySelectSP";
+            this.btnAddRace1WaySelectSP.Size = new System.Drawing.Size(150, 85);
+            this.btnAddRace1WaySelectSP.TabIndex = 63;
+            this.btnAddRace1WaySelectSP.Text = "Select\r\n(Alt-1)";
+            this.btnAddRace1WaySelectSP.UseVisualStyleBackColor = false;
+            this.btnAddRace1WaySelectSP.Click += new System.EventHandler(this.btnSelect1_Click);
             // 
             // availableRacesGridSP
             // 
@@ -1342,6 +1746,41 @@
             this.availableRacesGridSP.Size = new System.Drawing.Size(618, 882);
             this.availableRacesGridSP.TabIndex = 121;
             this.availableRacesGridSP.DoubleClick += new System.EventHandler(this.availableRacesGrid_DoubleClick);
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Race_ID";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Race ID";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 60;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Race_Office";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Ofc";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 40;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Party";
+            this.Column1.MinimumWidth = 8;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "Race_Description";
+            this.dataGridViewTextBoxColumn5.HeaderText = "Race Description";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 302;
             // 
             // FilterSPPanel
             // 
@@ -1382,6 +1821,34 @@
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Quick Add";
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(64, 49);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(228, 85);
+            this.button1.TabIndex = 70;
+            this.button1.Text = "All\r\n(Ctrl-A)";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.Control;
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(110, 58);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(136, 71);
+            this.button2.TabIndex = 71;
+            this.button2.Text = "Insert\r\n(Ctrl-I)";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
             // groupBox16
             // 
             this.groupBox16.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1395,6 +1862,36 @@
             this.groupBox16.TabIndex = 128;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "4 - Way";
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.SystemColors.Control;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button3.Location = new System.Drawing.Point(16, 51);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(150, 85);
+            this.button3.TabIndex = 67;
+            this.button3.Text = "Top\r\n(Ctrl-4)";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.SystemColors.Control;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(208, 51);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(150, 85);
+            this.button4.TabIndex = 66;
+            this.button4.Text = "Select\r\n(Alt-4)";
+            this.button4.UseVisualStyleBackColor = false;
             // 
             // groupBox17
             // 
@@ -1410,6 +1907,36 @@
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "3 - Way";
             // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.SystemColors.Control;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
+            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button5.Location = new System.Drawing.Point(208, 51);
+            this.button5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(150, 85);
+            this.button5.TabIndex = 65;
+            this.button5.Text = "Select\r\n(Alt-3)";
+            this.button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.SystemColors.Control;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button6.Location = new System.Drawing.Point(16, 51);
+            this.button6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(150, 85);
+            this.button6.TabIndex = 62;
+            this.button6.Text = "Top\r\n(Ctrl-3)";
+            this.button6.UseVisualStyleBackColor = false;
+            // 
             // groupBox18
             // 
             this.groupBox18.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1424,6 +1951,36 @@
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "2 - Way";
             // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.SystemColors.Control;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button7.Location = new System.Drawing.Point(208, 51);
+            this.button7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(150, 85);
+            this.button7.TabIndex = 64;
+            this.button7.Text = "Select\r\n(Alt-2)";
+            this.button7.UseVisualStyleBackColor = false;
+            // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.SystemColors.Control;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
+            this.button8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button8.Location = new System.Drawing.Point(16, 51);
+            this.button8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(150, 85);
+            this.button8.TabIndex = 61;
+            this.button8.Text = "Top\r\n(Ctrl-2)";
+            this.button8.UseVisualStyleBackColor = false;
+            // 
             // groupBox19
             // 
             this.groupBox19.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1437,6 +1994,36 @@
             this.groupBox19.TabIndex = 122;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "1 - Way";
+            // 
+            // button9
+            // 
+            this.button9.BackColor = System.Drawing.SystemColors.Control;
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button9.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.button9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button9.Location = new System.Drawing.Point(16, 51);
+            this.button9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(150, 85);
+            this.button9.TabIndex = 64;
+            this.button9.Text = "Top\r\n(Ctrl-1)";
+            this.button9.UseVisualStyleBackColor = false;
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.SystemColors.Control;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
+            this.button10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button10.Location = new System.Drawing.Point(208, 51);
+            this.button10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(150, 85);
+            this.button10.TabIndex = 63;
+            this.button10.Text = "Select\r\n(Alt-1)";
+            this.button10.UseVisualStyleBackColor = false;
             // 
             // dataGridView1
             // 
@@ -1783,6 +2370,19 @@
             this.dgvVoterAnalysisMap.TabIndex = 0;
             this.dgvVoterAnalysisMap.DoubleClick += new System.EventHandler(this.dgvVoterAnalysisMap_DoubleClick);
             // 
+            // btnAddMap
+            // 
+            this.btnAddMap.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
+            this.btnAddMap.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddMap.Location = new System.Drawing.Point(324, 1041);
+            this.btnAddMap.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddMap.Name = "btnAddMap";
+            this.btnAddMap.Size = new System.Drawing.Size(380, 92);
+            this.btnAddMap.TabIndex = 136;
+            this.btnAddMap.Text = "Add Voter Analysis Map";
+            this.btnAddMap.UseVisualStyleBackColor = true;
+            this.btnAddMap.Click += new System.EventHandler(this.btnAddMap_Click);
+            // 
             // Type
             // 
             this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -1897,6 +2497,38 @@
             this.pnlUpDn.Size = new System.Drawing.Size(75, 248);
             this.pnlUpDn.TabIndex = 140;
             // 
+            // btnStackElementDown
+            // 
+            this.btnStackElementDown.BackColor = System.Drawing.SystemColors.Control;
+            this.btnStackElementDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnStackElementDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStackElementDown.Image = ((System.Drawing.Image)(resources.GetObject("btnStackElementDown.Image")));
+            this.btnStackElementDown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnStackElementDown.Location = new System.Drawing.Point(6, 143);
+            this.btnStackElementDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnStackElementDown.Name = "btnStackElementDown";
+            this.btnStackElementDown.Size = new System.Drawing.Size(63, 92);
+            this.btnStackElementDown.TabIndex = 73;
+            this.btnStackElementDown.Text = "DN";
+            this.btnStackElementDown.UseVisualStyleBackColor = false;
+            this.btnStackElementDown.Click += new System.EventHandler(this.btnStackElementDown_Click);
+            // 
+            // btnStackElementUp
+            // 
+            this.btnStackElementUp.BackColor = System.Drawing.SystemColors.Control;
+            this.btnStackElementUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnStackElementUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStackElementUp.Image = ((System.Drawing.Image)(resources.GetObject("btnStackElementUp.Image")));
+            this.btnStackElementUp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnStackElementUp.Location = new System.Drawing.Point(6, 15);
+            this.btnStackElementUp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnStackElementUp.Name = "btnStackElementUp";
+            this.btnStackElementUp.Size = new System.Drawing.Size(63, 92);
+            this.btnStackElementUp.TabIndex = 72;
+            this.btnStackElementUp.Text = "UP";
+            this.btnStackElementUp.UseVisualStyleBackColor = false;
+            this.btnStackElementUp.Click += new System.EventHandler(this.btnStackElementUp_Click);
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Navy;
@@ -1959,6 +2591,22 @@
             this.cbLooping.UseVisualStyleBackColor = true;
             this.cbLooping.CheckedChanged += new System.EventHandler(this.cbLooping_CheckedChanged);
             // 
+            // btnTake
+            // 
+            this.btnTake.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTake.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTake.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTake.Image = ((System.Drawing.Image)(resources.GetObject("btnTake.Image")));
+            this.btnTake.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTake.Location = new System.Drawing.Point(30, 102);
+            this.btnTake.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnTake.Name = "btnTake";
+            this.btnTake.Size = new System.Drawing.Size(270, 214);
+            this.btnTake.TabIndex = 143;
+            this.btnTake.Text = "Take\r\n Next\\n(Space)";
+            this.btnTake.UseVisualStyleBackColor = false;
+            this.btnTake.Click += new System.EventHandler(this.btnTake_Click);
+            // 
             // LockPanel
             // 
             this.LockPanel.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -1969,6 +2617,38 @@
             this.LockPanel.Name = "LockPanel";
             this.LockPanel.Size = new System.Drawing.Size(630, 117);
             this.LockPanel.TabIndex = 148;
+            // 
+            // btnLock
+            // 
+            this.btnLock.BackColor = System.Drawing.SystemColors.Control;
+            this.btnLock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnLock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLock.Image = ((System.Drawing.Image)(resources.GetObject("btnLock.Image")));
+            this.btnLock.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLock.Location = new System.Drawing.Point(22, 22);
+            this.btnLock.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnLock.Name = "btnLock";
+            this.btnLock.Size = new System.Drawing.Size(270, 85);
+            this.btnLock.TabIndex = 141;
+            this.btnLock.Text = "Lock (Ctrl-L)";
+            this.btnLock.UseVisualStyleBackColor = false;
+            this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
+            // 
+            // btnUnlock
+            // 
+            this.btnUnlock.BackColor = System.Drawing.SystemColors.Control;
+            this.btnUnlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnUnlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUnlock.Image = ((System.Drawing.Image)(resources.GetObject("btnUnlock.Image")));
+            this.btnUnlock.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUnlock.Location = new System.Drawing.Point(338, 22);
+            this.btnUnlock.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnUnlock.Name = "btnUnlock";
+            this.btnUnlock.Size = new System.Drawing.Size(270, 85);
+            this.btnUnlock.TabIndex = 140;
+            this.btnUnlock.Text = "Unlock\r\n(Ctrl-U)";
+            this.btnUnlock.UseVisualStyleBackColor = false;
+            this.btnUnlock.Click += new System.EventHandler(this.btnUnlock_Click);
             // 
             // SaveActivatePanel
             // 
@@ -1995,6 +2675,21 @@
             this.cbPromptForInfo.Text = "Prompt for Info";
             this.cbPromptForInfo.UseVisualStyleBackColor = true;
             // 
+            // btnSaveActivateStack
+            // 
+            this.btnSaveActivateStack.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSaveActivateStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveActivateStack.Image = global::GUILayer.Properties.Resources.StatusAnnotations_Complete_and_ok_16xLG_color;
+            this.btnSaveActivateStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSaveActivateStack.Location = new System.Drawing.Point(33, 12);
+            this.btnSaveActivateStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSaveActivateStack.Name = "btnSaveActivateStack";
+            this.btnSaveActivateStack.Size = new System.Drawing.Size(270, 154);
+            this.btnSaveActivateStack.TabIndex = 138;
+            this.btnSaveActivateStack.Text = "Save && Activate\r\nStack\r\n(Ctrl-S)";
+            this.btnSaveActivateStack.UseVisualStyleBackColor = false;
+            this.btnSaveActivateStack.Click += new System.EventHandler(this.btnSaveActivateStack_Click);
+            // 
             // StackPanel
             // 
             this.StackPanel.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -2007,6 +2702,71 @@
             this.StackPanel.Name = "StackPanel";
             this.StackPanel.Size = new System.Drawing.Size(630, 218);
             this.StackPanel.TabIndex = 147;
+            // 
+            // btnClearStack
+            // 
+            this.btnClearStack.BackColor = System.Drawing.SystemColors.Control;
+            this.btnClearStack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnClearStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearStack.Image = global::GUILayer.Properties.Resources.action_Cancel_16xLG;
+            this.btnClearStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClearStack.Location = new System.Drawing.Point(22, 120);
+            this.btnClearStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnClearStack.Name = "btnClearStack";
+            this.btnClearStack.Size = new System.Drawing.Size(270, 85);
+            this.btnClearStack.TabIndex = 140;
+            this.btnClearStack.Text = "Clear Stack\r\n(Ctrl-C)";
+            this.btnClearStack.UseVisualStyleBackColor = false;
+            this.btnClearStack.Click += new System.EventHandler(this.btnClearStack_Click);
+            // 
+            // btnDeleteStackElement
+            // 
+            this.btnDeleteStackElement.BackColor = System.Drawing.SystemColors.Control;
+            this.btnDeleteStackElement.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnDeleteStackElement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteStackElement.Image = global::GUILayer.Properties.Resources.action_Cancel_16xLG;
+            this.btnDeleteStackElement.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeleteStackElement.Location = new System.Drawing.Point(22, 15);
+            this.btnDeleteStackElement.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDeleteStackElement.Name = "btnDeleteStackElement";
+            this.btnDeleteStackElement.Size = new System.Drawing.Size(270, 85);
+            this.btnDeleteStackElement.TabIndex = 139;
+            this.btnDeleteStackElement.Text = "Delete Element\r\n(Ctrl-D)";
+            this.btnDeleteStackElement.UseVisualStyleBackColor = false;
+            this.btnDeleteStackElement.Click += new System.EventHandler(this.btnDeleteStackElement_Click);
+            // 
+            // btnLoadStack
+            // 
+            this.btnLoadStack.BackColor = System.Drawing.SystemColors.Control;
+            this.btnLoadStack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnLoadStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadStack.Image = global::GUILayer.Properties.Resources.folder_Open_16xLG;
+            this.btnLoadStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLoadStack.Location = new System.Drawing.Point(338, 15);
+            this.btnLoadStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnLoadStack.Name = "btnLoadStack";
+            this.btnLoadStack.Size = new System.Drawing.Size(270, 85);
+            this.btnLoadStack.TabIndex = 138;
+            this.btnLoadStack.Text = "Recall Stack\r\n(Ctrl-R)";
+            this.btnLoadStack.UseVisualStyleBackColor = false;
+            this.btnLoadStack.Click += new System.EventHandler(this.btnLoadStack_Click);
+            // 
+            // btnSaveStack
+            // 
+            this.btnSaveStack.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSaveStack.Enabled = false;
+            this.btnSaveStack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSaveStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveStack.Image = global::GUILayer.Properties.Resources.folder_Closed_16xLG;
+            this.btnSaveStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSaveStack.Location = new System.Drawing.Point(338, 120);
+            this.btnSaveStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSaveStack.Name = "btnSaveStack";
+            this.btnSaveStack.Size = new System.Drawing.Size(270, 85);
+            this.btnSaveStack.TabIndex = 137;
+            this.btnSaveStack.Text = "Save Stack Only\r\n(Ctrl-O)";
+            this.btnSaveStack.UseVisualStyleBackColor = false;
+            this.btnSaveStack.Click += new System.EventHandler(this.btnSaveStack_Click);
             // 
             // stackGrid
             // 
@@ -2254,6 +3014,29 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Connected";
             // 
+            // gbLEDOn6
+            // 
+            this.gbLEDOn6.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOn6.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn6.Image")));
+            this.gbLEDOn6.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOn6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOn6.Name = "gbLEDOn6";
+            this.gbLEDOn6.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOn6.TabIndex = 164;
+            this.gbLEDOn6.TabStop = false;
+            this.gbLEDOn6.Visible = false;
+            // 
+            // gbLEDOff6
+            // 
+            this.gbLEDOff6.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOff6.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff6.Image")));
+            this.gbLEDOff6.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOff6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOff6.Name = "gbLEDOff6";
+            this.gbLEDOff6.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOff6.TabIndex = 163;
+            this.gbLEDOff6.TabStop = false;
+            // 
             // gbPortlbl6
             // 
             this.gbPortlbl6.AutoSize = true;
@@ -2307,6 +3090,29 @@
             this.groupBox11.TabIndex = 178;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Connected";
+            // 
+            // gbLEDOn5
+            // 
+            this.gbLEDOn5.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOn5.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn5.Image")));
+            this.gbLEDOn5.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOn5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOn5.Name = "gbLEDOn5";
+            this.gbLEDOn5.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOn5.TabIndex = 164;
+            this.gbLEDOn5.TabStop = false;
+            this.gbLEDOn5.Visible = false;
+            // 
+            // gbLEDOff5
+            // 
+            this.gbLEDOff5.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOff5.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff5.Image")));
+            this.gbLEDOff5.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOff5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOff5.Name = "gbLEDOff5";
+            this.gbLEDOff5.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOff5.TabIndex = 163;
+            this.gbLEDOff5.TabStop = false;
             // 
             // gbPortlbl5
             // 
@@ -2385,6 +3191,29 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Connected";
             // 
+            // gbLEDOn4
+            // 
+            this.gbLEDOn4.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOn4.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn4.Image")));
+            this.gbLEDOn4.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOn4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOn4.Name = "gbLEDOn4";
+            this.gbLEDOn4.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOn4.TabIndex = 164;
+            this.gbLEDOn4.TabStop = false;
+            this.gbLEDOn4.Visible = false;
+            // 
+            // gbLEDOff4
+            // 
+            this.gbLEDOff4.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOff4.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff4.Image")));
+            this.gbLEDOff4.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOff4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOff4.Name = "gbLEDOff4";
+            this.gbLEDOff4.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOff4.TabIndex = 163;
+            this.gbLEDOff4.TabStop = false;
+            // 
             // gbPortlbl4
             // 
             this.gbPortlbl4.AutoSize = true;
@@ -2461,6 +3290,29 @@
             this.groupBox8.TabIndex = 178;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Connected";
+            // 
+            // gbLEDOn3
+            // 
+            this.gbLEDOn3.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOn3.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn3.Image")));
+            this.gbLEDOn3.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOn3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOn3.Name = "gbLEDOn3";
+            this.gbLEDOn3.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOn3.TabIndex = 164;
+            this.gbLEDOn3.TabStop = false;
+            this.gbLEDOn3.Visible = false;
+            // 
+            // gbLEDOff3
+            // 
+            this.gbLEDOff3.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOff3.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff3.Image")));
+            this.gbLEDOff3.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOff3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOff3.Name = "gbLEDOff3";
+            this.gbLEDOff3.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOff3.TabIndex = 163;
+            this.gbLEDOff3.TabStop = false;
             // 
             // gbPortlbl3
             // 
@@ -2539,6 +3391,29 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Connected";
             // 
+            // gbLEDOn2
+            // 
+            this.gbLEDOn2.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOn2.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn2.Image")));
+            this.gbLEDOn2.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOn2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOn2.Name = "gbLEDOn2";
+            this.gbLEDOn2.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOn2.TabIndex = 164;
+            this.gbLEDOn2.TabStop = false;
+            this.gbLEDOn2.Visible = false;
+            // 
+            // gbLEDOff2
+            // 
+            this.gbLEDOff2.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOff2.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff2.Image")));
+            this.gbLEDOff2.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOff2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOff2.Name = "gbLEDOff2";
+            this.gbLEDOff2.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOff2.TabIndex = 163;
+            this.gbLEDOff2.TabStop = false;
+            // 
             // gbPortlbl2
             // 
             this.gbPortlbl2.AutoSize = true;
@@ -2615,6 +3490,29 @@
             this.groupBox7.TabIndex = 178;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Connected";
+            // 
+            // gbLEDOn1
+            // 
+            this.gbLEDOn1.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOn1.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn1.Image")));
+            this.gbLEDOn1.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOn1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOn1.Name = "gbLEDOn1";
+            this.gbLEDOn1.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOn1.TabIndex = 164;
+            this.gbLEDOn1.TabStop = false;
+            this.gbLEDOn1.Visible = false;
+            // 
+            // gbLEDOff1
+            // 
+            this.gbLEDOff1.BackColor = System.Drawing.Color.Transparent;
+            this.gbLEDOff1.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff1.Image")));
+            this.gbLEDOff1.Location = new System.Drawing.Point(64, 32);
+            this.gbLEDOff1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbLEDOff1.Name = "gbLEDOff1";
+            this.gbLEDOff1.Size = new System.Drawing.Size(24, 25);
+            this.gbLEDOff1.TabIndex = 163;
+            this.gbLEDOff1.TabStop = false;
             // 
             // gbPortlbl1
             // 
@@ -2723,6 +3621,31 @@
             this.groupBox29.Text = "Connected";
             this.groupBox29.UseWaitCursor = true;
             // 
+            // pbExt
+            // 
+            this.pbExt.BackColor = System.Drawing.Color.Transparent;
+            this.pbExt.Image = ((System.Drawing.Image)(resources.GetObject("pbExt.Image")));
+            this.pbExt.Location = new System.Drawing.Point(63, 27);
+            this.pbExt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbExt.Name = "pbExt";
+            this.pbExt.Size = new System.Drawing.Size(24, 25);
+            this.pbExt.TabIndex = 164;
+            this.pbExt.TabStop = false;
+            this.pbExt.UseWaitCursor = true;
+            this.pbExt.Visible = false;
+            // 
+            // pictureBox12
+            // 
+            this.pictureBox12.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
+            this.pictureBox12.Location = new System.Drawing.Point(63, 27);
+            this.pictureBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox12.Name = "pictureBox12";
+            this.pictureBox12.Size = new System.Drawing.Size(24, 25);
+            this.pictureBox12.TabIndex = 163;
+            this.pictureBox12.TabStop = false;
+            this.pictureBox12.UseWaitCursor = true;
+            // 
             // lblScenes
             // 
             this.lblScenes.AutoSize = true;
@@ -2765,6 +3688,31 @@
             this.gbEng4.UseWaitCursor = true;
             this.gbEng4.Visible = false;
             // 
+            // pbEng4
+            // 
+            this.pbEng4.BackColor = System.Drawing.Color.Transparent;
+            this.pbEng4.Image = ((System.Drawing.Image)(resources.GetObject("pbEng4.Image")));
+            this.pbEng4.Location = new System.Drawing.Point(38, 29);
+            this.pbEng4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbEng4.Name = "pbEng4";
+            this.pbEng4.Size = new System.Drawing.Size(24, 25);
+            this.pbEng4.TabIndex = 164;
+            this.pbEng4.TabStop = false;
+            this.pbEng4.UseWaitCursor = true;
+            this.pbEng4.Visible = false;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+            this.pictureBox8.Location = new System.Drawing.Point(38, 29);
+            this.pictureBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(24, 25);
+            this.pictureBox8.TabIndex = 163;
+            this.pictureBox8.TabStop = false;
+            this.pictureBox8.UseWaitCursor = true;
+            // 
             // gbEng3
             // 
             this.gbEng3.Controls.Add(this.pbEng3);
@@ -2780,6 +3728,31 @@
             this.gbEng3.Text = "Viz 3";
             this.gbEng3.UseWaitCursor = true;
             this.gbEng3.Visible = false;
+            // 
+            // pbEng3
+            // 
+            this.pbEng3.BackColor = System.Drawing.Color.Transparent;
+            this.pbEng3.Image = ((System.Drawing.Image)(resources.GetObject("pbEng3.Image")));
+            this.pbEng3.Location = new System.Drawing.Point(38, 29);
+            this.pbEng3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbEng3.Name = "pbEng3";
+            this.pbEng3.Size = new System.Drawing.Size(24, 25);
+            this.pbEng3.TabIndex = 164;
+            this.pbEng3.TabStop = false;
+            this.pbEng3.UseWaitCursor = true;
+            this.pbEng3.Visible = false;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+            this.pictureBox6.Location = new System.Drawing.Point(38, 29);
+            this.pictureBox6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(24, 25);
+            this.pictureBox6.TabIndex = 163;
+            this.pictureBox6.TabStop = false;
+            this.pictureBox6.UseWaitCursor = true;
             // 
             // gbEng2
             // 
@@ -2797,6 +3770,31 @@
             this.gbEng2.UseWaitCursor = true;
             this.gbEng2.Visible = false;
             // 
+            // pbEng2
+            // 
+            this.pbEng2.BackColor = System.Drawing.Color.Transparent;
+            this.pbEng2.Image = ((System.Drawing.Image)(resources.GetObject("pbEng2.Image")));
+            this.pbEng2.Location = new System.Drawing.Point(38, 29);
+            this.pbEng2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbEng2.Name = "pbEng2";
+            this.pbEng2.Size = new System.Drawing.Size(24, 25);
+            this.pbEng2.TabIndex = 164;
+            this.pbEng2.TabStop = false;
+            this.pbEng2.UseWaitCursor = true;
+            this.pbEng2.Visible = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(38, 29);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(24, 25);
+            this.pictureBox4.TabIndex = 163;
+            this.pictureBox4.TabStop = false;
+            this.pictureBox4.UseWaitCursor = true;
+            // 
             // gbEng1
             // 
             this.gbEng1.Controls.Add(this.pbEng1);
@@ -2812,6 +3810,31 @@
             this.gbEng1.Text = "Viz 1";
             this.gbEng1.UseWaitCursor = true;
             this.gbEng1.Visible = false;
+            // 
+            // pbEng1
+            // 
+            this.pbEng1.BackColor = System.Drawing.Color.Transparent;
+            this.pbEng1.Image = ((System.Drawing.Image)(resources.GetObject("pbEng1.Image")));
+            this.pbEng1.Location = new System.Drawing.Point(38, 29);
+            this.pbEng1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbEng1.Name = "pbEng1";
+            this.pbEng1.Size = new System.Drawing.Size(24, 25);
+            this.pbEng1.TabIndex = 164;
+            this.pbEng1.TabStop = false;
+            this.pbEng1.UseWaitCursor = true;
+            this.pbEng1.Visible = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(38, 29);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(24, 25);
+            this.pictureBox2.TabIndex = 163;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.UseWaitCursor = true;
             // 
             // LoopTimer
             // 
@@ -2840,1029 +3863,6 @@
             this.label1.Size = new System.Drawing.Size(48, 25);
             this.label1.TabIndex = 137;
             this.label1.Text = "DB:";
-            // 
-            // SidePanelPrimary
-            // 
-            this.SidePanelPrimary.BackColor = System.Drawing.Color.DarkGray;
-            this.SidePanelPrimary.Controls.Add(this.groupBox26);
-            this.SidePanelPrimary.Controls.Add(this.gbAllCandidates);
-            this.SidePanelPrimary.Location = new System.Drawing.Point(640, 282);
-            this.SidePanelPrimary.Name = "SidePanelPrimary";
-            this.SidePanelPrimary.Size = new System.Drawing.Size(368, 889);
-            this.SidePanelPrimary.TabIndex = 65;
-            // 
-            // gbAllCandidates
-            // 
-            this.gbAllCandidates.Controls.Add(this.btnAllSP);
-            this.gbAllCandidates.Location = new System.Drawing.Point(7, 234);
-            this.gbAllCandidates.Name = "gbAllCandidates";
-            this.gbAllCandidates.Size = new System.Drawing.Size(351, 166);
-            this.gbAllCandidates.TabIndex = 0;
-            this.gbAllCandidates.TabStop = false;
-            this.gbAllCandidates.Text = "All Candidates";
-            // 
-            // btnAllSP
-            // 
-            this.btnAllSP.Location = new System.Drawing.Point(20, 46);
-            this.btnAllSP.Name = "btnAllSP";
-            this.btnAllSP.Size = new System.Drawing.Size(314, 87);
-            this.btnAllSP.TabIndex = 0;
-            this.btnAllSP.Text = "Add";
-            this.btnAllSP.UseVisualStyleBackColor = true;
-            // 
-            // groupBox26
-            // 
-            this.groupBox26.Controls.Add(this.btnSelectCounties);
-            this.groupBox26.Location = new System.Drawing.Point(7, 499);
-            this.groupBox26.Name = "groupBox26";
-            this.groupBox26.Size = new System.Drawing.Size(351, 166);
-            this.groupBox26.TabIndex = 1;
-            this.groupBox26.TabStop = false;
-            this.groupBox26.Text = "County Data";
-            // 
-            // btnSelectCounties
-            // 
-            this.btnSelectCounties.Location = new System.Drawing.Point(20, 46);
-            this.btnSelectCounties.Name = "btnSelectCounties";
-            this.btnSelectCounties.Size = new System.Drawing.Size(314, 87);
-            this.btnSelectCounties.TabIndex = 0;
-            this.btnSelectCounties.Text = "Select Counties";
-            this.btnSelectCounties.UseVisualStyleBackColor = true;
-            this.btnSelectCounties.Click += new System.EventHandler(this.btnSelectCounties_Click);
-            // 
-            // pbExt
-            // 
-            this.pbExt.BackColor = System.Drawing.Color.Transparent;
-            this.pbExt.Image = ((System.Drawing.Image)(resources.GetObject("pbExt.Image")));
-            this.pbExt.Location = new System.Drawing.Point(63, 27);
-            this.pbExt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pbExt.Name = "pbExt";
-            this.pbExt.Size = new System.Drawing.Size(24, 25);
-            this.pbExt.TabIndex = 164;
-            this.pbExt.TabStop = false;
-            this.pbExt.UseWaitCursor = true;
-            this.pbExt.Visible = false;
-            // 
-            // pictureBox12
-            // 
-            this.pictureBox12.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
-            this.pictureBox12.Location = new System.Drawing.Point(63, 27);
-            this.pictureBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(24, 25);
-            this.pictureBox12.TabIndex = 163;
-            this.pictureBox12.TabStop = false;
-            this.pictureBox12.UseWaitCursor = true;
-            // 
-            // pbEng4
-            // 
-            this.pbEng4.BackColor = System.Drawing.Color.Transparent;
-            this.pbEng4.Image = ((System.Drawing.Image)(resources.GetObject("pbEng4.Image")));
-            this.pbEng4.Location = new System.Drawing.Point(38, 29);
-            this.pbEng4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pbEng4.Name = "pbEng4";
-            this.pbEng4.Size = new System.Drawing.Size(24, 25);
-            this.pbEng4.TabIndex = 164;
-            this.pbEng4.TabStop = false;
-            this.pbEng4.UseWaitCursor = true;
-            this.pbEng4.Visible = false;
-            // 
-            // pictureBox8
-            // 
-            this.pictureBox8.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-            this.pictureBox8.Location = new System.Drawing.Point(38, 29);
-            this.pictureBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(24, 25);
-            this.pictureBox8.TabIndex = 163;
-            this.pictureBox8.TabStop = false;
-            this.pictureBox8.UseWaitCursor = true;
-            // 
-            // pbEng3
-            // 
-            this.pbEng3.BackColor = System.Drawing.Color.Transparent;
-            this.pbEng3.Image = ((System.Drawing.Image)(resources.GetObject("pbEng3.Image")));
-            this.pbEng3.Location = new System.Drawing.Point(38, 29);
-            this.pbEng3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pbEng3.Name = "pbEng3";
-            this.pbEng3.Size = new System.Drawing.Size(24, 25);
-            this.pbEng3.TabIndex = 164;
-            this.pbEng3.TabStop = false;
-            this.pbEng3.UseWaitCursor = true;
-            this.pbEng3.Visible = false;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(38, 29);
-            this.pictureBox6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(24, 25);
-            this.pictureBox6.TabIndex = 163;
-            this.pictureBox6.TabStop = false;
-            this.pictureBox6.UseWaitCursor = true;
-            // 
-            // pbEng2
-            // 
-            this.pbEng2.BackColor = System.Drawing.Color.Transparent;
-            this.pbEng2.Image = ((System.Drawing.Image)(resources.GetObject("pbEng2.Image")));
-            this.pbEng2.Location = new System.Drawing.Point(38, 29);
-            this.pbEng2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pbEng2.Name = "pbEng2";
-            this.pbEng2.Size = new System.Drawing.Size(24, 25);
-            this.pbEng2.TabIndex = 164;
-            this.pbEng2.TabStop = false;
-            this.pbEng2.UseWaitCursor = true;
-            this.pbEng2.Visible = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(38, 29);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(24, 25);
-            this.pictureBox4.TabIndex = 163;
-            this.pictureBox4.TabStop = false;
-            this.pictureBox4.UseWaitCursor = true;
-            // 
-            // pbEng1
-            // 
-            this.pbEng1.BackColor = System.Drawing.Color.Transparent;
-            this.pbEng1.Image = ((System.Drawing.Image)(resources.GetObject("pbEng1.Image")));
-            this.pbEng1.Location = new System.Drawing.Point(38, 29);
-            this.pbEng1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pbEng1.Name = "pbEng1";
-            this.pbEng1.Size = new System.Drawing.Size(24, 25);
-            this.pbEng1.TabIndex = 164;
-            this.pbEng1.TabStop = false;
-            this.pbEng1.UseWaitCursor = true;
-            this.pbEng1.Visible = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(38, 29);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 25);
-            this.pictureBox2.TabIndex = 163;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.UseWaitCursor = true;
-            // 
-            // gbLEDOn6
-            // 
-            this.gbLEDOn6.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOn6.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn6.Image")));
-            this.gbLEDOn6.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOn6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOn6.Name = "gbLEDOn6";
-            this.gbLEDOn6.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOn6.TabIndex = 164;
-            this.gbLEDOn6.TabStop = false;
-            this.gbLEDOn6.Visible = false;
-            // 
-            // gbLEDOff6
-            // 
-            this.gbLEDOff6.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOff6.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff6.Image")));
-            this.gbLEDOff6.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOff6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOff6.Name = "gbLEDOff6";
-            this.gbLEDOff6.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOff6.TabIndex = 163;
-            this.gbLEDOff6.TabStop = false;
-            // 
-            // gbLEDOn5
-            // 
-            this.gbLEDOn5.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOn5.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn5.Image")));
-            this.gbLEDOn5.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOn5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOn5.Name = "gbLEDOn5";
-            this.gbLEDOn5.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOn5.TabIndex = 164;
-            this.gbLEDOn5.TabStop = false;
-            this.gbLEDOn5.Visible = false;
-            // 
-            // gbLEDOff5
-            // 
-            this.gbLEDOff5.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOff5.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff5.Image")));
-            this.gbLEDOff5.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOff5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOff5.Name = "gbLEDOff5";
-            this.gbLEDOff5.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOff5.TabIndex = 163;
-            this.gbLEDOff5.TabStop = false;
-            // 
-            // gbLEDOn4
-            // 
-            this.gbLEDOn4.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOn4.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn4.Image")));
-            this.gbLEDOn4.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOn4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOn4.Name = "gbLEDOn4";
-            this.gbLEDOn4.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOn4.TabIndex = 164;
-            this.gbLEDOn4.TabStop = false;
-            this.gbLEDOn4.Visible = false;
-            // 
-            // gbLEDOff4
-            // 
-            this.gbLEDOff4.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOff4.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff4.Image")));
-            this.gbLEDOff4.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOff4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOff4.Name = "gbLEDOff4";
-            this.gbLEDOff4.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOff4.TabIndex = 163;
-            this.gbLEDOff4.TabStop = false;
-            // 
-            // gbLEDOn3
-            // 
-            this.gbLEDOn3.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOn3.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn3.Image")));
-            this.gbLEDOn3.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOn3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOn3.Name = "gbLEDOn3";
-            this.gbLEDOn3.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOn3.TabIndex = 164;
-            this.gbLEDOn3.TabStop = false;
-            this.gbLEDOn3.Visible = false;
-            // 
-            // gbLEDOff3
-            // 
-            this.gbLEDOff3.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOff3.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff3.Image")));
-            this.gbLEDOff3.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOff3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOff3.Name = "gbLEDOff3";
-            this.gbLEDOff3.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOff3.TabIndex = 163;
-            this.gbLEDOff3.TabStop = false;
-            // 
-            // gbLEDOn2
-            // 
-            this.gbLEDOn2.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOn2.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn2.Image")));
-            this.gbLEDOn2.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOn2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOn2.Name = "gbLEDOn2";
-            this.gbLEDOn2.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOn2.TabIndex = 164;
-            this.gbLEDOn2.TabStop = false;
-            this.gbLEDOn2.Visible = false;
-            // 
-            // gbLEDOff2
-            // 
-            this.gbLEDOff2.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOff2.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff2.Image")));
-            this.gbLEDOff2.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOff2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOff2.Name = "gbLEDOff2";
-            this.gbLEDOff2.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOff2.TabIndex = 163;
-            this.gbLEDOff2.TabStop = false;
-            // 
-            // gbLEDOn1
-            // 
-            this.gbLEDOn1.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOn1.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOn1.Image")));
-            this.gbLEDOn1.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOn1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOn1.Name = "gbLEDOn1";
-            this.gbLEDOn1.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOn1.TabIndex = 164;
-            this.gbLEDOn1.TabStop = false;
-            this.gbLEDOn1.Visible = false;
-            // 
-            // gbLEDOff1
-            // 
-            this.gbLEDOff1.BackColor = System.Drawing.Color.Transparent;
-            this.gbLEDOff1.Image = ((System.Drawing.Image)(resources.GetObject("gbLEDOff1.Image")));
-            this.gbLEDOff1.Location = new System.Drawing.Point(64, 32);
-            this.gbLEDOff1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbLEDOff1.Name = "gbLEDOff1";
-            this.gbLEDOff1.Size = new System.Drawing.Size(24, 25);
-            this.gbLEDOff1.TabIndex = 163;
-            this.gbLEDOff1.TabStop = false;
-            // 
-            // btnStackElementDown
-            // 
-            this.btnStackElementDown.BackColor = System.Drawing.SystemColors.Control;
-            this.btnStackElementDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnStackElementDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStackElementDown.Image = ((System.Drawing.Image)(resources.GetObject("btnStackElementDown.Image")));
-            this.btnStackElementDown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnStackElementDown.Location = new System.Drawing.Point(6, 143);
-            this.btnStackElementDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnStackElementDown.Name = "btnStackElementDown";
-            this.btnStackElementDown.Size = new System.Drawing.Size(63, 92);
-            this.btnStackElementDown.TabIndex = 73;
-            this.btnStackElementDown.Text = "DN";
-            this.btnStackElementDown.UseVisualStyleBackColor = false;
-            this.btnStackElementDown.Click += new System.EventHandler(this.btnStackElementDown_Click);
-            // 
-            // btnStackElementUp
-            // 
-            this.btnStackElementUp.BackColor = System.Drawing.SystemColors.Control;
-            this.btnStackElementUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnStackElementUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStackElementUp.Image = ((System.Drawing.Image)(resources.GetObject("btnStackElementUp.Image")));
-            this.btnStackElementUp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnStackElementUp.Location = new System.Drawing.Point(6, 15);
-            this.btnStackElementUp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnStackElementUp.Name = "btnStackElementUp";
-            this.btnStackElementUp.Size = new System.Drawing.Size(63, 92);
-            this.btnStackElementUp.TabIndex = 72;
-            this.btnStackElementUp.Text = "UP";
-            this.btnStackElementUp.UseVisualStyleBackColor = false;
-            this.btnStackElementUp.Click += new System.EventHandler(this.btnStackElementUp_Click);
-            // 
-            // btnTake
-            // 
-            this.btnTake.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTake.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTake.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTake.Image = ((System.Drawing.Image)(resources.GetObject("btnTake.Image")));
-            this.btnTake.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTake.Location = new System.Drawing.Point(30, 102);
-            this.btnTake.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnTake.Name = "btnTake";
-            this.btnTake.Size = new System.Drawing.Size(270, 214);
-            this.btnTake.TabIndex = 143;
-            this.btnTake.Text = "Take\r\n Next\\n(Space)";
-            this.btnTake.UseVisualStyleBackColor = false;
-            this.btnTake.Click += new System.EventHandler(this.btnTake_Click);
-            // 
-            // btnLock
-            // 
-            this.btnLock.BackColor = System.Drawing.SystemColors.Control;
-            this.btnLock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnLock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLock.Image = ((System.Drawing.Image)(resources.GetObject("btnLock.Image")));
-            this.btnLock.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLock.Location = new System.Drawing.Point(22, 22);
-            this.btnLock.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(270, 85);
-            this.btnLock.TabIndex = 141;
-            this.btnLock.Text = "Lock (Ctrl-L)";
-            this.btnLock.UseVisualStyleBackColor = false;
-            this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
-            // 
-            // btnUnlock
-            // 
-            this.btnUnlock.BackColor = System.Drawing.SystemColors.Control;
-            this.btnUnlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnUnlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnlock.Image = ((System.Drawing.Image)(resources.GetObject("btnUnlock.Image")));
-            this.btnUnlock.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUnlock.Location = new System.Drawing.Point(338, 22);
-            this.btnUnlock.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnUnlock.Name = "btnUnlock";
-            this.btnUnlock.Size = new System.Drawing.Size(270, 85);
-            this.btnUnlock.TabIndex = 140;
-            this.btnUnlock.Text = "Unlock\r\n(Ctrl-U)";
-            this.btnUnlock.UseVisualStyleBackColor = false;
-            this.btnUnlock.Click += new System.EventHandler(this.btnUnlock_Click);
-            // 
-            // btnSaveActivateStack
-            // 
-            this.btnSaveActivateStack.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSaveActivateStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveActivateStack.Image = global::GUILayer.Properties.Resources.StatusAnnotations_Complete_and_ok_16xLG_color;
-            this.btnSaveActivateStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveActivateStack.Location = new System.Drawing.Point(33, 12);
-            this.btnSaveActivateStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnSaveActivateStack.Name = "btnSaveActivateStack";
-            this.btnSaveActivateStack.Size = new System.Drawing.Size(270, 154);
-            this.btnSaveActivateStack.TabIndex = 138;
-            this.btnSaveActivateStack.Text = "Save && Activate\r\nStack\r\n(Ctrl-S)";
-            this.btnSaveActivateStack.UseVisualStyleBackColor = false;
-            this.btnSaveActivateStack.Click += new System.EventHandler(this.btnSaveActivateStack_Click);
-            // 
-            // btnClearStack
-            // 
-            this.btnClearStack.BackColor = System.Drawing.SystemColors.Control;
-            this.btnClearStack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnClearStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearStack.Image = global::GUILayer.Properties.Resources.action_Cancel_16xLG;
-            this.btnClearStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClearStack.Location = new System.Drawing.Point(22, 120);
-            this.btnClearStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnClearStack.Name = "btnClearStack";
-            this.btnClearStack.Size = new System.Drawing.Size(270, 85);
-            this.btnClearStack.TabIndex = 140;
-            this.btnClearStack.Text = "Clear Stack\r\n(Ctrl-C)";
-            this.btnClearStack.UseVisualStyleBackColor = false;
-            this.btnClearStack.Click += new System.EventHandler(this.btnClearStack_Click);
-            // 
-            // btnDeleteStackElement
-            // 
-            this.btnDeleteStackElement.BackColor = System.Drawing.SystemColors.Control;
-            this.btnDeleteStackElement.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDeleteStackElement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteStackElement.Image = global::GUILayer.Properties.Resources.action_Cancel_16xLG;
-            this.btnDeleteStackElement.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteStackElement.Location = new System.Drawing.Point(22, 15);
-            this.btnDeleteStackElement.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnDeleteStackElement.Name = "btnDeleteStackElement";
-            this.btnDeleteStackElement.Size = new System.Drawing.Size(270, 85);
-            this.btnDeleteStackElement.TabIndex = 139;
-            this.btnDeleteStackElement.Text = "Delete Element\r\n(Ctrl-D)";
-            this.btnDeleteStackElement.UseVisualStyleBackColor = false;
-            this.btnDeleteStackElement.Click += new System.EventHandler(this.btnDeleteStackElement_Click);
-            // 
-            // btnLoadStack
-            // 
-            this.btnLoadStack.BackColor = System.Drawing.SystemColors.Control;
-            this.btnLoadStack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnLoadStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadStack.Image = global::GUILayer.Properties.Resources.folder_Open_16xLG;
-            this.btnLoadStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLoadStack.Location = new System.Drawing.Point(338, 15);
-            this.btnLoadStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnLoadStack.Name = "btnLoadStack";
-            this.btnLoadStack.Size = new System.Drawing.Size(270, 85);
-            this.btnLoadStack.TabIndex = 138;
-            this.btnLoadStack.Text = "Recall Stack\r\n(Ctrl-R)";
-            this.btnLoadStack.UseVisualStyleBackColor = false;
-            this.btnLoadStack.Click += new System.EventHandler(this.btnLoadStack_Click);
-            // 
-            // btnSaveStack
-            // 
-            this.btnSaveStack.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSaveStack.Enabled = false;
-            this.btnSaveStack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSaveStack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveStack.Image = global::GUILayer.Properties.Resources.folder_Closed_16xLG;
-            this.btnSaveStack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveStack.Location = new System.Drawing.Point(338, 120);
-            this.btnSaveStack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnSaveStack.Name = "btnSaveStack";
-            this.btnSaveStack.Size = new System.Drawing.Size(270, 85);
-            this.btnSaveStack.TabIndex = 137;
-            this.btnSaveStack.Text = "Save Stack Only\r\n(Ctrl-O)";
-            this.btnSaveStack.UseVisualStyleBackColor = false;
-            this.btnSaveStack.Click += new System.EventHandler(this.btnSaveStack_Click);
-            // 
-            // btnAddAll
-            // 
-            this.btnAddAll.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAll.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.btnAddAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddAll.Location = new System.Drawing.Point(64, 49);
-            this.btnAddAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddAll.Name = "btnAddAll";
-            this.btnAddAll.Size = new System.Drawing.Size(228, 85);
-            this.btnAddAll.TabIndex = 70;
-            this.btnAddAll.Text = "All\r\n(Ctrl-A)";
-            this.btnAddAll.UseVisualStyleBackColor = false;
-            this.btnAddAll.Click += new System.EventHandler(this.btnAddAll_Click);
-            // 
-            // btnInsert
-            // 
-            this.btnInsert.BackColor = System.Drawing.SystemColors.Control;
-            this.btnInsert.Image = ((System.Drawing.Image)(resources.GetObject("btnInsert.Image")));
-            this.btnInsert.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInsert.Location = new System.Drawing.Point(110, 58);
-            this.btnInsert.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(136, 71);
-            this.btnInsert.TabIndex = 71;
-            this.btnInsert.Text = "Insert\r\n(Ctrl-I)";
-            this.btnInsert.UseVisualStyleBackColor = false;
-            // 
-            // btnAddRace4Way
-            // 
-            this.btnAddRace4Way.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace4Way.Enabled = false;
-            this.btnAddRace4Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace4Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace4Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4Way.Image")));
-            this.btnAddRace4Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace4Way.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace4Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace4Way.Name = "btnAddRace4Way";
-            this.btnAddRace4Way.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace4Way.TabIndex = 67;
-            this.btnAddRace4Way.Text = "Top\r\n(Ctrl-4)";
-            this.btnAddRace4Way.UseVisualStyleBackColor = false;
-            this.btnAddRace4Way.Click += new System.EventHandler(this.btnAddRace4Way_Click);
-            // 
-            // btnSelect4
-            // 
-            this.btnSelect4.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSelect4.Enabled = false;
-            this.btnSelect4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelect4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelect4.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.btnSelect4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSelect4.Location = new System.Drawing.Point(208, 51);
-            this.btnSelect4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnSelect4.Name = "btnSelect4";
-            this.btnSelect4.Size = new System.Drawing.Size(150, 85);
-            this.btnSelect4.TabIndex = 66;
-            this.btnSelect4.Text = "Select\r\n(Alt-4)";
-            this.btnSelect4.UseVisualStyleBackColor = false;
-            this.btnSelect4.Click += new System.EventHandler(this.btnSelect4_Click);
-            // 
-            // btnAddRace3WaySelect
-            // 
-            this.btnAddRace3WaySelect.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace3WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace3WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySelect.Image")));
-            this.btnAddRace3WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace3WaySelect.Location = new System.Drawing.Point(208, 51);
-            this.btnAddRace3WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace3WaySelect.Name = "btnAddRace3WaySelect";
-            this.btnAddRace3WaySelect.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace3WaySelect.TabIndex = 65;
-            this.btnAddRace3WaySelect.Text = "Select\r\n(Alt-3)";
-            this.btnAddRace3WaySelect.UseVisualStyleBackColor = false;
-            this.btnAddRace3WaySelect.Click += new System.EventHandler(this.btnSelect3_Click);
-            // 
-            // btnAddRace3Way
-            // 
-            this.btnAddRace3Way.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace3Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace3Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3Way.Image")));
-            this.btnAddRace3Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace3Way.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace3Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace3Way.Name = "btnAddRace3Way";
-            this.btnAddRace3Way.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace3Way.TabIndex = 62;
-            this.btnAddRace3Way.Text = "Top\r\n(Ctrl-3)";
-            this.btnAddRace3Way.UseVisualStyleBackColor = false;
-            this.btnAddRace3Way.Click += new System.EventHandler(this.btnAddRace3Way_Click);
-            // 
-            // btnAddRace2WaySelect
-            // 
-            this.btnAddRace2WaySelect.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace2WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace2WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySelect.Image")));
-            this.btnAddRace2WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace2WaySelect.Location = new System.Drawing.Point(208, 51);
-            this.btnAddRace2WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace2WaySelect.Name = "btnAddRace2WaySelect";
-            this.btnAddRace2WaySelect.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace2WaySelect.TabIndex = 64;
-            this.btnAddRace2WaySelect.Text = "Select\r\n(Alt-2)";
-            this.btnAddRace2WaySelect.UseVisualStyleBackColor = false;
-            this.btnAddRace2WaySelect.Click += new System.EventHandler(this.btnSelect2_Click);
-            // 
-            // btnAddRace2Way
-            // 
-            this.btnAddRace2Way.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace2Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace2Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2Way.Image")));
-            this.btnAddRace2Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace2Way.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace2Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace2Way.Name = "btnAddRace2Way";
-            this.btnAddRace2Way.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace2Way.TabIndex = 61;
-            this.btnAddRace2Way.Text = "Top\r\n(Ctrl-2)";
-            this.btnAddRace2Way.UseVisualStyleBackColor = false;
-            this.btnAddRace2Way.Click += new System.EventHandler(this.btnAddRace2Way_Click);
-            // 
-            // btnAddRace1Way
-            // 
-            this.btnAddRace1Way.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace1Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace1Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace1Way.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.btnAddRace1Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace1Way.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace1Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace1Way.Name = "btnAddRace1Way";
-            this.btnAddRace1Way.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace1Way.TabIndex = 64;
-            this.btnAddRace1Way.Text = "Top\r\n(Ctrl-1)";
-            this.btnAddRace1Way.UseVisualStyleBackColor = false;
-            this.btnAddRace1Way.Click += new System.EventHandler(this.btnAddRace1Way_Click);
-            // 
-            // btnAddRace1WaySelect
-            // 
-            this.btnAddRace1WaySelect.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace1WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace1WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace1WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace1WaySelect.Image")));
-            this.btnAddRace1WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace1WaySelect.Location = new System.Drawing.Point(208, 51);
-            this.btnAddRace1WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace1WaySelect.Name = "btnAddRace1WaySelect";
-            this.btnAddRace1WaySelect.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace1WaySelect.TabIndex = 63;
-            this.btnAddRace1WaySelect.Text = "Select\r\n(Alt-1)";
-            this.btnAddRace1WaySelect.UseVisualStyleBackColor = false;
-            this.btnAddRace1WaySelect.Click += new System.EventHandler(this.btnSelect1_Click);
-            // 
-            // btnAddExitPoll
-            // 
-            this.btnAddExitPoll.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
-            this.btnAddExitPoll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddExitPoll.Location = new System.Drawing.Point(350, 1054);
-            this.btnAddExitPoll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddExitPoll.Name = "btnAddExitPoll";
-            this.btnAddExitPoll.Size = new System.Drawing.Size(328, 92);
-            this.btnAddExitPoll.TabIndex = 2;
-            this.btnAddExitPoll.Text = "Add Voter Analysis";
-            this.btnAddExitPoll.UseVisualStyleBackColor = true;
-            this.btnAddExitPoll.Click += new System.EventHandler(this.btnAddExitPoll_Click);
-            // 
-            // btnAddBalanceOfPower
-            // 
-            this.btnAddBalanceOfPower.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
-            this.btnAddBalanceOfPower.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddBalanceOfPower.Location = new System.Drawing.Point(345, 709);
-            this.btnAddBalanceOfPower.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddBalanceOfPower.Name = "btnAddBalanceOfPower";
-            this.btnAddBalanceOfPower.Size = new System.Drawing.Size(328, 92);
-            this.btnAddBalanceOfPower.TabIndex = 1;
-            this.btnAddBalanceOfPower.Text = "Add Balance of Power";
-            this.btnAddBalanceOfPower.UseVisualStyleBackColor = true;
-            this.btnAddBalanceOfPower.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // btnAddReferendum
-            // 
-            this.btnAddReferendum.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
-            this.btnAddReferendum.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddReferendum.Location = new System.Drawing.Point(387, 895);
-            this.btnAddReferendum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddReferendum.Name = "btnAddReferendum";
-            this.btnAddReferendum.Size = new System.Drawing.Size(258, 92);
-            this.btnAddReferendum.TabIndex = 2;
-            this.btnAddReferendum.Text = "Add Referendum";
-            this.btnAddReferendum.UseVisualStyleBackColor = true;
-            this.btnAddReferendum.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnAddAllSP
-            // 
-            this.btnAddAllSP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddAllSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddAllSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAllSP.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.btnAddAllSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddAllSP.Location = new System.Drawing.Point(64, 49);
-            this.btnAddAllSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddAllSP.Name = "btnAddAllSP";
-            this.btnAddAllSP.Size = new System.Drawing.Size(228, 85);
-            this.btnAddAllSP.TabIndex = 70;
-            this.btnAddAllSP.Text = "All\r\n(Ctrl-A)";
-            this.btnAddAllSP.UseVisualStyleBackColor = false;
-            this.btnAddAllSP.Click += new System.EventHandler(this.btnAddAll_Click);
-            // 
-            // button12
-            // 
-            this.button12.BackColor = System.Drawing.SystemColors.Control;
-            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
-            this.button12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button12.Location = new System.Drawing.Point(110, 58);
-            this.button12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(136, 71);
-            this.button12.TabIndex = 71;
-            this.button12.Text = "Insert\r\n(Ctrl-I)";
-            this.button12.UseVisualStyleBackColor = false;
-            // 
-            // btnAddRace4WaySP
-            // 
-            this.btnAddRace4WaySP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace4WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace4WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace4WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4WaySP.Image")));
-            this.btnAddRace4WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace4WaySP.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace4WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace4WaySP.Name = "btnAddRace4WaySP";
-            this.btnAddRace4WaySP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace4WaySP.TabIndex = 67;
-            this.btnAddRace4WaySP.Text = "Top\r\n(Ctrl-4)";
-            this.btnAddRace4WaySP.UseVisualStyleBackColor = false;
-            this.btnAddRace4WaySP.Click += new System.EventHandler(this.btnAddRace4Way_Click);
-            // 
-            // btnSelect4SP
-            // 
-            this.btnSelect4SP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSelect4SP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelect4SP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelect4SP.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.btnSelect4SP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSelect4SP.Location = new System.Drawing.Point(208, 51);
-            this.btnSelect4SP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnSelect4SP.Name = "btnSelect4SP";
-            this.btnSelect4SP.Size = new System.Drawing.Size(150, 85);
-            this.btnSelect4SP.TabIndex = 66;
-            this.btnSelect4SP.Text = "Select\r\n(Alt-4)";
-            this.btnSelect4SP.UseVisualStyleBackColor = false;
-            this.btnSelect4SP.Click += new System.EventHandler(this.btnSelect4_Click);
-            // 
-            // btnAddRace3WaySelectSP
-            // 
-            this.btnAddRace3WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace3WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace3WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySelectSP.Image")));
-            this.btnAddRace3WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace3WaySelectSP.Location = new System.Drawing.Point(208, 51);
-            this.btnAddRace3WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace3WaySelectSP.Name = "btnAddRace3WaySelectSP";
-            this.btnAddRace3WaySelectSP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace3WaySelectSP.TabIndex = 65;
-            this.btnAddRace3WaySelectSP.Text = "Select\r\n(Alt-3)";
-            this.btnAddRace3WaySelectSP.UseVisualStyleBackColor = false;
-            this.btnAddRace3WaySelectSP.Click += new System.EventHandler(this.btnSelect3_Click);
-            // 
-            // btnAddRace3WaySP
-            // 
-            this.btnAddRace3WaySP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace3WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace3WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySP.Image")));
-            this.btnAddRace3WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace3WaySP.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace3WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace3WaySP.Name = "btnAddRace3WaySP";
-            this.btnAddRace3WaySP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace3WaySP.TabIndex = 62;
-            this.btnAddRace3WaySP.Text = "Top\r\n(Ctrl-3)";
-            this.btnAddRace3WaySP.UseVisualStyleBackColor = false;
-            this.btnAddRace3WaySP.Click += new System.EventHandler(this.btnAddRace3Way_Click);
-            // 
-            // btnAddRace2WaySelectSP
-            // 
-            this.btnAddRace2WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace2WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace2WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySelectSP.Image")));
-            this.btnAddRace2WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace2WaySelectSP.Location = new System.Drawing.Point(208, 51);
-            this.btnAddRace2WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace2WaySelectSP.Name = "btnAddRace2WaySelectSP";
-            this.btnAddRace2WaySelectSP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace2WaySelectSP.TabIndex = 64;
-            this.btnAddRace2WaySelectSP.Text = "Select\r\n(Alt-2)";
-            this.btnAddRace2WaySelectSP.UseVisualStyleBackColor = false;
-            this.btnAddRace2WaySelectSP.Click += new System.EventHandler(this.btnSelect2_Click);
-            // 
-            // btnAddRace2WaySP
-            // 
-            this.btnAddRace2WaySP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace2WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace2WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySP.Image")));
-            this.btnAddRace2WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace2WaySP.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace2WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace2WaySP.Name = "btnAddRace2WaySP";
-            this.btnAddRace2WaySP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace2WaySP.TabIndex = 61;
-            this.btnAddRace2WaySP.Text = "Top\r\n(Ctrl-2)";
-            this.btnAddRace2WaySP.UseVisualStyleBackColor = false;
-            this.btnAddRace2WaySP.Click += new System.EventHandler(this.btnAddRace2Way_Click);
-            // 
-            // btnAddRace1WaySP
-            // 
-            this.btnAddRace1WaySP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace1WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace1WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace1WaySP.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.btnAddRace1WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace1WaySP.Location = new System.Drawing.Point(16, 51);
-            this.btnAddRace1WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace1WaySP.Name = "btnAddRace1WaySP";
-            this.btnAddRace1WaySP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace1WaySP.TabIndex = 64;
-            this.btnAddRace1WaySP.Text = "Top\r\n(Ctrl-1)";
-            this.btnAddRace1WaySP.UseVisualStyleBackColor = false;
-            this.btnAddRace1WaySP.Click += new System.EventHandler(this.btnAddRace1Way_Click);
-            // 
-            // btnAddRace1WaySelectSP
-            // 
-            this.btnAddRace1WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace1WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRace1WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace1WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace1WaySelectSP.Image")));
-            this.btnAddRace1WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRace1WaySelectSP.Location = new System.Drawing.Point(208, 51);
-            this.btnAddRace1WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddRace1WaySelectSP.Name = "btnAddRace1WaySelectSP";
-            this.btnAddRace1WaySelectSP.Size = new System.Drawing.Size(150, 85);
-            this.btnAddRace1WaySelectSP.TabIndex = 63;
-            this.btnAddRace1WaySelectSP.Text = "Select\r\n(Alt-1)";
-            this.btnAddRace1WaySelectSP.UseVisualStyleBackColor = false;
-            this.btnAddRace1WaySelectSP.Click += new System.EventHandler(this.btnSelect1_Click);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.SystemColors.Control;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(64, 49);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(228, 85);
-            this.button1.TabIndex = 70;
-            this.button1.Text = "All\r\n(Ctrl-A)";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.SystemColors.Control;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(110, 58);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(136, 71);
-            this.button2.TabIndex = 71;
-            this.button2.Text = "Insert\r\n(Ctrl-I)";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.SystemColors.Control;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(16, 51);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(150, 85);
-            this.button3.TabIndex = 67;
-            this.button3.Text = "Top\r\n(Ctrl-4)";
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.SystemColors.Control;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(208, 51);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(150, 85);
-            this.button4.TabIndex = 66;
-            this.button4.Text = "Select\r\n(Alt-4)";
-            this.button4.UseVisualStyleBackColor = false;
-            // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.SystemColors.Control;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.Location = new System.Drawing.Point(208, 51);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(150, 85);
-            this.button5.TabIndex = 65;
-            this.button5.Text = "Select\r\n(Alt-3)";
-            this.button5.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.SystemColors.Control;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
-            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.Location = new System.Drawing.Point(16, 51);
-            this.button6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(150, 85);
-            this.button6.TabIndex = 62;
-            this.button6.Text = "Top\r\n(Ctrl-3)";
-            this.button6.UseVisualStyleBackColor = false;
-            // 
-            // button7
-            // 
-            this.button7.BackColor = System.Drawing.SystemColors.Control;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
-            this.button7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button7.Location = new System.Drawing.Point(208, 51);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(150, 85);
-            this.button7.TabIndex = 64;
-            this.button7.Text = "Select\r\n(Alt-2)";
-            this.button7.UseVisualStyleBackColor = false;
-            // 
-            // button8
-            // 
-            this.button8.BackColor = System.Drawing.SystemColors.Control;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
-            this.button8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button8.Location = new System.Drawing.Point(16, 51);
-            this.button8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(150, 85);
-            this.button8.TabIndex = 61;
-            this.button8.Text = "Top\r\n(Ctrl-2)";
-            this.button8.UseVisualStyleBackColor = false;
-            // 
-            // button9
-            // 
-            this.button9.BackColor = System.Drawing.SystemColors.Control;
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.button9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button9.Location = new System.Drawing.Point(16, 51);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(150, 85);
-            this.button9.TabIndex = 64;
-            this.button9.Text = "Top\r\n(Ctrl-1)";
-            this.button9.UseVisualStyleBackColor = false;
-            // 
-            // button10
-            // 
-            this.button10.BackColor = System.Drawing.SystemColors.Control;
-            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
-            this.button10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button10.Location = new System.Drawing.Point(208, 51);
-            this.button10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(150, 85);
-            this.button10.TabIndex = 63;
-            this.button10.Text = "Select\r\n(Alt-1)";
-            this.button10.UseVisualStyleBackColor = false;
-            // 
-            // btnAddMap
-            // 
-            this.btnAddMap.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
-            this.btnAddMap.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddMap.Location = new System.Drawing.Point(324, 1041);
-            this.btnAddMap.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAddMap.Name = "btnAddMap";
-            this.btnAddMap.Size = new System.Drawing.Size(380, 92);
-            this.btnAddMap.TabIndex = 136;
-            this.btnAddMap.Text = "Add Voter Analysis Map";
-            this.btnAddMap.UseVisualStyleBackColor = true;
-            this.btnAddMap.Click += new System.EventHandler(this.btnAddMap_Click);
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Race_ID";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Race ID";
-            this.dataGridViewTextBoxColumn3.MinimumWidth = 8;
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Race_Office";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Ofc";
-            this.dataGridViewTextBoxColumn4.MinimumWidth = 8;
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 40;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Party";
-            this.Column1.MinimumWidth = 8;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "Race_Description";
-            this.dataGridViewTextBoxColumn5.HeaderText = "Race Description";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 8;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 302;
             // 
             // frmMain
             // 
@@ -3935,6 +3935,9 @@
             this.tpReferendums.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ReferendumsGrid)).EndInit();
             this.tpSidePanel.ResumeLayout(false);
+            this.SidePanelPrimary.ResumeLayout(false);
+            this.groupBox26.ResumeLayout(false);
+            this.gbAllCandidates.ResumeLayout(false);
             this.RaceSPPanel.ResumeLayout(false);
             this.groupBox20.ResumeLayout(false);
             this.groupBox21.ResumeLayout(false);
@@ -3979,55 +3982,52 @@
             this.gbViz6.ResumeLayout(false);
             this.gbViz6.PerformLayout();
             this.groupBox12.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff6)).EndInit();
             this.gbViz5.ResumeLayout(false);
             this.gbViz5.PerformLayout();
             this.groupBox11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff5)).EndInit();
             this.gbViz4.ResumeLayout(false);
             this.gbViz4.PerformLayout();
             this.groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff4)).EndInit();
             this.gbViz3.ResumeLayout(false);
             this.gbViz3.PerformLayout();
             this.groupBox8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff3)).EndInit();
             this.gbViz2.ResumeLayout(false);
             this.gbViz2.PerformLayout();
             this.groupBox9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff2)).EndInit();
             this.gbViz1.ResumeLayout(false);
             this.gbViz1.PerformLayout();
             this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff1)).EndInit();
             this.enginePanel.ResumeLayout(false);
             this.enginePanel.PerformLayout();
             this.groupBox25.ResumeLayout(false);
             this.groupBox29.ResumeLayout(false);
-            this.gbEngines.ResumeLayout(false);
-            this.gbEng4.ResumeLayout(false);
-            this.gbEng3.ResumeLayout(false);
-            this.gbEng2.ResumeLayout(false);
-            this.gbEng1.ResumeLayout(false);
-            this.SidePanelPrimary.ResumeLayout(false);
-            this.gbAllCandidates.ResumeLayout(false);
-            this.groupBox26.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbExt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
+            this.gbEngines.ResumeLayout(false);
+            this.gbEng4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            this.gbEng3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            this.gbEng2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.gbEng1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOn1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gbLEDOff1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

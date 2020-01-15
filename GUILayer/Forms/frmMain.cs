@@ -534,9 +534,15 @@ namespace GUILayer.Forms
 
             LoadConfig();
 
+            if (electionMode == "Primary")
+                gbAllCand.Visible = true;
+            else
+                gbAllCand.Visible = false;
 
-            // Query the elections DB to get the list of available races
-            RefreshAvailableRacesList();
+
+
+                // Query the elections DB to get the list of available races
+                RefreshAvailableRacesList();
 
             //Query the elections DB to get the list of Referendums
             RefreshReferendums();
@@ -2112,6 +2118,16 @@ namespace GUILayer.Forms
                     newStackElement.County_Name = "N/A";
                     newStackElement.Listbox_Description = selectedRace.Race_Description;
 
+                    string party = "Rep";
+                    if (selectedRace.Party == "D")
+                        party = "Dem";
+
+                    if (electionMode == "Primary")
+                        newStackElement.Listbox_Description = $"{party}  {selectedRace.Race_Description}";
+                    else
+                        newStackElement.Listbox_Description = $"{selectedRace.Race_Description}";
+
+
                     // Specific to race boards
                     newStackElement.Race_ID = selectedRace.Race_ID;
                     newStackElement.Race_Office = selectedRace.Race_Office;
@@ -2174,7 +2190,15 @@ namespace GUILayer.Forms
                     newStackElement.CD = selectedRace.CD;
                     newStackElement.County_Number = countyID;
                     newStackElement.County_Name = countyName;
-                    newStackElement.Listbox_Description = $"{countyName} {selectedRace.Race_Description}";
+
+                    string party = "Rep";
+                    if (selectedRace.Party == "D")
+                        party = "Dem";
+
+                    if (electionMode == "Primary")
+                        newStackElement.Listbox_Description = $"{party}  {countyName} {selectedRace.Race_Description}";
+                    else
+                        newStackElement.Listbox_Description = $"{countyName} {selectedRace.Race_Description}";
 
                     // Specific to race boards
                     newStackElement.Race_ID = selectedRace.Race_ID;
@@ -3436,17 +3460,31 @@ namespace GUILayer.Forms
         /// Race data acquisition methods
         /// </summary>
         // Method to get the race data for a specified race
-        private BindingList<RaceDataModel> GetRaceData(Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn,
+        private BindingList<RaceDataModel> GetRaceData(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn,
             bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4)
         {
             // Setup the master race collection & bind to grid
             //this.raceDataCollection = new RaceDataCollection();
             //this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
-            raceData = this.raceDataCollection.GetRaceDataCollection(stateNumber, raceOffice, cd, electionType, candidatesToReturn,
+            raceData = this.raceDataCollection.GetRaceDataCollection(electionMode, stateNumber, raceOffice, cd, electionType, candidatesToReturn,
             candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4);
 
             return raceData;
         }
+
+        private BindingList<RaceDataModel> GetRaceDataCounty(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn,
+            bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4)
+        {
+            // Setup the master race collection & bind to grid
+            //this.raceDataCollection = new RaceDataCollection();
+            //this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
+            raceData = this.raceDataCollection.GetRaceDataCollectionCounty(electionMode, stateNumber, raceOffice, cd, electionType, candidatesToReturn,
+            candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4);
+
+            return raceData;
+        }
+
+
 
         // Method to return metadata for a specific state
         private StateMetadataModel GetStateMetadata(Int16 stateID)
@@ -5470,28 +5508,39 @@ namespace GUILayer.Forms
             int cand3 = stackElements[currentRaceIndex].Race_CandidateID_3;
             int cand4 = stackElements[currentRaceIndex].Race_CandidateID_4;
 
-            rd = GetRaceData(stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
+            if (stackElements[currentRaceIndex].County_Number > 0)
+                rd = GetRaceData( electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
+            else
+                rd = GetRaceDataCounty(electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
 
-            StateMetadataModel st = GetStateMetadata(stateNumber);
-            string stateName = st.State_Name;
-            string dataStr = $"{stateName} {rd[0].OfficeName}";
-
-
-            if (candidatesToReturn > rd.Count)
-                candidatesToReturn = rd.Count;
-
-            for (int i = 0; i < candidatesToReturn; i++)
+            if (rd.Count > 0)
             {
-                dataStr += $" - {rd[i].CandidateLastName} {rd[i].CandidateVoteCount}";
+                StateMetadataModel st = GetStateMetadata(stateNumber);
+                string stateName = st.State_Name;
+                string dataStr = $"{stateName} {rd[0].OfficeName}";
 
+
+                if (candidatesToReturn > rd.Count)
+                    candidatesToReturn = rd.Count;
+
+                for (int i = 0; i < candidatesToReturn; i++)
+                {
+                    dataStr += $" - {rd[i].CandidateLastName} {rd[i].CandidateVoteCount}";
+
+                }
+
+                listBox1.Items.Add(dataStr);
+                listBox1.SelectedIndex = listBox1.Items.Count - 1;
+
+                string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn);
+
+                SendToViz(outStr, dataType);
             }
-
-            listBox1.Items.Add(dataStr);
-            listBox1.SelectedIndex = listBox1.Items.Count - 1;
-
-            string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn);
-
-            SendToViz(outStr, dataType);
+            else
+            {
+                LiveUpdateTimer.Enabled = false;
+                DialogResult dr =  MessageBox.Show("Error! No candidates to show.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             LiveUpdateTimer.Enabled = false;
             LiveUpdateTimer.Enabled = true;
 
@@ -5550,6 +5599,9 @@ namespace GUILayer.Forms
                 else
                     raceBoardData.pctsReporting = temp.ToString();
             }
+
+            if (numCand == 0)
+                numCand = raceData.Count;
 
             for (int i = 0; i < numCand; i++)
             {
@@ -7066,8 +7118,23 @@ namespace GUILayer.Forms
             return dataTable;
         }
 
+        private void btnAllSP_Click(object sender, EventArgs e)
+        {
+            Int16 seType = (short)StackElementTypes.Race_Board_All_Way;
+            string seDescription = "Race Board (All)";
+            Int16 seDataType = (int)DataTypes.Race_Boards;
 
+            AddRaceBoardToStack(seType, seDescription, seDataType);
+        }
 
+        private void btnAllCand_Click(object sender, EventArgs e)
+        {
+            Int16 seType = (short)StackElementTypes.Race_Board_All_Way;
+            string seDescription = "Race Board (All)";
+            Int16 seDataType = (int)DataTypes.Race_Boards;
+
+            AddRaceBoardToStack(seType, seDescription, seDataType);
+        }
     }
 
 }

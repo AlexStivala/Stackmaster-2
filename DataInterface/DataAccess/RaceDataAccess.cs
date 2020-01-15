@@ -30,7 +30,7 @@ namespace DataInterface.DataAccess
         /// <summary>
         /// Method to get race data from the Elections SQL DB and pass it back to the logic layer as a DataTable
         /// </summary>
-        public DataTable GetRaceData(Int16 stateNumber, string raceOffice, Int16 cd, string electionType,
+        public DataTable GetRaceData(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType,
             bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4)
         {
             DataTable dataTable = new DataTable();
@@ -45,7 +45,11 @@ namespace DataInterface.DataAccess
                     {
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
-                            cmd.CommandText = SQLCommands.sqlGetRaceData;
+                            if (electionMode == "Primary")
+                                cmd.CommandText = SQLCommands.sqlGetRaceDataPrimary;
+                            else
+                                cmd.CommandText = SQLCommands.sqlGetRaceData;
+
                             cmd.Parameters.Add("@State_Number", SqlDbType.SmallInt).Value = stateNumber;
                             cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
                             cmd.Parameters.Add("@CD", SqlDbType.SmallInt).Value = cd;
@@ -76,7 +80,7 @@ namespace DataInterface.DataAccess
         }
 
         public DataTable GetRaceDataCounty(string stCode, Int16 cnty, string raceOffice, string electionType)
-            {
+        {
             DataTable dataTable = new DataTable();
 
             try
@@ -110,6 +114,7 @@ namespace DataInterface.DataAccess
                 log.Error("RaceDataAccess Exception occurred: " + ex.Message);
                 //log.Debug("RaceDataAccess Exception occurred", ex);
             }
+
             return dataTable;
         }
         #endregion

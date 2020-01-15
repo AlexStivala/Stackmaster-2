@@ -93,7 +93,7 @@ namespace GUILayer.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Persist Security Info=True;User ID=gfxuser;Password=elect2018;Data Source=enygdb1" +
-            ";Initial Catalog=ElectionProd_IA_Test_11192019;")]
+            ";Initial Catalog=ElectionProd")]
         public string ElectionsDBConnectionString {
             get {
                 return ((string)(this["ElectionsDBConnectionString"]));
@@ -229,7 +229,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd_IA_Test_11192019")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd")]
         public string MainDB {
             get {
                 return ((string)(this["MainDB"]));

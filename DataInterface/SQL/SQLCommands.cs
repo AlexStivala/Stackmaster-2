@@ -142,9 +142,20 @@ namespace DataInterface.SQL
             "@candidateId3, " +
             "@candidateId4";
 
-        // To be enabled for general election
-        //"@Election_Type, " +
-        //"@PrimaryAApplicatioMode";
+        /// <summary>
+        /// Sql to get the data for the specified race
+        /// </summary>
+        public static readonly string sqlGetRaceDataPrimary = "getFGERacesByState_Primaries " +
+            "@State_Number, " +
+            "@Race_Office, " +
+            "@CD, " +
+            "@Election_Type, " +
+            "@Primary_Application_Code, " +
+            "@candidateSelectEnable, " +
+            "@candidateId1, " +
+            "@candidateId2, " +
+            "@candidateId3, " +
+            "@candidateId4";
 
 
         /// <summary>

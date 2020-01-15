@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -304,6 +304,9 @@
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.gbAllCand = new System.Windows.Forms.GroupBox();
+            this.btnAllCand = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -406,6 +409,7 @@
             this.gbEng1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.gbAllCand.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -639,6 +643,7 @@
             // 
             // RacePanel
             // 
+            this.RacePanel.Controls.Add(this.gbAllCand);
             this.RacePanel.Controls.Add(this.groupBox1);
             this.RacePanel.Controls.Add(this.groupBox5);
             this.RacePanel.Controls.Add(this.groupBox4);
@@ -710,7 +715,6 @@
             // btnAddRace4Way
             // 
             this.btnAddRace4Way.BackColor = System.Drawing.SystemColors.Control;
-            this.btnAddRace4Way.Enabled = false;
             this.btnAddRace4Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace4Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddRace4Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4Way.Image")));
@@ -727,7 +731,6 @@
             // btnSelect4
             // 
             this.btnSelect4.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSelect4.Enabled = false;
             this.btnSelect4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelect4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelect4.Image = global::GUILayer.Properties.Resources.AddDataItem;
@@ -1209,7 +1212,7 @@
             this.tpVoterAnalysis.Location = new System.Drawing.Point(4, 41);
             this.tpVoterAnalysis.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpVoterAnalysis.Name = "tpVoterAnalysis";
-            this.tpVoterAnalysis.Size = new System.Drawing.Size(1021, 1177);
+            this.tpVoterAnalysis.Size = new System.Drawing.Size(1021, 1186);
             this.tpVoterAnalysis.TabIndex = 1;
             this.tpVoterAnalysis.Text = "Voter Analysis";
             // 
@@ -1224,18 +1227,18 @@
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
@@ -1304,7 +1307,7 @@
             this.tpBalanceOfPower.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpBalanceOfPower.Name = "tpBalanceOfPower";
             this.tpBalanceOfPower.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpBalanceOfPower.Size = new System.Drawing.Size(1021, 1177);
+            this.tpBalanceOfPower.Size = new System.Drawing.Size(1021, 1186);
             this.tpBalanceOfPower.TabIndex = 2;
             this.tpBalanceOfPower.Text = "Balance of Power";
             // 
@@ -1372,7 +1375,7 @@
             this.tpReferendums.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tpReferendums.Name = "tpReferendums";
             this.tpReferendums.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tpReferendums.Size = new System.Drawing.Size(1021, 1177);
+            this.tpReferendums.Size = new System.Drawing.Size(1021, 1186);
             this.tpReferendums.TabIndex = 3;
             this.tpReferendums.Text = "Referendums";
             // 
@@ -1428,7 +1431,7 @@
             this.tpSidePanel.Location = new System.Drawing.Point(4, 41);
             this.tpSidePanel.Name = "tpSidePanel";
             this.tpSidePanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSidePanel.Size = new System.Drawing.Size(1021, 1177);
+            this.tpSidePanel.Size = new System.Drawing.Size(1021, 1186);
             this.tpSidePanel.TabIndex = 4;
             this.tpSidePanel.Text = "Side Panel";
             // 
@@ -1480,6 +1483,7 @@
             this.btnAllSP.TabIndex = 0;
             this.btnAllSP.Text = "Add";
             this.btnAllSP.UseVisualStyleBackColor = true;
+            this.btnAllSP.Click += new System.EventHandler(this.btnAllSP_Click);
             // 
             // RaceSPPanel
             // 
@@ -2320,7 +2324,7 @@
             this.tpMaps.Location = new System.Drawing.Point(4, 41);
             this.tpMaps.Name = "tpMaps";
             this.tpMaps.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMaps.Size = new System.Drawing.Size(1021, 1177);
+            this.tpMaps.Size = new System.Drawing.Size(1021, 1186);
             this.tpMaps.TabIndex = 5;
             this.tpMaps.Text = "Maps";
             this.tpMaps.UseVisualStyleBackColor = true;
@@ -3864,6 +3868,49 @@
             this.label1.TabIndex = 137;
             this.label1.Text = "DB:";
             // 
+            // gbAllCand
+            // 
+            this.gbAllCand.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.gbAllCand.Controls.Add(this.btnAllCand);
+            this.gbAllCand.Controls.Add(this.button13);
+            this.gbAllCand.Location = new System.Drawing.Point(627, 718);
+            this.gbAllCand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbAllCand.Name = "gbAllCand";
+            this.gbAllCand.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbAllCand.Size = new System.Drawing.Size(372, 169);
+            this.gbAllCand.TabIndex = 130;
+            this.gbAllCand.TabStop = false;
+            this.gbAllCand.Text = "Add All Candidates";
+            // 
+            // btnAllCand
+            // 
+            this.btnAllCand.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAllCand.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAllCand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAllCand.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.btnAllCand.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAllCand.Location = new System.Drawing.Point(64, 49);
+            this.btnAllCand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAllCand.Name = "btnAllCand";
+            this.btnAllCand.Size = new System.Drawing.Size(228, 85);
+            this.btnAllCand.TabIndex = 70;
+            this.btnAllCand.Text = "All\r\n Candidates(Ctrl-A)";
+            this.btnAllCand.UseVisualStyleBackColor = false;
+            this.btnAllCand.Click += new System.EventHandler(this.btnAllCand_Click);
+            // 
+            // button13
+            // 
+            this.button13.BackColor = System.Drawing.SystemColors.Control;
+            this.button13.Image = ((System.Drawing.Image)(resources.GetObject("button13.Image")));
+            this.button13.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button13.Location = new System.Drawing.Point(110, 58);
+            this.button13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(136, 71);
+            this.button13.TabIndex = 71;
+            this.button13.Text = "Insert\r\n(Ctrl-I)";
+            this.button13.UseVisualStyleBackColor = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4028,6 +4075,7 @@
             this.gbEng1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.gbAllCand.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4307,6 +4355,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.GroupBox gbAllCand;
+        private System.Windows.Forms.Button btnAllCand;
+        private System.Windows.Forms.Button button13;
     }
 }
 

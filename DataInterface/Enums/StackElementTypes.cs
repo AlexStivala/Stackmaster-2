@@ -10,6 +10,9 @@ namespace DataInterface.Enums
 
     public enum StackElementTypes : int
     {
+        [Description("Race Board (All-Way)")]
+        Race_Board_All_Way = 0,
+        
         [Description("Race Board (1-Way)")]
         Race_Board_1_Way = 1,
 
@@ -70,9 +73,7 @@ namespace DataInterface.Enums
         [Description("Voter Analysis (Maps)")]
         Voter_Analysis_Maps = 20,
 
-        [Description("Race Board (All-Way)")]
-        Race_Board_All_Way = 21,
-
+        
 
     }
 }

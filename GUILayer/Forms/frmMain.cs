@@ -125,6 +125,7 @@ namespace GUILayer.Forms
         public TcpClient client;
         public NetworkStream stream;
         public string electionMode = "General";
+        public int remotePort;
 
         #endregion
 
@@ -359,7 +360,7 @@ namespace GUILayer.Forms
             {
                 //Sets up the listener
                 server = null;
-                server = new TcpListener(IPAddress.Parse(ipAddress), 6200);
+                server = new TcpListener(IPAddress.Parse(ipAddress), remotePort);
                 string data = "";
                 Byte[] bytes = new byte[2048];
 
@@ -420,6 +421,7 @@ namespace GUILayer.Forms
             MindyMode = Properties.Settings.Default.MindyMode;
             VictoriaMode = Properties.Settings.Default.VictoriaMode;
             electionMode = Properties.Settings.Default.ElectionMode;
+            remotePort = Properties.Settings.Default.RemotePort;
 
 
             //string sceneDescription = Properties.Settings.Default.Scene_Name;
@@ -1859,7 +1861,7 @@ namespace GUILayer.Forms
                 this.raceDataCollection = new RaceDataCollection();
                 this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
                 // Specify state ID = -1 => Don't query database for candidate data until requesting actual race data
-                raceData = this.raceDataCollection.GetRaceDataCollection(-1, "P", 0, "G", 1, false, 0, 0, 0, 0);
+                raceData = this.raceDataCollection.GetRaceDataCollection(electionMode, -1, "P", 0, "G", 1, false, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {
@@ -3195,7 +3197,7 @@ namespace GUILayer.Forms
                         case (Int16)DataTypes.Race_Boards:
 
                             // Request the race data for the element in the stack - updates raceData binding list
-                            GetRaceData(_stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
+                            GetRaceData(electionMode, _stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
 
                             // Check for data returned for race
                             if (raceData.Count > 0)
@@ -3472,15 +3474,13 @@ namespace GUILayer.Forms
             return raceData;
         }
 
-        private BindingList<RaceDataModel> GetRaceDataCounty(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn,
-            bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4)
+        private BindingList<RaceDataModel> GetRaceDataCounty(string stCode, int cnty, string raceOffice, string eType) 
         {
             // Setup the master race collection & bind to grid
             //this.raceDataCollection = new RaceDataCollection();
             //this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
-            raceData = this.raceDataCollection.GetRaceDataCollectionCounty(electionMode, stateNumber, raceOffice, cd, electionType, candidatesToReturn,
-            candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4);
-
+            raceData = this.raceDataCollection.GetRaceDataCollectionCounty(stCode, cnty, raceOffice, eType);
+            
             return raceData;
         }
 
@@ -4466,7 +4466,7 @@ namespace GUILayer.Forms
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4522,7 +4522,7 @@ namespace GUILayer.Forms
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4580,7 +4580,7 @@ namespace GUILayer.Forms
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4637,7 +4637,7 @@ namespace GUILayer.Forms
 
                     DialogResult dr = new DialogResult();
                     //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
 
                     // Only process if required number of candidates in race
                     if (selectCand.candidatesFound)
@@ -5488,6 +5488,8 @@ namespace GUILayer.Forms
             //Get the selected race list object
             //currentRaceIndex = stackGrid.CurrentCell.RowIndex;
             short stateNumber = stackElements[currentRaceIndex].State_Number;
+            string stCode = stackElements[currentRaceIndex].State_Mnemonic;
+            int cnty = stackElements[currentRaceIndex].County_Number;
             short cd = stackElements[currentRaceIndex].CD;
             string raceOffice = stackElements[currentRaceIndex].Office_Code;
             string electionType = stackElements[currentRaceIndex].Election_Type;
@@ -5509,9 +5511,9 @@ namespace GUILayer.Forms
             int cand4 = stackElements[currentRaceIndex].Race_CandidateID_4;
 
             if (stackElements[currentRaceIndex].County_Number > 0)
-                rd = GetRaceData( electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
+                rd = GetRaceDataCounty(stCode, cnty, raceOffice, electionType);
             else
-                rd = GetRaceDataCounty(electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
+                rd = GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
 
             if (rd.Count > 0)
             {
@@ -5520,7 +5522,7 @@ namespace GUILayer.Forms
                 string dataStr = $"{stateName} {rd[0].OfficeName}";
 
 
-                if (candidatesToReturn > rd.Count)
+                if (candidatesToReturn > rd.Count || candidatesToReturn == 0)
                     candidatesToReturn = rd.Count;
 
                 for (int i = 0; i < candidatesToReturn; i++)

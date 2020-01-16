@@ -159,6 +159,20 @@ namespace DataInterface.SQL
 
 
         /// <summary>
+        /// Sql to get the data for the specified race
+        /// </summary>
+        public static readonly string sqlGetRaceDataCounty = "getFE_RacesByCounty " +
+            "@st, " +
+            "@cnty, " +
+            "@ofc, " +
+            "@etype ";
+
+
+
+
+
+
+        /// <summary>
         /// Sql to get the state metadata
         /// </summary>
         public static readonly string sqlGetStateMetadata = "SELECT * FROM VDS_ElectionStateInfo";

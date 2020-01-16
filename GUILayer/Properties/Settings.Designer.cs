@@ -352,5 +352,14 @@ namespace GUILayer.Properties {
                 return ((string)(this["ElectionMode"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6200")]
+        public int RemotePort {
+            get {
+                return ((int)(this["RemotePort"]));
+            }
+        }
     }
 }

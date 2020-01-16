@@ -79,7 +79,7 @@ namespace DataInterface.DataAccess
             return dataTable;
         }
 
-        public DataTable GetRaceDataCounty(string stCode, Int16 cnty, string raceOffice, string electionType)
+        public DataTable GetRaceDataCounty(string stCode, int cnty, string raceOffice, string eType)
         {
             DataTable dataTable = new DataTable();
 
@@ -93,11 +93,11 @@ namespace DataInterface.DataAccess
                     {
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
-                            cmd.CommandText = SQLCommands.sqlGetRaceData;
-                            cmd.Parameters.Add("@stateAbbv", SqlDbType.Text).Value = stCode;
-                            cmd.Parameters.Add("@cnty", SqlDbType.SmallInt).Value = cnty;
-                            cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
-                            cmd.Parameters.Add("@Election_Type", SqlDbType.Text).Value = electionType;
+                            cmd.CommandText = SQLCommands.sqlGetRaceDataCounty;
+                            cmd.Parameters.Add("@st", SqlDbType.Text).Value = stCode;
+                            cmd.Parameters.Add("@cnty", SqlDbType.Int).Value = cnty;
+                            cmd.Parameters.Add("@ofc", SqlDbType.Text).Value = raceOffice;
+                            cmd.Parameters.Add("@eType", SqlDbType.Text).Value = eType;
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;
                             sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;

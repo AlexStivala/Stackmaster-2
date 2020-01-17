@@ -2190,7 +2190,7 @@ namespace GUILayer.Forms
                     newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
                     newStackElement.State_Name = selectedRace.State_Name;
                     newStackElement.CD = selectedRace.CD;
-                    newStackElement.County_Number = countyID;
+                    newStackElement.County_Number = countyID + 1;
                     newStackElement.County_Name = countyName;
 
                     string party = "Rep";
@@ -3484,6 +3484,15 @@ namespace GUILayer.Forms
             return raceData;
         }
 
+        private BindingList<RaceDataModel> GetRaceDataPrimary(Int16 stateNumber, string raceOffice, Int16 cd, string electionType, string party)
+        {
+            // Setup the master race collection & bind to grid
+            //this.raceDataCollection = new RaceDataCollection();
+            //this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
+            raceData = this.raceDataCollection.GetRaceDataCollectionPrimary(stateNumber, raceOffice, cd, electionType, party);
+            
+            return raceData;
+        }
 
 
         // Method to return metadata for a specific state
@@ -4462,11 +4471,10 @@ namespace GUILayer.Forms
                     Int16 st = selectedRace.State_Number;
                     string des = selectedRace.Race_Description;
                     Int16 cd = selectedRace.CD;
-
+                    string party = selectedRace.Party;
 
                     DialogResult dr = new DialogResult();
-                    //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode, party);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4519,10 +4527,10 @@ namespace GUILayer.Forms
                     Int16 st = selectedRace.State_Number;
                     Int16 cd = selectedRace.CD;
                     string des = selectedRace.Race_Description;
+                    string party = selectedRace.Party;
 
                     DialogResult dr = new DialogResult();
-                    //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode, party);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4576,11 +4584,10 @@ namespace GUILayer.Forms
                     Int16 st = selectedRace.State_Number;
                     string des = selectedRace.Race_Description;
                     Int16 cd = selectedRace.CD;
-
+                    string party = selectedRace.Party;
 
                     DialogResult dr = new DialogResult();
-                    //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode, party);
                     dr = selectCand.ShowDialog();
                     if (dr == DialogResult.OK)
                     {
@@ -4633,11 +4640,10 @@ namespace GUILayer.Forms
                     Int16 st = selectedRace.State_Number;
                     string des = selectedRace.Race_Description;
                     Int16 cd = selectedRace.CD;
-
+                    string party = selectedRace.Party;
 
                     DialogResult dr = new DialogResult();
-                    //frmCandidateSelect selectCand = new frmCandidateSelect();
-                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode);
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode, party);
 
                     // Only process if required number of candidates in race
                     if (selectCand.candidatesFound)
@@ -5490,6 +5496,7 @@ namespace GUILayer.Forms
             short stateNumber = stackElements[currentRaceIndex].State_Number;
             string stCode = stackElements[currentRaceIndex].State_Mnemonic;
             int cnty = stackElements[currentRaceIndex].County_Number;
+            string cntyName = stackElements[currentRaceIndex].County_Name;
             short cd = stackElements[currentRaceIndex].CD;
             string raceOffice = stackElements[currentRaceIndex].Office_Code;
             string electionType = stackElements[currentRaceIndex].Election_Type;
@@ -5512,6 +5519,13 @@ namespace GUILayer.Forms
 
             if (stackElements[currentRaceIndex].County_Number > 0)
                 rd = GetRaceDataCounty(stCode, cnty, raceOffice, electionType);
+            else if (electionMode == "Primary")
+            {
+                string party = "D";
+                if (electionType == "R" || electionType == "S")
+                    party = "R";
+                rd = GetRaceDataPrimary(stateNumber, raceOffice, cd, electionType, party);
+            }
             else
                 rd = GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
 
@@ -5572,7 +5586,9 @@ namespace GUILayer.Forms
             //raceBoardData.state = raceData[0].StateName.Trim();
             raceBoardData.state = st.State_Name;
 
-            if (raceData[0].CD == 0)
+            if (raceData[0].cntyName.Length > 0)
+                raceBoardData.cd = raceData[0].cntyName;
+            else if (raceData[0].CD == 0)
                 raceBoardData.cd = string.Empty;
             else
                 raceBoardData.cd = raceData[0].CD.ToString();
@@ -5869,57 +5885,81 @@ namespace GUILayer.Forms
             }
             else
             {
-                //Dem primary
-                if (rd.eType == "D")
+                if (tabIndex == 4)
                 {
-                    raceOfficeStr = "DEMOCRATIC PRIMARY";
+                    //Dem primary
+                    if (rd.eType == "D")
+                        raceOfficeStr = "PRIMARY";
+                    //Rep primary
+                    else if (rd.eType == "R")
+                        raceOfficeStr = "PRIMARY";
+                    //Dem caucuses
+                    else if (rd.eType == "E")
+                        raceOfficeStr = "CAUCUSES";
+                    //Rep caucuses
+                    else if (rd.eType == "S")
+                        raceOfficeStr = "CAUCUSES";
+                    // Not a primary or caucus event - build string based on office type
+                    else
+                    {
+                        if (rd.Office == "P")
+                            raceOfficeStr = "PRESIDENT";
+                        else if (rd.Office == "G")
+                            raceOfficeStr = "GOVERNOR";
+                        else if (rd.Office == "L")
+                            raceOfficeStr = "LT. GOVERNOR";
+                        else if ((rd.Office == "S") | (rd.Office == "S2"))
+                            raceOfficeStr = "SENATE";
+                        else if (rd.Office == "H")
+                        {
+                            if (rd.IsAtLargeHouseState)
+                                raceOfficeStr = "HOUSE AT LARGE";
+                            else
+                            {
+                                //MD Modified 03/05/2018 to support 2018 primaries
+                                //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
+                                //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
+                                raceOfficeStr = "HOUSE";
+                            }
+                        }
+                    }
                 }
-                //Rep primary
-                else if (rd.eType == "R")
-                {
-                    raceOfficeStr = "REPUBLICAN PRIMARY";
-                }
-                //Dem caucuses
-                else if (rd.eType == "E")
-                {
-                    raceOfficeStr = "DEMOCRATIC CAUCUSES";
-                }
-                //Rep caucuses
-                else if (rd.eType == "S")
-                {
-                    raceOfficeStr = "REPUBLICAN CAUCUSES";
-                }
-                // Not a primary or caucus event - build string based on office type
                 else
                 {
-                    if (rd.Office == "P")
+                    //Dem primary
+                    if (rd.eType == "D")
+                        raceOfficeStr = "DEMOCRATIC PRIMARY";
+                    //Rep primary
+                    else if (rd.eType == "R")
+                        raceOfficeStr = "REPUBLICAN PRIMARY";
+                    //Dem caucuses
+                    else if (rd.eType == "E")
+                        raceOfficeStr = "DEMOCRATIC CAUCUSES";
+                    //Rep caucuses
+                    else if (rd.eType == "S")
+                        raceOfficeStr = "REPUBLICAN CAUCUSES";
+                    // Not a primary or caucus event - build string based on office type
+                    else
                     {
-                        raceOfficeStr = "PRESIDENT";
-                    }
-                    else if (rd.Office == "G")
-                    {
-                        raceOfficeStr = "GOVERNOR";
-                    }
-                    else if (rd.Office == "L")
-                    {
-                        raceOfficeStr = "LT. GOVERNOR";
-                    }
-                    else if ((rd.Office == "S") | (rd.Office == "S2"))
-                    {
-                        raceOfficeStr = "SENATE";
-                    }
-                    else if (rd.Office == "H")
-                    {
-                        if (rd.IsAtLargeHouseState)
+                        if (rd.Office == "P")
+                            raceOfficeStr = "PRESIDENT";
+                        else if (rd.Office == "G")
+                            raceOfficeStr = "GOVERNOR";
+                        else if (rd.Office == "L")
+                            raceOfficeStr = "LT. GOVERNOR";
+                        else if ((rd.Office == "S") | (rd.Office == "S2"))
+                            raceOfficeStr = "SENATE";
+                        else if (rd.Office == "H")
                         {
-                            raceOfficeStr = "HOUSE AT LARGE";
-                        }
-                        else
-                        {
-                            //MD Modified 03/05/2018 to support 2018 primaries
-                            //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
-                            //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
-                            raceOfficeStr = "HOUSE";
+                            if (rd.IsAtLargeHouseState)
+                                raceOfficeStr = "HOUSE AT LARGE";
+                            else
+                            {
+                                //MD Modified 03/05/2018 to support 2018 primaries
+                                //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
+                                //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
+                                raceOfficeStr = "HOUSE";
+                            }
                         }
                     }
                 }

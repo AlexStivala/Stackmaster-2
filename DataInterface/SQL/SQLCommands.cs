@@ -150,13 +150,8 @@ namespace DataInterface.SQL
             "@Race_Office, " +
             "@CD, " +
             "@Election_Type, " +
-            "@Primary_Application_Code, " +
-            "@candidateSelectEnable, " +
-            "@candidateId1, " +
-            "@candidateId2, " +
-            "@candidateId3, " +
-            "@candidateId4";
-
+            "@Party ";
+            
 
         /// <summary>
         /// Sql to get the data for the specified race

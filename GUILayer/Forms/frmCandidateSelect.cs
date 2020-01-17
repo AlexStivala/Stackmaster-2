@@ -23,13 +23,14 @@ namespace GUILayer.Forms
         private readonly int _numCand;
         private readonly string _ofc;
         private readonly string _em;
+        private readonly string _p;
 
         private readonly short _st;
 
         public Boolean candidatesFound = false;
 
         public FrmCandidateSelect(short numCandidates, short stNum, string office, string electionType,
-            string raceDesription, short cd, string ElectionMode)
+            string raceDesription, short cd, string ElectionMode, string party)
         {
             InitializeComponent();
 
@@ -39,6 +40,7 @@ namespace GUILayer.Forms
             _eType = electionType;
             Jcde = cd;
             _em = ElectionMode;
+            _p = party;
 
             Width = numCandidates*340 + 20;
             dgvCand1.Left = 20;
@@ -111,7 +113,11 @@ namespace GUILayer.Forms
                 _raceDataCollection = new RaceDataCollection {ElectionsDBConnectionString = _electionsDbConnectionString};
                 // Specify state ID = -1 => Don't query database for candidate data until requesting actual race data
                 //_raceData = _raceDataCollection.GetRaceDataCollection(_st, _ofc, Jcde, _eType, 0);
-                _raceData = _raceDataCollection.GetRaceDataCollection(_em, _st, _ofc, Jcde, _eType, 0, false, 0, 0, 0, 0);
+                
+                if (_em == "Primary")
+                    _raceData = _raceDataCollection.GetRaceDataCollectionPrimary(_st, _ofc, Jcde, _eType, _p);
+                else
+                    _raceData = _raceDataCollection.GetRaceDataCollection(_em, _st, _ofc, Jcde, _eType, 0, false, 0, 0, 0, 0);
 
                 // Setup the available races grid
                 dgvCand1.AutoGenerateColumns = false;

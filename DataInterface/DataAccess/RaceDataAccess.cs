@@ -79,6 +79,46 @@ namespace DataInterface.DataAccess
             return dataTable;
         }
 
+        public DataTable GetRaceDataPrimary(Int16 stateNumber, string raceOffice, Int16 cd, string electionType, string party)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+                            cmd.CommandText = SQLCommands.sqlGetRaceDataPrimary;
+                            
+                            cmd.Parameters.Add("@State_Number", SqlDbType.SmallInt).Value = stateNumber;
+                            cmd.Parameters.Add("@Race_Office", SqlDbType.Text).Value = raceOffice;
+                            cmd.Parameters.Add("@CD", SqlDbType.SmallInt).Value = cd;
+                            cmd.Parameters.Add("@Election_Type", SqlDbType.Text).Value = electionType;
+                            cmd.Parameters.Add("@Party", SqlDbType.Text).Value = party;
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("RaceDataAccess Exception occurred: " + ex.Message);
+                //log.Debug("RaceDataAccess Exception occurred", ex);
+            }
+            return dataTable;
+        }
+
         public DataTable GetRaceDataCounty(string stCode, int cnty, string raceOffice, string eType)
         {
             DataTable dataTable = new DataTable();

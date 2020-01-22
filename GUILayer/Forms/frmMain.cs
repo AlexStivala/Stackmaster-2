@@ -118,14 +118,16 @@ namespace GUILayer.Forms
 
         public string[] lastSceneLoaded = new string[4];
         public List<VoterAnalysisQuestionsModel> VA_Qdata_Tkr = new List<VoterAnalysisQuestionsModel>();
-        public List<VoterAnalysisQuestionsModel> VA_Qdata_FS = new List<VoterAnalysisQuestionsModel>();
+        //public List<VoterAnalysisQuestionsModel> VA_Qdata_FS = new List<VoterAnalysisQuestionsModel>();
         public List<VoterAnalysisMapQuestionsModel> VA_Qdata_Map = new List<VoterAnalysisMapQuestionsModel>();
+        public List<VoterAnalysisQuestionsModelNew> VA_Qdata_FS = new List<VoterAnalysisQuestionsModelNew>();
 
         public TcpListener server;
         public TcpClient client;
         public NetworkStream stream;
         public string electionMode = "General";
         public int remotePort;
+        public bool isPrimary = false;
 
         #endregion
 
@@ -423,11 +425,16 @@ namespace GUILayer.Forms
             electionMode = Properties.Settings.Default.ElectionMode;
             remotePort = Properties.Settings.Default.RemotePort;
 
+            if (electionMode == "Primary")
+                isPrimary = true;
+            else
+                isPrimary = false;
 
-            //string sceneDescription = Properties.Settings.Default.Scene_Name;
-            //var useSceneName = Properties.Settings.Default[sceneDescription];
 
-            // Get host IP
+                //string sceneDescription = Properties.Settings.Default.Scene_Name;
+                //var useSceneName = Properties.Settings.Default[sceneDescription];
+
+                // Get host IP
             ipAddress = HostIPNameFunctions.GetLocalIPAddress();
             hostName = HostIPNameFunctions.GetHostName(ipAddress);
             lblIpAddress.Text = ipAddress;
@@ -544,7 +551,7 @@ namespace GUILayer.Forms
 
 
                 // Query the elections DB to get the list of available races
-                RefreshAvailableRacesList();
+                RefreshAvailableRacesList(isPrimary);
 
             //Query the elections DB to get the list of Referendums
             RefreshReferendums();
@@ -673,6 +680,7 @@ namespace GUILayer.Forms
                 {
                     stacksDB = StacksDBConnectionString;
                     stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                    int ti = tabIndex;
 
                     if (stackType == 50)
                         stackType = 10;
@@ -1620,14 +1628,14 @@ namespace GUILayer.Forms
 
         # region Data refresh functions
         // Refresh the list of available races for the races list
-        private void RefreshAvailableRacesList()
+        private void RefreshAvailableRacesList(bool isPrimary)
         {
             try
             {
                 // Setup the available races collection
                 this.availableRacesCollection = new AvailableRacesCollection();
                 this.availableRacesCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
-                availableRaces = this.availableRacesCollection.GetAvailableRaceCollection();
+                availableRaces = this.availableRacesCollection.GetAvailableRaceCollection(isPrimary);
 
                 // Setup the available races grid
                 availableRacesGrid.AutoGenerateColumns = false;
@@ -1732,14 +1740,14 @@ namespace GUILayer.Forms
         }
 
         // Refresh the list of available races for the races list
-        private void RefreshAvailableRacesListFiltered(string ofc, Int16 cStatus, Int16 scfm, BindingList<StateMetadataModel> stateMetadata)
+        private void RefreshAvailableRacesListFiltered(string ofc, Int16 cStatus, Int16 scfm, BindingList<StateMetadataModel> stateMetadata, bool isPrimary)
         {
             try
             {
                 // Setup the available races collection
                 this.availableRacesCollection = new AvailableRacesCollection();
                 this.availableRacesCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
-                availableRaces = this.availableRacesCollection.GetFilteredRaceCollection(ofc, cStatus, scfm, stateMetadata);
+                availableRaces = this.availableRacesCollection.GetFilteredRaceCollection(ofc, cStatus, scfm, stateMetadata, isPrimary);
 
                 // Set next poll closing label
                 if (scfm == (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only)
@@ -2117,7 +2125,7 @@ namespace GUILayer.Forms
                     newStackElement.State_Name = selectedRace.State_Name;
                     newStackElement.CD = selectedRace.CD;
                     newStackElement.County_Number = 0;
-                    newStackElement.County_Name = "N/A";
+                    newStackElement.County_Name = "";
                     newStackElement.Listbox_Description = selectedRace.Race_Description;
 
                     string party = "Rep";
@@ -2125,7 +2133,7 @@ namespace GUILayer.Forms
                         party = "Dem";
 
                     if (electionMode == "Primary")
-                        newStackElement.Listbox_Description = $"{party}  {selectedRace.Race_Description}";
+                        newStackElement.Listbox_Description = $"{selectedRace.Election_Type} {party}  {selectedRace.Race_Description}";
                     else
                         newStackElement.Listbox_Description = $"{selectedRace.Race_Description}";
 
@@ -3087,6 +3095,12 @@ namespace GUILayer.Forms
                 {
                     switch (_stackElements[i].Stack_Element_Type)
                     {
+                        case (Int16)StackElementTypes.Race_Board_All_Way:
+                            raceBoardTypeDescription = "All Way Board";
+                            candidatesToReturn = 0;
+                            dataType = (Int16)DataTypes.Race_Boards;
+                            break;
+                        
                         case (Int16)StackElementTypes.Race_Board_1_Way:
                             raceBoardTypeDescription = "1-Way Board";
                             candidatesToReturn = 1;
@@ -3197,7 +3211,7 @@ namespace GUILayer.Forms
                         case (Int16)DataTypes.Race_Boards:
 
                             // Request the race data for the element in the stack - updates raceData binding list
-                            GetRaceData(electionMode, _stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
+                            raceData = GetRaceData(electionMode, _stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
 
                             // Check for data returned for race
                             if (raceData.Count > 0)
@@ -4032,7 +4046,8 @@ namespace GUILayer.Forms
 
                 //Get the selected race list object
                 int currentPollIndex = dgvVoterAnalysis.CurrentCell.RowIndex;
-                VoterAnalysisQuestionsModel selectedPoll = new VoterAnalysisQuestionsModel();
+                //VoterAnalysisQuestionsModel selectedPoll = new VoterAnalysisQuestionsModel();
+                VoterAnalysisQuestionsModelNew selectedPoll = new VoterAnalysisQuestionsModelNew();
                 StateMetadataModel st = new StateMetadataModel();
 
                 newStackElement.fkey_StackID = 0;
@@ -4047,7 +4062,7 @@ namespace GUILayer.Forms
                 else if (tcVoterAnalysis.SelectedIndex == 1)
                 {
                     newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Ticker;
-                    selectedPoll = VA_Qdata_Tkr[currentPollIndex];
+                    //selectedPoll = VA_Qdata_Tkr[currentPollIndex];
                     newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Ticker);
                 }
 
@@ -4057,18 +4072,19 @@ namespace GUILayer.Forms
 
                 newStackElement.Election_Type = "G";
                 newStackElement.Office_Code = selectedPoll.ofc;
-                newStackElement.State_Number = (short)selectedPoll.stateId;
+                //newStackElement.State_Number = (short)selectedPoll.stateId;
                 newStackElement.State_Mnemonic = selectedPoll.state;
 
-                st = GetStateMetadata((short)selectedPoll.stateId);
+                //st = GetStateMetadata((short)selectedPoll.stateId);
 
                 newStackElement.State_Name = st.State_Name;
                 newStackElement.CD = 0;
                 newStackElement.County_Number = 0;
                 newStackElement.County_Name = "N/A";
-                newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.preface}-{selectedPoll.question}";
-                if (selectedPoll.r_type == "A")
-                    newStackElement.Listbox_Description += $" - {selectedPoll.answer}";
+                //newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.preface}-{selectedPoll.question}";
+                newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.header}";
+                //if (selectedPoll.r_type == "A")
+                //newStackElement.Listbox_Description += $" - {selectedPoll.answer}";
 
                 string str = newStackElement.Listbox_Description;
                 if (str.Length  > 100)
@@ -4089,7 +4105,7 @@ namespace GUILayer.Forms
 
                 //Specific to exit polls - set to default values
                 newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
-                newStackElement.VA_Title = selectedPoll.preface;
+                //newStackElement.VA_Title = selectedPoll.preface;
                 newStackElement.VA_Type = selectedPoll.r_type;
                 newStackElement.VA_Map_Color = string.Empty;
                 newStackElement.VA_Map_ColorNum = 0;
@@ -4317,7 +4333,7 @@ namespace GUILayer.Forms
             else
                 rbPresident.BackColor = gbROF.BackColor;
             ofcID = "P";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         // load the available races list with all races
@@ -4328,7 +4344,7 @@ namespace GUILayer.Forms
             else
                 rbShowAll.BackColor = gbROF.BackColor;
             ofcID = "A";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         // load the available races list with Senate races only
@@ -4339,7 +4355,7 @@ namespace GUILayer.Forms
             else
                 rbSenate.BackColor = gbROF.BackColor;
             ofcID = "S";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         // load the available races list with House races only
@@ -4350,7 +4366,7 @@ namespace GUILayer.Forms
             else
                 rbHouse.BackColor = gbROF.BackColor;
             ofcID = "H";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         // load the available races list with Governor races only
@@ -4361,12 +4377,12 @@ namespace GUILayer.Forms
             else
                 rbGovernor.BackColor = gbROF.BackColor;
             ofcID = "G";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
         private void rbTCTC_Click(object sender, EventArgs e)
         {
             callStatus = (Int16)BoardModes.Race_Board_To_Close_To_Call;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbJustCalled_CheckedChanged(object sender, EventArgs e)
@@ -4376,7 +4392,7 @@ namespace GUILayer.Forms
             else
                 rbJustCalled.BackColor = gbRCF.BackColor;
             callStatus = (Int16)BoardModes.Race_Board_Just_Called;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbCalled_CheckedChanged(object sender, EventArgs e)
@@ -4386,7 +4402,7 @@ namespace GUILayer.Forms
             else
                 rbCalled.BackColor = gbRCF.BackColor;
             callStatus = (Int16)BoardModes.Race_Board_Race_Called;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbAll_CheckedChanged(object sender, EventArgs e)
@@ -4396,7 +4412,7 @@ namespace GUILayer.Forms
             else
                 rbAll.BackColor = gbRCF.BackColor;
             callStatus = (Int16)BoardModes.Race_Board_Normal;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbTCTC_CheckedChanged(object sender, EventArgs e)
@@ -4406,7 +4422,7 @@ namespace GUILayer.Forms
             else
                 rbTCTC.BackColor = gbRCF.BackColor;
             callStatus = (Int16)BoardModes.Race_Board_To_Close_To_Call;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbBattleground_CheckedChanged(object sender, EventArgs e)
@@ -4417,7 +4433,7 @@ namespace GUILayer.Forms
                 rbBattleground.BackColor = gbSpF.BackColor;
             battlegroundOnly = rbBattleground.Checked;
             specialFilters = (short)SpecialCaseFilterModes.Battleground_States_Only;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbPollClosing_CheckedChanged(object sender, EventArgs e)
@@ -4427,7 +4443,7 @@ namespace GUILayer.Forms
             else
                 rbPollClosing.BackColor = gbSpF.BackColor;
             specialFilters = (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
         }
 
         private void rbNone_CheckedChanged(object sender, EventArgs e)
@@ -4438,7 +4454,7 @@ namespace GUILayer.Forms
                 rbNone.BackColor = gbSpF.BackColor;
             battlegroundOnly = false;
             specialFilters = (short)SpecialCaseFilterModes.None;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata);
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
 
         }
 
@@ -5451,7 +5467,7 @@ namespace GUILayer.Forms
 
                 ofcID = autoOfc[acrIndx];
                 stackElements.Clear();
-                RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+                RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata, isPrimary);
                 AddAll();
             }
 
@@ -5467,7 +5483,7 @@ namespace GUILayer.Forms
 
                     ofcID = autoOfc[acrIndx];
                     stackElements.Clear();
-                    RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+                    RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata, isPrimary);
                     AddAll();
 
                 }
@@ -5507,7 +5523,7 @@ namespace GUILayer.Forms
             bool candidateSelectEnable;
 
             candidatesToReturn = (candidatesToReturn + 1) / 2;
-            if ((int)stackElements[currentRaceIndex].Stack_Element_Type % 2 == 0)
+            if ((int)stackElements[currentRaceIndex].Stack_Element_Type % 2 == 0 && (int)stackElements[currentRaceIndex].Stack_Element_Type != 0)
                 candidateSelectEnable = true;
             else
                 candidateSelectEnable = false;
@@ -5541,14 +5557,44 @@ namespace GUILayer.Forms
 
                 for (int i = 0; i < candidatesToReturn; i++)
                 {
-                    dataStr += $" - {rd[i].CandidateLastName} {rd[i].CandidateVoteCount}";
+                    if (candidateSelectEnable)
+                    {
+                        int candID;
+                        switch (i)
+                        {
+                            case 0:
+                                candID = cand1;
+                                break;
+                            case 1:
+                                candID = cand2;
+                                break;
+                            case 2:
+                                candID = cand3;
+                                break;
+                            case 3:
+                                candID = cand4;
+                                break;
+                            default:
+                                candID = cand1;
+                                break;
 
+                        }
+                        for (int n = 0; n< rd.Count; n++)
+                        {
+                            if (rd[n].CandidateID == candID)
+                                dataStr += $" - {rd[n].CandidateLastName} {rd[n].CandidateVoteCount}";
+                        }
+
+
+                    }
+                    else
+                        dataStr += $" - {rd[i].CandidateLastName} {rd[i].CandidateVoteCount}";
                 }
 
                 listBox1.Items.Add(dataStr);
                 listBox1.SelectedIndex = listBox1.Items.Count - 1;
 
-                string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn);
+                string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn, candidateSelectEnable);
 
                 SendToViz(outStr, dataType);
             }
@@ -5563,7 +5609,7 @@ namespace GUILayer.Forms
         }
 
 
-        public string GetRaceBoardMapkeyStr(BindingList<RaceDataModel> raceData, int numCand)
+        public string GetRaceBoardMapkeyStr(BindingList<RaceDataModel> raceData, int numCand, bool CandSelect)
         {
             //Example of a 2 way raceboard with the Dem candidate winning and adding a gain
 
@@ -5586,7 +5632,7 @@ namespace GUILayer.Forms
             //raceBoardData.state = raceData[0].StateName.Trim();
             raceBoardData.state = st.State_Name;
 
-            if (raceData[0].cntyName.Length > 0)
+            if (raceData[0].cntyName.Length > 0 && raceData[0].cntyName != "ALL")
                 raceBoardData.cd = raceData[0].cntyName;
             else if (raceData[0].CD == 0)
                 raceBoardData.cd = string.Empty;
@@ -5601,13 +5647,25 @@ namespace GUILayer.Forms
             // get office strings
             raceBoardData.office = GetOfficeStr(raceData[0]);
 
+
             if (raceData[0].Office != "H")
             {
-                if (raceData[0].PercentExpectedVote > 0 && raceData[0].PercentExpectedVote < 1)
-                    raceBoardData.pctsReporting = "<1";
+                
+                if (ApplicationSettingsFlagsCollection.UseExpectedVoteIn)
+                {
+                    if (raceData[0].PercentExpectedVote > 0 && raceData[0].PercentExpectedVote < 1)
+                        raceBoardData.pctsReporting = "<1";
+                    else
+                        raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString();
+                }
                 else
-                    raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString();
-
+                {
+                    int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                    if (temp > 0 && temp < 1)
+                        raceBoardData.pctsReporting = "<1";
+                    else
+                        raceBoardData.pctsReporting = temp.ToString();
+                }
             }
             else
             {
@@ -5621,30 +5679,71 @@ namespace GUILayer.Forms
             if (numCand == 0)
                 numCand = raceData.Count;
 
+            int cand1 = stackElements[currentRaceIndex].Race_CandidateID_1;
+            int cand2 = stackElements[currentRaceIndex].Race_CandidateID_2;
+            int cand3 = stackElements[currentRaceIndex].Race_CandidateID_3;
+            int cand4 = stackElements[currentRaceIndex].Race_CandidateID_4;
+            int candIndx = 0;
+
             for (int i = 0; i < numCand; i++)
             {
                 candidateData_RB candidate = new candidateData_RB();
-                mapKeyStr += raceData[i].FoxID;
+
+                if (CandSelect)
+                {
+                    int candID;
+                    switch (i)
+                    {
+                        case 0:
+                            candID = cand1;
+                            break;
+                        case 1:
+                            candID = cand2;
+                            break;
+                        case 2:
+                            candID = cand3;
+                            break;
+                        case 3:
+                            candID = cand4;
+                            break;
+                        default:
+                            candID = cand1;
+                            break;
+
+                    }
+
+                    for (int n = 0; n < raceData.Count; n++)
+                    {
+                        if (raceData[n].CandidateID == candID)
+                            candIndx = n; 
+                    }
+
+
+                }
+                else
+                    candIndx = i;
+
+                mapKeyStr += raceData[candIndx].FoxID;
                 if (i < numCand - 1)
                     mapKeyStr += "^";
 
-                candidate.lastName = raceData[i].CandidateLastName;
-                candidate.firstName = raceData[i].CandidateFirstName;
+                candidate.lastName = raceData[candIndx].CandidateLastName;
+                candidate.firstName = raceData[candIndx].CandidateFirstName;
 
                 if (Network == "FNC")
                 {
-                    if (raceData[i].UseHeadshotFNC)
+                    if (raceData[candIndx].UseHeadshotFNC)
                     {
-                        candidate.headshot = raceData[i].HeadshotPathFNC;
+                        candidate.headshot = raceData[candIndx].HeadshotPathFNC;
                     }
                 }
                 else if (Network == "FBN")
                 {
 
                     // Use FNC Headshot even for FBN for 2018 Midterms
-                    if (raceData[i].UseHeadshotFNC)
+                    if (raceData[candIndx].UseHeadshotFNC)
                     {
-                        candidate.headshot = raceData[i].HeadshotPathFNC;
+                        candidate.headshot = raceData[candIndx].HeadshotPathFNC;
                     }
 
                     /*
@@ -5659,9 +5758,9 @@ namespace GUILayer.Forms
                 {
 
                     // Use FNC Headshot even for FBN for 2018 Midterms
-                    if (raceData[i].UseHeadshotFNC)
+                    if (raceData[candIndx].UseHeadshotFNC)
                     {
-                        candidate.headshot = raceData[i].HeadshotPathFNC;
+                        candidate.headshot = raceData[candIndx].HeadshotPathFNC;
                     }
 
                     /*
@@ -5676,19 +5775,19 @@ namespace GUILayer.Forms
                 candidate.headshot = Path.GetFileNameWithoutExtension(candidate.headshot);
 
                 // Format vote count as string with commas
-                if (raceData[i].CandidateVoteCount > 0)
+                if (raceData[candIndx].CandidateVoteCount > 0)
                     //candidate.votes = string.Format("{0:n0}", raceData[i].CandidateVoteCount);
-                    candidate.votes = raceData[i].CandidateVoteCount.ToString();
+                    candidate.votes = raceData[candIndx].CandidateVoteCount.ToString();
                 else
                     candidate.votes = " ";
 
                 // get candidate percent str
-                candidate.percent = GetCandPercent(raceData[i]);
+                candidate.percent = GetCandPercent(raceData[candIndx]);
                 // Get scene Party Id number from party str
-                candidate.party = GetCandParty(raceData[i]);
+                candidate.party = GetCandParty(raceData[candIndx]);
 
                 // Set candidate incumbent flag
-                candidate.incumbent = raceData[i].IsIncumbentFlag == "Y" ? "1" : "0";
+                candidate.incumbent = raceData[candIndx].IsIncumbentFlag == "Y" ? "1" : "0";
                 var winnerCandidateId = 0;
 
 
@@ -5702,8 +5801,8 @@ namespace GUILayer.Forms
                         {
                             raceCalled = true;
                             candidateCalledWinner = true;
-                            var raceCallTimeStr = raceData[i].estTS;
-                            winnerCandidateId = raceData[i].CandidateID;
+                            var raceCallTimeStr = raceData[candIndx].estTS;
+                            winnerCandidateId = raceData[candIndx].CandidateID;
 
                             raceCallTime = GetApRaceCallDateTime(raceCallTimeStr);
                         }
@@ -5716,13 +5815,13 @@ namespace GUILayer.Forms
                     else
                     {
                         winnerCandidateId = raceData[i].RaceWinnerCandidateID;
-                        if (raceData[i].RaceWinnerCalled)
+                        if (raceData[candIndx].RaceWinnerCalled)
                         {
                             raceCalled = true;
 
                             // If the race was not called by AP, use the Race_WinnerCallTime from the DB
-                            raceCallTime = raceData[i].RaceWinnerCallTime;
-                            candidateCalledWinner = (winnerCandidateId == raceData[i].RaceWinnerCandidateID);
+                            raceCallTime = raceData[candIndx].RaceWinnerCallTime;
+                            candidateCalledWinner = (winnerCandidateId == raceData[candIndx].RaceWinnerCandidateID);
                         }
                         else
                         {
@@ -5736,10 +5835,10 @@ namespace GUILayer.Forms
                     candidateCalledWinner = false;
                 }
 
-                if (winnerCandidateId == raceData[i].CandidateID)
+                if (winnerCandidateId == raceData[candIndx].CandidateID)
                 {
                     candidate.winner = "1";
-                    candidate.gain = GetGainFlag(raceData[i]);
+                    candidate.gain = GetGainFlag(raceData[candIndx]);
                 }
                 else
                 {
@@ -5790,7 +5889,7 @@ namespace GUILayer.Forms
             string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode}~";
 
             mapKeyStr += raceblock;
-
+            
             for (int i = 0; i < numCand; i++)
             {
                 mapKeyStr += $"name={raceBoardData.candData[i].firstName} {raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
@@ -6861,12 +6960,49 @@ namespace GUILayer.Forms
             GetVoterAnalysisGridData();
         }
 
+        //public void GetVoterAnalysisGridData()
+        //{
+        //    int cnt = 0;
+        //    if (tcVoterAnalysis.SelectedIndex == 0)
+        //    {
+        //        VA_Qdata_FS = GetVoterAnalysisQuestionsData(tcVoterAnalysis.SelectedIndex);
+        //        dgvVoterAnalysis.DataSource = VA_Qdata_FS;
+        //        cnt = VA_Qdata_FS.Count;
+        //    }
+
+        //    if (tcVoterAnalysis.SelectedIndex == 1)
+        //    {
+        //        VA_Qdata_Tkr = GetVoterAnalysisQuestionsData(tcVoterAnalysis.SelectedIndex);
+        //        dgvVoterAnalysis.DataSource = VA_Qdata_Tkr;
+        //        cnt = VA_Qdata_Tkr.Count;
+        //    }
+
+        //    dgvVoterAnalysis.Columns[0].Width = 35;
+        //    dgvVoterAnalysis.Columns[1].Width = 32;
+        //    dgvVoterAnalysis.Columns[2].Width = 80;
+        //    dgvVoterAnalysis.Columns[3].Width = 60;
+        //    dgvVoterAnalysis.Columns[4].Width = 30;
+        //    dgvVoterAnalysis.Columns[5].Width = 150;
+        //    dgvVoterAnalysis.Columns[6].Width = 150;
+
+        //    dgvVoterAnalysis.Columns[0].HeaderText = "st";
+        //    dgvVoterAnalysis.Columns[1].HeaderText = "ofc";
+        //    dgvVoterAnalysis.Columns[2].HeaderText = "qcode";
+        //    dgvVoterAnalysis.Columns[3].HeaderText = "filter";
+        //    dgvVoterAnalysis.Columns[4].HeaderText = "qa";
+        //    dgvVoterAnalysis.Columns[5].HeaderText = "question";
+        //    dgvVoterAnalysis.Columns[6].HeaderText = "answer";
+
+        //    lblVAcnt.Text = $"Voter Analysis Questions: {cnt}";
+
+        //}
+
         public void GetVoterAnalysisGridData()
         {
             int cnt = 0;
             if (tcVoterAnalysis.SelectedIndex == 0)
             {
-                VA_Qdata_FS = GetVoterAnalysisQuestionsData(tcVoterAnalysis.SelectedIndex);
+                VA_Qdata_FS = GetVoterAnalysisQuestionsDataNew(tcVoterAnalysis.SelectedIndex);
                 dgvVoterAnalysis.DataSource = VA_Qdata_FS;
                 cnt = VA_Qdata_FS.Count;
             }
@@ -6879,26 +7015,23 @@ namespace GUILayer.Forms
             }
 
             dgvVoterAnalysis.Columns[0].Width = 35;
-            dgvVoterAnalysis.Columns[1].Width = 30;
-            dgvVoterAnalysis.Columns[2].Width = 80;
-            dgvVoterAnalysis.Columns[3].Width = 60;
-            dgvVoterAnalysis.Columns[4].Width = 30;
-            dgvVoterAnalysis.Columns[5].Width = 120;
-            dgvVoterAnalysis.Columns[6].Width = 150;
-            dgvVoterAnalysis.Columns[7].Width = 150;
-
+            dgvVoterAnalysis.Columns[1].Width = 32;
+            dgvVoterAnalysis.Columns[2].Width = 30;
+            dgvVoterAnalysis.Columns[3].Width = 140;
+            dgvVoterAnalysis.Columns[4].Width = 80;
+            dgvVoterAnalysis.Columns[5].Width = 350;
+            
             dgvVoterAnalysis.Columns[0].HeaderText = "st";
             dgvVoterAnalysis.Columns[1].HeaderText = "ofc";
-            dgvVoterAnalysis.Columns[2].HeaderText = "qcode";
-            dgvVoterAnalysis.Columns[3].HeaderText = "filter";
-            dgvVoterAnalysis.Columns[4].HeaderText = "q/a";
-            dgvVoterAnalysis.Columns[5].HeaderText = "preface";
-            dgvVoterAnalysis.Columns[6].HeaderText = "question";
-            dgvVoterAnalysis.Columns[7].HeaderText = "answer";
-
+            dgvVoterAnalysis.Columns[2].HeaderText = "qa";
+            dgvVoterAnalysis.Columns[3].HeaderText = "qcode";
+            dgvVoterAnalysis.Columns[4].HeaderText = "filter";
+            dgvVoterAnalysis.Columns[5].HeaderText = "question";
+            
             lblVAcnt.Text = $"Voter Analysis Questions: {cnt}";
 
         }
+
 
         public void GetVoterAnalysisMapGridData()
         {
@@ -6942,16 +7075,16 @@ namespace GUILayer.Forms
                 DataRow row = dt.Rows[i];
                 VoterAnalysisQuestionsModel VA_Data = new VoterAnalysisQuestionsModel();
 
-                VA_Data.VA_Data_Id = row[0].ToString().Trim();
-                VA_Data.race_id = row[1].ToString().Trim();
-                VA_Data.state = row[2].ToString().Trim();
-                VA_Data.qcode = row[3].ToString().Trim();
-                VA_Data.filter = row[4].ToString().Trim();
-                VA_Data.r_type = row[5].ToString().Trim();
-                VA_Data.preface = row[6].ToString().Trim();
-                VA_Data.question = row[7].ToString().Trim();
-                VA_Data.answer = row[8].ToString().Trim();
-                VA_Data.stateId = Convert.ToInt32(row[9]);
+                VA_Data.VA_Data_Id = row["VA_Data_Id"].ToString().Trim();
+                VA_Data.race_id = row["race_Id"].ToString().Trim();
+                VA_Data.state = row["st"].ToString().Trim();
+                VA_Data.qcode = row["qcode"].ToString().Trim();
+                VA_Data.filter = row["filter"].ToString().Trim();
+                VA_Data.r_type = row["r_type"].ToString().Trim();
+                VA_Data.preface = row["preface"].ToString().Trim();
+                VA_Data.question = row["Question"].ToString().Trim();
+                VA_Data.answer = row["Answer"].ToString().Trim();
+
 
                 string race = VA_Data.race_id;
 
@@ -6981,6 +7114,66 @@ namespace GUILayer.Forms
             return VA_Qdata;
 
         }
+
+
+        public List<VoterAnalysisQuestionsModelNew> GetVoterAnalysisQuestionsDataNew(int type)
+        {
+            string cmd = "";
+            if (type == 0)
+                cmd = SQLCommands.sqlGetVoterAnalysisQuestions_FullScreen;
+            else
+                cmd = SQLCommands.sqlGetVoterAnalysisQuestions_Ticker;
+
+            DataTable dt = GetDBData(cmd, ElectionsDBConnectionString);
+            List<VoterAnalysisQuestionsModelNew> VA_Qdata = new List<VoterAnalysisQuestionsModelNew>();
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow row = dt.Rows[i];
+                VoterAnalysisQuestionsModelNew VA_Data = new VoterAnalysisQuestionsModelNew();
+
+                //VA_Data.race_id = row["race_Id"].ToString().Trim();
+                VA_Data.state = row["st"].ToString().Trim();
+                VA_Data.qcode = row["qcode"].ToString().Trim();
+                VA_Data.filter = row["filter"].ToString().Trim();
+                VA_Data.r_type = row["r_type"].ToString().Trim();
+                //VA_Data.preface = row["preface"].ToString().Trim();
+                VA_Data.header = row["header"].ToString().Trim();
+                VA_Data.VA_Data_Id = row["VA_Data_Id"].ToString().Trim();
+                //VA_Data.answer = row["Answer"].ToString().Trim();
+
+
+                string race = row["race_Id"].ToString().Trim();
+
+                if (race != "US-all")
+                {
+
+                    // parse the header info
+                    string[] strSeparator = new string[] { "-" };
+                    string[] raceStrings;
+
+                    // this takes the header and splits it into key-value pairs
+                    raceStrings = race.Split(strSeparator, StringSplitOptions.None);
+
+                    string raceID = raceStrings[2];
+                    string stateAbbv = raceStrings[0];
+                    string ofc = raceStrings[1];
+                    VA_Data.ofc = ofc;
+
+                }
+                else
+                    VA_Data.ofc = "N";
+
+                VA_Qdata.Add(VA_Data);
+
+            }
+
+            return VA_Qdata;
+
+        }
+
+
         public List<VoterAnalysisMapQuestionsModel> GetVoterAnalysisMapQuestionsData()
         {
             string cmd = SQLCommands.sqlGetVoterAnalysisQuestions_Map;
@@ -7040,7 +7233,7 @@ namespace GUILayer.Forms
                 acrIndx = 0;
 
                 ofcID = autoOfc[acrIndx];
-                RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata);
+                RefreshAvailableRacesListFiltered(ofcID, 1, 0, stateMetadata, isPrimary);
                 stackElements.Clear();
                 AddAll();
             }
@@ -7176,6 +7369,16 @@ namespace GUILayer.Forms
             Int16 seDataType = (int)DataTypes.Race_Boards;
 
             AddRaceBoardToStack(seType, seDescription, seDataType);
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void RefreshFlagsTimer_Tick(object sender, EventArgs e)
+        {
+            RefreshApplicationFlags();
         }
     }
 

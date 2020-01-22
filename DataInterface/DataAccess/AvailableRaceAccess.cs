@@ -33,7 +33,7 @@ namespace DataInterface.DataAccess
         /// <summary>
         /// Method to get the list of available races for the current election event
         /// </summary>
-        public DataTable GetAvailableRaces()
+        public DataTable GetAvailableRaces(bool isPrimary)
         {
             DataTable dataTable = new DataTable();
 
@@ -48,6 +48,8 @@ namespace DataInterface.DataAccess
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
                             cmd.CommandText = SQLCommands.sqlGetAvailableRacesList;
+                            cmd.Parameters.Add("@isPrimaries", SqlDbType.Text).Value = isPrimary;
+
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;
                             sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;

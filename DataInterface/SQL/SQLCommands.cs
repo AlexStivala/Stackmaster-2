@@ -107,7 +107,8 @@ namespace DataInterface.SQL
         /// Sql to get the list of available races
         /// </summary>\
         /// Aruti - 4/30 - changed from getVDSRaceList to getRaceList
-        public static readonly string sqlGetAvailableRacesList = "getVDSRaceList";
+        //public static readonly string sqlGetAvailableRacesList = "getVDSRaceList";
+        public static readonly string sqlGetAvailableRacesList = "getFGERaceList";
 
         public static readonly string sqlGetCalledRaceList = "getVDSCalledRaceList";
 
@@ -203,7 +204,8 @@ namespace DataInterface.SQL
         public static readonly string sqlGetManualExitPollQuestions = "getVDSManualFNCQuestions";
 
 
-        public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getFE_VoterAnalysisQuestions_FullScreen";
+        //public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getFE_VoterAnalysisQuestions_FullScreen";
+        public static readonly string sqlGetVoterAnalysisQuestions_FullScreen = "getFE_VoterAnalysisQuestions_FS_New_Test";
         public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getFE_VoterAnalysisQuestions_Ticker";
         public static readonly string sqlGetVoterAnalysisQuestions_Map = "getFE_VoterAnalysisQuestions_Map";
 
@@ -321,7 +323,8 @@ namespace DataInterface.SQL
         public static readonly string sqlGetVoterAnalysisAnswerData_Tkr = "SELECT question, answer, preface, name, id, party, result_percent FROM FE_VoterAnalysisData_Ticker WHERE id > '0' AND VA_Data_Id = " +
                                                                         "@VA_Data_Id";
 
-        public static readonly string sqlGetVoterAnalysisDataFS = "getFE_VoterAnalysisData_Fullscreen " +
+        //public static readonly string sqlGetVoterAnalysisDataFS = "getFE_VoterAnalysisData_Fullscreen " +
+        public static readonly string sqlGetVoterAnalysisDataFS = "getFE_VoterAnalysisData_FS_New " +
                                                                         "@VA_Data_Id, " +
                                                                         "@r_type";
 

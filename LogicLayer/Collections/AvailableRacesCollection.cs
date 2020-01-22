@@ -48,7 +48,7 @@ namespace LogicLayer.Collections
         /// <summary>
         /// Get the available list from the SQL DB; clears out existing collection first
         /// </summary>
-        public BindingList<AvailableRaceModel> GetAvailableRaceCollection()
+        public BindingList<AvailableRaceModel> GetAvailableRaceCollection(bool isPrimary)
         {
             DataTable dataTable;
 
@@ -59,7 +59,7 @@ namespace LogicLayer.Collections
             {
                 AvailableRaceAccess availableRaceAccess = new AvailableRaceAccess();
                 availableRaceAccess.ElectionsDBConnectionString = ElectionsDBConnectionString;
-                dataTable = availableRaceAccess.GetAvailableRaces();
+                dataTable = availableRaceAccess.GetAvailableRaces(isPrimary);
 
                 foreach (DataRow row in dataTable.Rows)
                 {
@@ -105,7 +105,7 @@ namespace LogicLayer.Collections
         /// <summary>
         /// Get the filtered list from the SQL DB; clears out existing collection first
         /// </summary>
-        public BindingList<AvailableRaceModel> GetFilteredRaceCollection(string raceOffice, Int16 filterCode, Int16 scfm, BindingList<StateMetadataModel> stateMetadata)
+        public BindingList<AvailableRaceModel> GetFilteredRaceCollection(string raceOffice, Int16 filterCode, Int16 scfm, BindingList<StateMetadataModel> stateMetadata, bool isPrimary)
         {
             DataTable dataTable;
             //DateTime apCallTime;
@@ -130,7 +130,7 @@ namespace LogicLayer.Collections
                 {
                     case (Int16)BoardModes.Race_Board_Normal:
                         if (raceOffice == "A")
-                            dataTable = availableRaceAccess.GetAvailableRaces();
+                            dataTable = availableRaceAccess.GetAvailableRaces(isPrimary);
                         else
                             dataTable = availableRaceAccess.GetAvailableRacesByOffice(raceOffice);
                         break;

@@ -27,6 +27,7 @@ namespace LogicLayer.Collections
         public static Boolean ShowRacesBeforePollClosing { get; set; }
         public static Boolean ShowTenthsofPercent { get; set; }
         public static Boolean PollClosingLockout { get; set; }
+        public static Boolean UseExpectedVoteIn { get; set; }
         #endregion
 
         #region Public Methods
@@ -92,6 +93,7 @@ namespace LogicLayer.Collections
             ShowRacesBeforePollClosing = flags.OptionalFlag1;
             ShowTenthsofPercent = flags.UseTenthsOfPercent;
             PollClosingLockout = flags.PollClosingLockoutEnable;
+            UseExpectedVoteIn = flags.UseExpectedVoteIn;
             
 
             // Return 

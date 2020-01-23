@@ -322,8 +322,14 @@ namespace GUILayer.Forms
                 {
                     miSelectDefaultShow.Enabled = false;
                 }
+
+                // Set version number
+                var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                this.Text = String.Format("Election Graphics Stack Builder Application  Version {0}", version);
+
+
                 // Log application start
-                log.Info("\n********** Starting Stack Builder application **********\n ");
+                log.Info($"\n********** Starting Stack Builder application version {version} **********\n ");
 
                 // Update status
                 toolStripStatusLabel.Text = "Starting program initialization - loading data from SQL database.";
@@ -336,10 +342,7 @@ namespace GUILayer.Forms
 
                 
 
-                // Set version number
-                var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                this.Text = String.Format("Election Graphics Stack Builder Application  Version {0}", version);
-
+                
                 
             }
             catch (Exception ex)

@@ -209,7 +209,7 @@ namespace DataInterface.SQL
         //public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getFE_VoterAnalysisQuestions_Ticker";
         public static readonly string sqlGetVoterAnalysisQuestions_Ticker = "getFE_VoterAnalysisQuestions_Tkr_New";
         public static readonly string sqlGetVoterAnalysisQuestions_Map = "getFE_VoterAnalysisQuestions_Map";
-
+        public static readonly string sqlGetVoterAnalysisQuestions_Manual ="getFE_VoterAnalysisQuestions_MAN_New";
 
         /// <summary>
         /// Sql to get the applicaton settings flags
@@ -332,6 +332,9 @@ namespace DataInterface.SQL
         public static readonly string sqlGetVoterAnalysisDataTkr = "getFE_VoterAnalysisData_Ticker " +
                                                                         "@VA_Data_Id, " +
                                                                         "@r_type";
+
+        public static readonly string sqlGetVoterAnalysisManualData = "getFE_VoterAnalysisData_MAN_New " +
+                                                                       "@VA_Data_Id ";
 
         /// <summary>
         /// Sql to get the counties for state

@@ -117,10 +117,12 @@ namespace GUILayer.Forms
         public List<ClientSocket> vizClientSockets = new List<ClientSocket>();
 
         public string[] lastSceneLoaded = new string[4];
-        public List<VoterAnalysisQuestionsModel> VA_Qdata_Tkr = new List<VoterAnalysisQuestionsModel>();
+        //public List<VoterAnalysisQuestionsModel> VA_Qdata_Tkr = new List<VoterAnalysisQuestionsModel>();
         //public List<VoterAnalysisQuestionsModel> VA_Qdata_FS = new List<VoterAnalysisQuestionsModel>();
         public List<VoterAnalysisMapQuestionsModel> VA_Qdata_Map = new List<VoterAnalysisMapQuestionsModel>();
         public List<VoterAnalysisQuestionsModelNew> VA_Qdata_FS = new List<VoterAnalysisQuestionsModelNew>();
+        public List<VoterAnalysisQuestionsModelNew> VA_Qdata_Tkr = new List<VoterAnalysisQuestionsModelNew>();
+        public List<VoterAnalysisManualQuestionsModelNew> VA_Qdata_Man = new List<VoterAnalysisManualQuestionsModelNew>();
 
         public TcpListener server;
         public TcpClient client;
@@ -682,13 +684,15 @@ namespace GUILayer.Forms
                 else
                 {
                     stacksDB = StacksDBConnectionString;
-                    stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                    //stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                    stackType = (short)(10 * (tabIndex + 1));
                     int ti = tabIndex;
 
                     if (stackType == 50)
                         stackType = 10;
 
-                    if (dataModeSelect.SelectedIndex == 1)
+                    //if (dataModeSelect.SelectedIndex == 1)
+                    if (tabIndex == 1)
                         stackType += tcVoterAnalysis.SelectedIndex;
 
                     stackType += stackTypeOffset;
@@ -749,6 +753,7 @@ namespace GUILayer.Forms
                     rbNone.Checked = true;
                     rbNone.BackColor = Color.Gold;
 
+                    
                     // Set enable/disable state of tab pages
                     if (RBenable)
                     {
@@ -757,6 +762,8 @@ namespace GUILayer.Forms
                     else
                     {
                         tpRaces.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpRaces);
+
                     }
 
                     if (VAenable)
@@ -766,6 +773,8 @@ namespace GUILayer.Forms
                     else
                     {
                         tpVoterAnalysis.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpVoterAnalysis);
+
                     }
 
                     if (BOPenable)
@@ -775,6 +784,8 @@ namespace GUILayer.Forms
                     else
                     {
                         tpBalanceOfPower.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpBalanceOfPower);
+
                     }
 
                     if (REFenable)
@@ -784,6 +795,8 @@ namespace GUILayer.Forms
                     else
                     {
                         tpReferendums.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpReferendums);
+
                     }
 
                     if (SPenable)
@@ -793,6 +806,8 @@ namespace GUILayer.Forms
                     else
                     {
                         tpSidePanel.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpSidePanel);
+
                     }
 
                     if (MAPenable)
@@ -802,6 +817,8 @@ namespace GUILayer.Forms
                     else
                     {
                         tpMaps.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpMaps);
+
                     }
 
                     if (VictoriaMode)
@@ -1419,8 +1436,9 @@ namespace GUILayer.Forms
         // Handler for change to main data mode select tab control
         private void dataModeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //if (dataModeSelect.SelectedIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
 
-            if (dataModeSelect.SelectedIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
+            if (tabIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
                 btnSaveStack.Enabled = false;
             else
                 btnSaveStack.Enabled = true;
@@ -1494,7 +1512,8 @@ namespace GUILayer.Forms
 
                 stackElements.Clear();
 
-                switch (dataModeSelect.SelectedIndex)
+                //switch (dataModeSelect.SelectedIndex)
+                switch (tabIndex)
                 {
                     case 0:
                         //stackElements.Clear();
@@ -1543,8 +1562,10 @@ namespace GUILayer.Forms
 
                 if (builderOnlyMode == false)
                 {
-                    stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
-                    if (dataModeSelect.SelectedIndex == 1)
+                    //stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                    stackType = (short)(10 * (tabIndex + 1));
+                    //if (dataModeSelect.SelectedIndex == 1)
+                    if (tabIndex == 1)
                     {
                         stackType += tcVoterAnalysis.SelectedIndex;
                     }
@@ -1557,18 +1578,21 @@ namespace GUILayer.Forms
 
                 stackType += stackTypeOffset;
 
-                if (dataModeSelect.SelectedIndex == 1)
+                //if (dataModeSelect.SelectedIndex == 1)
+                if (tabIndex == 1)
                 {
                     if (Network == "FBC")
                         stackType -= stackTypeOffset;
                     GetVoterAnalysisGridData();
                 }
 
-                if (dataModeSelect.SelectedIndex == 5)
+                //if (dataModeSelect.SelectedIndex == 5)
+                if (tabIndex == 5)
                     GetVoterAnalysisMapGridData();
 
                 if (!builderOnlyMode)
-                    SetOutput(dataModeSelect.SelectedIndex);
+                    SetOutput(tabIndex);
+                //SetOutput(dataModeSelect.SelectedIndex);
 
                 //tabId = dataModeSelect.SelectedIndex;
                 tabId = tabIndex;
@@ -2209,7 +2233,7 @@ namespace GUILayer.Forms
                         party = "Dem";
 
                     if (electionMode == "Primary")
-                        newStackElement.Listbox_Description = $"{party}  {countyName} {selectedRace.Race_Description}";
+                        newStackElement.Listbox_Description = $"{selectedRace.Election_Type} {party}  {countyName} {selectedRace.Race_Description}";
                     else
                         newStackElement.Listbox_Description = $"{countyName} {selectedRace.Race_Description}";
 
@@ -4048,9 +4072,8 @@ namespace GUILayer.Forms
                 StackElementModel newStackElement = new StackElementModel();
 
                 //Get the selected race list object
-                int currentPollIndex = dgvVoterAnalysis.CurrentCell.RowIndex;
+                int currentPollIndex;
                 //VoterAnalysisQuestionsModel selectedPoll = new VoterAnalysisQuestionsModel();
-                VoterAnalysisQuestionsModelNew selectedPoll = new VoterAnalysisQuestionsModelNew();
                 StateMetadataModel st = new StateMetadataModel();
 
                 newStackElement.fkey_StackID = 0;
@@ -4058,15 +4081,47 @@ namespace GUILayer.Forms
 
                 if (tcVoterAnalysis.SelectedIndex == 0)
                 {
-                    newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Full_Screen;
+                    VoterAnalysisQuestionsModelNew selectedPoll = new VoterAnalysisQuestionsModelNew();
+                    currentPollIndex = dgvVoterAnalysis.CurrentCell.RowIndex;
                     selectedPoll = VA_Qdata_FS[currentPollIndex];
+                    newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Full_Screen;
                     newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Full_Screen);
+                    newStackElement.Office_Code = selectedPoll.ofc;
+                    newStackElement.State_Mnemonic = selectedPoll.state;
+                    newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.header}";
+                    newStackElement.State_Name = selectedPoll.state.ToUpper();
+                    newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                    newStackElement.VA_Type = selectedPoll.r_type;
+
                 }
                 else if (tcVoterAnalysis.SelectedIndex == 1)
                 {
+                    VoterAnalysisQuestionsModelNew selectedPoll = new VoterAnalysisQuestionsModelNew();
+                    currentPollIndex = dgvVoterAnalysisTicker.CurrentCell.RowIndex;
+                    selectedPoll = VA_Qdata_Tkr[currentPollIndex];
                     newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Ticker;
-                    //selectedPoll = VA_Qdata_Tkr[currentPollIndex];
                     newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Ticker);
+                    newStackElement.Office_Code = selectedPoll.ofc;
+                    newStackElement.State_Mnemonic = selectedPoll.state;
+                    newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.header}";
+                    newStackElement.State_Name = selectedPoll.state.ToUpper();
+                    newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                    newStackElement.VA_Type = selectedPoll.r_type;
+
+                }
+                else if (tcVoterAnalysis.SelectedIndex == 2)
+                {
+                    VoterAnalysisManualQuestionsModelNew selectedPoll = new VoterAnalysisManualQuestionsModelNew();
+                    currentPollIndex = dgvVAManual.CurrentCell.RowIndex;
+                    selectedPoll = VA_Qdata_Man[currentPollIndex];
+                    newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Manual;
+                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Manual);
+                    newStackElement.State_Mnemonic = selectedPoll.st;
+                    newStackElement.Listbox_Description = $"{selectedPoll.st}-{selectedPoll.r_type}-{selectedPoll.question}";
+                    newStackElement.State_Name = selectedPoll.state.ToUpper();
+                    newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                    newStackElement.VA_Type = selectedPoll.r_type;
+
                 }
 
                 newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis;
@@ -4074,31 +4129,20 @@ namespace GUILayer.Forms
                 // Get the template ID for the specified element type
 
                 newStackElement.Election_Type = "G";
-                newStackElement.Office_Code = selectedPoll.ofc;
                 //newStackElement.State_Number = (short)selectedPoll.stateId;
-                newStackElement.State_Mnemonic = selectedPoll.state;
-
-                //st = GetStateMetadata((short)selectedPoll.stateId);
-
-                newStackElement.State_Name = st.State_Name;
+                
                 newStackElement.CD = 0;
                 newStackElement.County_Number = 0;
                 newStackElement.County_Name = "N/A";
-                //newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.preface}-{selectedPoll.question}";
-                newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.header}";
-                //if (selectedPoll.r_type == "A")
-                //newStackElement.Listbox_Description += $" - {selectedPoll.answer}";
-
+                
                 string str = newStackElement.Listbox_Description;
                 if (str.Length  > 100)
                     newStackElement.Listbox_Description = str.Substring(0, 98);
 
 
-
-
                 // Specific to race boards
                 newStackElement.Race_ID = 0;
-                newStackElement.Race_Office = selectedPoll.ofc;
+                newStackElement.Race_Office = "";
                 newStackElement.Race_CandidateID_1 = 0;
                 newStackElement.Race_CandidateID_2 = 0;
                 newStackElement.Race_CandidateID_3 = 0;
@@ -4107,9 +4151,9 @@ namespace GUILayer.Forms
                 newStackElement.Race_UseAPRaceCall = false;
 
                 //Specific to exit polls - set to default values
-                newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                //newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
                 //newStackElement.VA_Title = selectedPoll.preface;
-                newStackElement.VA_Type = selectedPoll.r_type;
+                //newStackElement.VA_Type = selectedPoll.r_type;
                 newStackElement.VA_Map_Color = string.Empty;
                 newStackElement.VA_Map_ColorNum = 0;
 
@@ -4125,6 +4169,7 @@ namespace GUILayer.Forms
                 //log.Debug("frmMain Exception occurred", ex);
             }
         }
+
         private void AddVoterAnalysisMap()
         {
             try
@@ -4979,7 +5024,8 @@ namespace GUILayer.Forms
 
                     takeCnt++;
 
-                    int index = dataModeSelect.SelectedIndex;
+                    //int index = dataModeSelect.SelectedIndex;
+                    int index = tabIndex;
                     if (takeCnt == 1 && index == 1)
                     {
                         SendCmdToViz("TRIGGER_ACTION", "TAKEIN", index);
@@ -5260,7 +5306,8 @@ namespace GUILayer.Forms
             btnStackElementUp.Enabled = true;
             btnStackElementDown.Enabled = true;
 
-            if (dataModeSelect.SelectedIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
+            //if (dataModeSelect.SelectedIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
+            if (tabIndex == 1 && tcVoterAnalysis.SelectedIndex == 1 && VictoriaMode == false)
                 btnSaveStack.Enabled = false;
             else
                 btnSaveStack.Enabled = true;
@@ -5293,7 +5340,8 @@ namespace GUILayer.Forms
                     stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
                 panel2.BackColor = Color.Lime;
 
-                int index = dataModeSelect.SelectedIndex;
+                //int index = dataModeSelect.SelectedIndex;
+                int index = tabIndex;
 
                 for (int i = 0; i < tabConfig[index].TabOutput.Count; i++)
                 {
@@ -5521,7 +5569,9 @@ namespace GUILayer.Forms
             string electionType = stackElements[currentRaceIndex].Election_Type;
             int candidatesToReturn = (int)stackElements[currentRaceIndex].Stack_Element_Type;
             int dataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
-            if (dataModeSelect.SelectedIndex == 4)
+
+            //if (dataModeSelect.SelectedIndex == 4)
+            if (tabIndex == 4)
                 dataType = 4;
             bool candidateSelectEnable;
 
@@ -6359,13 +6409,24 @@ namespace GUILayer.Forms
             int seDataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
             int ft = tcVoterAnalysis.SelectedIndex;
 
-            var voterAnalysisData = VoterAnalysisDataCollection.GetVoterAnalysisDataCollection(r_type, VA_Data_Id, ElectionsDBConnectionString, ft);
-
-
             string outStr = "";
 
-            if (voterAnalysisData.Count >= 2)
-                outStr = GetVoterAnalysisMapKeyStr(voterAnalysisData);
+            if (r_type == "M")
+            {
+                var voterAnalysisManualData = VoterAnalysisDataCollection.GetVoterAnalysisManualDataCollection(VA_Data_Id, ElectionsDBConnectionString);
+                if (voterAnalysisManualData.Count >= 2)
+                    outStr = GetVoterAnalysisManualMapKeyStr(voterAnalysisManualData);
+
+            }
+            else
+            {
+                var voterAnalysisData = VoterAnalysisDataCollection.GetVoterAnalysisDataCollection(r_type, VA_Data_Id, ElectionsDBConnectionString, ft);
+                if (voterAnalysisData.Count >= 2)
+                    outStr = GetVoterAnalysisMapKeyStr(voterAnalysisData);
+
+            }
+
+
 
             SendToViz(outStr, seDataType);
 
@@ -6937,6 +6998,43 @@ namespace GUILayer.Forms
 
             return MapKeyStr;
         }
+
+        public string GetVoterAnalysisManualMapKeyStr(BindingList<VoterAnalysisManualDataModel> VA_Data)
+        {
+
+            //SEND SCENE* SceneName *MAP SET_STRING_ELEMENT "POLL_DATA" 
+            // NumResponses|Title|Question|Issue_State|
+
+            //Response1^Resonse2^Response3... | Percent1^Percent2^Percent3...
+
+            string MapKeyStr = "";
+
+            MapKeyStr = $"{VA_Data.Count}| |{VA_Data[0].Title}|{VA_Data[0].State}|";
+
+            for (int i = 0; i < VA_Data.Count; i++)
+            {
+                if (i > 0)
+                    MapKeyStr += "^";
+
+                MapKeyStr += $"{VA_Data[i].Response}";
+
+            }
+
+            MapKeyStr += "|";
+
+            for (int i = 0; i < VA_Data.Count; i++)
+            {
+                if (i > 0)
+                    MapKeyStr += "^";
+
+                MapKeyStr += $"{VA_Data[i].Percent}";
+
+            }
+
+            MapKeyStr += $"|{VA_Data[0].asOf}|";
+
+            return MapKeyStr;
+        }
         #endregion
 
         #region Voter Analysis grid methods
@@ -6944,8 +7042,12 @@ namespace GUILayer.Forms
         {
             if (builderOnlyMode == false)
             {
-                stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
-                if (dataModeSelect.SelectedIndex == 1)
+
+                //stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                stackType = (short)(10 * (tabIndex + 1));
+                
+                //if (dataModeSelect.SelectedIndex == 1)
+                if (tabIndex == 1)
                 {
                     stackType += tcVoterAnalysis.SelectedIndex;
                 }
@@ -6960,7 +7062,18 @@ namespace GUILayer.Forms
             else
                 btnSaveStack.Enabled = true;
 
-            GetVoterAnalysisGridData();
+            if (tcVoterAnalysis.SelectedIndex == 2)
+            {
+                GetVoterAnalysisManualGridData();
+                dgvVoterAnalysis.Visible = false;
+                dgvVAManual.Visible = true;
+            }
+            else
+            {
+                GetVoterAnalysisGridData();
+                dgvVoterAnalysis.Visible = true;
+                dgvVAManual.Visible = false;
+            }
         }
 
         //public void GetVoterAnalysisGridData()
@@ -7008,29 +7121,70 @@ namespace GUILayer.Forms
                 VA_Qdata_FS = GetVoterAnalysisQuestionsDataNew(tcVoterAnalysis.SelectedIndex);
                 dgvVoterAnalysis.DataSource = VA_Qdata_FS;
                 cnt = VA_Qdata_FS.Count;
+
+                dgvVoterAnalysis.Columns[0].Width = 35;
+                dgvVoterAnalysis.Columns[1].Width = 32;
+                dgvVoterAnalysis.Columns[2].Width = 30;
+                dgvVoterAnalysis.Columns[3].Width = 140;
+                dgvVoterAnalysis.Columns[4].Width = 80;
+                dgvVoterAnalysis.Columns[5].Width = 350;
+
+                dgvVoterAnalysis.Columns[0].HeaderText = "st";
+                dgvVoterAnalysis.Columns[1].HeaderText = "ofc";
+                dgvVoterAnalysis.Columns[2].HeaderText = "qa";
+                dgvVoterAnalysis.Columns[3].HeaderText = "qcode";
+                dgvVoterAnalysis.Columns[4].HeaderText = "filter";
+                dgvVoterAnalysis.Columns[5].HeaderText = "question";
+
             }
 
             if (tcVoterAnalysis.SelectedIndex == 1)
             {
-                VA_Qdata_Tkr = GetVoterAnalysisQuestionsData(tcVoterAnalysis.SelectedIndex);
-                dgvVoterAnalysis.DataSource = VA_Qdata_Tkr;
+                VA_Qdata_Tkr = GetVoterAnalysisQuestionsDataNew(tcVoterAnalysis.SelectedIndex);
+                dgvVoterAnalysisTicker.DataSource = VA_Qdata_Tkr;
                 cnt = VA_Qdata_Tkr.Count;
+
+                dgvVoterAnalysisTicker.Columns[0].Width = 35;
+                dgvVoterAnalysisTicker.Columns[1].Width = 32;
+                dgvVoterAnalysisTicker.Columns[2].Width = 30;
+                dgvVoterAnalysisTicker.Columns[3].Width = 140;
+                dgvVoterAnalysisTicker.Columns[4].Width = 80;
+                dgvVoterAnalysisTicker.Columns[5].Width = 350;
+
+                dgvVoterAnalysisTicker.Columns[0].HeaderText = "st";
+                dgvVoterAnalysisTicker.Columns[1].HeaderText = "ofc";
+                dgvVoterAnalysisTicker.Columns[2].HeaderText = "qa";
+                dgvVoterAnalysisTicker.Columns[3].HeaderText = "qcode";
+                dgvVoterAnalysisTicker.Columns[4].HeaderText = "filter";
+                dgvVoterAnalysisTicker.Columns[5].HeaderText = "question";
+
             }
 
-            dgvVoterAnalysis.Columns[0].Width = 35;
-            dgvVoterAnalysis.Columns[1].Width = 32;
-            dgvVoterAnalysis.Columns[2].Width = 30;
-            dgvVoterAnalysis.Columns[3].Width = 140;
-            dgvVoterAnalysis.Columns[4].Width = 80;
-            dgvVoterAnalysis.Columns[5].Width = 350;
-            
-            dgvVoterAnalysis.Columns[0].HeaderText = "st";
-            dgvVoterAnalysis.Columns[1].HeaderText = "ofc";
-            dgvVoterAnalysis.Columns[2].HeaderText = "qa";
-            dgvVoterAnalysis.Columns[3].HeaderText = "qcode";
-            dgvVoterAnalysis.Columns[4].HeaderText = "filter";
-            dgvVoterAnalysis.Columns[5].HeaderText = "question";
-            
+
+            lblVAcnt.Text = $"Voter Analysis Questions: {cnt}";
+
+        }
+        public void GetVoterAnalysisManualGridData()
+        {
+            int cnt = 0;
+            VA_Qdata_Man = GetVoterAnalysisQuestionsManualDataNew();
+            dgvVAManual.DataSource = VA_Qdata_Man;
+            cnt = VA_Qdata_Man.Count;
+
+            dgvVAManual.Columns[0].Width = 35;
+            dgvVAManual.Columns[1].Width = 32;
+            dgvVAManual.Columns[2].Width = 100;
+            dgvVAManual.Columns[3].Width = 100;
+            dgvVAManual.Columns[4].Width = 350;
+            dgvVAManual.Columns[5].Width = 80;
+
+            dgvVAManual.Columns[0].HeaderText = "st";
+            dgvVAManual.Columns[1].HeaderText = "qa";
+            dgvVAManual.Columns[2].HeaderText = "state";
+            dgvVAManual.Columns[3].HeaderText = "race";
+            dgvVAManual.Columns[4].HeaderText = "question";
+            //dgvVoterAnalysis.Columns[5].HeaderText = "question";
+
             lblVAcnt.Text = $"Voter Analysis Questions: {cnt}";
 
         }
@@ -7174,6 +7328,29 @@ namespace GUILayer.Forms
 
             return VA_Qdata;
 
+        }
+
+        public List<VoterAnalysisManualQuestionsModelNew> GetVoterAnalysisQuestionsManualDataNew()
+        {
+            string cmd = SQLCommands.sqlGetVoterAnalysisQuestions_Manual;
+            DataTable dt = GetDBData(cmd, ElectionsDBConnectionString);
+            List<VoterAnalysisManualQuestionsModelNew> VA_Qdata = new List<VoterAnalysisManualQuestionsModelNew>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow row = dt.Rows[i];
+                VoterAnalysisManualQuestionsModelNew VA_Data = new VoterAnalysisManualQuestionsModelNew();
+
+                VA_Data.st = row["st"].ToString().Trim();
+                VA_Data.r_type = row["r_type"].ToString().Trim();
+                VA_Data.question = row["question"].ToString().Trim();
+                VA_Data.state = row["State"].ToString().Trim();
+                VA_Data.race = row["race"].ToString().Trim();
+                VA_Data.VA_Data_Id = row["VA_Data_Id"].ToString().Trim();
+                
+                VA_Qdata.Add(VA_Data);
+            }
+            return VA_Qdata;
         }
 
 

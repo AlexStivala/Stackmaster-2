@@ -29,9 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -307,6 +311,9 @@
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.RefreshFlagsTimer = new System.Windows.Forms.Timer(this.components);
+            this.tpManual = new System.Windows.Forms.TabPage();
+            this.dgvVAManual = new System.Windows.Forms.DataGridView();
+            this.dgvVoterAnalysisTicker = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -327,6 +334,8 @@
             this.tpVoterAnalysis.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).BeginInit();
             this.tcVoterAnalysis.SuspendLayout();
+            this.tpFullScreen.SuspendLayout();
+            this.tpTicker.SuspendLayout();
             this.tpBalanceOfPower.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BOPdataGridView)).BeginInit();
             this.tpReferendums.SuspendLayout();
@@ -410,6 +419,9 @@
             this.gbEng1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tpManual.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVAManual)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisTicker)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -689,7 +701,6 @@
             // button13
             // 
             this.button13.BackColor = System.Drawing.SystemColors.Control;
-            this.button13.Image = ((System.Drawing.Image)(resources.GetObject("button13.Image")));
             this.button13.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button13.Location = new System.Drawing.Point(110, 58);
             this.button13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -732,7 +743,6 @@
             // btnInsert
             // 
             this.btnInsert.BackColor = System.Drawing.SystemColors.Control;
-            this.btnInsert.Image = ((System.Drawing.Image)(resources.GetObject("btnInsert.Image")));
             this.btnInsert.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInsert.Location = new System.Drawing.Point(110, 58);
             this.btnInsert.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -761,7 +771,6 @@
             this.btnAddRace4Way.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace4Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace4Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace4Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4Way.Image")));
             this.btnAddRace4Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace4Way.Location = new System.Drawing.Point(16, 51);
             this.btnAddRace4Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -807,7 +816,6 @@
             this.btnAddRace3WaySelect.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace3WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace3WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySelect.Image")));
             this.btnAddRace3WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace3WaySelect.Location = new System.Drawing.Point(208, 51);
             this.btnAddRace3WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -823,7 +831,6 @@
             this.btnAddRace3Way.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace3Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace3Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3Way.Image")));
             this.btnAddRace3Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace3Way.Location = new System.Drawing.Point(16, 51);
             this.btnAddRace3Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -854,7 +861,6 @@
             this.btnAddRace2WaySelect.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace2WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace2WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySelect.Image")));
             this.btnAddRace2WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace2WaySelect.Location = new System.Drawing.Point(208, 51);
             this.btnAddRace2WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -870,7 +876,6 @@
             this.btnAddRace2Way.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace2Way.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace2Way.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2Way.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2Way.Image")));
             this.btnAddRace2Way.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace2Way.Location = new System.Drawing.Point(16, 51);
             this.btnAddRace2Way.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -916,7 +921,6 @@
             this.btnAddRace1WaySelect.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace1WaySelect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace1WaySelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace1WaySelect.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace1WaySelect.Image")));
             this.btnAddRace1WaySelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace1WaySelect.Location = new System.Drawing.Point(208, 51);
             this.btnAddRace1WaySelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1250,7 +1254,6 @@
             // 
             this.tpVoterAnalysis.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.tpVoterAnalysis.Controls.Add(this.lblVAcnt);
-            this.tpVoterAnalysis.Controls.Add(this.dgvVoterAnalysis);
             this.tpVoterAnalysis.Controls.Add(this.tcVoterAnalysis);
             this.tpVoterAnalysis.Controls.Add(this.btnAddExitPoll);
             this.tpVoterAnalysis.Location = new System.Drawing.Point(4, 41);
@@ -1283,7 +1286,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvVoterAnalysis.Location = new System.Drawing.Point(16, 118);
+            this.dgvVoterAnalysis.Location = new System.Drawing.Point(8, 8);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
             this.dgvVoterAnalysis.ReadOnly = true;
@@ -1300,16 +1303,18 @@
             // 
             this.tcVoterAnalysis.Controls.Add(this.tpFullScreen);
             this.tcVoterAnalysis.Controls.Add(this.tpTicker);
+            this.tcVoterAnalysis.Controls.Add(this.tpManual);
             this.tcVoterAnalysis.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcVoterAnalysis.Location = new System.Drawing.Point(8, 55);
+            this.tcVoterAnalysis.Location = new System.Drawing.Point(8, 40);
             this.tcVoterAnalysis.Name = "tcVoterAnalysis";
             this.tcVoterAnalysis.SelectedIndex = 0;
-            this.tcVoterAnalysis.Size = new System.Drawing.Size(1011, 908);
+            this.tcVoterAnalysis.Size = new System.Drawing.Size(990, 900);
             this.tcVoterAnalysis.TabIndex = 132;
             this.tcVoterAnalysis.SelectedIndexChanged += new System.EventHandler(this.tcVoterAnalysis_SelectedIndexChanged);
             // 
             // tpFullScreen
             // 
+            this.tpFullScreen.Controls.Add(this.dgvVoterAnalysis);
             this.tpFullScreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpFullScreen.Location = new System.Drawing.Point(4, 38);
             this.tpFullScreen.Name = "tpFullScreen";
@@ -1321,11 +1326,12 @@
             // 
             // tpTicker
             // 
+            this.tpTicker.Controls.Add(this.dgvVoterAnalysisTicker);
             this.tpTicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpTicker.Location = new System.Drawing.Point(4, 38);
             this.tpTicker.Name = "tpTicker";
             this.tpTicker.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTicker.Size = new System.Drawing.Size(1003, 866);
+            this.tpTicker.Size = new System.Drawing.Size(982, 858);
             this.tpTicker.TabIndex = 1;
             this.tpTicker.Text = "Ticker";
             this.tpTicker.UseVisualStyleBackColor = true;
@@ -1576,7 +1582,6 @@
             // button12
             // 
             this.button12.BackColor = System.Drawing.SystemColors.Control;
-            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
             this.button12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button12.Location = new System.Drawing.Point(110, 58);
             this.button12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1605,7 +1610,6 @@
             this.btnAddRace4WaySP.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace4WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace4WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace4WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace4WaySP.Image")));
             this.btnAddRace4WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace4WaySP.Location = new System.Drawing.Point(16, 51);
             this.btnAddRace4WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1651,7 +1655,6 @@
             this.btnAddRace3WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace3WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace3WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySelectSP.Image")));
             this.btnAddRace3WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace3WaySelectSP.Location = new System.Drawing.Point(208, 51);
             this.btnAddRace3WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1667,7 +1670,6 @@
             this.btnAddRace3WaySP.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace3WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace3WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace3WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace3WaySP.Image")));
             this.btnAddRace3WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace3WaySP.Location = new System.Drawing.Point(16, 51);
             this.btnAddRace3WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1697,7 +1699,6 @@
             this.btnAddRace2WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace2WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace2WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySelectSP.Image")));
             this.btnAddRace2WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace2WaySelectSP.Location = new System.Drawing.Point(208, 51);
             this.btnAddRace2WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1713,7 +1714,6 @@
             this.btnAddRace2WaySP.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace2WaySP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace2WaySP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace2WaySP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace2WaySP.Image")));
             this.btnAddRace2WaySP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace2WaySP.Location = new System.Drawing.Point(16, 51);
             this.btnAddRace2WaySP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1759,7 +1759,6 @@
             this.btnAddRace1WaySelectSP.BackColor = System.Drawing.SystemColors.Control;
             this.btnAddRace1WaySelectSP.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddRace1WaySelectSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRace1WaySelectSP.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRace1WaySelectSP.Image")));
             this.btnAddRace1WaySelectSP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRace1WaySelectSP.Location = new System.Drawing.Point(208, 51);
             this.btnAddRace1WaySelectSP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1888,7 +1887,6 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.Control;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.Location = new System.Drawing.Point(110, 58);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1917,7 +1915,6 @@
             this.button3.BackColor = System.Drawing.SystemColors.Control;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button3.Location = new System.Drawing.Point(16, 51);
             this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1961,7 +1958,6 @@
             this.button5.BackColor = System.Drawing.SystemColors.Control;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
             this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button5.Location = new System.Drawing.Point(208, 51);
             this.button5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1976,7 +1972,6 @@
             this.button6.BackColor = System.Drawing.SystemColors.Control;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
             this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button6.Location = new System.Drawing.Point(16, 51);
             this.button6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2005,7 +2000,6 @@
             this.button7.BackColor = System.Drawing.SystemColors.Control;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
             this.button7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button7.Location = new System.Drawing.Point(208, 51);
             this.button7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2020,7 +2014,6 @@
             this.button8.BackColor = System.Drawing.SystemColors.Control;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
             this.button8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button8.Location = new System.Drawing.Point(16, 51);
             this.button8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2064,7 +2057,6 @@
             this.button10.BackColor = System.Drawing.SystemColors.Control;
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
             this.button10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button10.Location = new System.Drawing.Point(208, 51);
             this.button10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3919,6 +3911,69 @@
             this.RefreshFlagsTimer.Interval = 5000;
             this.RefreshFlagsTimer.Tick += new System.EventHandler(this.RefreshFlagsTimer_Tick);
             // 
+            // tpManual
+            // 
+            this.tpManual.Controls.Add(this.dgvVAManual);
+            this.tpManual.Location = new System.Drawing.Point(4, 38);
+            this.tpManual.Name = "tpManual";
+            this.tpManual.Padding = new System.Windows.Forms.Padding(3);
+            this.tpManual.Size = new System.Drawing.Size(982, 858);
+            this.tpManual.TabIndex = 2;
+            this.tpManual.Text = "Manual";
+            this.tpManual.UseVisualStyleBackColor = true;
+            // 
+            // dgvVAManual
+            // 
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVAManual.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvVAManual.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVAManual.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvVAManual.Location = new System.Drawing.Point(8, 40);
+            this.dgvVAManual.MultiSelect = false;
+            this.dgvVAManual.Name = "dgvVAManual";
+            this.dgvVAManual.ReadOnly = true;
+            this.dgvVAManual.RowHeadersVisible = false;
+            this.dgvVAManual.RowHeadersWidth = 20;
+            this.dgvVAManual.RowTemplate.Height = 24;
+            this.dgvVAManual.RowTemplate.ReadOnly = true;
+            this.dgvVAManual.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVAManual.Size = new System.Drawing.Size(990, 900);
+            this.dgvVAManual.TabIndex = 134;
+            // 
+            // dgvVoterAnalysisTicker
+            // 
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysisTicker.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvVoterAnalysisTicker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysisTicker.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvVoterAnalysisTicker.Location = new System.Drawing.Point(8, 40);
+            this.dgvVoterAnalysisTicker.MultiSelect = false;
+            this.dgvVoterAnalysisTicker.Name = "dgvVoterAnalysisTicker";
+            this.dgvVoterAnalysisTicker.ReadOnly = true;
+            this.dgvVoterAnalysisTicker.RowHeadersVisible = false;
+            this.dgvVoterAnalysisTicker.RowHeadersWidth = 20;
+            this.dgvVoterAnalysisTicker.RowTemplate.Height = 24;
+            this.dgvVoterAnalysisTicker.RowTemplate.ReadOnly = true;
+            this.dgvVoterAnalysisTicker.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVoterAnalysisTicker.Size = new System.Drawing.Size(990, 900);
+            this.dgvVoterAnalysisTicker.TabIndex = 134;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -3986,6 +4041,8 @@
             this.tpVoterAnalysis.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).EndInit();
             this.tcVoterAnalysis.ResumeLayout(false);
+            this.tpFullScreen.ResumeLayout(false);
+            this.tpTicker.ResumeLayout(false);
             this.tpBalanceOfPower.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.BOPdataGridView)).EndInit();
             this.tpReferendums.ResumeLayout(false);
@@ -4084,6 +4141,9 @@
             this.gbEng1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tpManual.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVAManual)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisTicker)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4366,6 +4426,9 @@
         private System.Windows.Forms.GroupBox gbAllCand;
         private System.Windows.Forms.Button btnAllCand;
         private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.TabPage tpManual;
+        private System.Windows.Forms.DataGridView dgvVAManual;
+        private System.Windows.Forms.DataGridView dgvVoterAnalysisTicker;
     }
 }
 

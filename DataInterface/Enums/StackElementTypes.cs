@@ -73,7 +73,9 @@ namespace DataInterface.Enums
         [Description("Voter Analysis (Maps)")]
         Voter_Analysis_Maps = 20,
 
-        
+        [Description("Voter Analysis (Manual)")]
+        Voter_Analysis_Manual = 21,
+
 
     }
 }

@@ -140,6 +140,54 @@ namespace LogicLayer.Collections
             return voterAnalysisRecords;
         }
 
+        public static BindingList<VoterAnalysisManualDataModel> GetVoterAnalysisManualDataCollection(string VA_Data_Id, string ElectionsDBConnectionString)
+        {
+            DataTable dataTable;
+
+            var voterAnalysisRecords = new BindingList<VoterAnalysisManualDataModel>();
+
+            try
+            {
+                VoterAnalysisDataAccess voterAnalysisDataAccess = new VoterAnalysisDataAccess();
+                voterAnalysisDataAccess.ElectionsDBConnectionString = ElectionsDBConnectionString;
+                dataTable = voterAnalysisDataAccess.GetVoterAnalysisManualData(VA_Data_Id);
+
+
+                
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    VoterAnalysisManualDataModel voterAnalysisData = new VoterAnalysisManualDataModel()
+                    {
+                        r_type = row["r_type"].ToString() ?? "",
+                        Updated = row["Updated"].ToString() ?? "",
+                        Title = row["Title"].ToString() ?? "",
+                        Response = row["Response"].ToString() ?? "",
+                        State = row["State"].ToString() ?? "",
+                        Percent = row["Percent"].ToString() ?? ""
+
+                    };
+
+                    DateTime upd = Convert.ToDateTime(voterAnalysisData.Updated);
+                    voterAnalysisData.r_type = voterAnalysisData.r_type;
+                    voterAnalysisData.VA_Data_Id = VA_Data_Id;
+                    voterAnalysisData.asOf = $"AS OF {upd.ToString("h:mm tt ET MM/dd/yyyy")}";
+                    //voterAnalysisData.asOf = $"AS OF {upd.ToString("t d")}";
+                    voterAnalysisRecords.Add(voterAnalysisData);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("GetVoterAnalysisManualDataCollection Exception occurred: " + ex.Message);
+                
+            }
+
+            // Return 
+            return voterAnalysisRecords;
+        }
+
+
 
         // Get the Manual Exit Poll Question from the DB
         public static string GetManualExitPollQuestion(string ElectionsDBConnectionString, Int16 QuestionID)

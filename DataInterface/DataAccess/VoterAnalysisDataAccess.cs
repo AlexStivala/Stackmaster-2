@@ -87,6 +87,45 @@ namespace DataInterface.DataAccess
 
             return dataTable;
         }
+
+        public DataTable GetVoterAnalysisManualData(string VA_Data_Id)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+                            cmd.CommandText = SQLCommands.sqlGetVoterAnalysisManualData;
+
+                            cmd.Parameters.Add("@VA_Data_Id", SqlDbType.VarChar).Value = VA_Data_Id;
+                            
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("ExitPollDataAccess Exception occurred: " + ex.Message);
+                //log.Debug("ExitPollDataAccess Exception occurred", ex);
+            }
+
+            return dataTable;
+        }
+
         #endregion
     }
 }

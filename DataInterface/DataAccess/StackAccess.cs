@@ -204,7 +204,7 @@ namespace DataInterface.DataAccess
         /// <summary>
         /// Check for an existing stack by ID
         /// </summary>
-        public Double CheckIfStackExists_DB(String stackName)
+        public Double CheckIfStackExists_DB(String stackName, Int16 stackType)
         {
             DataTable dataTable = new DataTable();
             Double stackID = -1;
@@ -222,6 +222,7 @@ namespace DataInterface.DataAccess
                             cmd.CommandText = SQLCommands.sqlCheckIfStackExists;
                             //Set parameters
                             cmd.Parameters.Add("@StackName", SqlDbType.NVarChar).Value = stackName;
+                            cmd.Parameters.Add("@StackType", SqlDbType.SmallInt).Value = stackType;
 
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;

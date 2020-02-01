@@ -361,5 +361,14 @@ namespace GUILayer.Properties {
                 return ((int)(this["RemotePort"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCandidateFirstName {
+            get {
+                return ((bool)(this["UseCandidateFirstName"]));
+            }
+        }
     }
 }

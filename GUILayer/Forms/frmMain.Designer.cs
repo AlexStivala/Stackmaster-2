@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,10 +106,13 @@
             this.rbPresident = new System.Windows.Forms.RadioButton();
             this.tpVoterAnalysis = new System.Windows.Forms.TabPage();
             this.lblVAcnt = new System.Windows.Forms.Label();
-            this.dgvVoterAnalysis = new System.Windows.Forms.DataGridView();
             this.tcVoterAnalysis = new System.Windows.Forms.TabControl();
             this.tpFullScreen = new System.Windows.Forms.TabPage();
+            this.dgvVoterAnalysis = new System.Windows.Forms.DataGridView();
             this.tpTicker = new System.Windows.Forms.TabPage();
+            this.dgvVoterAnalysisTicker = new System.Windows.Forms.DataGridView();
+            this.tpManual = new System.Windows.Forms.TabPage();
+            this.dgvVAManual = new System.Windows.Forms.DataGridView();
             this.btnAddExitPoll = new System.Windows.Forms.Button();
             this.tpBalanceOfPower = new System.Windows.Forms.TabPage();
             this.BOPdataGridView = new System.Windows.Forms.DataGridView();
@@ -311,9 +314,6 @@
             this.lblDB = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.RefreshFlagsTimer = new System.Windows.Forms.Timer(this.components);
-            this.tpManual = new System.Windows.Forms.TabPage();
-            this.dgvVAManual = new System.Windows.Forms.DataGridView();
-            this.dgvVoterAnalysisTicker = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -332,10 +332,13 @@
             this.gbRCF.SuspendLayout();
             this.gbROF.SuspendLayout();
             this.tpVoterAnalysis.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).BeginInit();
             this.tcVoterAnalysis.SuspendLayout();
             this.tpFullScreen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).BeginInit();
             this.tpTicker.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisTicker)).BeginInit();
+            this.tpManual.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVAManual)).BeginInit();
             this.tpBalanceOfPower.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BOPdataGridView)).BeginInit();
             this.tpReferendums.SuspendLayout();
@@ -419,9 +422,6 @@
             this.gbEng1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.tpManual.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVAManual)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisTicker)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -1272,6 +1272,31 @@
             this.lblVAcnt.TabIndex = 134;
             this.lblVAcnt.Text = "Voter Analysis Questions: ";
             // 
+            // tcVoterAnalysis
+            // 
+            this.tcVoterAnalysis.Controls.Add(this.tpFullScreen);
+            this.tcVoterAnalysis.Controls.Add(this.tpTicker);
+            this.tcVoterAnalysis.Controls.Add(this.tpManual);
+            this.tcVoterAnalysis.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tcVoterAnalysis.Location = new System.Drawing.Point(8, 40);
+            this.tcVoterAnalysis.Name = "tcVoterAnalysis";
+            this.tcVoterAnalysis.SelectedIndex = 0;
+            this.tcVoterAnalysis.Size = new System.Drawing.Size(990, 900);
+            this.tcVoterAnalysis.TabIndex = 132;
+            this.tcVoterAnalysis.SelectedIndexChanged += new System.EventHandler(this.tcVoterAnalysis_SelectedIndexChanged);
+            // 
+            // tpFullScreen
+            // 
+            this.tpFullScreen.Controls.Add(this.dgvVoterAnalysis);
+            this.tpFullScreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tpFullScreen.Location = new System.Drawing.Point(4, 38);
+            this.tpFullScreen.Name = "tpFullScreen";
+            this.tpFullScreen.Padding = new System.Windows.Forms.Padding(3);
+            this.tpFullScreen.Size = new System.Drawing.Size(982, 858);
+            this.tpFullScreen.TabIndex = 0;
+            this.tpFullScreen.Text = "Full Screen";
+            this.tpFullScreen.UseVisualStyleBackColor = true;
+            // 
             // dgvVoterAnalysis
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure;
@@ -1299,31 +1324,6 @@
             this.dgvVoterAnalysis.TabIndex = 133;
             this.dgvVoterAnalysis.DoubleClick += new System.EventHandler(this.dgvVoterAnalysis_DoubleClick);
             // 
-            // tcVoterAnalysis
-            // 
-            this.tcVoterAnalysis.Controls.Add(this.tpFullScreen);
-            this.tcVoterAnalysis.Controls.Add(this.tpTicker);
-            this.tcVoterAnalysis.Controls.Add(this.tpManual);
-            this.tcVoterAnalysis.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcVoterAnalysis.Location = new System.Drawing.Point(8, 40);
-            this.tcVoterAnalysis.Name = "tcVoterAnalysis";
-            this.tcVoterAnalysis.SelectedIndex = 0;
-            this.tcVoterAnalysis.Size = new System.Drawing.Size(990, 900);
-            this.tcVoterAnalysis.TabIndex = 132;
-            this.tcVoterAnalysis.SelectedIndexChanged += new System.EventHandler(this.tcVoterAnalysis_SelectedIndexChanged);
-            // 
-            // tpFullScreen
-            // 
-            this.tpFullScreen.Controls.Add(this.dgvVoterAnalysis);
-            this.tpFullScreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tpFullScreen.Location = new System.Drawing.Point(4, 38);
-            this.tpFullScreen.Name = "tpFullScreen";
-            this.tpFullScreen.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFullScreen.Size = new System.Drawing.Size(1003, 866);
-            this.tpFullScreen.TabIndex = 0;
-            this.tpFullScreen.Text = "Full Screen";
-            this.tpFullScreen.UseVisualStyleBackColor = true;
-            // 
             // tpTicker
             // 
             this.tpTicker.Controls.Add(this.dgvVoterAnalysisTicker);
@@ -1335,6 +1335,71 @@
             this.tpTicker.TabIndex = 1;
             this.tpTicker.Text = "Ticker";
             this.tpTicker.UseVisualStyleBackColor = true;
+            // 
+            // dgvVoterAnalysisTicker
+            // 
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysisTicker.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvVoterAnalysisTicker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysisTicker.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvVoterAnalysisTicker.Location = new System.Drawing.Point(8, 40);
+            this.dgvVoterAnalysisTicker.MultiSelect = false;
+            this.dgvVoterAnalysisTicker.Name = "dgvVoterAnalysisTicker";
+            this.dgvVoterAnalysisTicker.ReadOnly = true;
+            this.dgvVoterAnalysisTicker.RowHeadersVisible = false;
+            this.dgvVoterAnalysisTicker.RowHeadersWidth = 20;
+            this.dgvVoterAnalysisTicker.RowTemplate.Height = 24;
+            this.dgvVoterAnalysisTicker.RowTemplate.ReadOnly = true;
+            this.dgvVoterAnalysisTicker.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVoterAnalysisTicker.Size = new System.Drawing.Size(990, 900);
+            this.dgvVoterAnalysisTicker.TabIndex = 134;
+            this.dgvVoterAnalysisTicker.DoubleClick += new System.EventHandler(this.dgvVoterAnalysisTicker_DoubleClick);
+            // 
+            // tpManual
+            // 
+            this.tpManual.Controls.Add(this.dgvVAManual);
+            this.tpManual.Location = new System.Drawing.Point(4, 38);
+            this.tpManual.Name = "tpManual";
+            this.tpManual.Padding = new System.Windows.Forms.Padding(3);
+            this.tpManual.Size = new System.Drawing.Size(982, 858);
+            this.tpManual.TabIndex = 2;
+            this.tpManual.Text = "Manual";
+            this.tpManual.UseVisualStyleBackColor = true;
+            // 
+            // dgvVAManual
+            // 
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVAManual.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvVAManual.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVAManual.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvVAManual.Location = new System.Drawing.Point(8, 40);
+            this.dgvVAManual.MultiSelect = false;
+            this.dgvVAManual.Name = "dgvVAManual";
+            this.dgvVAManual.ReadOnly = true;
+            this.dgvVAManual.RowHeadersVisible = false;
+            this.dgvVAManual.RowHeadersWidth = 20;
+            this.dgvVAManual.RowTemplate.Height = 24;
+            this.dgvVAManual.RowTemplate.ReadOnly = true;
+            this.dgvVAManual.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVAManual.Size = new System.Drawing.Size(990, 900);
+            this.dgvVAManual.TabIndex = 134;
+            this.dgvVAManual.DoubleClick += new System.EventHandler(this.dgvVAManual_DoubleClick);
             // 
             // btnAddExitPoll
             // 
@@ -3911,69 +3976,6 @@
             this.RefreshFlagsTimer.Interval = 5000;
             this.RefreshFlagsTimer.Tick += new System.EventHandler(this.RefreshFlagsTimer_Tick);
             // 
-            // tpManual
-            // 
-            this.tpManual.Controls.Add(this.dgvVAManual);
-            this.tpManual.Location = new System.Drawing.Point(4, 38);
-            this.tpManual.Name = "tpManual";
-            this.tpManual.Padding = new System.Windows.Forms.Padding(3);
-            this.tpManual.Size = new System.Drawing.Size(982, 858);
-            this.tpManual.TabIndex = 2;
-            this.tpManual.Text = "Manual";
-            this.tpManual.UseVisualStyleBackColor = true;
-            // 
-            // dgvVAManual
-            // 
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVAManual.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvVAManual.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVAManual.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvVAManual.Location = new System.Drawing.Point(8, 40);
-            this.dgvVAManual.MultiSelect = false;
-            this.dgvVAManual.Name = "dgvVAManual";
-            this.dgvVAManual.ReadOnly = true;
-            this.dgvVAManual.RowHeadersVisible = false;
-            this.dgvVAManual.RowHeadersWidth = 20;
-            this.dgvVAManual.RowTemplate.Height = 24;
-            this.dgvVAManual.RowTemplate.ReadOnly = true;
-            this.dgvVAManual.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVAManual.Size = new System.Drawing.Size(990, 900);
-            this.dgvVAManual.TabIndex = 134;
-            // 
-            // dgvVoterAnalysisTicker
-            // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysisTicker.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvVoterAnalysisTicker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysisTicker.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dgvVoterAnalysisTicker.Location = new System.Drawing.Point(8, 40);
-            this.dgvVoterAnalysisTicker.MultiSelect = false;
-            this.dgvVoterAnalysisTicker.Name = "dgvVoterAnalysisTicker";
-            this.dgvVoterAnalysisTicker.ReadOnly = true;
-            this.dgvVoterAnalysisTicker.RowHeadersVisible = false;
-            this.dgvVoterAnalysisTicker.RowHeadersWidth = 20;
-            this.dgvVoterAnalysisTicker.RowTemplate.Height = 24;
-            this.dgvVoterAnalysisTicker.RowTemplate.ReadOnly = true;
-            this.dgvVoterAnalysisTicker.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVoterAnalysisTicker.Size = new System.Drawing.Size(990, 900);
-            this.dgvVoterAnalysisTicker.TabIndex = 134;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4039,10 +4041,13 @@
             this.gbROF.PerformLayout();
             this.tpVoterAnalysis.ResumeLayout(false);
             this.tpVoterAnalysis.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).EndInit();
             this.tcVoterAnalysis.ResumeLayout(false);
             this.tpFullScreen.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysis)).EndInit();
             this.tpTicker.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisTicker)).EndInit();
+            this.tpManual.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVAManual)).EndInit();
             this.tpBalanceOfPower.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.BOPdataGridView)).EndInit();
             this.tpReferendums.ResumeLayout(false);
@@ -4141,9 +4146,6 @@
             this.gbEng1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbEng1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.tpManual.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVAManual)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVoterAnalysisTicker)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

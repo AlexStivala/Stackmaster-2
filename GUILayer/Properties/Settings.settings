@@ -122,5 +122,8 @@
     <Setting Name="RemotePort" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">6200</Value>
     </Setting>
+    <Setting Name="UseCandidateFirstName" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

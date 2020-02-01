@@ -130,6 +130,7 @@ namespace GUILayer.Forms
         public string electionMode = "General";
         public int remotePort;
         public bool isPrimary = false;
+        public bool UseCandidateFirstName = false;
 
         #endregion
 
@@ -429,6 +430,7 @@ namespace GUILayer.Forms
             VictoriaMode = Properties.Settings.Default.VictoriaMode;
             electionMode = Properties.Settings.Default.ElectionMode;
             remotePort = Properties.Settings.Default.RemotePort;
+            UseCandidateFirstName = Properties.Settings.Default.UseCandidateFirstName;
 
             if (electionMode == "Primary")
                 isPrimary = true;
@@ -761,8 +763,8 @@ namespace GUILayer.Forms
                     }
                     else
                     {
-                        tpRaces.Enabled = false;
-                        dataModeSelect.TabPages.Remove(tpRaces);
+                        //tpRaces.Enabled = false;
+                        //dataModeSelect.TabPages.Remove(tpRaces);
 
                     }
 
@@ -5709,7 +5711,7 @@ namespace GUILayer.Forms
                     if (raceData[0].PercentExpectedVote > 0 && raceData[0].PercentExpectedVote < 1)
                         raceBoardData.pctsReporting = "<1";
                     else
-                        raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString();
+                        raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString("F0");
                 }
                 else
                 {
@@ -5844,7 +5846,7 @@ namespace GUILayer.Forms
                 var winnerCandidateId = 0;
 
 
-                if (timeNow >= pollClosingTime || PollClosinglockout == false)
+                if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[i].cntyName == "ALL")
                 {
                     //Check for AP race call
                     if (raceData[i].RaceUseAPRaceCall)
@@ -5945,8 +5947,10 @@ namespace GUILayer.Forms
             
             for (int i = 0; i < numCand; i++)
             {
-                mapKeyStr += $"name={raceBoardData.candData[i].firstName} {raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
-                //mapKeyStr += $"name={raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
+                if (UseCandidateFirstName)
+                    mapKeyStr += $"name={raceBoardData.candData[i].firstName} {raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
+                else
+                    mapKeyStr += $"name={raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
                 mapKeyStr += $"vote={raceBoardData.candData[i].votes};percent={raceBoardData.candData[i].percent};check={raceBoardData.candData[i].winner};gain={raceBoardData.candData[i].gain};";
                 mapKeyStr += $"imagePath={raceBoardData.candData[i].headshot}";
                 if (i < numCand - 1)
@@ -6416,6 +6420,8 @@ namespace GUILayer.Forms
                 var voterAnalysisManualData = VoterAnalysisDataCollection.GetVoterAnalysisManualDataCollection(VA_Data_Id, ElectionsDBConnectionString);
                 if (voterAnalysisManualData.Count >= 2)
                     outStr = GetVoterAnalysisManualMapKeyStr(voterAnalysisManualData);
+                else
+                    MessageBox.Show("No data to show.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             else
@@ -6423,6 +6429,8 @@ namespace GUILayer.Forms
                 var voterAnalysisData = VoterAnalysisDataCollection.GetVoterAnalysisDataCollection(r_type, VA_Data_Id, ElectionsDBConnectionString, ft);
                 if (voterAnalysisData.Count >= 2)
                     outStr = GetVoterAnalysisMapKeyStr(voterAnalysisData);
+                else
+                    MessageBox.Show("No data to show.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
 
@@ -6990,7 +6998,8 @@ namespace GUILayer.Forms
                 if (i > 0)
                     MapKeyStr += "^";
 
-                MapKeyStr += $"{VA_Data[i].percent}";
+                MapKeyStr += $"{VA_Data[i].percent}%";
+                //MapKeyStr += $"{VA_Data[i].percent}";
 
             }
 
@@ -7049,7 +7058,8 @@ namespace GUILayer.Forms
                 //if (dataModeSelect.SelectedIndex == 1)
                 if (tabIndex == 1)
                 {
-                    stackType += tcVoterAnalysis.SelectedIndex;
+                    if (tcVoterAnalysis.SelectedIndex == 1)
+                        stackType += tcVoterAnalysis.SelectedIndex;
                 }
             }
             else
@@ -7559,6 +7569,16 @@ namespace GUILayer.Forms
         private void RefreshFlagsTimer_Tick(object sender, EventArgs e)
         {
             RefreshApplicationFlags();
+        }
+
+        private void dgvVoterAnalysisTicker_DoubleClick(object sender, EventArgs e)
+        {
+            AddVoterAnalysis();
+        }
+
+        private void dgvVAManual_DoubleClick(object sender, EventArgs e)
+        {
+            AddVoterAnalysis();
         }
     }
 

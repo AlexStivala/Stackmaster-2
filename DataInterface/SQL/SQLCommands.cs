@@ -54,7 +54,8 @@ namespace DataInterface.SQL
         /// Sql to check for an existing stack with the same name
         /// </summary>
         //public static readonly string sqlCheckIfStackExists = "SELECT * FROM MSE_Stacks WHERE StackName = @StackName";
-        public static readonly string sqlCheckIfStackExists = "SELECT * FROM Stacks WHERE StackName = @StackName";
+        //public static readonly string sqlCheckIfStackExists = "SELECT * FROM Stacks WHERE StackName = @StackName";
+        public static readonly string sqlCheckIfStackExists = "SELECT * FROM Stacks WHERE StackName = @StackName AND StackType = @StackType";
 
         /// <summary>
         /// Sql to save the stack elements - takes table-valued parameter

@@ -177,7 +177,7 @@ namespace GUILayer.Forms
             //Check if playlist already exists in database; if prompt for overwrite not checked, skip step
             try
             {
-                Double stackExistsID = stacksCollection.CheckIfStackExists_DB(txtStackDescription.Text.Trim());
+                Double stackExistsID = stacksCollection.CheckIfStackExists_DB(txtStackDescription.Text.Trim(), (Int16)stackType);
                 if (stackExistsID != -1)
                 {
                     // Check to see if the sublist already exists in the database; if so, prompt for overwrite

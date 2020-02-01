@@ -42,7 +42,7 @@ namespace DataInterface.DataAccess
                         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
                         {
                             
-                            if (ft == 0)
+                            if (ft != 1)
                             {
                                 // Question
                                 //if (r_type == "Q")
@@ -53,7 +53,7 @@ namespace DataInterface.DataAccess
                                 cmd.CommandText = SQLCommands.sqlGetVoterAnalysisDataFS;
 
                             }
-                            else
+                            else if (ft == 1)
                             {
                                 //// Question
                                 //if (r_type == "Q")

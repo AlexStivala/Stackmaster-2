@@ -139,14 +139,14 @@ namespace LogicLayer.Collections
         /// <summary>
         /// Check if the stack with the specified stack already exists in the SQL DB (checks by name)
         /// </summary>
-        public Double CheckIfStackExists_DB(String stackName)
+        public Double CheckIfStackExists_DB(String stackName, Int16 stackType)
         {
             Double stackID = -1;
             try
             {
                 StackAccess stackAccess = new StackAccess();
                 stackAccess.MainDBConnectionString = MainDBConnectionString;
-                stackID = stackAccess.CheckIfStackExists_DB(stackName);
+                stackID = stackAccess.CheckIfStackExists_DB(stackName, stackType);
             }
             catch (Exception ex)
             {

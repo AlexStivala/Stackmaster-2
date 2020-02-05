@@ -1445,12 +1445,16 @@ namespace GUILayer.Forms
             else
                 btnSaveStack.Enabled = true;
 
+            VAQRefreshTimer.Enabled = false;
 
             if (dataModeSelect.SelectedTab.Text == "Race Boards")
                 tabIndex = 0;
 
             if (dataModeSelect.SelectedTab.Text == "Voter Analysis")
+            {
                 tabIndex = 1;
+                //VAQRefreshTimer.Enabled = true;
+            }
 
             if (dataModeSelect.SelectedTab.Text == "Balance of Power")
                 tabIndex = 2;
@@ -1462,7 +1466,10 @@ namespace GUILayer.Forms
                 tabIndex = 4;
 
             if (dataModeSelect.SelectedTab.Text == "Maps")
+            {
                 tabIndex = 5;
+                //VAQRefreshTimer.Enabled = true;
+            }
 
             if (stackLocked == false)
             {
@@ -1688,10 +1695,10 @@ namespace GUILayer.Forms
 
                 if (electionMode == "Primary")
                 {
-                    availableRacesGrid.Columns[2].HeaderText = "eType";
-                    availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
-                    //availableRacesGrid.Columns[2].HeaderText = "Party";
-                    //availableRacesGrid.Columns[2].DataPropertyName = "Party";
+                    //availableRacesGrid.Columns[2].HeaderText = "eType";
+                    //availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGrid.Columns[2].HeaderText = "Party";
+                    availableRacesGrid.Columns[2].DataPropertyName = "Party";
                     availableRacesGrid.Columns[2].Width = 50;
                 
                     availableRacesGrid.Columns[3].HeaderText = "Race Description";
@@ -1717,10 +1724,10 @@ namespace GUILayer.Forms
 
                 if (electionMode == "Primary")
                 {
-                    availableRacesGridSP.Columns[2].HeaderText = "eType";
-                    availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
-                    //availableRacesGridSP.Columns[2].HeaderText = "Party";
-                    //availableRacesGridSP.Columns[2].DataPropertyName = "Party";
+                    //availableRacesGridSP.Columns[2].HeaderText = "eType";
+                    //availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGridSP.Columns[2].HeaderText = "Party";
+                    availableRacesGridSP.Columns[2].DataPropertyName = "Party";
                     availableRacesGridSP.Columns[2].Width = 50;
 
                     availableRacesGridSP.Columns[3].HeaderText = "Race Description";
@@ -5715,20 +5722,33 @@ namespace GUILayer.Forms
                 }
                 else
                 {
-                    int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
-                    if (temp > 0 && temp < 1)
+                    //int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                    //if (temp > 0 && temp < 1)
+                    //    raceBoardData.pctsReporting = "<1";
+                    //else
+                    //    raceBoardData.pctsReporting = temp.ToString();
+
+
+                    float temp = (float)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                    if (temp > 0f && temp < 1f)
                         raceBoardData.pctsReporting = "<1";
                     else
-                        raceBoardData.pctsReporting = temp.ToString();
+                        raceBoardData.pctsReporting = temp.ToString("F0");
                 }
             }
             else
             {
-                int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
-                if (temp > 0 && temp < 1)
+                //int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                //if (temp > 0 && temp < 1)
+                //    raceBoardData.pctsReporting = "<1";
+                //else
+                //    raceBoardData.pctsReporting = temp.ToString();
+
+                float temp = (float)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                if (temp > 0f && temp < 1f)
                     raceBoardData.pctsReporting = "<1";
                 else
-                    raceBoardData.pctsReporting = temp.ToString();
+                    raceBoardData.pctsReporting = temp.ToString("F0");
             }
 
             if (numCand == 0)
@@ -5772,8 +5792,6 @@ namespace GUILayer.Forms
                         if (raceData[n].CandidateID == candID)
                             candIndx = n; 
                     }
-
-
                 }
                 else
                     candIndx = i;
@@ -7579,6 +7597,32 @@ namespace GUILayer.Forms
         private void dgvVAManual_DoubleClick(object sender, EventArgs e)
         {
             AddVoterAnalysis();
+        }
+
+        private void availableRacesGridSP_DoubleClick(object sender, EventArgs e)
+        {
+            btnAllSP_Click(sender, e);
+
+        }
+
+        private void VAQRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            lblRefresh.Visible = true;
+            if (tabIndex == 1)
+            {
+                GetVoterAnalysisGridData();
+                GetVoterAnalysisManualGridData();
+                
+            }
+            if (tabIndex == 5)
+                GetVoterAnalysisMapGridData();
+            RefreshLblTimer.Enabled = true;
+        }
+
+        private void RefreshLblTimer_Tick(object sender, EventArgs e)
+        {
+            lblRefresh.Visible = false;
+            RefreshLblTimer.Enabled = false;
         }
     }
 

@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,6 +105,7 @@
             this.rbSenate = new System.Windows.Forms.RadioButton();
             this.rbPresident = new System.Windows.Forms.RadioButton();
             this.tpVoterAnalysis = new System.Windows.Forms.TabPage();
+            this.lblRefresh = new System.Windows.Forms.Label();
             this.lblVAcnt = new System.Windows.Forms.Label();
             this.tcVoterAnalysis = new System.Windows.Forms.TabControl();
             this.tpFullScreen = new System.Windows.Forms.TabPage();
@@ -315,7 +316,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.RefreshFlagsTimer = new System.Windows.Forms.Timer(this.components);
             this.VAQRefreshTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblRefresh = new System.Windows.Forms.Label();
             this.RefreshLblTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -1267,10 +1267,22 @@
             this.tpVoterAnalysis.TabIndex = 1;
             this.tpVoterAnalysis.Text = "Voter Analysis";
             // 
+            // lblRefresh
+            // 
+            this.lblRefresh.AutoSize = true;
+            this.lblRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRefresh.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblRefresh.Location = new System.Drawing.Point(3, 1135);
+            this.lblRefresh.Name = "lblRefresh";
+            this.lblRefresh.Size = new System.Drawing.Size(364, 46);
+            this.lblRefresh.TabIndex = 137;
+            this.lblRefresh.Text = "REFRESHING..... ";
+            this.lblRefresh.Visible = false;
+            // 
             // lblVAcnt
             // 
             this.lblVAcnt.AutoSize = true;
-            this.lblVAcnt.Location = new System.Drawing.Point(6, 12);
+            this.lblVAcnt.Location = new System.Drawing.Point(6, 7);
             this.lblVAcnt.Name = "lblVAcnt";
             this.lblVAcnt.Size = new System.Drawing.Size(317, 29);
             this.lblVAcnt.TabIndex = 134;
@@ -1285,7 +1297,7 @@
             this.tcVoterAnalysis.Location = new System.Drawing.Point(8, 40);
             this.tcVoterAnalysis.Name = "tcVoterAnalysis";
             this.tcVoterAnalysis.SelectedIndex = 0;
-            this.tcVoterAnalysis.Size = new System.Drawing.Size(990, 900);
+            this.tcVoterAnalysis.Size = new System.Drawing.Size(1000, 1010);
             this.tcVoterAnalysis.TabIndex = 132;
             this.tcVoterAnalysis.SelectedIndexChanged += new System.EventHandler(this.tcVoterAnalysis_SelectedIndexChanged);
             // 
@@ -1296,26 +1308,26 @@
             this.tpFullScreen.Location = new System.Drawing.Point(4, 38);
             this.tpFullScreen.Name = "tpFullScreen";
             this.tpFullScreen.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFullScreen.Size = new System.Drawing.Size(982, 858);
+            this.tpFullScreen.Size = new System.Drawing.Size(992, 968);
             this.tpFullScreen.TabIndex = 0;
             this.tpFullScreen.Text = "Full Screen";
             this.tpFullScreen.UseVisualStyleBackColor = true;
             // 
             // dgvVoterAnalysis
             // 
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysis.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvVoterAnalysis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle14;
-            this.dgvVoterAnalysis.Location = new System.Drawing.Point(8, 8);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysis.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvVoterAnalysis.Location = new System.Drawing.Point(5, 10);
             this.dgvVoterAnalysis.MultiSelect = false;
             this.dgvVoterAnalysis.Name = "dgvVoterAnalysis";
             this.dgvVoterAnalysis.ReadOnly = true;
@@ -1324,7 +1336,7 @@
             this.dgvVoterAnalysis.RowTemplate.Height = 24;
             this.dgvVoterAnalysis.RowTemplate.ReadOnly = true;
             this.dgvVoterAnalysis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVoterAnalysis.Size = new System.Drawing.Size(974, 897);
+            this.dgvVoterAnalysis.Size = new System.Drawing.Size(980, 950);
             this.dgvVoterAnalysis.TabIndex = 133;
             this.dgvVoterAnalysis.DoubleClick += new System.EventHandler(this.dgvVoterAnalysis_DoubleClick);
             // 
@@ -1335,26 +1347,26 @@
             this.tpTicker.Location = new System.Drawing.Point(4, 38);
             this.tpTicker.Name = "tpTicker";
             this.tpTicker.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTicker.Size = new System.Drawing.Size(982, 858);
+            this.tpTicker.Size = new System.Drawing.Size(992, 968);
             this.tpTicker.TabIndex = 1;
             this.tpTicker.Text = "Ticker";
             this.tpTicker.UseVisualStyleBackColor = true;
             // 
             // dgvVoterAnalysisTicker
             // 
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVoterAnalysisTicker.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVoterAnalysisTicker.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvVoterAnalysisTicker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVoterAnalysisTicker.DefaultCellStyle = dataGridViewCellStyle16;
-            this.dgvVoterAnalysisTicker.Location = new System.Drawing.Point(8, 40);
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVoterAnalysisTicker.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvVoterAnalysisTicker.Location = new System.Drawing.Point(5, 10);
             this.dgvVoterAnalysisTicker.MultiSelect = false;
             this.dgvVoterAnalysisTicker.Name = "dgvVoterAnalysisTicker";
             this.dgvVoterAnalysisTicker.ReadOnly = true;
@@ -1363,7 +1375,7 @@
             this.dgvVoterAnalysisTicker.RowTemplate.Height = 24;
             this.dgvVoterAnalysisTicker.RowTemplate.ReadOnly = true;
             this.dgvVoterAnalysisTicker.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVoterAnalysisTicker.Size = new System.Drawing.Size(990, 900);
+            this.dgvVoterAnalysisTicker.Size = new System.Drawing.Size(980, 950);
             this.dgvVoterAnalysisTicker.TabIndex = 134;
             this.dgvVoterAnalysisTicker.DoubleClick += new System.EventHandler(this.dgvVoterAnalysisTicker_DoubleClick);
             // 
@@ -1373,26 +1385,26 @@
             this.tpManual.Location = new System.Drawing.Point(4, 38);
             this.tpManual.Name = "tpManual";
             this.tpManual.Padding = new System.Windows.Forms.Padding(3);
-            this.tpManual.Size = new System.Drawing.Size(982, 858);
+            this.tpManual.Size = new System.Drawing.Size(992, 968);
             this.tpManual.TabIndex = 2;
             this.tpManual.Text = "Manual";
             this.tpManual.UseVisualStyleBackColor = true;
             // 
             // dgvVAManual
             // 
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvVAManual.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvVAManual.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvVAManual.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.LightCyan;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvVAManual.DefaultCellStyle = dataGridViewCellStyle18;
-            this.dgvVAManual.Location = new System.Drawing.Point(8, 40);
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.LightCyan;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVAManual.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvVAManual.Location = new System.Drawing.Point(5, 10);
             this.dgvVAManual.MultiSelect = false;
             this.dgvVAManual.Name = "dgvVAManual";
             this.dgvVAManual.ReadOnly = true;
@@ -1401,7 +1413,7 @@
             this.dgvVAManual.RowTemplate.Height = 24;
             this.dgvVAManual.RowTemplate.ReadOnly = true;
             this.dgvVAManual.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVAManual.Size = new System.Drawing.Size(990, 900);
+            this.dgvVAManual.Size = new System.Drawing.Size(980, 950);
             this.dgvVAManual.TabIndex = 134;
             this.dgvVAManual.DoubleClick += new System.EventHandler(this.dgvVAManual_DoubleClick);
             // 
@@ -1409,10 +1421,10 @@
             // 
             this.btnAddExitPoll.Image = global::GUILayer.Properties.Resources.action_add_16xLG;
             this.btnAddExitPoll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddExitPoll.Location = new System.Drawing.Point(350, 1054);
+            this.btnAddExitPoll.Location = new System.Drawing.Point(350, 1072);
             this.btnAddExitPoll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddExitPoll.Name = "btnAddExitPoll";
-            this.btnAddExitPoll.Size = new System.Drawing.Size(328, 92);
+            this.btnAddExitPoll.Size = new System.Drawing.Size(328, 94);
             this.btnAddExitPoll.TabIndex = 2;
             this.btnAddExitPoll.Text = "Add Voter Analysis";
             this.btnAddExitPoll.UseVisualStyleBackColor = true;
@@ -3984,18 +3996,6 @@
             // 
             this.VAQRefreshTimer.Interval = 10000;
             this.VAQRefreshTimer.Tick += new System.EventHandler(this.VAQRefreshTimer_Tick);
-            // 
-            // lblRefresh
-            // 
-            this.lblRefresh.AutoSize = true;
-            this.lblRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRefresh.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.lblRefresh.Location = new System.Drawing.Point(345, 986);
-            this.lblRefresh.Name = "lblRefresh";
-            this.lblRefresh.Size = new System.Drawing.Size(364, 46);
-            this.lblRefresh.TabIndex = 137;
-            this.lblRefresh.Text = "REFRESHING..... ";
-            this.lblRefresh.Visible = false;
             // 
             // RefreshLblTimer
             // 

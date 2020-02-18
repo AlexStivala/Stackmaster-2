@@ -47,10 +47,13 @@ namespace GUILayer.Forms
             dgvCand2.Left = 20;
             dgvCand3.Left = 20;
             dgvCand4.Left = 20;
+            dgvCand5.Left = 20;
             dgvCand1.Top = 70;
             dgvCand2.Top = 70;
             dgvCand3.Top = 70;
             dgvCand4.Top = 70;
+            dgvCand5.Top = 70;
+
             var half = (numCandidates*340 + 20)/2;
 
             switch (numCandidates)
@@ -61,6 +64,7 @@ namespace GUILayer.Forms
                     dgvCand2.Visible = false;
                     dgvCand3.Visible = false;
                     dgvCand4.Visible = false;
+                    dgvCand5.Visible = false;
                     break;
                 case 2:
                     dgvCand1.Left = 15;
@@ -69,6 +73,7 @@ namespace GUILayer.Forms
                     dgvCand2.Visible = true;
                     dgvCand3.Visible = false;
                     dgvCand4.Visible = false;
+                    dgvCand5.Visible = false;
                     break;
                 case 3:
                     dgvCand1.Left = 15;
@@ -78,6 +83,7 @@ namespace GUILayer.Forms
                     dgvCand2.Visible = true;
                     dgvCand3.Visible = true;
                     dgvCand4.Visible = false;
+                    dgvCand5.Visible = false;
                     break;
                 case 4:
                     dgvCand1.Left = 15;
@@ -88,6 +94,19 @@ namespace GUILayer.Forms
                     dgvCand2.Visible = true;
                     dgvCand3.Visible = true;
                     dgvCand4.Visible = true;
+                    dgvCand5.Visible = false;
+                    break;
+                case 5:
+                    dgvCand1.Left = 15;
+                    dgvCand2.Left = 355;
+                    dgvCand3.Left = 695;
+                    dgvCand4.Left = 1035;
+                    dgvCand5.Left = 1375;
+                    dgvCand1.Visible = true;
+                    dgvCand2.Visible = true;
+                    dgvCand3.Visible = true;
+                    dgvCand4.Visible = true;
+                    dgvCand5.Visible = true;
                     break;
                 default:
                     dgvCand1.Left = 15;
@@ -136,6 +155,10 @@ namespace GUILayer.Forms
                 var dgvCand4DataSource = new BindingSource(_raceData, null);
                 dgvCand4.DataSource = dgvCand4DataSource;
 
+                dgvCand5.AutoGenerateColumns = false;
+                var dgvCand5DataSource = new BindingSource(_raceData, null);
+                dgvCand5.DataSource = dgvCand5DataSource;
+                
                 dgvCand1.Rows[0].Selected = true;
                 _candIndex = 0;
                 Cand1 = Convert.ToInt32(dgvCand1[2, _candIndex].Value);
@@ -155,6 +178,11 @@ namespace GUILayer.Forms
                 //_candIndex = dgvCand4.CurrentCell.RowIndex;
                 Cand4 = Convert.ToInt32(dgvCand4[2, _candIndex].Value);
                 CandName4 = (string) dgvCand4[0, _candIndex].Value;
+
+                dgvCand5.Rows[0].Selected = true;
+                //_candIndex = dgvCand4.CurrentCell.RowIndex;
+                Cand5 = Convert.ToInt32(dgvCand5[2, _candIndex].Value);
+                CandName5 = (string)dgvCand5[0, _candIndex].Value;
 
                 label1.Text = @"Number of candidates in race: " + _raceData.Count;
                 if (_raceData.Count < _numCand)
@@ -279,8 +307,26 @@ namespace GUILayer.Forms
         public string CandName3 { get; set; }
         public int Cand4 { get; set; }
         public string CandName4 { get; set; }
+        public int Cand5 { get; set; }
+        public string CandName5 { get; set; }
         private int _candIndex;
 
         #endregion
+
+        private void dgvCand5_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Get the selected race list object
+            _candIndex = dgvCand5.CurrentCell.RowIndex;
+            Cand5 = Convert.ToInt32(dgvCand5[2, _candIndex].Value);
+            CandName5 = (string)dgvCand5[0, _candIndex].Value;
+        }
+
+        private void dgvCand5_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Get the selected race list object
+            _candIndex = dgvCand5.CurrentCell.RowIndex;
+            Cand5 = Convert.ToInt32(dgvCand5[2, _candIndex].Value);
+            CandName5 = (string)dgvCand5[0, _candIndex].Value;
+        }
     }
 }

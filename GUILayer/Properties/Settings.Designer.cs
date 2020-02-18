@@ -202,7 +202,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool VictoriaMode {
             get {
                 return ((bool)(this["VictoriaMode"]));
@@ -247,7 +247,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("VizMultiPlayStackData")]
+        [global::System.Configuration.DefaultSettingValueAttribute("VizStackmasterStackData")]
         public string MP_StacksDB {
             get {
                 return ((string)(this["MP_StacksDB"]));

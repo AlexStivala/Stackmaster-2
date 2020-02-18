@@ -76,6 +76,11 @@ namespace DataInterface.Enums
         [Description("Voter Analysis (Manual)")]
         Voter_Analysis_Manual = 21,
 
+        [Description("Race Board (5-Way)")]
+        Race_Board_5_Way = 23,
+
+        [Description("Race Board (5-Way Select)")]
+        Race_Board_5_Way_Select = 24,
 
     }
 }

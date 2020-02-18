@@ -39,6 +39,7 @@ namespace DataInterface.DataModel
         public Int32 Race_CandidateID_2 { get; set; }
         public Int32 Race_CandidateID_3 { get; set; }
         public Int32 Race_CandidateID_4 { get; set; }
+        public Int32 Race_CandidateID_5 { get; set; }
         public DateTime Race_PollClosingTime { get; set; }
         public Boolean Race_UseAPRaceCall { get; set; }
 

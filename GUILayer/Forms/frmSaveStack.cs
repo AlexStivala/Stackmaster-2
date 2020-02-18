@@ -62,8 +62,12 @@ namespace GUILayer.Forms
                 txtStackDescription.Text = "{TICKER}";
                 txtStackDescription.Enabled = false;
             }
+            else
+            {
+                txtStackDescription.Text = StackDescription;
 
-            txtStackDescription.Text = StackDescription;
+            }
+
             //RefreshStacksList();
 
             if (EnableShowControls)

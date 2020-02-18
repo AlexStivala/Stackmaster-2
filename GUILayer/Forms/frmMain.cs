@@ -4529,10 +4529,12 @@ namespace GUILayer.Forms
                     Int32 selectedCandidate2 = 0;
                     Int32 selectedCandidate3 = 0;
                     Int32 selectedCandidate4 = 0;
+                    Int32 selectedCandidate5 = 0;
                     string cand1Name = string.Empty;
                     string cand2Name = string.Empty;
                     string cand3Name = string.Empty;
                     string cand4Name = string.Empty;
+                    string cand5Name = string.Empty;
                     Int16 numCand = 1;
 
                     //Get the selected race list object
@@ -4561,7 +4563,7 @@ namespace GUILayer.Forms
                         //cand3Name = selectCand.CandName3;
                         //selectedCandidate4 = selectCand.Cand4;
                         //cand4Name = selectCand.CandName4;
-                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, selectedCandidate5, cand1Name, cand2Name, cand3Name, cand4Name, cand5Name);
                     }
 
                 }
@@ -4585,10 +4587,12 @@ namespace GUILayer.Forms
                     Int32 selectedCandidate2 = 0;
                     Int32 selectedCandidate3 = 0;
                     Int32 selectedCandidate4 = 0;
+                    Int32 selectedCandidate5 = 0;
                     string cand1Name = string.Empty;
                     string cand2Name = string.Empty;
                     string cand3Name = string.Empty;
                     string cand4Name = string.Empty;
+                    string cand5Name = string.Empty;
                     Int16 numCand = 2;
 
                     //Get the selected race list object
@@ -4617,7 +4621,8 @@ namespace GUILayer.Forms
                         //cand3Name = selectCand.CandName3;
                         //selectedCandidate4 = selectCand.Cand4;
                         //cand4Name = selectCand.CandName4;
-                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, selectedCandidate5, cand1Name, cand2Name, cand3Name, cand4Name, cand5Name);
+
                     }
 
                 }
@@ -4642,10 +4647,12 @@ namespace GUILayer.Forms
                     Int32 selectedCandidate2 = 0;
                     Int32 selectedCandidate3 = 0;
                     Int32 selectedCandidate4 = 0;
+                    Int32 selectedCandidate5 = 0;
                     string cand1Name = string.Empty;
                     string cand2Name = string.Empty;
                     string cand3Name = string.Empty;
                     string cand4Name = string.Empty;
+                    string cand5Name = string.Empty;
                     Int16 numCand = 3;
 
                     //Get the selected race list object
@@ -4674,7 +4681,8 @@ namespace GUILayer.Forms
                         cand3Name = selectCand.CandName3;
                         //selectedCandidate4 = selectCand.Cand4;
                         //cand4Name = selectCand.CandName4;
-                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                        AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, selectedCandidate5, cand1Name, cand2Name, cand3Name, cand4Name, cand5Name);
+
                     }
 
                 }
@@ -4698,10 +4706,12 @@ namespace GUILayer.Forms
                     Int32 selectedCandidate2 = 0;
                     Int32 selectedCandidate3 = 0;
                     Int32 selectedCandidate4 = 0;
+                    Int32 selectedCandidate5 = 0;
                     string cand1Name = string.Empty;
                     string cand2Name = string.Empty;
                     string cand3Name = string.Empty;
                     string cand4Name = string.Empty;
+                    string cand5Name = string.Empty;
                     Int16 numCand = 4;
 
                     //Get the selected race list object
@@ -4734,8 +4744,7 @@ namespace GUILayer.Forms
                             cand3Name = selectCand.CandName3;
                             selectedCandidate4 = selectCand.Cand4;
                             cand4Name = selectCand.CandName4;
-                            AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3,
-                                selectedCandidate4, cand1Name, cand2Name, cand3Name, cand4Name);
+                            AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, selectedCandidate5, cand1Name, cand2Name, cand3Name, cand4Name, cand5Name);
                         }
                     }
                 }
@@ -4750,7 +4759,7 @@ namespace GUILayer.Forms
         }
 
         // Generic method to add a candidate select race board to the stack
-        private void AddSelectRaceBoardToStack(Int16 numCand, Int32 cID1, Int32 cID2, Int32 cID3, Int32 cID4, string cand1Name, string cand2Name, string cand3Name, string cand4Name)
+        private void AddSelectRaceBoardToStack(Int16 numCand, Int32 cID1, Int32 cID2, Int32 cID3, Int32 cID4, Int32 cID5, string cand1Name, string cand2Name, string cand3Name, string cand4Name, string cand5Name)
         {
 
             if (stackLocked == false)
@@ -4778,6 +4787,9 @@ namespace GUILayer.Forms
                                 break;
                             case 4:
                                 nameList = nameList + ", " + cand4Name;
+                                break;
+                            case 5:
+                                nameList = nameList + ", " + cand5Name;
                                 break;
                         }
                     }
@@ -4817,6 +4829,7 @@ namespace GUILayer.Forms
                     newStackElement.Race_CandidateID_2 = cID2;
                     newStackElement.Race_CandidateID_3 = cID3;
                     newStackElement.Race_CandidateID_4 = cID4;
+                    newStackElement.Race_CandidateID_5 = cID5;
                     newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
                     newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
 
@@ -5584,7 +5597,45 @@ namespace GUILayer.Forms
                 dataType = 4;
             bool candidateSelectEnable;
 
-            candidatesToReturn = (candidatesToReturn + 1) / 2;
+            switch ((int)stackElements[currentRaceIndex].Stack_Element_Type)
+            {
+                case 0:
+                    candidatesToReturn = 0;
+                    break;
+                case 1:
+                    candidatesToReturn = 1;
+                    break;
+                case 2:
+                    candidatesToReturn = 1;
+                    break;
+                case 3:
+                    candidatesToReturn = 2;
+                    break;
+                case 4:
+                    candidatesToReturn = 2;
+                    break;
+                case 5:
+                    candidatesToReturn = 3;
+                    break;
+                case 6:
+                    candidatesToReturn = 3;
+                    break;
+                case 7:
+                    candidatesToReturn = 4;
+                    break;
+                case 8:
+                    candidatesToReturn = 4;
+                    break;
+                case 23:
+                    candidatesToReturn = 5;
+                    break;
+                case 24:
+                    candidatesToReturn = 5;
+                    break;
+
+            }
+
+            //candidatesToReturn = (candidatesToReturn + 1) / 2;
             if ((int)stackElements[currentRaceIndex].Stack_Element_Type % 2 == 0 && (int)stackElements[currentRaceIndex].Stack_Element_Type != 0)
                 candidateSelectEnable = true;
             else
@@ -5594,6 +5645,7 @@ namespace GUILayer.Forms
             int cand2 = stackElements[currentRaceIndex].Race_CandidateID_2;
             int cand3 = stackElements[currentRaceIndex].Race_CandidateID_3;
             int cand4 = stackElements[currentRaceIndex].Race_CandidateID_4;
+            int cand5 = stackElements[currentRaceIndex].Race_CandidateID_5;
 
             if (stackElements[currentRaceIndex].County_Number > 0)
                 rd = GetRaceDataCounty(stCode, cnty, raceOffice, electionType);
@@ -5635,6 +5687,9 @@ namespace GUILayer.Forms
                                 break;
                             case 3:
                                 candID = cand4;
+                                break;
+                            case 4:
+                                candID = cand5;
                                 break;
                             default:
                                 candID = cand1;
@@ -7623,6 +7678,80 @@ namespace GUILayer.Forms
         {
             lblRefresh.Visible = false;
             RefreshLblTimer.Enabled = false;
+        }
+
+        private void btnAddRace5Way_Click(object sender, EventArgs e)
+        {
+                Int16 seType = (short)StackElementTypes.Race_Board_5_Way;
+                string seDescription = "Race Board (5-Way)";
+                Int16 seDataType = (int)DataTypes.Race_Boards;
+
+                AddRaceBoardToStack(seType, seDescription, seDataType);
+            
+        }
+
+        private void btnSelect5_Click(object sender, EventArgs e)
+        {
+            if (stackLocked == false)
+            {
+                try
+                {
+                    Int32 selectedCandidate1 = 0;
+                    Int32 selectedCandidate2 = 0;
+                    Int32 selectedCandidate3 = 0;
+                    Int32 selectedCandidate4 = 0;
+                    Int32 selectedCandidate5 = 0;
+                    string cand1Name = string.Empty;
+                    string cand2Name = string.Empty;
+                    string cand3Name = string.Empty;
+                    string cand4Name = string.Empty;
+                    string cand5Name = string.Empty;
+                    Int16 numCand = 5;
+
+                    //Get the selected race list object
+                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                    string eType = selectedRace.Election_Type;
+                    string ofc = selectedRace.Race_Office;
+                    Int16 st = selectedRace.State_Number;
+                    string des = selectedRace.Race_Description;
+                    Int16 cd = selectedRace.CD;
+                    string party = selectedRace.Party;
+
+                    DialogResult dr = new DialogResult();
+                    FrmCandidateSelect selectCand = new FrmCandidateSelect(numCand, st, ofc, eType, des, cd, electionMode, party);
+
+                    // Only process if required number of candidates in race
+                    if (selectCand.candidatesFound)
+                    {
+                        dr = selectCand.ShowDialog();
+                        if (dr == DialogResult.OK)
+                        {
+                            // Set candidateID's
+
+                            selectedCandidate1 = selectCand.Cand1;
+                            cand1Name = selectCand.CandName1;
+                            selectedCandidate2 = selectCand.Cand2;
+                            cand2Name = selectCand.CandName2;
+                            selectedCandidate3 = selectCand.Cand3;
+                            cand3Name = selectCand.CandName3;
+                            selectedCandidate4 = selectCand.Cand4;
+                            cand4Name = selectCand.CandName4;
+                            selectedCandidate4 = selectCand.Cand5;
+                            cand5Name = selectCand.CandName5;
+                            AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, selectedCandidate5, cand1Name, cand2Name, cand3Name, cand4Name, cand5Name);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("frmMain Exception occurred: " + ex.Message);
+                    //log.Debug("frmMain Exception occurred", ex);
+                }
+            }
+
         }
     }
 

@@ -83,6 +83,7 @@ namespace LogicLayer.Collections
                         Race_CandidateID_2 = Convert.ToInt32(row["Race_CandidateID_2"] ?? 0),
                         Race_CandidateID_3 = Convert.ToInt32(row["Race_CandidateID_3"] ?? 0),
                         Race_CandidateID_4 = Convert.ToInt32(row["Race_CandidateID_4"] ?? 0),
+                        Race_CandidateID_5 = Convert.ToInt32(row["Race_CandidateID_5"] ?? 0),
                         Race_PollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime"] ?? 0),
                         Race_UseAPRaceCall = Convert.ToBoolean(row["Race_UseAPRaceCall"] ?? 0),
 
@@ -146,6 +147,7 @@ namespace LogicLayer.Collections
                     dataTable.Columns.Add("Race_CandidateID_2", typeof(Int32));
                     dataTable.Columns.Add("Race_CandidateID_3", typeof(Int32));
                     dataTable.Columns.Add("Race_CandidateID_4", typeof(Int32));
+                    dataTable.Columns.Add("Race_CandidateID_5", typeof(Int32));
                     dataTable.Columns.Add("Race_PollClosingTime", typeof(DateTime));
                     dataTable.Columns.Add("Race_UseAPRaceCall", typeof(Boolean));
                     //Specific to exit polls
@@ -184,6 +186,7 @@ namespace LogicLayer.Collections
                         stackElement["Race_CandidateID_2"] = stackElements[i].Race_CandidateID_2;
                         stackElement["Race_CandidateID_3"] = stackElements[i].Race_CandidateID_3;
                         stackElement["Race_CandidateID_4"] = stackElements[i].Race_CandidateID_4;
+                        stackElement["Race_CandidateID_5"] = stackElements[i].Race_CandidateID_5;
                         stackElement["Race_PollClosingTime"] = stackElements[i].Race_PollClosingTime;
                         stackElement["Race_UseAPRaceCall"] = stackElements[i].Race_UseAPRaceCall;
 

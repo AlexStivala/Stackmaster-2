@@ -43,7 +43,7 @@ namespace LogicLayer.Collections
         /// </summary>
         //public BindingList<RaceDataModel> GetRaceDataCollection(Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn)
         public BindingList<RaceDataModel> GetRaceDataCollection(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn,
-            bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4)
+            bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4, int candidateId5)
         {
             DataTable dataTable;
 
@@ -57,7 +57,7 @@ namespace LogicLayer.Collections
                 // If state ID = -1 => not an actual data request - just initializing collection
                 if (stateNumber != -1)
                 {
-                    dataTable = raceDataAccess.GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4);
+                    dataTable = raceDataAccess.GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4, candidateId5);
 
                     // Init counter & increment
                     Int16 candidateCount = 0;
@@ -176,7 +176,7 @@ namespace LogicLayer.Collections
                             HeadshotPathFBN = row["HeadshotPath_FBN"].ToString().Trim() ?? "",
                             CandidatePartyID = row["majorPtyID"].ToString().Trim() ?? "",
                             cStat = row["cStat"].ToString().Trim() ?? "",
-                            estTS = row["estTS"].ToString().Trim(),
+                            estTS = row["estTS"].ToString().Trim() ?? "",
                             InIncumbentPartyFlag = row["inIncPtyFlg"].ToString().Trim() ?? "",
                             IsIncumbentFlag = row["isIncFlg"].ToString().Trim() ?? "",
                             CandidateVoteCount = Convert.ToInt32(row["cVote"] ?? 0),

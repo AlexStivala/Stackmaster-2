@@ -136,7 +136,7 @@ namespace GUILayer.Forms
                 if (_em == "Primary")
                     _raceData = _raceDataCollection.GetRaceDataCollectionPrimary(_st, _ofc, Jcde, _eType, _p);
                 else
-                    _raceData = _raceDataCollection.GetRaceDataCollection(_em, _st, _ofc, Jcde, _eType, 0, false, 0, 0, 0, 0);
+                    _raceData = _raceDataCollection.GetRaceDataCollection(_em, _st, _ofc, Jcde, _eType, 0, false, 0, 0, 0, 0, 0);
 
                 // Setup the available races grid
                 dgvCand1.AutoGenerateColumns = false;

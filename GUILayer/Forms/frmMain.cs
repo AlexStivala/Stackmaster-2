@@ -1905,7 +1905,7 @@ namespace GUILayer.Forms
                 this.raceDataCollection = new RaceDataCollection();
                 this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
                 // Specify state ID = -1 => Don't query database for candidate data until requesting actual race data
-                raceData = this.raceDataCollection.GetRaceDataCollection(electionMode, -1, "P", 0, "G", 1, false, 0, 0, 0, 0);
+                raceData = this.raceDataCollection.GetRaceDataCollection(electionMode, -1, "P", 0, "G", 1, false, 0, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {
@@ -3247,7 +3247,7 @@ namespace GUILayer.Forms
                         case (Int16)DataTypes.Race_Boards:
 
                             // Request the race data for the element in the stack - updates raceData binding list
-                            raceData = GetRaceData(electionMode, _stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0);
+                            raceData = GetRaceData(electionMode, _stackElements[i].State_Number, _stackElements[i].Race_Office, _stackElements[i].CD, _stackElements[i].Election_Type, candidatesToReturn, false, 0, 0, 0, 0, 0);
 
                             // Check for data returned for race
                             if (raceData.Count > 0)
@@ -3513,13 +3513,13 @@ namespace GUILayer.Forms
         /// </summary>
         // Method to get the race data for a specified race
         private BindingList<RaceDataModel> GetRaceData(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int16 candidatesToReturn,
-            bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4)
+            bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4, int candidateId5)
         {
             // Setup the master race collection & bind to grid
             //this.raceDataCollection = new RaceDataCollection();
             //this.raceDataCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
             raceData = this.raceDataCollection.GetRaceDataCollection(electionMode, stateNumber, raceOffice, cd, electionType, candidatesToReturn,
-            candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4);
+            candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4, candidateId5);
 
             return raceData;
         }
@@ -4797,6 +4797,8 @@ namespace GUILayer.Forms
 
                     // Calculate element type based on number of candidates
                     int eType = numCand * 2;
+                    if (numCand == 5)
+                        eType = (int)StackElementTypes.Race_Board_5_Way_Select;
 
                     string eDesc = "Race Board (" + numCand + "-Way Select)";
 
@@ -5657,7 +5659,7 @@ namespace GUILayer.Forms
                 rd = GetRaceDataPrimary(stateNumber, raceOffice, cd, electionType, party);
             }
             else
-                rd = GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4);
+                rd = GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, (short)candidatesToReturn, candidateSelectEnable, cand1, cand2, cand3, cand4, cand5);
 
             if (rd.Count > 0)
             {
@@ -5813,6 +5815,7 @@ namespace GUILayer.Forms
             int cand2 = stackElements[currentRaceIndex].Race_CandidateID_2;
             int cand3 = stackElements[currentRaceIndex].Race_CandidateID_3;
             int cand4 = stackElements[currentRaceIndex].Race_CandidateID_4;
+            int cand5 = stackElements[currentRaceIndex].Race_CandidateID_5;
             int candIndx = 0;
 
             for (int i = 0; i < numCand; i++)
@@ -5835,6 +5838,9 @@ namespace GUILayer.Forms
                             break;
                         case 3:
                             candID = cand4;
+                            break;
+                        case 4:
+                            candID = cand5;
                             break;
                         default:
                             candID = cand1;
@@ -7738,7 +7744,7 @@ namespace GUILayer.Forms
                             cand3Name = selectCand.CandName3;
                             selectedCandidate4 = selectCand.Cand4;
                             cand4Name = selectCand.CandName4;
-                            selectedCandidate4 = selectCand.Cand5;
+                            selectedCandidate5 = selectCand.Cand5;
                             cand5Name = selectCand.CandName5;
                             AddSelectRaceBoardToStack(numCand, selectedCandidate1, selectedCandidate2, selectedCandidate3, selectedCandidate4, selectedCandidate5, cand1Name, cand2Name, cand3Name, cand4Name, cand5Name);
                         }

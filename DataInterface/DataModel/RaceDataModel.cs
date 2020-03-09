@@ -43,5 +43,9 @@ namespace DataInterface.DataModel
         public DateTime RacePollClosingTime { get; set; }
         public Boolean RaceUseAPRaceCall { get; set; }
         public Boolean RaceIgnoreGain { get; set; }
+        public int DemDelegatesAvailable { get; set; }
+        public int RepDelegatesAvailable { get; set; }
+        public int ElectoralVotesAvailable { get; set; }
+
     }
 }

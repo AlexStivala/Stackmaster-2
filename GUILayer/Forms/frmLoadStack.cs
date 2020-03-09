@@ -248,8 +248,13 @@ namespace GUILayer.Forms
                     if (availableStacksGrid.Rows[i].Selected)
                     {
                         stacksSelected.Add(i);
+                        
                     }
                 }
+                
+                this.DialogResult = DialogResult.Ignore;
+                this.Close();
+
 
             }
             catch (Exception ex)

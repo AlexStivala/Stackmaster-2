@@ -177,6 +177,13 @@ namespace LogicLayer.Collections
                     if (newAvailableRace.Race_Office.Trim() == "S2")
                         newAvailableRace.Race_Description += " (S2)";
 
+                    newAvailableRace.Party = newAvailableRace.Election_Type.Trim();
+                    if (newAvailableRace.Election_Type.Trim() == "E")
+                        newAvailableRace.Party = "D";
+                    else if (newAvailableRace.Election_Type.Trim() == "S")
+                        newAvailableRace.Party = "R";
+
+
 
                     Boolean isBGState = false;
                     Int16 stateId = Convert.ToInt16(row["State_ID"] ?? 0);

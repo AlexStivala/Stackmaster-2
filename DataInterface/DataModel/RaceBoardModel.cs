@@ -14,6 +14,7 @@ namespace DataInterface.DataModel
         public string pctsReporting { get; set; }
         public int mode { get; set; }
         public List<candidateData_RB> candData = new List<candidateData_RB>();
+        public int evdel { get; set; }
 
     }
 

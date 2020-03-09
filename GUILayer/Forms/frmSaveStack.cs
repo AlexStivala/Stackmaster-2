@@ -242,6 +242,7 @@ namespace GUILayer.Forms
                         this.Close();
                     }
                     break;
+                
             }
         }
 

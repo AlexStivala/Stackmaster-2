@@ -328,7 +328,7 @@ namespace GUILayer.Forms
 
                 // Set version number
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                this.Text = String.Format("Election Graphics Stack Builder Application  Version {0}", version);
+                this.Text = String.Format("Election Graphics Stack Builder Application - Stackmaster - Version {0}", version);
 
 
                 // Log application start
@@ -409,6 +409,7 @@ namespace GUILayer.Forms
             catch (Exception ex)
             {
                 server.Stop();
+                log.Error($"StartListener - Error  {ex.Message}");
             }
         }
 
@@ -701,11 +702,10 @@ namespace GUILayer.Forms
 
                     label2.Visible = false;
                     cbGraphicConcept.Visible = false;
-                    btnSaveStack.Text = "Save Stack \n (Ctrl - O)";
+                    btnSaveStack.Text = "Save Stack \n  (Ctrl-O) or (Ctrl-S)";
                     btnTake.Text = "Take Next \n (Space)";
                 }
-
-
+                
                 this.Size = new Size(1462, 991);
                 connectionPanel.Visible = false;
                 enginePanel.Visible = false;
@@ -1810,6 +1810,63 @@ namespace GUILayer.Forms
 
                 lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
                 lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+                // Race Boards
+                availableRacesGrid.Columns[0].HeaderText = "Race ID";
+                availableRacesGrid.Columns[0].DataPropertyName = "Race_ID";
+                availableRacesGrid.Columns[0].Width = 50;
+
+                availableRacesGrid.Columns[1].HeaderText = "Ofc";
+                availableRacesGrid.Columns[1].DataPropertyName = "Race_Office";
+                availableRacesGrid.Columns[1].Width = 40;
+
+                if (electionMode == "Primary")
+                {
+                    //availableRacesGrid.Columns[2].HeaderText = "eType";
+                    //availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGrid.Columns[2].HeaderText = "Party";
+                    availableRacesGrid.Columns[2].DataPropertyName = "Party";
+                    availableRacesGrid.Columns[2].Width = 50;
+
+                    availableRacesGrid.Columns[3].HeaderText = "Race Description";
+                    availableRacesGrid.Columns[3].DataPropertyName = "Race_Description";
+                    availableRacesGrid.Columns[3].Width = 400;
+
+                }
+                else
+                {
+                    availableRacesGrid.Columns[2].HeaderText = "Race Description";
+                    availableRacesGrid.Columns[2].DataPropertyName = "Race_Description";
+                    availableRacesGrid.Columns[2].Width = 400;
+                }
+
+                // Side Panel
+                availableRacesGridSP.Columns[0].HeaderText = "Race ID";
+                availableRacesGridSP.Columns[0].DataPropertyName = "Race_ID";
+                availableRacesGridSP.Columns[0].Width = 50;
+
+                availableRacesGridSP.Columns[1].HeaderText = "Ofc";
+                availableRacesGridSP.Columns[1].DataPropertyName = "Race_Office";
+                availableRacesGridSP.Columns[1].Width = 40;
+
+                if (electionMode == "Primary")
+                {
+                    //availableRacesGridSP.Columns[2].HeaderText = "eType";
+                    //availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
+                    availableRacesGridSP.Columns[2].HeaderText = "Party";
+                    availableRacesGridSP.Columns[2].DataPropertyName = "Party";
+                    availableRacesGridSP.Columns[2].Width = 50;
+
+                    availableRacesGridSP.Columns[3].HeaderText = "Race Description";
+                    availableRacesGridSP.Columns[3].DataPropertyName = "Race_Description";
+                    availableRacesGridSP.Columns[3].Width = 400;
+
+                }
+                else
+                {
+                    availableRacesGridSP.Columns[2].HeaderText = "Race Description";
+                    availableRacesGridSP.Columns[2].DataPropertyName = "Race_Description";
+                    availableRacesGridSP.Columns[2].Width = 400;
+                }
 
             }
             catch (Exception ex)
@@ -2437,8 +2494,22 @@ namespace GUILayer.Forms
                         btnLoadStack_Click(sender, e);
                     break;
                 case Keys.S:
-                    if (e.Control == true)
-                        btnSaveActivateStack_Click(sender, e);
+                    //if (e.Control == true)
+                    //btnSaveActivateStack_Click(sender, e);
+
+                    bool alreadyOpen = false;
+                    FormCollection fc = Application.OpenForms;
+                    int num = fc.Count;
+                    for (int i = num; i > 0; i--)
+                    {
+                        Form frm = new Form();
+                        frm = fc[i - 1];
+                        if (frm.Name == "FrmSaveStack")
+                            alreadyOpen = true;
+                    }
+
+                    if (e.Control == true && !alreadyOpen)
+                        btnSaveStack_Click(sender, e);
                     break;
                 case Keys.D:
                     if (e.Control == true)
@@ -2785,7 +2856,7 @@ namespace GUILayer.Forms
 
                 dr = loadStack.ShowDialog();
 
-
+                List<int> deleteStacks = new List<int>();
 
                 // Process result from dialog
                 // Check for Load Stack operation
@@ -2797,6 +2868,7 @@ namespace GUILayer.Forms
                     bool multiplay = loadStack.multiplayMode;
                     stackDescription = loadStack.StackDesc;
                     stacks = loadStack.stacks;
+                    deleteStacks = loadStack.stacksSelected;
 
                     log.Debug($"\n ***** Load stack start:  StackId: {stackID}   Stack description: {stackDescription}");
 
@@ -2991,52 +3063,84 @@ namespace GUILayer.Forms
         {
             try
             {
-                if (stackElements.Count == 0)
-                {
-                    MessageBox.Show("There are no elements specified in the stack to save.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                }
-
-                // Added for 2018 Mid-Terms - new concepts for 6-Way & 8-Way boards; need to check for correct number of boards
-                // Check for 6-Way boards
-                else if ((cbGraphicConcept.SelectedIndex == (short)GraphicsConcepts.Six_Way - 1) && (stackElements.Count != 6))
+                if (builderOnlyMode)
                 {
-                    MessageBox.Show("There must be exactly six (6) elements in the stack in order to save it for this graphics concept. " +
-                        "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.",
-                        "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                // Check for 8-Way boards
-                else if ((cbGraphicConcept.SelectedIndex == (short)GraphicsConcepts.Eight_Way - 1) && (stackElements.Count != 8))
-                {
-                    MessageBox.Show("There must be exactly eight (8) elements in the stack in order to save it for this graphics concept " +
-                        "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.",
-                        "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                else if (stackElements.Count > 0)
-                {
-                    // Only display dialog if checkbox for prompt for info is checked
-                    if (cbPromptForInfo.Checked == true)
+                    if (stackElements.Count == 0)
                     {
-                        DialogResult dr = new DialogResult();
-                        //FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
-                        FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, StacksDBConnectionString);
-                        //FrmSaveStack saveStack = new FrmSaveStack();
+                        MessageBox.Show("There are no elements specified in the stack to save.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        saveStack.EnableShowControls = enableShowSelectControls;
+                    }
 
-                        dr = saveStack.ShowDialog();
+                    // Added for 2018 Mid-Terms - new concepts for 6-Way & 8-Way boards; need to check for correct number of boards
+                    // Check for 6-Way boards
+                    else if ((cbGraphicConcept.SelectedIndex == (short)GraphicsConcepts.Six_Way - 1) && (stackElements.Count != 6))
+                    {
+                        MessageBox.Show("There must be exactly six (6) elements in the stack in order to save it for this graphics concept. " +
+                            "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.",
+                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
 
-                        // Will only get here if Prompt for Info checkbox is checked
-                        if (dr == DialogResult.OK)
+                    // Check for 8-Way boards
+                    else if ((cbGraphicConcept.SelectedIndex == (short)GraphicsConcepts.Eight_Way - 1) && (stackElements.Count != 8))
+                    {
+                        MessageBox.Show("There must be exactly eight (8) elements in the stack in order to save it for this graphics concept " +
+                            "Either set the number of boards to six (6), or choose another graphics concept from the drop-down menu.",
+                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    else if (stackElements.Count > 0)
+                    {
+                        // Only display dialog if checkbox for prompt for info is checked
+                        if (cbPromptForInfo.Checked == true)
                         {
+                            DialogResult dr = new DialogResult();
+                            //FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, GraphicsDBConnectionString, StacksDBConnectionString);
+                            FrmSaveStack saveStack = new FrmSaveStack(stackID, stackDescription, builderOnlyMode, stackType, MindyMode, stackTypeOffset, StacksDBConnectionString);
+                            //FrmSaveStack saveStack = new FrmSaveStack();
 
+                            saveStack.EnableShowControls = enableShowSelectControls;
+
+                            dr = saveStack.ShowDialog();
+
+                            // Will only get here if Prompt for Info checkbox is checked
+                            if (dr == DialogResult.OK)
+                            {
+
+                                // Instantiate a new top-level stack metadata model
+                                StackModel stackMetadata = new StackModel();
+
+                                stackID = saveStack.StackId;
+                                stackDescription = saveStack.StackDescription;
+                                stackMetadata.ixStackID = stackID;
+                                stackMetadata.StackName = stackDescription;
+
+                                stackMetadata.StackType = 0;
+                                stackMetadata.ShowName = currentShowName;
+                                stackMetadata.ConceptID = conceptID;
+                                stackMetadata.ConceptName = conceptName;
+                                stackMetadata.Notes = "Not currently used";
+
+                                // Save out the top level metadata for the stack
+                                stacksCollection.SaveStack(stackMetadata);
+
+                                // Save out stack elements; specify stack ID, and set flag to delete existing elements before adding
+                                stackElementsCollection.SaveStackElementsCollection(stackMetadata.ixStackID, true);
+
+                                // Update stack entries count label & name label
+                                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                                //txtStackName.Text = stackDescription + " [ID: " + Convert.ToString(stackID) + "]";
+                                txtStackName.Text = stackDescription;
+
+                                // Call method to save stack out to MSE
+                                ActivateStack(stackID, stackDescription, stackElementsCollection, stackElements);
+                            }
+                        }
+                        else if ((cbPromptForInfo.Checked == false) && (stackID > 0))
+                        {
                             // Instantiate a new top-level stack metadata model
                             StackModel stackMetadata = new StackModel();
 
-                            stackID = saveStack.StackId;
-                            stackDescription = saveStack.StackDescription;
                             stackMetadata.ixStackID = stackID;
                             stackMetadata.StackName = stackDescription;
 
@@ -3053,49 +3157,20 @@ namespace GUILayer.Forms
                             stackElementsCollection.SaveStackElementsCollection(stackMetadata.ixStackID, true);
 
                             // Update stack entries count label & name label
-                            txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                            //txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
                             //txtStackName.Text = stackDescription + " [ID: " + Convert.ToString(stackID) + "]";
-                            txtStackName.Text = stackDescription;
 
                             // Call method to save stack out to MSE
                             ActivateStack(stackID, stackDescription, stackElementsCollection, stackElements);
                         }
+
+                        // Set status strip
+                        toolStripStatusLabel.BackColor = System.Drawing.Color.SpringGreen;
+                        // toolStripStatusLabel.Text = "Status Logging Message: Stack saved out to database and activated";
+                        toolStripStatusLabel.Text = String.Format("Status Logging Message: Stack \"{0}\" saved out to database and activated", stackDescription);
                     }
-                    else if ((cbPromptForInfo.Checked == false) && (stackID > 0))
-                    {
-                        // Instantiate a new top-level stack metadata model
-                        StackModel stackMetadata = new StackModel();
-
-                        stackMetadata.ixStackID = stackID;
-                        stackMetadata.StackName = stackDescription;
-
-                        stackMetadata.StackType = 0;
-                        stackMetadata.ShowName = currentShowName;
-                        stackMetadata.ConceptID = conceptID;
-                        stackMetadata.ConceptName = conceptName;
-                        stackMetadata.Notes = "Not currently used";
-
-                        // Save out the top level metadata for the stack
-                        stacksCollection.SaveStack(stackMetadata);
-
-                        // Save out stack elements; specify stack ID, and set flag to delete existing elements before adding
-                        stackElementsCollection.SaveStackElementsCollection(stackMetadata.ixStackID, true);
-
-                        // Update stack entries count label & name label
-                        //txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
-                        //txtStackName.Text = stackDescription + " [ID: " + Convert.ToString(stackID) + "]";
-
-                        // Call method to save stack out to MSE
-                        ActivateStack(stackID, stackDescription, stackElementsCollection, stackElements);
-                    }
-
-                    // Set status strip
-                    toolStripStatusLabel.BackColor = System.Drawing.Color.SpringGreen;
-                    // toolStripStatusLabel.Text = "Status Logging Message: Stack saved out to database and activated";
-                    toolStripStatusLabel.Text = String.Format("Status Logging Message: Stack \"{0}\" saved out to database and activated", stackDescription);
                 }
             }
-
             catch (Exception ex)
             {
                 //log.Debug("Exception occurred", ex);
@@ -5732,11 +5807,12 @@ namespace GUILayer.Forms
         {
             //Example of a 2 way raceboard with the Dem candidate winning and adding a gain
 
-            //USGOV99991 ^ USGOV99992 ~state = New York; race = CD02; precincts = 10; office = house; racemode = 1 ~
+            //USGOV99991 ^ USGOV99992 ~state = New York; race = CD02; precincts = 10; office = house; racemode = 1 ; evdel = 32 ~
             //name = candidate1; party = 0; incum = 0; vote = 3000; percent = 23.4; check = 0; gain = 0; imagePath = George_Bush | 
             //name = candidate2; party = 1; incum = 0; vote = 5000; percent = 33.4; check = 1; gain = 1; imagePath = barack_obama
 
             //“raceMode” – 0 (not called), 1(race called), 2 (just called), 3(too close to call), 4 (runoff), 5 (race to watch)
+            // "evdel" delegates for primaries electoral votes for general elect president 0 otherwise
 
             string mapKeyStr = "";
 
@@ -5765,6 +5841,7 @@ namespace GUILayer.Forms
 
             // get office strings
             raceBoardData.office = GetOfficeStr(raceData[0]);
+            //raceBoardData.office = "CAUCUSES";
 
 
             if (raceData[0].Office != "H")
@@ -6011,16 +6088,34 @@ namespace GUILayer.Forms
                 raceBoardData.mode = (int)BoardModes.Race_Board_Normal;
             }
 
+            if (electionMode == "Primary")
+            {
+                if (raceData[0].eType == "D" || raceData[0].eType == "E")
+                    raceBoardData.evdel = raceData[0].DemDelegatesAvailable;
+                else if (raceData[0].eType == "R" || raceData[0].eType == "S")
+                    raceBoardData.evdel = raceData[0].RepDelegatesAvailable;
+            }
+            else if (electionMode != "Primary" && raceData[0].Office == "P")
+            {
+                raceBoardData.evdel = raceData[0].ElectoralVotesAvailable;
+            }
+            else
+                raceBoardData.evdel = 0;
 
-            //USGOV99991 ^ USGOV99992 ~state = New York; race = CD02; precincts = 10; office = house; racemode = 1 ~
+
+
+
+            //USGOV99991 ^ USGOV99992 ~state = New York; race = CD02; precincts = 10; office = house; racemode = 1 ; evdel = 32 ~
             //name = candidate1; party = 0; incum = 0; vote = 3000; percent = 23.4; check = 0; gain = 0; imagePath = George_Bush | 
             //name = candidate2; party = 1; incum = 0; vote = 5000; percent = 33.4; check = 1; gain = 1; imagePath = barack_obama
 
-            //USGOV99991^ USGOV99992 ~ state=New York; race=CD02;precincts=10 ; office=house; racemode=1 ~ name=candidate1; party=0; incum=0; vote=3000; percent=23.4 ; check=0; gain=0; imagePath= George_Bush |name=candidate2; party=1; incum=0; vote=5000; percent=33.4 ; check=1; gain=1; imagePath= barack_obama
+            //“raceMode” – 0 (not called), 1(race called), 2 (just called), 3(too close to call), 4 (runoff), 5 (race to watch)
+            // "evdel" delegates for primaries electoral votes for general elect president 0 otherwise
 
 
+            //USGOV99991^ USGOV99992 ~ state=New York; race=CD02;precincts=10 ; office=house; racemode=1 ; evdel=32 ~ name=candidate1; party=0; incum=0; vote=3000; percent=23.4 ; check=0; gain=0; imagePath= George_Bush |name=candidate2; party=1; incum=0; vote=5000; percent=33.4 ; check=1; gain=1; imagePath= barack_obama
 
-            string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode}~";
+            string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode};evdel={raceBoardData.evdel}~";
 
             mapKeyStr += raceblock;
             
@@ -7082,7 +7177,8 @@ namespace GUILayer.Forms
 
             }
 
-            MapKeyStr += $"|{VA_Data[0].asOf}|";
+            //MapKeyStr += $"|{VA_Data[0].asOf}|";
+            MapKeyStr += $"| |";
 
             return MapKeyStr;
         }
@@ -7119,7 +7215,8 @@ namespace GUILayer.Forms
 
             }
 
-            MapKeyStr += $"|{VA_Data[0].asOf}|";
+            //MapKeyStr += $"|{VA_Data[0].asOf}|";
+            MapKeyStr += $"| |";
 
             return MapKeyStr;
         }

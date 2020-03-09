@@ -108,6 +108,9 @@ namespace LogicLayer.Collections
                             RacePollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0),
                             RaceUseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0),
                             RaceIgnoreGain = Convert.ToBoolean(row["IgnoreGain"] ?? 0),
+                            DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0),
+                            RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0),
+
                         };
                         if (newRaceCandidateData.FoxID.Length < 10)
                             newRaceCandidateData.FoxID = "USGOV999999";
@@ -188,6 +191,8 @@ namespace LogicLayer.Collections
                             RacePollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0),
                             RaceUseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0),
                             RaceIgnoreGain = Convert.ToBoolean(row["IgnoreGain"] ?? 0),
+                            DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0),
+                            RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0),
                         };
                         if (newRaceCandidateData.FoxID.Length < 10)
                             newRaceCandidateData.FoxID = "USGOV999999";
@@ -236,7 +241,8 @@ namespace LogicLayer.Collections
                         StateName = row["jName"].ToString().Trim() ?? "",
                         StateAbbv = row["stateAbbv"].ToString().Trim() ?? "",
                         CD = 0,
-                        cntyName = row["cntyName"].ToString().Trim() ?? "",
+                        //cntyName = row["cntyName"].ToString().Trim() ?? "",
+                        cntyName = row["CountyName"].ToString().Trim() ?? "",
                         eType = row["eType"].ToString().Trim() ?? "",
                         TotalPrecincts = Convert.ToInt32(row["totPcts"] ?? 0),
                         PrecinctsReporting = Convert.ToInt32(row["pctsRep"] ?? 0),

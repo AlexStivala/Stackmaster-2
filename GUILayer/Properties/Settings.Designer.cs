@@ -229,7 +229,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd2020_GE_Test")]
         public string MainDB {
             get {
                 return ((string)(this["MainDB"]));
@@ -265,7 +265,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool President {
             get {
                 return ((bool)(this["President"]));
@@ -346,7 +346,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Primary")]
+        [global::System.Configuration.DefaultSettingValueAttribute("General")]
         public string ElectionMode {
             get {
                 return ((string)(this["ElectionMode"]));

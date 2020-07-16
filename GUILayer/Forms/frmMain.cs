@@ -552,14 +552,21 @@ namespace GUILayer.Forms
             LoadConfig();
 
             if (electionMode == "Primary")
+            {
                 gbAllCand.Visible = true;
+                CandSelPanel5.Visible = true;
+                CandSelPanel3.Visible = false;
+            }
             else
+            {
                 gbAllCand.Visible = false;
+                CandSelPanel5.Visible = false;
+                CandSelPanel3.Visible = true;
+            }
 
 
-
-                // Query the elections DB to get the list of available races
-                RefreshAvailableRacesList(isPrimary);
+            // Query the elections DB to get the list of available races
+            RefreshAvailableRacesList(isPrimary);
 
             //Query the elections DB to get the list of Referendums
             RefreshReferendums();
@@ -1201,7 +1208,8 @@ namespace GUILayer.Forms
         {
             DataTable dt = new DataTable();
             string cmdStr = $"SELECT * FROM FE_Devices WHERE Name = '{name}'";
-            dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+            //dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+            dt = GetDBData(cmdStr, ConfigDBConnectionString);
 
             DataRow row = dt.Rows[0];
             return row["IP_Address"].ToString() ?? "";
@@ -1211,7 +1219,8 @@ namespace GUILayer.Forms
         {
             DataTable dt = new DataTable();
             string cmdStr = $"SELECT * FROM FE_Scenes WHERE SceneCode = '{sceneCode}'";
-            dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+            //dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+            dt = GetDBData(cmdStr, ConfigDBConnectionString);
             string[] sceneNames;
             string[] strSeparator = new string[] { "/" };
             string sceneName = "";
@@ -1235,7 +1244,8 @@ namespace GUILayer.Forms
         {
             DataTable dt = new DataTable();
             string cmdStr = $"SELECT * FROM FE_Scenes WHERE SceneCode = '{sceneCode}'";
-            dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+            //dt = GetDBData(cmdStr, ElectionsDBConnectionString);
+            dt = GetDBData(cmdStr, ConfigDBConnectionString);
 
             if (dt.Rows.Count > 0)
             {
@@ -2487,6 +2497,12 @@ namespace GUILayer.Forms
                         btnAddRace4Way_Click(sender, e);
                     else if (e.Alt == true)
                         btnSelect4_Click(sender, e);
+                    break;
+                case Keys.D5:
+                    if (e.Control == true)
+                        btnAddRace5Way_Click(sender, e);
+                    else if (e.Alt == true)
+                        btnSelect5_Click(sender, e);
                     break;
                 // Stack operations
                 case Keys.R:

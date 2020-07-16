@@ -241,10 +241,10 @@ namespace GUILayer.Forms
         //string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
         //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
 
-        string GraphicsDBConnectionString = string.Empty;
-        string ElectionsDBConnectionString = string.Empty;
-        string StacksDBConnectionString = string.Empty;
-        string ConfigDBConnectionString = string.Empty;
+        public static string GraphicsDBConnectionString = string.Empty;
+        public static string ElectionsDBConnectionString = string.Empty;
+        public static string StacksDBConnectionString = string.Empty;
+        public static string ConfigDBConnectionString = string.Empty;
 
 
 

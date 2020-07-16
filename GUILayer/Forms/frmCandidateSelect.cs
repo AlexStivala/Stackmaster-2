@@ -297,7 +297,7 @@ namespace GUILayer.Forms
 
         // Read in database connection strings
         //private string _graphicsDbConnectionString = Settings.Default.GraphicsDBConnectionString;
-        private readonly string _electionsDbConnectionString = Settings.Default.ElectionsDBConnectionString;
+        private readonly string _electionsDbConnectionString = frmMain.ElectionsDBConnectionString;
 
         public int Cand1 { get; set; }
         public string CandName1 { get; set; }

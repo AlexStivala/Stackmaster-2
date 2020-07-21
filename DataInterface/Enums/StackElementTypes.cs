@@ -82,5 +82,8 @@ namespace DataInterface.Enums
         [Description("Race Board (5-Way Select)")]
         Race_Board_5_Way_Select = 24,
 
+        [Description("National Popular Vote")]
+        National_Popular_Vote = 25
+
     }
 }

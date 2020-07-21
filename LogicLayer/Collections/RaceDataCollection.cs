@@ -110,6 +110,7 @@ namespace LogicLayer.Collections
                             RaceIgnoreGain = Convert.ToBoolean(row["IgnoreGain"] ?? 0),
                             DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0),
                             RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0),
+                            ElectoralVotesAvailable = Convert.ToInt32(row["StateECVotesAvailable"] ?? 0),
 
                         };
                         if (newRaceCandidateData.FoxID.Length < 10)

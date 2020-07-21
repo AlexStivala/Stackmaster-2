@@ -67,6 +67,16 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnAddAll = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
+            this.CandSelPanel3 = new System.Windows.Forms.Panel();
+            this.groupBox31 = new System.Windows.Forms.GroupBox();
+            this.button17 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
+            this.groupBox32 = new System.Windows.Forms.GroupBox();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.groupBox33 = new System.Windows.Forms.GroupBox();
+            this.button21 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
             this.gbAllCand = new System.Windows.Forms.GroupBox();
             this.btnAllCand = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
@@ -85,16 +95,6 @@
             this.btnAddRace2Way = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnAddRace1Way = new System.Windows.Forms.Button();
-            this.CandSelPanel3 = new System.Windows.Forms.Panel();
-            this.groupBox31 = new System.Windows.Forms.GroupBox();
-            this.button17 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
-            this.groupBox32 = new System.Windows.Forms.GroupBox();
-            this.button19 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.groupBox33 = new System.Windows.Forms.GroupBox();
-            this.button21 = new System.Windows.Forms.Button();
-            this.button22 = new System.Windows.Forms.Button();
             this.btnAddRace1WaySelect = new System.Windows.Forms.Button();
             this.availableRacesGrid = new System.Windows.Forms.DataGridView();
             this.Race_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -334,12 +334,17 @@
             this.RefreshFlagsTimer = new System.Windows.Forms.Timer(this.components);
             this.VAQRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.RefreshLblTimer = new System.Windows.Forms.Timer(this.components);
+            this.tpNPV = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
             this.tpRaces.SuspendLayout();
             this.RacePanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.CandSelPanel3.SuspendLayout();
+            this.groupBox31.SuspendLayout();
+            this.groupBox32.SuspendLayout();
+            this.groupBox33.SuspendLayout();
             this.gbAllCand.SuspendLayout();
             this.CandSelPanel5.SuspendLayout();
             this.groupBox27.SuspendLayout();
@@ -347,10 +352,6 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.CandSelPanel3.SuspendLayout();
-            this.groupBox31.SuspendLayout();
-            this.groupBox32.SuspendLayout();
-            this.groupBox33.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.availableRacesGrid)).BeginInit();
             this.FilterPanel.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -650,6 +651,7 @@
             this.dataModeSelect.Controls.Add(this.tpReferendums);
             this.dataModeSelect.Controls.Add(this.tpSidePanel);
             this.dataModeSelect.Controls.Add(this.tpMaps);
+            this.dataModeSelect.Controls.Add(this.tpNPV);
             this.dataModeSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataModeSelect.Location = new System.Drawing.Point(5, 79);
             this.dataModeSelect.Name = "dataModeSelect";
@@ -720,6 +722,137 @@
             this.btnInsert.TabIndex = 71;
             this.btnInsert.Text = "Insert\r\n(Ctrl-I)";
             this.btnInsert.UseVisualStyleBackColor = false;
+            // 
+            // CandSelPanel3
+            // 
+            this.CandSelPanel3.Controls.Add(this.groupBox31);
+            this.CandSelPanel3.Controls.Add(this.groupBox32);
+            this.CandSelPanel3.Controls.Add(this.groupBox33);
+            this.CandSelPanel3.Location = new System.Drawing.Point(413, 0);
+            this.CandSelPanel3.Name = "CandSelPanel3";
+            this.CandSelPanel3.Size = new System.Drawing.Size(260, 477);
+            this.CandSelPanel3.TabIndex = 141;
+            // 
+            // groupBox31
+            // 
+            this.groupBox31.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.groupBox31.Controls.Add(this.button17);
+            this.groupBox31.Controls.Add(this.button18);
+            this.groupBox31.Location = new System.Drawing.Point(7, 322);
+            this.groupBox31.Name = "groupBox31";
+            this.groupBox31.Size = new System.Drawing.Size(248, 155);
+            this.groupBox31.TabIndex = 134;
+            this.groupBox31.TabStop = false;
+            this.groupBox31.Text = "3 - Way";
+            // 
+            // button17
+            // 
+            this.button17.BackColor = System.Drawing.SystemColors.Control;
+            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button17.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button17.Location = new System.Drawing.Point(139, 33);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(99, 99);
+            this.button17.TabIndex = 65;
+            this.button17.Text = "Select\r\n(Alt-3)";
+            this.button17.UseVisualStyleBackColor = false;
+            this.button17.Click += new System.EventHandler(this.btnSelect3_Click);
+            // 
+            // button18
+            // 
+            this.button18.BackColor = System.Drawing.SystemColors.Control;
+            this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button18.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button18.Location = new System.Drawing.Point(11, 33);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(99, 99);
+            this.button18.TabIndex = 62;
+            this.button18.Text = "Top\r\n(Ctrl-3)";
+            this.button18.UseVisualStyleBackColor = false;
+            this.button18.Click += new System.EventHandler(this.btnAddRace3Way_Click);
+            // 
+            // groupBox32
+            // 
+            this.groupBox32.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.groupBox32.Controls.Add(this.button19);
+            this.groupBox32.Controls.Add(this.button20);
+            this.groupBox32.Location = new System.Drawing.Point(6, 161);
+            this.groupBox32.Name = "groupBox32";
+            this.groupBox32.Size = new System.Drawing.Size(248, 155);
+            this.groupBox32.TabIndex = 133;
+            this.groupBox32.TabStop = false;
+            this.groupBox32.Text = "2 - Way";
+            // 
+            // button19
+            // 
+            this.button19.BackColor = System.Drawing.SystemColors.Control;
+            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button19.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button19.Location = new System.Drawing.Point(139, 33);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(99, 99);
+            this.button19.TabIndex = 64;
+            this.button19.Text = "Select\r\n(Alt-2)";
+            this.button19.UseVisualStyleBackColor = false;
+            this.button19.Click += new System.EventHandler(this.btnSelect2_Click);
+            // 
+            // button20
+            // 
+            this.button20.BackColor = System.Drawing.SystemColors.Control;
+            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button20.Location = new System.Drawing.Point(11, 33);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(99, 99);
+            this.button20.TabIndex = 61;
+            this.button20.Text = "Top\r\n(Ctrl-2)";
+            this.button20.UseVisualStyleBackColor = false;
+            this.button20.Click += new System.EventHandler(this.btnAddRace2Way_Click);
+            // 
+            // groupBox33
+            // 
+            this.groupBox33.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.groupBox33.Controls.Add(this.button21);
+            this.groupBox33.Controls.Add(this.button22);
+            this.groupBox33.Location = new System.Drawing.Point(6, 0);
+            this.groupBox33.Name = "groupBox33";
+            this.groupBox33.Size = new System.Drawing.Size(248, 155);
+            this.groupBox33.TabIndex = 132;
+            this.groupBox33.TabStop = false;
+            this.groupBox33.Text = "1 - Way";
+            // 
+            // button21
+            // 
+            this.button21.BackColor = System.Drawing.SystemColors.Control;
+            this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button21.Image = global::GUILayer.Properties.Resources.AddDataItem;
+            this.button21.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button21.Location = new System.Drawing.Point(11, 33);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(99, 99);
+            this.button21.TabIndex = 64;
+            this.button21.Text = "Top\r\n(Ctrl-1)";
+            this.button21.UseVisualStyleBackColor = false;
+            this.button21.Click += new System.EventHandler(this.btnAddRace1Way_Click);
+            // 
+            // button22
+            // 
+            this.button22.BackColor = System.Drawing.SystemColors.Control;
+            this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button22.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button22.Location = new System.Drawing.Point(133, 33);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(99, 99);
+            this.button22.TabIndex = 63;
+            this.button22.Text = "Select\r\n(Alt-1)";
+            this.button22.UseVisualStyleBackColor = false;
+            this.button22.Click += new System.EventHandler(this.btnSelect1_Click);
             // 
             // gbAllCand
             // 
@@ -950,137 +1083,6 @@
             this.btnAddRace1Way.TabIndex = 64;
             this.btnAddRace1Way.Text = "Top\r\n(Ctrl-1)";
             this.btnAddRace1Way.UseVisualStyleBackColor = false;
-            // 
-            // CandSelPanel3
-            // 
-            this.CandSelPanel3.Controls.Add(this.groupBox31);
-            this.CandSelPanel3.Controls.Add(this.groupBox32);
-            this.CandSelPanel3.Controls.Add(this.groupBox33);
-            this.CandSelPanel3.Location = new System.Drawing.Point(413, 0);
-            this.CandSelPanel3.Name = "CandSelPanel3";
-            this.CandSelPanel3.Size = new System.Drawing.Size(260, 477);
-            this.CandSelPanel3.TabIndex = 141;
-            // 
-            // groupBox31
-            // 
-            this.groupBox31.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.groupBox31.Controls.Add(this.button17);
-            this.groupBox31.Controls.Add(this.button18);
-            this.groupBox31.Location = new System.Drawing.Point(7, 322);
-            this.groupBox31.Name = "groupBox31";
-            this.groupBox31.Size = new System.Drawing.Size(248, 155);
-            this.groupBox31.TabIndex = 134;
-            this.groupBox31.TabStop = false;
-            this.groupBox31.Text = "3 - Way";
-            // 
-            // button17
-            // 
-            this.button17.BackColor = System.Drawing.SystemColors.Control;
-            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button17.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button17.Location = new System.Drawing.Point(139, 33);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(99, 99);
-            this.button17.TabIndex = 65;
-            this.button17.Text = "Select\r\n(Alt-3)";
-            this.button17.UseVisualStyleBackColor = false;
-            this.button17.Click += new System.EventHandler(this.btnSelect3_Click);
-            // 
-            // button18
-            // 
-            this.button18.BackColor = System.Drawing.SystemColors.Control;
-            this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button18.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button18.Location = new System.Drawing.Point(11, 33);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(99, 99);
-            this.button18.TabIndex = 62;
-            this.button18.Text = "Top\r\n(Ctrl-3)";
-            this.button18.UseVisualStyleBackColor = false;
-            this.button18.Click += new System.EventHandler(this.btnAddRace3Way_Click);
-            // 
-            // groupBox32
-            // 
-            this.groupBox32.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.groupBox32.Controls.Add(this.button19);
-            this.groupBox32.Controls.Add(this.button20);
-            this.groupBox32.Location = new System.Drawing.Point(6, 161);
-            this.groupBox32.Name = "groupBox32";
-            this.groupBox32.Size = new System.Drawing.Size(248, 155);
-            this.groupBox32.TabIndex = 133;
-            this.groupBox32.TabStop = false;
-            this.groupBox32.Text = "2 - Way";
-            // 
-            // button19
-            // 
-            this.button19.BackColor = System.Drawing.SystemColors.Control;
-            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button19.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button19.Location = new System.Drawing.Point(139, 33);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(99, 99);
-            this.button19.TabIndex = 64;
-            this.button19.Text = "Select\r\n(Alt-2)";
-            this.button19.UseVisualStyleBackColor = false;
-            this.button19.Click += new System.EventHandler(this.btnSelect2_Click);
-            // 
-            // button20
-            // 
-            this.button20.BackColor = System.Drawing.SystemColors.Control;
-            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button20.Location = new System.Drawing.Point(11, 33);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(99, 99);
-            this.button20.TabIndex = 61;
-            this.button20.Text = "Top\r\n(Ctrl-2)";
-            this.button20.UseVisualStyleBackColor = false;
-            this.button20.Click += new System.EventHandler(this.btnAddRace2Way_Click);
-            // 
-            // groupBox33
-            // 
-            this.groupBox33.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.groupBox33.Controls.Add(this.button21);
-            this.groupBox33.Controls.Add(this.button22);
-            this.groupBox33.Location = new System.Drawing.Point(6, 0);
-            this.groupBox33.Name = "groupBox33";
-            this.groupBox33.Size = new System.Drawing.Size(248, 155);
-            this.groupBox33.TabIndex = 132;
-            this.groupBox33.TabStop = false;
-            this.groupBox33.Text = "1 - Way";
-            // 
-            // button21
-            // 
-            this.button21.BackColor = System.Drawing.SystemColors.Control;
-            this.button21.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button21.Image = global::GUILayer.Properties.Resources.AddDataItem;
-            this.button21.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button21.Location = new System.Drawing.Point(11, 33);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(99, 99);
-            this.button21.TabIndex = 64;
-            this.button21.Text = "Top\r\n(Ctrl-1)";
-            this.button21.UseVisualStyleBackColor = false;
-            this.button21.Click += new System.EventHandler(this.btnAddRace1Way_Click);
-            // 
-            // button22
-            // 
-            this.button22.BackColor = System.Drawing.SystemColors.Control;
-            this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button22.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button22.Location = new System.Drawing.Point(133, 33);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(99, 99);
-            this.button22.TabIndex = 63;
-            this.button22.Text = "Select\r\n(Alt-1)";
-            this.button22.UseVisualStyleBackColor = false;
-            this.button22.Click += new System.EventHandler(this.btnSelect1_Click);
             // 
             // btnAddRace1WaySelect
             // 
@@ -4002,6 +4004,15 @@
             this.RefreshLblTimer.Interval = 1000;
             this.RefreshLblTimer.Tick += new System.EventHandler(this.RefreshLblTimer_Tick);
             // 
+            // tpNPV
+            // 
+            this.tpNPV.Location = new System.Drawing.Point(4, 32);
+            this.tpNPV.Name = "tpNPV";
+            this.tpNPV.Size = new System.Drawing.Size(678, 764);
+            this.tpNPV.TabIndex = 6;
+            this.tpNPV.Text = "NPV";
+            this.tpNPV.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4049,6 +4060,10 @@
             this.tpRaces.ResumeLayout(false);
             this.RacePanel.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.CandSelPanel3.ResumeLayout(false);
+            this.groupBox31.ResumeLayout(false);
+            this.groupBox32.ResumeLayout(false);
+            this.groupBox33.ResumeLayout(false);
             this.gbAllCand.ResumeLayout(false);
             this.CandSelPanel5.ResumeLayout(false);
             this.groupBox27.ResumeLayout(false);
@@ -4056,10 +4071,6 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.CandSelPanel3.ResumeLayout(false);
-            this.groupBox31.ResumeLayout(false);
-            this.groupBox32.ResumeLayout(false);
-            this.groupBox33.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.availableRacesGrid)).EndInit();
             this.FilterPanel.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -4479,6 +4490,7 @@
         private System.Windows.Forms.GroupBox groupBox33;
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.TabPage tpNPV;
     }
 }
 

@@ -662,12 +662,13 @@ namespace GUILayer.Forms
                 bool MAPenable = Convert.ToBoolean(row["Maps"] ?? 0);
                 builderOnlyMode = Convert.ToBoolean(row["StackBuildOnly"] ?? 0);
                 Network = row["Network"].ToString() ?? "";
+                bool NPVenable = Convert.ToBoolean(row["NPV"] ?? 0);
 
                 //bool useBackup = Convert.ToBoolean(row["useBackup"] ?? 0);
                 //bool useBackup = !useBackupServer;
                 //string ub = "false";
                 //if (useBackup)
-                    //ub = "true";
+                //ub = "true";
 
                 //UpdateSetting("UseBackupServer", ub);
 
@@ -830,6 +831,16 @@ namespace GUILayer.Forms
 
                     }
 
+                    if (NPVenable)
+                    {
+                        tpNPV.Enabled = true;
+                    }
+                    else
+                    {
+                        tpNPV.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpNPV);
+
+                    }
                     if (VictoriaMode)
                     {
                         tpTicker.Enabled = true;
@@ -1011,7 +1022,7 @@ namespace GUILayer.Forms
                 string tabName;
                 bool enab;
 
-                for (int tabNo = 0; tabNo < 6; tabNo++)
+                for (int tabNo = 0; tabNo < 7; tabNo++)
                 {
                     switch (tabNo)
                     {
@@ -1037,6 +1048,10 @@ namespace GUILayer.Forms
                             break;
                         case 5:
                             tabName = "Maps";
+                            enab = MAPenable;
+                            break;
+                        case 6:
+                            tabName = "NPV";
                             enab = MAPenable;
                             break;
                         default:
@@ -1481,6 +1496,9 @@ namespace GUILayer.Forms
                 //VAQRefreshTimer.Enabled = true;
             }
 
+            if (dataModeSelect.SelectedTab.Text == "NPV")
+                tabIndex = 6;
+
             if (stackLocked == false)
             {
                 switch (tabId)
@@ -1576,6 +1594,10 @@ namespace GUILayer.Forms
                             stackElements.Add(se);
                         }
                         break;
+                    case 6:
+                        stackElements.Clear();
+                        AddNPVBoardToStack();
+                        break;
                 }
 
 
@@ -1637,6 +1659,9 @@ namespace GUILayer.Forms
                         break;
                     case 5:
                         tpMaps.Focus();
+                        break;
+                    case 6:
+                        tpNPV.Focus();
                         break;
                 }
             }
@@ -2250,6 +2275,105 @@ namespace GUILayer.Forms
                     newStackElement.Race_CandidateID_4 = 0;
                     newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
                     newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
+
+                    //Specific to exit polls - set to default values
+                    newStackElement.VA_Data_ID = string.Empty;
+                    newStackElement.VA_Title = string.Empty;
+                    newStackElement.VA_Type = string.Empty;
+                    newStackElement.VA_Map_Color = string.Empty;
+                    newStackElement.VA_Map_ColorNum = 0;
+
+                    // Add element
+                    stackElementsCollection.AppendStackElement(newStackElement);
+                    // Update stack entries count label
+                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    log.Error("Exception occurred while trying to add board to stack: " + ex.Message);
+                    //log.Debug("Exception occurred while trying to add board to stack", ex);
+                }
+            }
+        }
+
+        private void AddNPVBoardToStack()
+        {
+            if (stackLocked == false || autoCalledRacesActive)
+            {
+                try
+                {
+                    // Instantiate new stack element model
+                    StackElementModel newStackElement = new StackElementModel();
+
+                    //Get the selected race list object
+                    //int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    //AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+
+                    //Int32 stackID = 0;
+                    //newStackElement.fkey_StackID = stackID;
+                    //newStackElement.Stack_Element_ID = stackElements.Count;
+                    //newStackElement.Stack_Element_Type = stackElementType;
+                    //newStackElement.Stack_Element_Data_Type = stackElementDataType;
+                    //newStackElement.Stack_Element_Description = stackElementDescription;
+
+                    Int32 stackID = 0;
+                    newStackElement.fkey_StackID = stackID;
+                    newStackElement.Stack_Element_ID = stackElements.Count;
+                    newStackElement.Stack_Element_Type = (int)StackElementTypes.National_Popular_Vote;
+                    newStackElement.Stack_Element_Data_Type = (int)DataTypes.National_Popular_Vote;
+                    newStackElement.Stack_Element_Description = "NPV";
+
+
+                    // Get the template ID for the specified element type & concept ID
+                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, 3);
+
+                    //newStackElement.Election_Type = selectedRace.Election_Type;
+                    //newStackElement.Office_Code = selectedRace.Race_Office;
+                    //newStackElement.State_Number = selectedRace.State_Number;
+                    //newStackElement.State_Mnemonic = selectedRace.State_Mnemonic;
+                    //newStackElement.State_Name = selectedRace.State_Name;
+                    //newStackElement.CD = selectedRace.CD;
+                    //newStackElement.County_Number = 0;
+                    //newStackElement.County_Name = "";
+                    //newStackElement.Listbox_Description = selectedRace.Race_Description;
+
+                    newStackElement.Election_Type = "G";
+                    newStackElement.Office_Code = "P";
+                    newStackElement.State_Number = 0;
+                    newStackElement.State_Mnemonic = "US";
+                    newStackElement.State_Name = "UNITED STATES";
+                    newStackElement.CD = 0;
+                    newStackElement.County_Number = 0;
+                    newStackElement.County_Name = "";
+                    newStackElement.Listbox_Description = "NATIONAL POPULAR VOTE";
+
+                    //string party = "Rep";
+                    //if (selectedRace.Party == "D")
+                    //    party = "Dem";
+                    string party = "";
+
+                    //if (electionMode == "Primary")
+                    //    newStackElement.Listbox_Description = $"{selectedRace.Election_Type} {party}  {selectedRace.Race_Description}";
+                    //else
+                    //    newStackElement.Listbox_Description = $"{selectedRace.Race_Description}";
+
+                    
+                    // Specific to race boards
+                    //newStackElement.Race_ID = selectedRace.Race_ID;
+                    //newStackElement.Race_Office = selectedRace.Race_Office;
+                    //newStackElement.Race_PollClosingTime = selectedRace.Race_PollClosingTime;
+                    //newStackElement.Race_UseAPRaceCall = selectedRace.Race_UseAPRaceCall;
+
+                    newStackElement.Race_ID = 1;
+                    newStackElement.Race_Office = "P";
+                    newStackElement.Race_PollClosingTime = new DateTime(2020,11,02,21,00,00);
+                    newStackElement.Race_UseAPRaceCall = false;
+
+                    newStackElement.Race_CandidateID_1 = 0;
+                    newStackElement.Race_CandidateID_2 = 0;
+                    newStackElement.Race_CandidateID_3 = 0;
+                    newStackElement.Race_CandidateID_4 = 0;
 
                     //Specific to exit polls - set to default values
                     newStackElement.VA_Data_ID = string.Empty;
@@ -5174,6 +5298,10 @@ namespace GUILayer.Forms
                             TakeVoterAnalysisMaps();
                             break;
 
+                        case (short)DataTypes.National_Popular_Vote:
+                            TakeRaceBoards();
+                            break;
+
                     }
                     lastIndex = currentRaceIndex;
                 }
@@ -5211,6 +5339,10 @@ namespace GUILayer.Forms
                             break;
 
                         case (short)DataTypes.Side_Panel:
+                            TakeRaceBoards();
+                            break;
+
+                        case (short)DataTypes.National_Popular_Vote:
                             TakeRaceBoards();
                             break;
 
@@ -5322,6 +5454,12 @@ namespace GUILayer.Forms
                         vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}REFERENDUM_DATA{quot} {cmd}{term}";
 
                     if (index == 4)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
+                    
+                    if (index == 5)
+                        vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
+
+                    if (index == 6)
                         vizCmd = $"SEND SCENE*{sceneName}*MAP SET_STRING_ELEMENT {quot}CANDIDATE_DATA{quot} {cmd}{term}";
 
                     if (vizEngines[engine - 1].enable)
@@ -5725,7 +5863,9 @@ namespace GUILayer.Forms
                 case 24:
                     candidatesToReturn = 5;
                     break;
-
+                case 25:
+                    candidatesToReturn = 2;
+                    break;
             }
 
             //candidatesToReturn = (candidatesToReturn + 1) / 2;

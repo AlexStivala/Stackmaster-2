@@ -28,6 +28,8 @@ namespace DataInterface.Enums
         [Description("Voter Analysis Maps")]
         Voter_Analysis_Maps = 5,
 
+        [Description("National_Popular_Vote")]
+        National_Popular_Vote = 6
 
     }
 }

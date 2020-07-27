@@ -554,12 +554,14 @@ namespace GUILayer.Forms
             if (electionMode == "Primary")
             {
                 gbAllCand.Visible = true;
+                gbSP2Way.Visible = false;
                 CandSelPanel5.Visible = true;
                 CandSelPanel3.Visible = false;
             }
             else
             {
                 gbAllCand.Visible = false;
+                gbSP2Way.Visible = true;
                 CandSelPanel5.Visible = false;
                 CandSelPanel3.Visible = true;
             }
@@ -763,7 +765,17 @@ namespace GUILayer.Forms
                     rbNone.Checked = true;
                     rbNone.BackColor = Color.Gold;
 
-                    
+                    rbShowAllSP.BackColor = Color.Gold;
+                    rbShowAllSP.Checked = true;
+                    rbAllSP.BackColor = Color.Gold;
+                    rbAllSP.Checked = true;
+
+                    //rbEPAuto.Checked = true;
+                    //rbEPAuto.BackColor = Color.Gold;
+                    rbNoneSP.Checked = true;
+                    rbNoneSP.BackColor = Color.Gold;
+
+
                     // Set enable/disable state of tab pages
                     if (RBenable)
                     {
@@ -4730,6 +4742,134 @@ namespace GUILayer.Forms
 
         }
 
+        private void rbPresidentSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbPresidentSP.Checked == true)
+                rbPresidentSP.BackColor = Color.Gold;
+            else
+                rbPresidentSP.BackColor = gbROFSP.BackColor;
+            ofcID = "P";
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+        }
+
+        private void rbSenateSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbSenateSP.Checked == true)
+                rbSenateSP.BackColor = Color.Gold;
+            else
+                rbSenateSP.BackColor = gbROFSP.BackColor;
+            ofcID = "S";
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+        }
+
+        private void rbHouseSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbHouseSP.Checked == true)
+                rbHouseSP.BackColor = Color.Gold;
+            else
+                rbHouseSP.BackColor = gbROFSP.BackColor;
+            ofcID = "H";
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+        }
+
+        private void rbGovernorSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbGovernorSP.Checked == true)
+                rbGovernorSP.BackColor = Color.Gold;
+            else
+                rbGovernorSP.BackColor = gbROFSP.BackColor;
+            ofcID = "G";
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+        }
+
+        private void rbShowAllSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbShowAllSP.Checked == true)
+                rbShowAllSP.BackColor = Color.Gold;
+            else
+                rbShowAllSP.BackColor = gbROFSP.BackColor;
+            ofcID = "A";
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+
+        }
+
+        private void rbTCTCSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbTCTCSP.Checked == true)
+                rbTCTCSP.BackColor = Color.Gold;
+            else
+                rbTCTCSP.BackColor = gbRCFSP.BackColor;
+            callStatus = (Int16)BoardModes.Race_Board_To_Close_To_Call;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+        }
+
+        private void rbJustCalledSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbJustCalledSP.Checked == true)
+                rbJustCalledSP.BackColor = Color.Gold;
+            else
+                rbJustCalledSP.BackColor = gbRCFSP.BackColor;
+            callStatus = (Int16)BoardModes.Race_Board_Just_Called;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+
+        }
+
+        private void rbCalledSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbCalledSP.Checked == true)
+                rbCalledSP.BackColor = Color.Gold;
+            else
+                rbCalledSP.BackColor = gbRCFSP.BackColor;
+            callStatus = (Int16)BoardModes.Race_Board_Race_Called;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+
+        }
+
+        private void rbAllSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbAllSP.Checked == true)
+                rbAllSP.BackColor = Color.Gold;
+            else
+                rbAllSP.BackColor = gbRCFSP.BackColor;
+            callStatus = (Int16)BoardModes.Race_Board_Normal;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+        }
+
+        private void rbBattlegroundSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbBattlegroundSP.Checked == true)
+                rbBattlegroundSP.BackColor = Color.Gold;
+            else
+                rbBattlegroundSP.BackColor = gbSpFSP.BackColor;
+            battlegroundOnly = rbBattleground.Checked;
+            specialFilters = (short)SpecialCaseFilterModes.Battleground_States_Only;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+
+        }
+
+        private void rbPollClosingSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbPollClosingSP.Checked == true)
+                rbPollClosingSP.BackColor = Color.Gold;
+            else
+                rbPollClosingSP.BackColor = gbSpF.BackColor;
+            specialFilters = (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+
+        }
+
+        private void rbNoneSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbNoneSP.Checked == true)
+                rbNoneSP.BackColor = Color.Gold;
+            else
+                rbNoneSP.BackColor = gbSpFSP.BackColor;
+            battlegroundOnly = false;
+            specialFilters = (short)SpecialCaseFilterModes.None;
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+
+        }
+
         #endregion
 
         #region Add select boards
@@ -7784,10 +7924,18 @@ namespace GUILayer.Forms
             {
                 // Instantiate new stack element model
                 StackElementModel newStackElement = new StackElementModel();
-                
-                Int16 seType = (short)StackElementTypes.Race_Board_All_Way;
-                string seDescription = "Race Board (All-Way)";
+
+                Int16 seType = (short)StackElementTypes.Race_Board_2_Way;
+                string seDescription = "Race Board (2-Way)";
                 Int16 seDataType = (int)DataTypes.Race_Boards;
+
+                if (isPrimary)
+                {
+                    seType = (short)StackElementTypes.Race_Board_All_Way;
+                    seDescription = "Race Board (All-Way)";
+                    seDataType = (int)DataTypes.Race_Boards;
+                }
+                
 
                 //Get the selected race list object
                 int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
@@ -7915,7 +8063,10 @@ namespace GUILayer.Forms
 
         private void availableRacesGridSP_DoubleClick(object sender, EventArgs e)
         {
-            btnAllSP_Click(sender, e);
+            if (isPrimary)
+                btnAllSP_Click(sender, e);
+            else
+                btnAddRace2Way_Click(sender, e);
 
         }
 
@@ -8012,6 +8163,8 @@ namespace GUILayer.Forms
             }
 
         }
+
+        
     }
 
 }

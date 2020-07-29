@@ -36,7 +36,7 @@ namespace DataInterface.DataAccess
 
             try
             {
-                log.Debug($"Get Stacks DBconn: {MainDBConnectionString}");
+                //log.Debug($"Get Stacks DBconn: {MainDBConnectionString}");
 
                 // Instantiate the connection
                 using (SqlConnection connection = new SqlConnection(MainDBConnectionString))

@@ -85,7 +85,7 @@ namespace LogicLayer.Collections
             {
                 StackAccess stackAccess = new StackAccess();
                 stackAccess.MainDBConnectionString = MainDBConnectionString;
-                log.Debug($"SaveStack DBconn: {MainDBConnectionString}");
+                //log.Debug($"SaveStack DBconn: {MainDBConnectionString}");
                 stackAccess.SaveStack(stackMetadata);
             }
             catch (Exception ex)

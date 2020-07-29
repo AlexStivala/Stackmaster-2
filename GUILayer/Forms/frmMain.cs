@@ -157,6 +157,7 @@ namespace GUILayer.Forms
         // Define the collection object for the list of available races
         private AvailableRacesCollection availableRacesCollection;
         BindingList<AvailableRaceModel> availableRaces;
+        BindingList<AvailableRaceModel> availableRacesSP;
 
         // Define the collection object for the list of Referendums
         private ReferendumsCollection referendumsCollection;
@@ -328,11 +329,11 @@ namespace GUILayer.Forms
 
                 // Set version number
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                this.Text = String.Format("Election Graphics Stack Builder Application - Stackmaster - Version {0}", version);
+                this.Text = String.Format("Stackmaster II   Version {0}", version);
 
 
                 // Log application start
-                log.Info($"\n********** Starting Stack Builder application version {version} **********\n ");
+                log.Info($"\n********** Starting Stackmaster II    version {version} **********\n ");
 
                 // Update status
                 toolStripStatusLabel.Text = "Starting program initialization - loading data from SQL database.";
@@ -488,7 +489,7 @@ namespace GUILayer.Forms
             log.Info($"{dataSource}  {initCat}");
 
             
-            log.Info($"ElectionsDBConnectionString {ElectionsDBConnectionString}");
+            //log.Debug($"ElectionsDBConnectionString {ElectionsDBConnectionString}");
 
 
             var sbuilder = new SqlConnectionStringBuilder("");
@@ -498,7 +499,7 @@ namespace GUILayer.Forms
             sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
             sbuilder.PersistSecurityInfo = true;
             StacksDBConnectionString = sbuilder.ConnectionString;
-            log.Info($"StacksDBConnectionString {StacksDBConnectionString}");
+            //log.Debug($"StacksDBConnectionString {StacksDBConnectionString}");
 
             var MPsbuilder = new SqlConnectionStringBuilder("");
             MPsbuilder.UserID = User;
@@ -507,7 +508,7 @@ namespace GUILayer.Forms
             MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
             MPsbuilder.PersistSecurityInfo = true;
             GraphicsDBConnectionString = MPsbuilder.ConnectionString;
-            log.Info($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
+            //log.Debug($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
 
 
             var cbuilder = new SqlConnectionStringBuilder("");
@@ -517,7 +518,7 @@ namespace GUILayer.Forms
             cbuilder.InitialCatalog = Properties.Settings.Default.ConfigDB;
             cbuilder.PersistSecurityInfo = true;
             ConfigDBConnectionString = cbuilder.ConnectionString;
-            log.Info($"ConfigDBConnectionString {ConfigDBConnectionString}");
+            //log.Debug($"ConfigDBConnectionString {ConfigDBConnectionString}");
 
 
             usingPrimaryMediaSequencer = true;
@@ -567,8 +568,23 @@ namespace GUILayer.Forms
             }
 
 
+            
+            // Init the state metadata collection
+            CreateStateMetadataCollection();
+
             // Query the elections DB to get the list of available races
-            RefreshAvailableRacesList(isPrimary);
+            //RefreshAvailableRacesList(isPrimary);
+
+            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
+
+            rbSenateSP.Enabled = false;
+            rbHouseSP.Enabled = false;
+            rbGovernorSP.Enabled = false;
+            rbShowAllSP.Enabled = false;
+
+            rbPresidentSP.Checked = true;
+
 
             //Query the elections DB to get the list of Referendums
             RefreshReferendums();
@@ -586,9 +602,6 @@ namespace GUILayer.Forms
 
             // Init the race data collection
             CreateRaceDataCollection();
-
-            // Init the state metadata collection
-            CreateStateMetadataCollection();
 
             // Init the race preview collection
             CreateRacePreviewCollection();
@@ -775,7 +788,7 @@ namespace GUILayer.Forms
                     rbNoneSP.Checked = true;
                     rbNoneSP.BackColor = Color.Gold;
 
-
+                    
                     // Set enable/disable state of tab pages
                     if (RBenable)
                     {
@@ -1823,6 +1836,107 @@ namespace GUILayer.Forms
         }
 
         // Refresh the list of available races for the races list
+        //private void RefreshAvailableRacesListFiltered(string ofc, Int16 cStatus, Int16 scfm, BindingList<StateMetadataModel> stateMetadata, bool isPrimary)
+        //{
+        //    try
+        //    {
+        //        // Setup the available races collection
+        //        this.availableRacesCollection = new AvailableRacesCollection();
+        //        this.availableRacesCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
+        //        availableRaces = this.availableRacesCollection.GetFilteredRaceCollection(ofc, cStatus, scfm, stateMetadata, isPrimary);
+
+        //        // Set next poll closing label
+        //        if (scfm == (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only)
+        //        {
+        //            txtNextPollClosingTime.Text = Convert.ToString(this.availableRacesCollection.NextPollClosingTime);
+        //            txtNextPollClosingTimeHeader.Visible = true;
+        //            txtNextPollClosingTime.Visible = true;
+        //        }
+        //        else
+        //        {
+        //            txtNextPollClosingTimeHeader.Visible = false;
+        //            txtNextPollClosingTime.Visible = false;
+        //            txtNextPollClosingTime.Text = "N/A";
+        //        }
+
+
+        //        // Setup the available races grid
+        //        availableRacesGrid.AutoGenerateColumns = false;
+        //        var availableRacesGridDataSource = new BindingSource(availableRaces, null);
+        //        availableRacesGrid.DataSource = availableRacesGridDataSource;
+
+        //        availableRacesGridSP.AutoGenerateColumns = false;
+        //        availableRacesGridSP.DataSource = availableRacesGridDataSource;
+
+        //        lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+        //        lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+        //        // Race Boards
+        //        availableRacesGrid.Columns[0].HeaderText = "Race ID";
+        //        availableRacesGrid.Columns[0].DataPropertyName = "Race_ID";
+        //        availableRacesGrid.Columns[0].Width = 50;
+
+        //        availableRacesGrid.Columns[1].HeaderText = "Ofc";
+        //        availableRacesGrid.Columns[1].DataPropertyName = "Race_Office";
+        //        availableRacesGrid.Columns[1].Width = 40;
+
+        //        if (electionMode == "Primary")
+        //        {
+        //            //availableRacesGrid.Columns[2].HeaderText = "eType";
+        //            //availableRacesGrid.Columns[2].DataPropertyName = "Election_Type";
+        //            availableRacesGrid.Columns[2].HeaderText = "Party";
+        //            availableRacesGrid.Columns[2].DataPropertyName = "Party";
+        //            availableRacesGrid.Columns[2].Width = 50;
+
+        //            availableRacesGrid.Columns[3].HeaderText = "Race Description";
+        //            availableRacesGrid.Columns[3].DataPropertyName = "Race_Description";
+        //            availableRacesGrid.Columns[3].Width = 400;
+
+        //        }
+        //        else
+        //        {
+        //            availableRacesGrid.Columns[2].HeaderText = "Race Description";
+        //            availableRacesGrid.Columns[2].DataPropertyName = "Race_Description";
+        //            availableRacesGrid.Columns[2].Width = 400;
+        //        }
+
+        //        // Side Panel
+        //        availableRacesGridSP.Columns[0].HeaderText = "Race ID";
+        //        availableRacesGridSP.Columns[0].DataPropertyName = "Race_ID";
+        //        availableRacesGridSP.Columns[0].Width = 50;
+
+        //        availableRacesGridSP.Columns[1].HeaderText = "Ofc";
+        //        availableRacesGridSP.Columns[1].DataPropertyName = "Race_Office";
+        //        availableRacesGridSP.Columns[1].Width = 40;
+
+        //        if (electionMode == "Primary")
+        //        {
+        //            //availableRacesGridSP.Columns[2].HeaderText = "eType";
+        //            //availableRacesGridSP.Columns[2].DataPropertyName = "Election_Type";
+        //            availableRacesGridSP.Columns[2].HeaderText = "Party";
+        //            availableRacesGridSP.Columns[2].DataPropertyName = "Party";
+        //            availableRacesGridSP.Columns[2].Width = 50;
+
+        //            availableRacesGridSP.Columns[3].HeaderText = "Race Description";
+        //            availableRacesGridSP.Columns[3].DataPropertyName = "Race_Description";
+        //            availableRacesGridSP.Columns[3].Width = 400;
+
+        //        }
+        //        else
+        //        {
+        //            availableRacesGridSP.Columns[2].HeaderText = "Race Description";
+        //            availableRacesGridSP.Columns[2].DataPropertyName = "Race_Description";
+        //            availableRacesGridSP.Columns[2].Width = 400;
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log error
+        //        log.Error("frmMain Exception occurred: " + ex.Message);
+        //        //log.Debug("frmMain Exception occurred", ex);
+        //    }
+        //}
+
         private void RefreshAvailableRacesListFiltered(string ofc, Int16 cStatus, Int16 scfm, BindingList<StateMetadataModel> stateMetadata, bool isPrimary)
         {
             try
@@ -1852,11 +1966,8 @@ namespace GUILayer.Forms
                 var availableRacesGridDataSource = new BindingSource(availableRaces, null);
                 availableRacesGrid.DataSource = availableRacesGridDataSource;
 
-                availableRacesGridSP.AutoGenerateColumns = false;
-                availableRacesGridSP.DataSource = availableRacesGridDataSource;
-
+                
                 lblAvailRaceCnt.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
-                lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
                 // Race Boards
                 availableRacesGrid.Columns[0].HeaderText = "Race ID";
                 availableRacesGrid.Columns[0].DataPropertyName = "Race_ID";
@@ -1886,6 +1997,51 @@ namespace GUILayer.Forms
                     availableRacesGrid.Columns[2].Width = 400;
                 }
 
+                
+
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("frmMain Exception occurred: " + ex.Message);
+                //log.Debug("frmMain Exception occurred", ex);
+            }
+        }
+
+        // Refresh the list of available races for the races list
+        private void RefreshAvailableRacesListFilteredSP(string ofc, Int16 cStatus, Int16 scfm, BindingList<StateMetadataModel> stateMetadata, bool isPrimary)
+        {
+            try
+            {
+                // Setup the available races collection
+                this.availableRacesCollection = new AvailableRacesCollection();
+                this.availableRacesCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
+                availableRacesSP = this.availableRacesCollection.GetFilteredRaceCollection(ofc, cStatus, scfm, stateMetadata, isPrimary);
+
+                // Set next poll closing label
+                if (scfm == (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only)
+                {
+                    txtNextPollClosingTime.Text = Convert.ToString(this.availableRacesCollection.NextPollClosingTime);
+                    txtNextPollClosingTimeHeader.Visible = true;
+                    txtNextPollClosingTime.Visible = true;
+                }
+                else
+                {
+                    txtNextPollClosingTimeHeader.Visible = false;
+                    txtNextPollClosingTime.Visible = false;
+                    txtNextPollClosingTime.Text = "N/A";
+                }
+
+
+                // Setup the available races grid
+                var availableRacesGridDataSourceSP = new BindingSource(availableRacesSP, null);
+                
+                availableRacesGridSP.AutoGenerateColumns = false;
+                availableRacesGridSP.DataSource = availableRacesGridDataSourceSP;
+
+                lblAvailRaceCntSP.Text = "Available Races: " + Convert.ToString(availableRaces.Count);
+                // Race Boards
+                
                 // Side Panel
                 availableRacesGridSP.Columns[0].HeaderText = "Race ID";
                 availableRacesGridSP.Columns[0].DataPropertyName = "Race_ID";
@@ -1923,6 +2079,8 @@ namespace GUILayer.Forms
                 //log.Debug("frmMain Exception occurred", ex);
             }
         }
+     
+
         // Refresh the list of exit polls for the list
 
         /*
@@ -2558,52 +2716,76 @@ namespace GUILayer.Forms
             switch (e.KeyCode)
             {
                 case Keys.F1:
-                    rbPresident.Checked = true;
-                    rbPresidentSP.Checked = true;
+                    if (tabIndex == 0 && rbPresident.Enabled)
+                        rbPresident.Checked = true;
+                    if (tabIndex == 4 && rbPresidentSP.Enabled)
+                        rbPresidentSP.Checked = true;
                     break;
                 case Keys.F2:
-                    rbSenate.Checked = true;
-                    rbSenateSP.Checked = true;
+                    if (tabIndex == 0 && rbSenate.Enabled)
+                        rbSenate.Checked = true;
+                    if (tabIndex == 4 && rbSenateSP.Enabled)
+                        rbSenateSP.Checked = true;
                     break;
                 case Keys.F3:
-                    rbHouse.Checked = true;
-                    rbHouseSP.Checked = true;
+                    if (tabIndex == 0 && rbHouse.Enabled)
+                        rbHouse.Checked = true;
+                    if (tabIndex == 4 && rbHouseSP.Enabled)
+                        rbHouseSP.Checked = true;
                     break;
                 case Keys.F4:
-                    rbGovernor.Checked = true;
-                    rbGovernorSP.Checked = true;
+                    if (tabIndex == 0 && rbGovernor.Enabled)
+                        rbGovernor.Checked = true;
+                    if (tabIndex == 4 && rbGovernorSP.Enabled)
+                        rbGovernorSP.Checked = true;
                     break;
                 case Keys.F5:
-                    rbShowAll.Checked = true;
-                    rbShowAllSP.Checked = true;
+                    if (tabIndex == 0 && rbShowAll.Enabled)
+                        rbShowAll.Checked = true;
+                    if (tabIndex == 4 && rbShowAllSP.Enabled)
+                        rbShowAllSP.Checked = true;
                     break;
                 case Keys.F6:
-                    rbTCTC.Checked = true;
-                    rbTCTCSP.Checked = true;
+                    if (tabIndex == 0 && rbTCTC.Enabled)
+                        rbTCTC.Checked = true;
+                    if (tabIndex == 4 && rbTCTCSP.Enabled)
+                        rbTCTCSP.Checked = true;
                     break;
                 case Keys.F7:
-                    rbJustCalled.Checked = true;
-                    rbJustCalledSP.Checked = true;
+                    if (tabIndex == 0 && rbJustCalled.Enabled)
+                        rbJustCalled.Checked = true;
+                    if (tabIndex == 4 && rbJustCalledSP.Enabled)
+                        rbJustCalledSP.Checked = true;
                     break;
                 case Keys.F8:
-                    rbCalled.Checked = true;
-                    rbCalledSP.Checked = true;
+                    if (tabIndex == 0 && rbCalled.Enabled)
+                        rbCalled.Checked = true;
+                    if (tabIndex == 4 && rbCalledSP.Enabled)
+                        rbCalledSP.Checked = true;
                     break;
                 case Keys.F9:
-                    rbAll.Checked = true;
-                    rbAllSP.Checked = true;
+                    if (tabIndex == 0 && rbAll.Enabled)
+                        rbAll.Checked = true;
+                    if (tabIndex == 4 && rbAllSP.Enabled)
+                        rbAllSP.Checked = true;
                     break;
                 case Keys.F10:
-                    rbBattleground.Checked = true;
-                    rbBattlegroundSP.Checked = true;
+                    if (tabIndex == 0 && rbBattleground.Enabled)
+                        rbBattleground.Checked = true;
+                    if (tabIndex == 4 && rbBattlegroundSP.Enabled)
+                        rbBattlegroundSP.Checked = true;
                     break;
                 case Keys.F11:
-                    rbPollClosing.Checked = true;
-                    rbPollClosingSP.Checked = true;
+                    if (tabIndex == 0 && rbPollClosing.Enabled)
+                        rbPollClosing.Checked = true;
+                    if (tabIndex == 4 && rbPollClosingSP.Enabled)
+                        rbPollClosingSP.Checked = true;
                     break;
                 case Keys.F12:
-                    rbNone.Checked = true;
-                    rbNoneSP.Checked = true;
+                    if (tabIndex == 0 && rbNone.Enabled)
+                        rbNone.Checked = true;
+                    if (tabIndex == 4 && rbNoneSP.Enabled)
+                        rbNoneSP.Checked = true;
                     break;
                 case Keys.A:
                     if (e.Control == true)
@@ -3050,7 +3232,7 @@ namespace GUILayer.Forms
 
                     StackModel selectedStack = stacksCollection.GetStackMetadata(stacks, currentStackIndex);
 
-                    log.Debug($"StackElemants  DBconn: {stackElementsCollection.MainDBConnectionString} ");
+                    //log.Debug($"StackElemants  DBconn: {stackElementsCollection.MainDBConnectionString} ");
 
                     // Load the collection
                     stackElementsCollection.GetStackElementsCollection(selectedStack.ixStackID);
@@ -4610,6 +4792,13 @@ namespace GUILayer.Forms
         public string ofcID = "A";
         public Boolean battlegroundOnly = false;
         public Int16 specialFilters;
+
+        public Int16 callStatusSP;
+        public string ofcIDSP = "A";
+        public Boolean battlegroundOnlySP = false;
+        public Int16 specialFiltersSP;
+
+
         private void rbPresident_CheckedChanged(object sender, EventArgs e)
         {
             if (rbPresident.Checked == true)
@@ -4748,8 +4937,8 @@ namespace GUILayer.Forms
                 rbPresidentSP.BackColor = Color.Gold;
             else
                 rbPresidentSP.BackColor = gbROFSP.BackColor;
-            ofcID = "P";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            ofcIDSP = "P";
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
         }
 
         private void rbSenateSP_CheckedChanged(object sender, EventArgs e)
@@ -4758,8 +4947,8 @@ namespace GUILayer.Forms
                 rbSenateSP.BackColor = Color.Gold;
             else
                 rbSenateSP.BackColor = gbROFSP.BackColor;
-            ofcID = "S";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            ofcIDSP = "S";
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
         }
 
         private void rbHouseSP_CheckedChanged(object sender, EventArgs e)
@@ -4768,8 +4957,8 @@ namespace GUILayer.Forms
                 rbHouseSP.BackColor = Color.Gold;
             else
                 rbHouseSP.BackColor = gbROFSP.BackColor;
-            ofcID = "H";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            ofcIDSP = "H";
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
         }
 
         private void rbGovernorSP_CheckedChanged(object sender, EventArgs e)
@@ -4778,8 +4967,8 @@ namespace GUILayer.Forms
                 rbGovernorSP.BackColor = Color.Gold;
             else
                 rbGovernorSP.BackColor = gbROFSP.BackColor;
-            ofcID = "G";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            ofcIDSP = "G";
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
         }
 
         private void rbShowAllSP_CheckedChanged(object sender, EventArgs e)
@@ -4788,8 +4977,8 @@ namespace GUILayer.Forms
                 rbShowAllSP.BackColor = Color.Gold;
             else
                 rbShowAllSP.BackColor = gbROFSP.BackColor;
-            ofcID = "A";
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            ofcIDSP = "A";
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
         }
 
@@ -4799,8 +4988,8 @@ namespace GUILayer.Forms
                 rbTCTCSP.BackColor = Color.Gold;
             else
                 rbTCTCSP.BackColor = gbRCFSP.BackColor;
-            callStatus = (Int16)BoardModes.Race_Board_To_Close_To_Call;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            callStatusSP = (Int16)BoardModes.Race_Board_To_Close_To_Call;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
         }
 
         private void rbJustCalledSP_CheckedChanged(object sender, EventArgs e)
@@ -4809,8 +4998,8 @@ namespace GUILayer.Forms
                 rbJustCalledSP.BackColor = Color.Gold;
             else
                 rbJustCalledSP.BackColor = gbRCFSP.BackColor;
-            callStatus = (Int16)BoardModes.Race_Board_Just_Called;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            callStatusSP = (Int16)BoardModes.Race_Board_Just_Called;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
         }
 
@@ -4820,8 +5009,8 @@ namespace GUILayer.Forms
                 rbCalledSP.BackColor = Color.Gold;
             else
                 rbCalledSP.BackColor = gbRCFSP.BackColor;
-            callStatus = (Int16)BoardModes.Race_Board_Race_Called;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            callStatusSP = (Int16)BoardModes.Race_Board_Race_Called;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
         }
 
@@ -4831,8 +5020,8 @@ namespace GUILayer.Forms
                 rbAllSP.BackColor = Color.Gold;
             else
                 rbAllSP.BackColor = gbRCFSP.BackColor;
-            callStatus = (Int16)BoardModes.Race_Board_Normal;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            callStatusSP = (Int16)BoardModes.Race_Board_Normal;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
         }
 
         private void rbBattlegroundSP_CheckedChanged(object sender, EventArgs e)
@@ -4841,9 +5030,9 @@ namespace GUILayer.Forms
                 rbBattlegroundSP.BackColor = Color.Gold;
             else
                 rbBattlegroundSP.BackColor = gbSpFSP.BackColor;
-            battlegroundOnly = rbBattleground.Checked;
-            specialFilters = (short)SpecialCaseFilterModes.Battleground_States_Only;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            battlegroundOnlySP = rbBattleground.Checked;
+            specialFiltersSP = (short)SpecialCaseFilterModes.Battleground_States_Only;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
         }
 
@@ -4853,8 +5042,8 @@ namespace GUILayer.Forms
                 rbPollClosingSP.BackColor = Color.Gold;
             else
                 rbPollClosingSP.BackColor = gbSpF.BackColor;
-            specialFilters = (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            specialFiltersSP = (short)SpecialCaseFilterModes.Next_Poll_Closing_States_Only;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
         }
 
@@ -4864,9 +5053,9 @@ namespace GUILayer.Forms
                 rbNoneSP.BackColor = Color.Gold;
             else
                 rbNoneSP.BackColor = gbSpFSP.BackColor;
-            battlegroundOnly = false;
-            specialFilters = (short)SpecialCaseFilterModes.None;
-            RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
+            battlegroundOnlySP = false;
+            specialFiltersSP = (short)SpecialCaseFilterModes.None;
+            RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
         }
 
@@ -4894,7 +5083,13 @@ namespace GUILayer.Forms
 
                     //Get the selected race list object
                     int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    BindingList<AvailableRaceModel> raceList = availableRaces;
+                    if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex; 
+                        raceList = availableRacesSP;
+                    }
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(raceList, currentRaceIndex);
 
                     string eType = selectedRace.Election_Type;
                     string ofc = selectedRace.Race_Office;
@@ -4952,7 +5147,13 @@ namespace GUILayer.Forms
 
                     //Get the selected race list object
                     int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    BindingList<AvailableRaceModel> raceList = availableRaces;
+                    if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                        raceList = availableRacesSP;
+                    }
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(raceList, currentRaceIndex);
 
                     string eType = selectedRace.Election_Type;
                     string ofc = selectedRace.Race_Office;
@@ -5012,7 +5213,13 @@ namespace GUILayer.Forms
 
                     //Get the selected race list object
                     int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    BindingList<AvailableRaceModel> raceList = availableRaces;
+                    if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                        raceList = availableRacesSP;
+                    }
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(raceList, currentRaceIndex);
 
                     string eType = selectedRace.Election_Type;
                     string ofc = selectedRace.Race_Office;
@@ -5071,7 +5278,13 @@ namespace GUILayer.Forms
 
                     //Get the selected race list object
                     int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    BindingList<AvailableRaceModel> raceList = availableRaces;
+                    if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                        raceList = availableRacesSP;
+                    }
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(raceList, currentRaceIndex);
 
                     string eType = selectedRace.Election_Type;
                     string ofc = selectedRace.Race_Office;
@@ -8120,7 +8333,13 @@ namespace GUILayer.Forms
 
                     //Get the selected race list object
                     int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    BindingList<AvailableRaceModel> raceList = availableRaces;
+                    if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                        raceList = availableRacesSP;
+                    }
+                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(raceList, currentRaceIndex);
 
                     string eType = selectedRace.Election_Type;
                     string ofc = selectedRace.Race_Office;

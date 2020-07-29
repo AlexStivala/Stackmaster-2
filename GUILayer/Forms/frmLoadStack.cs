@@ -102,7 +102,7 @@ namespace GUILayer.Forms
             KeyPreview = true;
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
 
-            log.Debug($"Load Stack DBconn: {this.stacksCollection.MainDBConnectionString}");
+            //log.Debug($"Load Stack DBconn: {this.stacksCollection.MainDBConnectionString}");
 
             RefreshStacksList();
 

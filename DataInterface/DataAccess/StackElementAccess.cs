@@ -38,7 +38,7 @@ namespace DataInterface.DataAccess
             {
                 // Instantiate the connection
                 log.Debug($"GetStackElements stackID: {stackID}");
-                log.Debug($"GetStackElements DBconn: {MainDBConnectionString}");
+                //log.Debug($"GetStackElements DBconn: {MainDBConnectionString}");
                 using (SqlConnection connection = new SqlConnection(MainDBConnectionString))
                 {
                     // Create the command and set its properties
@@ -79,7 +79,7 @@ namespace DataInterface.DataAccess
                 try
                 {
                     // Instantiate the connection
-                    log.Debug($"SaveStackElements DBconn: {MainDBConnectionString}");
+                    //log.Debug($"SaveStackElements DBconn: {MainDBConnectionString}");
 
                     using (SqlConnection connection = new SqlConnection(MainDBConnectionString))
                     {

@@ -203,7 +203,7 @@ namespace LogicLayer.Collections
                     //Instantiate the data access object to save out the dataTable
                     StackElementAccess stackElementAccess = new StackElementAccess();
                     stackElementAccess.MainDBConnectionString = MainDBConnectionString;
-                    log.Debug($"Save Stack Elements DBconn: {MainDBConnectionString}");
+                    //log.Debug($"Save Stack Elements DBconn: {MainDBConnectionString}");
                     // Call method to save each element
                     stackElementAccess.SaveStackElements(dataTable, stackID, clearStackBeforeAdding);
                 }

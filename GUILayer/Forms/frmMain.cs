@@ -2401,10 +2401,20 @@ namespace GUILayer.Forms
                 {
                     // Instantiate new stack element model
                     StackElementModel newStackElement = new StackElementModel();
+                    AvailableRaceModel selectedRace = new AvailableRaceModel();
+                    int currentRaceIndex = 0;
 
                     //Get the selected race list object
-                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    if (tabIndex == 0)
+                    {
+                       currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                       selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    }
+                    else if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                        selectedRace = availableRacesCollection.GetRace(availableRacesSP, currentRaceIndex);
+                    }
 
                     Int32 stackID = 0;
                     newStackElement.fkey_StackID = stackID;
@@ -2576,8 +2586,22 @@ namespace GUILayer.Forms
                     StackElementModel newStackElement = new StackElementModel();
 
                     //Get the selected race list object
-                    int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                    AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    
+                    AvailableRaceModel selectedRace = new AvailableRaceModel();
+                    int currentRaceIndex = 0;
+
+                    //Get the selected race list object
+                    if (tabIndex == 0)
+                    {
+                        currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                        selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                    }
+                    else if (tabIndex == 4)
+                    {
+                        currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                        selectedRace = availableRacesCollection.GetRace(availableRacesSP, currentRaceIndex);
+                    }
+
 
                     Int32 stackID = 0;
                     newStackElement.fkey_StackID = stackID;
@@ -6165,7 +6189,7 @@ namespace GUILayer.Forms
             BindingList<RaceDataModel> rd = new BindingList<RaceDataModel>();
 
             //Get the selected race list object
-            //currentRaceIndex = stackGrid.CurrentCell.RowIndex;
+            currentRaceIndex = stackGrid.CurrentCell.RowIndex;
             short stateNumber = stackElements[currentRaceIndex].State_Number;
             string stCode = stackElements[currentRaceIndex].State_Mnemonic;
             int cnty = stackElements[currentRaceIndex].County_Number;
@@ -8148,12 +8172,23 @@ namespace GUILayer.Forms
                     seDescription = "Race Board (All-Way)";
                     seDataType = (int)DataTypes.Race_Boards;
                 }
-                
+
+                AvailableRaceModel selectedRace = new AvailableRaceModel();
+                int currentRaceIndex = 0;
 
                 //Get the selected race list object
-                int currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
-                AvailableRaceModel selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                if (tabIndex == 0)
+                {
+                    currentRaceIndex = availableRacesGrid.CurrentCell.RowIndex;
+                    selectedRace = availableRacesCollection.GetRace(availableRaces, currentRaceIndex);
+                }
+                else if (tabIndex == 4)
+                {
+                    currentRaceIndex = availableRacesGridSP.CurrentCell.RowIndex;
+                    selectedRace = availableRacesCollection.GetRace(availableRacesSP, currentRaceIndex);
+                }
 
+                
                 DataTable dt = new DataTable();
                 dt = GetListOfCounties(selectedRace.State_Number, selectedRace.Race_Office, selectedRace.Election_Type);
 

@@ -14,6 +14,8 @@ namespace DataInterface.DataModel
         public Int16 SenateRepGain { get; set; }
         public Int16 SenateDemGain { get; set; }
         public Int16 SenateIndGain { get; set; }
+        public string HouseCtrl { get; set; }
+        public string SenateCtrl { get; set; }
 
 
     }

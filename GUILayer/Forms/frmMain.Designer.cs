@@ -247,6 +247,8 @@
             this.btnLoadStack = new System.Windows.Forms.Button();
             this.btnSaveStack = new System.Windows.Forms.Button();
             this.stackGrid = new System.Windows.Forms.DataGridView();
+            this.Element_Type_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stack_Entry_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbGraphicConcept = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtStackName = new System.Windows.Forms.Label();
@@ -334,8 +336,6 @@
             this.RefreshFlagsTimer = new System.Windows.Forms.Timer(this.components);
             this.VAQRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.RefreshLblTimer = new System.Windows.Forms.Timer(this.components);
-            this.Element_Type_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stack_Entry_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.dataModeSelect.SuspendLayout();
@@ -3193,7 +3193,28 @@
             this.stackGrid.Size = new System.Drawing.Size(972, 715);
             this.stackGrid.TabIndex = 142;
             this.stackGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellClick);
+            this.stackGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellContentClick);
             this.stackGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellDoubleClick);
+            // 
+            // Element_Type_Description
+            // 
+            this.Element_Type_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Element_Type_Description.DataPropertyName = "Stack_Element_Description";
+            this.Element_Type_Description.HeaderText = "Entry Type";
+            this.Element_Type_Description.MinimumWidth = 8;
+            this.Element_Type_Description.Name = "Element_Type_Description";
+            this.Element_Type_Description.ReadOnly = true;
+            this.Element_Type_Description.Width = 160;
+            // 
+            // Stack_Entry_Description
+            // 
+            this.Stack_Entry_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Stack_Entry_Description.DataPropertyName = "Listbox_Description";
+            this.Stack_Entry_Description.HeaderText = "Entry Description";
+            this.Stack_Entry_Description.MinimumWidth = 8;
+            this.Stack_Entry_Description.Name = "Stack_Entry_Description";
+            this.Stack_Entry_Description.ReadOnly = true;
+            this.Stack_Entry_Description.Width = 350;
             // 
             // cbGraphicConcept
             // 
@@ -4250,26 +4271,6 @@
             // 
             this.RefreshLblTimer.Interval = 1000;
             this.RefreshLblTimer.Tick += new System.EventHandler(this.RefreshLblTimer_Tick);
-            // 
-            // Element_Type_Description
-            // 
-            this.Element_Type_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Element_Type_Description.DataPropertyName = "Stack_Element_Description";
-            this.Element_Type_Description.HeaderText = "Entry Type";
-            this.Element_Type_Description.MinimumWidth = 8;
-            this.Element_Type_Description.Name = "Element_Type_Description";
-            this.Element_Type_Description.ReadOnly = true;
-            this.Element_Type_Description.Width = 160;
-            // 
-            // Stack_Entry_Description
-            // 
-            this.Stack_Entry_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Stack_Entry_Description.DataPropertyName = "Listbox_Description";
-            this.Stack_Entry_Description.HeaderText = "Entry Description";
-            this.Stack_Entry_Description.MinimumWidth = 8;
-            this.Stack_Entry_Description.Name = "Stack_Entry_Description";
-            this.Stack_Entry_Description.ReadOnly = true;
-            this.Stack_Entry_Description.Width = 350;
             // 
             // frmMain
             // 

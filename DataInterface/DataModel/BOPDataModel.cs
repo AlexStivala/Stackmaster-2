@@ -24,6 +24,7 @@ namespace DataInterface.DataModel
         public Int16 IndNew { get; set; }
         public Int16 IndDelta { get; set; }
         public Int16 IndGain { get; set; }
+        public string Control { get; set; }
     }
 
 }

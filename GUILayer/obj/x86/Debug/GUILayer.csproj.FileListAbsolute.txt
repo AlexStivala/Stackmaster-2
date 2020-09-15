@@ -190,3 +190,4 @@ C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmColor
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.dll
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.pdb
 C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmCountySelect.resources
+C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CoreCompileInputs.cache

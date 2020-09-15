@@ -164,8 +164,9 @@ namespace DataInterface.SQL
             "@ofc, " +
             "@etype ";
 
-
-
+        public static readonly string sqlGetBoPControlNumber = "getFE_BoPControlNumber " +
+            "@OfficeCode ";
+            
 
 
 

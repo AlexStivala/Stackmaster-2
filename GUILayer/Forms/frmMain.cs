@@ -131,6 +131,12 @@ namespace GUILayer.Forms
         public int remotePort;
         public bool isPrimary = false;
         public bool UseCandidateFirstName = false;
+        public string stackNameRB = "";
+        public string stackNameVA = "";
+        public string stackNameBOP = "";
+        public string stackNameREF = "";
+        public string stackNameMAP = "";
+        public string stackNameSP = "";
 
         #endregion
 
@@ -714,8 +720,8 @@ namespace GUILayer.Forms
                     stackType = (short)(10 * (tabIndex + 1));
                     int ti = tabIndex;
 
-                    if (stackType == 50)
-                        stackType = 10;
+                    //if (stackType == 50)
+                        //stackType = 10;
 
                     //if (dataModeSelect.SelectedIndex == 1)
                     if (tabIndex == 1)
@@ -1579,12 +1585,14 @@ namespace GUILayer.Forms
                 {
                     case 0:
                         //stackElements.Clear();
+                        txtStackName.Text = stackNameRB;
                         foreach (StackElementModel se in tabsave.stkRB)
                         {
                             stackElements.Add(se);
                         }
                         break;
                     case 1:
+                        txtStackName.Text = stackNameVA;
                         //stackElements.Clear();
                         foreach (StackElementModel se in tabsave.stkVA)
                         {
@@ -1592,6 +1600,7 @@ namespace GUILayer.Forms
                         }
                         break;
                     case 2:
+                        txtStackName.Text = stackNameBOP;
                         //stackElements.Clear();
                         foreach (StackElementModel se in tabsave.stkBOP)
                         {
@@ -1599,6 +1608,7 @@ namespace GUILayer.Forms
                         }
                         break;
                     case 3:
+                        txtStackName.Text = stackNameREF;
                         //stackElements.Clear();
                         foreach (StackElementModel se in tabsave.stkRef)
                         {
@@ -1606,6 +1616,7 @@ namespace GUILayer.Forms
                         }
                         break;
                     case 4:
+                        txtStackName.Text = stackNameSP;
                         //stackElements.Clear();
                         foreach (StackElementModel se in tabsave.stkSP)
                         {
@@ -1613,6 +1624,7 @@ namespace GUILayer.Forms
                         }
                         break;
                     case 5:
+                        txtStackName.Text = stackNameMAP;
                         //stackElements.Clear();
                         foreach (StackElementModel se in tabsave.stkMap)
                         {
@@ -1620,6 +1632,7 @@ namespace GUILayer.Forms
                         }
                         break;
                     case 6:
+                        txtStackName.Text = "";
                         stackElements.Clear();
                         AddNPVBoardToStack();
                         break;
@@ -1639,8 +1652,8 @@ namespace GUILayer.Forms
                 else
                     stackType = 0;
 
-                if (stackType == 50)
-                    stackType = 10;
+                //if (stackType == 50)
+                    //stackType = 10;
 
                 stackType += stackTypeOffset;
 
@@ -2341,6 +2354,8 @@ namespace GUILayer.Forms
             Int16 seType = (short)StackElementTypes.Race_Board_1_Way;
             string seDescription = "Race Board (1-Way)";
             Int16 seDataType = (int)DataTypes.Race_Boards;
+            if (tabIndex == 4)
+                seDataType = (int)DataTypes.Side_Panel;
 
             if (insertNext == true)
             {
@@ -2369,7 +2384,8 @@ namespace GUILayer.Forms
             Int16 seType = (short)StackElementTypes.Race_Board_2_Way;
             string seDescription = "Race Board (2-Way)";
             Int16 seDataType = (int)DataTypes.Race_Boards;
-
+            if (tabIndex == 4)
+                seDataType = (int)DataTypes.Side_Panel;
             AddRaceBoardToStack(seType, seDescription, seDataType);
         }
 
@@ -2379,6 +2395,8 @@ namespace GUILayer.Forms
             Int16 seType = (short)StackElementTypes.Race_Board_3_Way;
             string seDescription = "Race Board (3-Way)";
             Int16 seDataType = (int)DataTypes.Race_Boards;
+            if (tabIndex == 4)
+                seDataType = (int)DataTypes.Side_Panel;
 
             AddRaceBoardToStack(seType, seDescription, seDataType);
         }
@@ -2399,6 +2417,7 @@ namespace GUILayer.Forms
             {
                 try
                 {
+                    
                     // Instantiate new stack element model
                     StackElementModel newStackElement = new StackElementModel();
                     AvailableRaceModel selectedRace = new AvailableRaceModel();
@@ -3269,6 +3288,30 @@ namespace GUILayer.Forms
 
                     //txtStackName.Text = selectedStack.StackName + " [ID: " + Convert.ToString(selectedStack.ixStackID) + "]";
                     txtStackName.Text = selectedStack.StackName;
+
+                    switch (tabIndex)
+                    {
+                        case 0:
+                            stackNameRB = selectedStack.StackName;
+                            break;
+                        case 1:
+                            stackNameVA = selectedStack.StackName;
+                            break;
+                        case 2:
+                            stackNameBOP = selectedStack.StackName;
+                            break;
+                        case 3:
+                            stackNameREF = selectedStack.StackName;
+                            break;
+                        case 4:
+                            stackNameSP = selectedStack.StackName;
+                            break;
+                        case 5:
+                            stackNameMAP = selectedStack.StackName;
+                            break;
+                    }
+
+
                 }
                 // Check for Delete Stack operation
                 else if (dr == DialogResult.Ignore)
@@ -6365,7 +6408,7 @@ namespace GUILayer.Forms
             else if (raceData[0].CD == 0)
                 raceBoardData.cd = string.Empty;
             else
-                raceBoardData.cd = raceData[0].CD.ToString();
+                raceBoardData.cd = $"HOUSE CD {raceData[0].CD.ToString()}";
 
             TimeSpan fifteenMinutes = new TimeSpan(0, 15, 0);
             bool candidateCalledWinner = false;
@@ -6650,6 +6693,8 @@ namespace GUILayer.Forms
 
             string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode};evdel={raceBoardData.evdel}~";
 
+            //string raceblock = $"~state={raceBoardData.state};race=;precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode};evdel={raceBoardData.evdel}~";
+
             mapKeyStr += raceblock;
             
             for (int i = 0; i < numCand; i++)
@@ -6739,9 +6784,9 @@ namespace GUILayer.Forms
                     }
                     else
                     {
-                        //MD Modified 03/05/2018 to support 2018 primaries
                         //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
                         //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
+                        //raceOfficeStr = "HOUSE CD ";
                         raceOfficeStr = "HOUSE";
                     }
                 }
@@ -6782,6 +6827,7 @@ namespace GUILayer.Forms
                                 //MD Modified 03/05/2018 to support 2018 primaries
                                 //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
                                 //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
+                                //raceOfficeStr = "HOUSE CD ";
                                 raceOfficeStr = "HOUSE";
                             }
                         }
@@ -6820,8 +6866,8 @@ namespace GUILayer.Forms
                             {
                                 //MD Modified 03/05/2018 to support 2018 primaries
                                 //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
-                                //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
-                                raceOfficeStr = "HOUSE";
+                                raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
+                                //raceOfficeStr = "HOUSE";
                             }
                         }
                     }
@@ -6901,10 +6947,7 @@ namespace GUILayer.Forms
             DateTime currentTime = TimeFunctions.GetTime();
             string currTime = currentTime.ToString();
 
-
             int BOPtion = (((int)stackElements[currentRaceIndex].Stack_Element_Type - 10) / 2);
-
-
 
             DataTable dt = new DataTable();
             BOPDataAccess bop = new BOPDataAccess();
@@ -6934,6 +6977,8 @@ namespace GUILayer.Forms
                 BOPData.DemDelta = 0;
                 BOPData.RepDelta = 0;
                 BOPData.IndDelta = 0;
+                BOPData.Control = GetBoPControlNumber(ofc);
+
 
                 string outStr = GetBOPMapKeyStr(BOPData, ofc, BOPtion);
                 SendToViz(outStr, seDataType);
@@ -6959,6 +7004,7 @@ namespace GUILayer.Forms
                 BOPData.Branch = office;
 
                 BOPData.Session = "NEW";
+                BOPData.Control = GetBoPControlNumber(ofc);
 
 
                 string outStr = GetBOPMapKeyStr(BOPData, ofc, BOPtion);
@@ -6966,17 +7012,56 @@ namespace GUILayer.Forms
             }
             else
             {
+                DataRow row;
+                for (int i = 0; i < 2; i++)
+                {
+                    if (i == 0)
+                    {
+                        ofc = "H";
+                        dt = bop.GetBOPDataNewGain(ofc, currentTime);
+
+                        row = dt.Rows[0];
+                        int HouseDem = Convert.ToInt16(row["DEM_COUNT"]);
+                        int HouseRep = Convert.ToInt16(row["GOP_COUNT"]);
+                        int HouseInd = Convert.ToInt16(row["IND_COUNT"]);
+
+                        int HouseCtrl = 0;
+                        if (HouseDem >= 218)
+                            HouseCtrl = 1;
+                        else if (HouseRep >= 218)
+                            HouseCtrl = 2;
+                    }
+                    else
+                    {
+                        ofc = "S";
+                        dt = bop.GetBOPDataNewGain(ofc, currentTime);
+
+                        row = dt.Rows[0];
+                        int SenateDem = Convert.ToInt16(row["DEM_COUNT"]);
+                        int SenateRep = Convert.ToInt16(row["GOP_COUNT"]);
+                        int SenateInd = Convert.ToInt16(row["IND_COUNT"]);
+                        
+                        int SenateCtrl = 0;
+                        if (SenateDem >= 51)
+                            SenateCtrl = 1;
+                        else if (SenateRep >= 51)
+                            SenateCtrl = 2;
+                    }
+                }
+
+                //sqlGetBoPControlNumber 
 
                 BOPGainModel BOPGain = new BOPGainModel();
 
                 // Get gain numbers for senate
                 dt = bop.GetBOPDataNewGain("S", currentTime);
 
-                DataRow row = dt.Rows[0];
+                row = dt.Rows[0];
 
                 BOPGain.SenateDemGain = Convert.ToInt16(row["DEM_GAIN"]);
                 BOPGain.SenateRepGain = Convert.ToInt16(row["GOP_GAIN"]);
                 BOPGain.SenateIndGain = Convert.ToInt16(row["IND_GAIN"]);
+                BOPGain.SenateCtrl = GetBoPControlNumber("S");
 
                 // Get gain numbers for house
                 dt = bop.GetBOPDataNewGain("H", currentTime);
@@ -6986,6 +7071,7 @@ namespace GUILayer.Forms
                 BOPGain.HouseDemGain = Convert.ToInt16(row["DEM_GAIN"]);
                 BOPGain.HouseRepGain = Convert.ToInt16(row["GOP_GAIN"]);
                 BOPGain.HouseIndGain = Convert.ToInt16(row["IND_GAIN"]);
+                BOPGain.HouseCtrl = GetBoPControlNumber("H");
 
                 string outStr = GetBOPGainMapKeyStr(BOPGain);
                 SendToViz(outStr, seDataType);
@@ -7005,13 +7091,18 @@ namespace GUILayer.Forms
             //BOP_DATA = SENATE ^ CURRENT~RepNum = 10 | RepNetChange = 10 | DemNum = 20 | DemNetChange = 20 | IndNum = 1 | IndNetChange = 1
 
             string MapKeyStr;
+            string branchStr = "|SenateControl=";
+            if (BOPData.Branch == "HOUSE")
+                branchStr = "|HouseControl=";
 
             MapKeyStr = $"{BOPData.Branch}^{BOPData.Session}~";
             if (BOPtion == 0)
                 MapKeyStr += $"RepNum={BOPData.RepCurrent}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemCurrent}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndCurrent}|IndNetChange={BOPData.IndDelta}";
             else
-                MapKeyStr += $"RepNum={BOPData.RepNew}|RepNetChange={BOPData.RepGain}|DemNum={BOPData.DemNew}|DemNetChange={BOPData.DemGain}|IndNum={BOPData.IndNew}|IndNetChange={BOPData.IndGain}";
-
+            {
+                MapKeyStr += $"RepNum={BOPData.RepNew}|RepNetChange={BOPData.RepGain}|DemNum={BOPData.DemNew}|DemNetChange={BOPData.DemGain}|IndNum={BOPData.IndNew}|IndNetChange={BOPData.IndGain}{branchStr}{ BOPData.Control}";
+                MapKeyStr += $"{ branchStr}{ BOPData.Control}";
+            }
             return MapKeyStr;
 
         }
@@ -7028,13 +7119,61 @@ namespace GUILayer.Forms
             // BOP_DATA = NET_GAIN~party^HouseNum|party^SenNum
 
             MapKeyStr = $"NETGAIN^NEW~";
-            MapKeyStr += $"HouseRepChange={BOPData.HouseRepGain}|HouseDemChange={BOPData.HouseDemGain}|HouseIndChange={BOPData.HouseIndGain}|" +
-            $"SenateRepChange={BOPData.SenateRepGain}|SenateDemChange={BOPData.SenateDemGain}|SenateIndChange={BOPData.SenateIndGain}";
+            MapKeyStr += $"HouseRepChange={BOPData.HouseRepGain}|HouseDemChange={BOPData.HouseDemGain}|HouseIndChange={BOPData.HouseIndGain}|HouseControl={BOPData.HouseCtrl}|" +
+            $"SenateRepChange={BOPData.SenateRepGain}|SenateDemChange={BOPData.SenateDemGain}|SenateIndChange={BOPData.SenateIndGain}|SenateControl={BOPData.SenateCtrl}";
 
 
             return MapKeyStr;
 
         }
+
+        public string GetBoPControlNumber(string ofc)
+        {
+            DataTable dataTable = new DataTable();
+            string BoPCntrl = "";
+
+            try
+            {
+                // Instantiate the connection
+                using (SqlConnection connection = new SqlConnection(ElectionsDBConnectionString))
+                {
+                    // Create the command and set its properties
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
+                        {
+                            cmd.CommandText = SQLCommands.sqlGetBoPControlNumber;
+                            cmd.Parameters.Add("@OfficeCode", SqlDbType.Text).Value = ofc;
+
+                            sqlDataAdapter.SelectCommand = cmd;
+                            sqlDataAdapter.SelectCommand.Connection = connection;
+                            sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
+
+                            // Fill the datatable from adapter
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                    }
+                }
+
+                DataRow row;
+
+                if (dataTable.Rows.Count > 0)
+                {
+                    row = dataTable.Rows[0];
+                    BoPCntrl = row["ControlString"].ToString() ?? "";
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                log.Error("AvailableRaceAccess Exception occurred: " + ex.Message);
+                //log.Debug("AvailableRaceAccess Exception occurred", ex);
+            }
+
+            return BoPCntrl;
+        }
+
 
 
         #endregion
@@ -7082,7 +7221,7 @@ namespace GUILayer.Forms
 
             if (refData[0].WinnerCalled)
             {
-                MapKeyStr += $"{refData[0].WinnerCandidateID}|";
+                MapKeyStr += $"{(refData[0].WinnerCandidateID - 1)}|";
             }
             else
                 MapKeyStr += $"0|";
@@ -8418,7 +8557,10 @@ namespace GUILayer.Forms
 
         }
 
-        
+        private void stackGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 
 }

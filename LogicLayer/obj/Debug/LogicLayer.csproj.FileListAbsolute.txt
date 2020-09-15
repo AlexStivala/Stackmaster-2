@@ -58,3 +58,4 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.d
 C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.pdb
 C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csprojAssemblyReference.cache
 C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CopyComplete
+C:\X\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CoreCompileInputs.cache

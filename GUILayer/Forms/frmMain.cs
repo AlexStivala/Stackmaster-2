@@ -7100,8 +7100,10 @@ namespace GUILayer.Forms
                 MapKeyStr += $"RepNum={BOPData.RepCurrent}|RepNetChange={BOPData.RepDelta}|DemNum={BOPData.DemCurrent}|DemNetChange={BOPData.DemDelta}|IndNum={BOPData.IndCurrent}|IndNetChange={BOPData.IndDelta}";
             else
             {
-                MapKeyStr += $"RepNum={BOPData.RepNew}|RepNetChange={BOPData.RepGain}|DemNum={BOPData.DemNew}|DemNetChange={BOPData.DemGain}|IndNum={BOPData.IndNew}|IndNetChange={BOPData.IndGain}{branchStr}{ BOPData.Control}";
-                MapKeyStr += $"{ branchStr}{ BOPData.Control}";
+                //MapKeyStr += $"RepNum={BOPData.RepNew}|RepNetChange={BOPData.RepGain}|DemNum={BOPData.DemNew}|DemNetChange={BOPData.DemGain}|IndNum={BOPData.IndNew}|IndNetChange={BOPData.IndGain}{branchStr}{ BOPData.Control}";
+                //MapKeyStr += $"{ branchStr}{ BOPData.Control}";
+                MapKeyStr += $"RepNum={BOPData.RepNew}|RepNetChange={BOPData.RepGain}|DemNum={BOPData.DemNew}|DemNetChange={BOPData.DemGain}|IndNum={BOPData.IndNew}|IndNetChange={BOPData.IndGain}";
+                MapKeyStr += $"{branchStr}{BOPData.Control}";
             }
             return MapKeyStr;
 

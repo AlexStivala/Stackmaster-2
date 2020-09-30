@@ -62,6 +62,7 @@
     <Compile Include="DataModel\BOPtypeModel.cs" />
     <Compile Include="DataModel\ApplicationSettingsFlagsModel.cs" />
     <Compile Include="DataModel\BOPDataModel.cs" />
+    <Compile Include="DataModel\MapMetaDataModelNew.cs" />
     <Compile Include="DataModel\TabDefinitionModel.cs" />
     <Compile Include="DataModel\RaceBoardModel.cs" />
     <Compile Include="DataModel\EngineModel.cs" />

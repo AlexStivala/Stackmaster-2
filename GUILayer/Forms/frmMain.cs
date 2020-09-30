@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
+using VoterAnalysisParser;
 
 
 // Required for implementing logging to status bar
@@ -4665,68 +4666,62 @@ namespace GUILayer.Forms
                 //Get the selected race list object
                 int currentPollIndex = dgvVoterAnalysisMap.CurrentCell.RowIndex;
 
+                VoterAnalysisMapQuestionsModel selectedPoll = new VoterAnalysisMapQuestionsModel();
+                StateMetadataModel st = new StateMetadataModel();
 
-                DialogResult dr = new DialogResult();
-                frmColorSelect cs = new frmColorSelect();
+                newStackElement.fkey_StackID = 0;
+                newStackElement.Stack_Element_ID = stackElements.Count;
 
-                dr = cs.ShowDialog();
+                newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
+                selectedPoll = VA_Qdata_Map[currentPollIndex];
+                //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
+                newStackElement.Stack_Element_TemplateID = string.Empty;
 
-                if (dr == DialogResult.OK)
-                {
-                    int selectedColorNum = cs.selectedColorNum + 1;
-                    string selectedColor = cs.selectedColor;
+                newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
+                newStackElement.Stack_Element_Description = "Voter Analysis Maps";
+                // Get the template ID for the specified element type
 
-                    VoterAnalysisMapQuestionsModel selectedPoll = new VoterAnalysisMapQuestionsModel();
-                    StateMetadataModel st = new StateMetadataModel();
+                newStackElement.Election_Type = "G";
+                newStackElement.Office_Code = " ";
+                newStackElement.State_Number = 0;
+                newStackElement.State_Mnemonic = "US";
 
-                    newStackElement.fkey_StackID = 0;
-                    newStackElement.Stack_Element_ID = stackElements.Count;
+                st = GetStateMetadata(0);
+                List<MapMetaDataModelNew> mmData = getMapMetaData(selectedPoll.VA_Data_Id);
 
-                    newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
-                    selectedPoll = VA_Qdata_Map[currentPollIndex];
-                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
-                    newStackElement.Stack_Element_TemplateID = string.Empty;
+                int selectedColorNum = mmData[0].colorIndex;
+                string selectedColor = mmData[0].color;
 
-                    newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
-                    newStackElement.Stack_Element_Description = "Voter Analysis Maps";
-                    // Get the template ID for the specified element type
+                newStackElement.State_Name = st.State_Name;
+                newStackElement.CD = 0;
+                newStackElement.County_Number = 0;
+                newStackElement.County_Name = "N/A";
+                newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type} - {selectedColor}";
 
-                    newStackElement.Election_Type = "G";
-                    newStackElement.Office_Code = " ";
-                    newStackElement.State_Number = 0;
-                    newStackElement.State_Mnemonic = "US";
+                // Specific to race boards
+                newStackElement.Race_ID = 0;
+                newStackElement.Race_Office = string.Empty;
+                newStackElement.Race_CandidateID_1 = 0;
+                newStackElement.Race_CandidateID_2 = 0;
+                newStackElement.Race_CandidateID_3 = 0;
+                newStackElement.Race_CandidateID_4 = 0;
+                newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/3/2020");
+                newStackElement.Race_UseAPRaceCall = false;
 
-                    st = GetStateMetadata(0);
+                //Specific to Voter Analysis
+                newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+                newStackElement.VA_Title = string.Empty;
+                newStackElement.VA_Type = selectedPoll.r_type;
+                newStackElement.VA_Map_Color = selectedColor;
+                newStackElement.VA_Map_ColorNum = selectedColorNum;
 
-                    newStackElement.State_Name = st.State_Name;
-                    newStackElement.CD = 0;
-                    newStackElement.County_Number = 0;
-                    newStackElement.County_Name = "N/A";
-                    newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type} - {selectedColor}";
+                
+                // Add element
+                stackElementsCollection.AppendStackElement(newStackElement);
+                // Update stack entries count label
+                txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
 
-                    // Specific to race boards
-                    newStackElement.Race_ID = 0;
-                    newStackElement.Race_Office = string.Empty;
-                    newStackElement.Race_CandidateID_1 = 0;
-                    newStackElement.Race_CandidateID_2 = 0;
-                    newStackElement.Race_CandidateID_3 = 0;
-                    newStackElement.Race_CandidateID_4 = 0;
-                    newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
-                    newStackElement.Race_UseAPRaceCall = false;
 
-                    //Specific to Voter Analysis
-                    newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
-                    newStackElement.VA_Title = string.Empty;
-                    newStackElement.VA_Type = selectedPoll.r_type;
-                    newStackElement.VA_Map_Color = selectedColor;
-                    newStackElement.VA_Map_ColorNum = selectedColorNum;
-
-                    // Add element
-                    stackElementsCollection.AppendStackElement(newStackElement);
-                    // Update stack entries count label
-                    txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
-
-                }
             }
             catch (Exception ex)
             {
@@ -4735,6 +4730,86 @@ namespace GUILayer.Forms
                 
             }
         }
+        //private void AddVoterAnalysisMap()
+        //{
+        //    try
+        //    {
+        //        // Instantiate new stack element model
+        //        StackElementModel newStackElement = new StackElementModel();
+
+        //        //Get the selected race list object
+        //        int currentPollIndex = dgvVoterAnalysisMap.CurrentCell.RowIndex;
+
+
+        //        DialogResult dr = new DialogResult();
+        //        frmColorSelect cs = new frmColorSelect();
+
+        //        dr = cs.ShowDialog();
+
+        //        if (dr == DialogResult.OK)
+        //        {
+        //            int selectedColorNum = cs.selectedColorNum + 1;
+        //            string selectedColor = cs.selectedColor;
+
+        //            VoterAnalysisMapQuestionsModel selectedPoll = new VoterAnalysisMapQuestionsModel();
+        //            StateMetadataModel st = new StateMetadataModel();
+
+        //            newStackElement.fkey_StackID = 0;
+        //            newStackElement.Stack_Element_ID = stackElements.Count;
+
+        //            newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Maps;
+        //            selectedPoll = VA_Qdata_Map[currentPollIndex];
+        //            //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Maps);
+        //            newStackElement.Stack_Element_TemplateID = string.Empty;
+
+        //            newStackElement.Stack_Element_Data_Type = (short)DataTypes.Voter_Analysis_Maps;
+        //            newStackElement.Stack_Element_Description = "Voter Analysis Maps";
+        //            // Get the template ID for the specified element type
+
+        //            newStackElement.Election_Type = "G";
+        //            newStackElement.Office_Code = " ";
+        //            newStackElement.State_Number = 0;
+        //            newStackElement.State_Mnemonic = "US";
+
+        //            st = GetStateMetadata(0);
+
+        //            newStackElement.State_Name = st.State_Name;
+        //            newStackElement.CD = 0;
+        //            newStackElement.County_Number = 0;
+        //            newStackElement.County_Name = "N/A";
+        //            newStackElement.Listbox_Description = $"{selectedPoll.answer} - {selectedPoll.r_type} - {selectedColor}";
+
+        //            // Specific to race boards
+        //            newStackElement.Race_ID = 0;
+        //            newStackElement.Race_Office = string.Empty;
+        //            newStackElement.Race_CandidateID_1 = 0;
+        //            newStackElement.Race_CandidateID_2 = 0;
+        //            newStackElement.Race_CandidateID_3 = 0;
+        //            newStackElement.Race_CandidateID_4 = 0;
+        //            newStackElement.Race_PollClosingTime = Convert.ToDateTime("11/8/2016");
+        //            newStackElement.Race_UseAPRaceCall = false;
+
+        //            //Specific to Voter Analysis
+        //            newStackElement.VA_Data_ID = selectedPoll.VA_Data_Id;
+        //            newStackElement.VA_Title = string.Empty;
+        //            newStackElement.VA_Type = selectedPoll.r_type;
+        //            newStackElement.VA_Map_Color = selectedColor;
+        //            newStackElement.VA_Map_ColorNum = selectedColorNum;
+
+        //            // Add element
+        //            stackElementsCollection.AppendStackElement(newStackElement);
+        //            // Update stack entries count label
+        //            txtStackEntriesCount.Text = Convert.ToString(stackElements.Count);
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log error
+        //        log.Error("Add Map Error: " + ex.Message);
+
+        //    }
+        //}
 
         #endregion
 
@@ -6408,7 +6483,8 @@ namespace GUILayer.Forms
             else if (raceData[0].CD == 0)
                 raceBoardData.cd = string.Empty;
             else
-                raceBoardData.cd = $"HOUSE CD {raceData[0].CD.ToString()}";
+                //raceBoardData.cd = $"HOUSE CD {raceData[0].CD.ToString()}";
+                raceBoardData.cd = $"CD {raceData[0].CD.ToString()}";
 
             TimeSpan fifteenMinutes = new TimeSpan(0, 15, 0);
             bool candidateCalledWinner = false;
@@ -6866,8 +6942,8 @@ namespace GUILayer.Forms
                             {
                                 //MD Modified 03/05/2018 to support 2018 primaries
                                 //raceOfficeStr = "U.S. House CD " + RaceDistrict.ToString();
-                                raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
-                                //raceOfficeStr = "HOUSE";
+                                //raceOfficeStr = "HOUSE CD " + rd.CD.ToString();
+                                raceOfficeStr = "HOUSE";
                             }
                         }
                     }
@@ -7288,6 +7364,68 @@ namespace GUILayer.Forms
 
 
         }
+
+        public List<MapMetaDataModelNew> getMapMetaData(string pk)
+        {
+            DataTable dt = new DataTable();
+            string cmd = $"SELECT * FROM FE_VoterAnalysis_Map_Defs_New Where VA_Data_ID = '{pk}'";
+            dt = GetDBData(cmd, ElectionsDBConnectionString);
+
+            int numBands = dt.Rows.Count;
+
+            List<MapMetaDataModelNew> mmData = new List<MapMetaDataModelNew>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                MapMetaDataModelNew mmd = new MapMetaDataModelNew();
+
+                mmd.VA_Data_Id = row["VA_Data_Id"].ToString();
+                mmd.color = row["Color"].ToString();
+                mmd.colorIndex = Convert.ToInt32(row["ColorIndex"]);
+                mmd.colorValue = Convert.ToInt32(row["ColorValue"]);
+                mmd.numColorBands = Convert.ToInt32(row["NumBands"]);
+                mmd.bandLo = Convert.ToInt32(row["BandLo"]);
+                mmd.bandHi = Convert.ToInt32(row["BandHi"]);
+                mmd.bandLabel = row["BandLbl"].ToString();
+                mmd.Title = row["Title"].ToString();
+
+                mmData.Add(mmd);
+            }
+
+            return mmData;
+        }
+
+        public string getMapColor(string pk)
+        {
+            DataTable dt = new DataTable();
+            string cmd = $"SELECT * FROM FE_VoterAnalysis_Map_Defs_New Where VA_Data_ID = '{pk}'";
+            dt = GetDBData(cmd, ElectionsDBConnectionString);
+
+            int numBands = dt.Rows.Count;
+
+            List<MapMetaDataModelNew> mmData = new List<MapMetaDataModelNew>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                MapMetaDataModelNew mmd = new MapMetaDataModelNew();
+
+                mmd.VA_Data_Id = row["VA_Data_Id"].ToString();
+                mmd.color = row["Color"].ToString();
+                mmd.colorIndex = Convert.ToInt32(row["ColorIndex"]);
+                mmd.colorValue = Convert.ToInt32(row["ColorValue"]);
+                mmd.numColorBands = Convert.ToInt32(row["NumBands"]);
+                mmd.bandLo = Convert.ToInt32(row["BandLo"]);
+                mmd.bandHi = Convert.ToInt32(row["BandHi"]);
+                mmd.bandLabel = row["BandLbl"].ToString();
+                mmd.Title = row["Title"].ToString();
+
+                mmData.Add(mmd);
+            }
+            string color = mmData[0].color;
+
+            return color;
+        }
+
         public void TakeVoterAnalysisMaps()
         {
             //Get the selected race list object
@@ -7299,13 +7437,16 @@ namespace GUILayer.Forms
             int seDataType = (int)stackElements[currentRaceIndex].Stack_Element_Data_Type;
 
 
-            List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
-            mapLegend = GetLegend(VA_Data_Id);
+            //List<VoterAnalysisMapLegendDefModel> mapLegend = new List<VoterAnalysisMapLegendDefModel>();
+            //mapLegend = GetLegend(VA_Data_Id);
+
+            List<MapMetaDataModelNew> mapLegend = new List<MapMetaDataModelNew>();
+            mapLegend = getMapMetaData(VA_Data_Id);
 
 
             List<VoterAnalysisMapDataModel> mapdata = new List<VoterAnalysisMapDataModel>();
             //mapdata = GetVoterAnalysisMapData(VA_Data_Id, colorNum);
-            mapdata = GetVoterAnalysisMapData(VA_Data_Id, colorNum, mapLegend);
+            mapdata = GetVoterAnalysisMapData(VA_Data_Id, mapLegend);
             int mapID = mapdata[0].MapId;
 
 
@@ -7314,7 +7455,8 @@ namespace GUILayer.Forms
             SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
 
-            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates {quot}{VA_Data_Id}{quot}", connection1);
+            //SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates {quot}{VA_Data_Id}{quot}", connection1);
+            SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates_New {quot}{VA_Data_Id}{quot}", connection1);
             SqlDataReader sqlData = cmd1.ExecuteReader();
 
             List<string> missingStateList = new List<string>();
@@ -7343,7 +7485,8 @@ namespace GUILayer.Forms
 
             
 
-            SqlCommand cmd2 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state = 'US'", connection1);
+            //SqlCommand cmd2 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state = 'US'", connection1);
+            SqlCommand cmd2 = new SqlCommand($"SELECT answer, [percent] FROM FE_VoterAnalysisData_Map_New WHERE VA_Data_Id = '{VA_Data_Id}' AND state = 'US'", connection1);
             cmd2.CommandType = CommandType.Text;
 
             SqlDataReader sqlData1 = cmd2.ExecuteReader();
@@ -7374,16 +7517,18 @@ namespace GUILayer.Forms
 
         }
 
-        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id, int colorSet, List<VoterAnalysisMapLegendDefModel> mapLegend)
+        //public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id, int colorSet, List<VoterAnalysisMapLegendDefModel> mapLegend)
+        public List<VoterAnalysisMapDataModel> GetVoterAnalysisMapData(string VA_Data_Id, List<MapMetaDataModelNew> mapLegend)
         {
 
-            
+
             SqlConnection connection1 = new SqlConnection(ElectionsDBConnectionString);
             connection1.Open();
 
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2 = new SqlCommand($"SELECT state, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
+            //cmd2 = new SqlCommand($"SELECT state, [percent] FROM FE_VoterAnalysisData_Map WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
+            cmd2 = new SqlCommand($"SELECT state, [percent], breakpoint FROM FE_VoterAnalysisData_Map_New WHERE VA_Data_Id = '{VA_Data_Id}' AND state != 'US'", connection1);
             cmd2.CommandType = CommandType.Text;
 
             SqlDataReader sqlData2 = cmd2.ExecuteReader();
@@ -7404,14 +7549,17 @@ namespace GUILayer.Forms
                 md.Percent = Convert.ToInt32(row["percent"]);
 
                 //md.RowNumber = GetRowNumber(md.Percent, bandHi, bandLo);
-                md.RowNumber = GetRowNumber(md.Percent, mapLegend);
+                //md.RowNumber = GetRowNumber(md.Percent, mapLegend);
+                md.RowNumber = Convert.ToInt32(row["breakpoint"]);
 
                 //md.RowLabel = $"{bandLo[md.RowNumber]}% - {bandHi[md.RowNumber]}%";
-                md.RowLabel = $"{mapLegend[md.RowNumber].bandLo}% - {mapLegend[md.RowNumber].bandHi}%";
+                //md.RowLabel = $"{mapLegend[md.RowNumber].bandLo}% - {mapLegend[md.RowNumber].bandHi}%";
 
                 md.MapId = 0;
 
-                md.Color = GetColor(colorSet, md.RowNumber);
+                //md.Color = GetColor(colorSet, md.RowNumber);
+                md.Color = mapLegend[md.RowNumber].colorValue;
+                md.RowLabel = mapLegend[md.RowNumber].bandLabel;
 
                 int pos;
                 switch (md.RowNumber + 1)
@@ -7782,11 +7930,9 @@ namespace GUILayer.Forms
             return outStr;
 
         }
-        public string GetVoterAnalysisMapLegendMapKeyStr(List<VoterAnalysisMapLegendDefModel> mapLegend, int colorSet)
+        public string GetVoterAnalysisMapLegendMapKeyStr(List<MapMetaDataModelNew> mapLegend, int colorSet)
         {
-
             string outStr = string.Empty;
-
             
             // Legend data string
             if (mapLegend.Count > 0)
@@ -7801,7 +7947,8 @@ namespace GUILayer.Forms
                     // Build data for string
                     // Note that legend is numbered from top to bottom but values are assigned from bottom to top
                     //outStr += $"{mapLegend[mapLegend.Count - i - 1].RowNumber}^{mapLegend[i].RowColor}^{mapLegend[i].RowLabel}";
-                    outStr += $"{mapLegend.Count - i}^{GetColor(colorSet, i)}^{mapLegend[i].legend}";
+                    //outStr += $"{mapLegend.Count - i}^{GetColor(colorSet, i)}^{mapLegend[i].legend}";
+                    outStr += $"{mapLegend.Count - i}^{mapLegend[i].colorValue}^{mapLegend[i].bandLabel}";
 
                 }
                 // Send blanks for unused legend rows
@@ -8058,17 +8205,20 @@ namespace GUILayer.Forms
             dgvVoterAnalysisMap.DataSource = VA_Qdata_Map;
             cnt = VA_Qdata_Map.Count;
 
-            dgvVoterAnalysisMap.Columns[0].Width = 900;
+            dgvVoterAnalysisMap.Columns[0].Width = 80;
+            //dgvVoterAnalysisMap.Columns[1].Width = 820;
             dgvVoterAnalysisMap.Columns[1].Width = 400;
-            dgvVoterAnalysisMap.Columns[2].Width = 80;
-            dgvVoterAnalysisMap.Columns[3].Width = 150;
-            dgvVoterAnalysisMap.Columns[4].Width = 30;
+            dgvVoterAnalysisMap.Columns[2].Width = 300;
+            dgvVoterAnalysisMap.Columns[3].Width = 120;
+            dgvVoterAnalysisMap.Columns[4].Width = 350;
+            dgvVoterAnalysisMap.Columns[5].Width = 30;
 
-            dgvVoterAnalysisMap.Columns[0].HeaderText = "Answer";
-            dgvVoterAnalysisMap.Columns[1].HeaderText = "Question";
-            dgvVoterAnalysisMap.Columns[2].HeaderText = "Filter";
-            dgvVoterAnalysisMap.Columns[3].HeaderText = "VA_Data_Id";
-            dgvVoterAnalysisMap.Columns[4].HeaderText = "M";
+            dgvVoterAnalysisMap.Columns[0].HeaderText = "Color";
+            dgvVoterAnalysisMap.Columns[1].HeaderText = "Answer";
+            dgvVoterAnalysisMap.Columns[2].HeaderText = "Question";
+            dgvVoterAnalysisMap.Columns[3].HeaderText = "Qcode";
+            dgvVoterAnalysisMap.Columns[4].HeaderText = "VA_Data_Id";
+            dgvVoterAnalysisMap.Columns[5].HeaderText = "M";
             
             lblMapCnt.Text = $"Voter Analysis Maps: {cnt}";
 
@@ -8216,19 +8366,23 @@ namespace GUILayer.Forms
 
         public List<VoterAnalysisMapQuestionsModel> GetVoterAnalysisMapQuestionsData()
         {
-            string cmd = SQLCommands.sqlGetVoterAnalysisQuestions_Map;
+            string cmd = SQLCommands.sqlGetVoterAnalysisQuestions_Map_New;
 
             DataTable dt = GetDBData(cmd, ElectionsDBConnectionString);
             List<VoterAnalysisMapQuestionsModel> VA_MapQdata = new List<VoterAnalysisMapQuestionsModel>();
-
-
+                        
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 DataRow row = dt.Rows[i];
                 VoterAnalysisMapQuestionsModel VA_Data = new VoterAnalysisMapQuestionsModel();
+                string VA_Data_Id = row[3].ToString().Trim();
 
+                List<MapMetaDataModelNew> mmData = getMapMetaData(VA_Data_Id);
+                string color = mmData[0].color;
+
+                VA_Data.color = color;
                 VA_Data.question = row[0].ToString().Trim();
-                VA_Data.answer = row[0].ToString().Trim();
+                VA_Data.answer = row[1].ToString().Trim();
                 VA_Data.filter = row[2].ToString().Trim();
                 VA_Data.VA_Data_Id = row[3].ToString().Trim();
                 VA_Data.r_type = row[4].ToString().Trim();
@@ -8238,7 +8392,6 @@ namespace GUILayer.Forms
             }
 
             return VA_MapQdata;
-
         }
 
         private void dgvVoterAnalysis_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)

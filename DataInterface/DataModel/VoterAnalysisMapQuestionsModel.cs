@@ -8,6 +8,7 @@ namespace DataInterface.DataModel
 {
     public class VoterAnalysisMapQuestionsModel
     {
+        public string color { get; set; }
         public string answer { get; set; }
         public string question { get; set; }
         public string filter { get; set; }

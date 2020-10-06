@@ -370,5 +370,14 @@ namespace GUILayer.Properties {
                 return ((bool)(this["UseCandidateFirstName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Unreal {
+            get {
+                return ((bool)(this["Unreal"]));
+            }
+        }
     }
 }

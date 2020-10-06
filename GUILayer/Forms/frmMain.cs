@@ -30,6 +30,7 @@ using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 using VoterAnalysisParser;
+using LogicLayer.GeneralDataProcessingFunctions;
 
 
 // Required for implementing logging to status bar
@@ -5917,7 +5918,7 @@ namespace GUILayer.Forms
 
         }
         private void SendToViz(string cmd, int dataType)
-        {
+            {
             try
             {
 
@@ -6450,6 +6451,385 @@ namespace GUILayer.Forms
             }
             LiveUpdateTimer.Enabled = false;
             LiveUpdateTimer.Enabled = true;
+
+        }
+
+
+
+        public void SendErizosData(BindingList<RaceDataModel> raceData, int numCand, bool CandSelect)
+        {
+            //Example of a 2 way raceboard with the Dem candidate winning and adding a gain
+
+            //USGOV99991 ^ USGOV99992 ~state = New York; race = CD02; precincts = 10; office = house; racemode = 1 ; evdel = 32 ~
+            //name = candidate1; party = 0; incum = 0; vote = 3000; percent = 23.4; check = 0; gain = 0; imagePath = George_Bush | 
+            //name = candidate2; party = 1; incum = 0; vote = 5000; percent = 33.4; check = 1; gain = 1; imagePath = barack_obama
+
+            //“raceMode” – 0 (not called), 1(race called), 2 (just called), 3(too close to call), 4 (runoff), 5 (race to watch)
+            // "evdel" delegates for primaries electoral votes for general elect president 0 otherwise
+
+            string mapKeyStr = "";
+
+            // Gets either simulated or actual time based on flag
+            DateTime timeNow = TimeFunctions.GetTime();
+            DateTime pollClosingTime = raceData[0].RacePollClosingTime;
+
+            RaceBoardModel raceBoardData = new RaceBoardModel();
+
+            short stateNumber = stackElements[currentRaceIndex].State_Number;
+            StateMetadataModel st = GetStateMetadata(stateNumber);
+            //raceBoardData.state = raceData[0].StateName.Trim();
+            raceBoardData.state = st.State_Name;
+
+            if (raceData[0].cntyName.Length > 0 && raceData[0].cntyName != "ALL")
+                raceBoardData.cd = raceData[0].cntyName;
+            else if (raceData[0].CD == 0)
+                raceBoardData.cd = string.Empty;
+            else
+                //raceBoardData.cd = $"HOUSE CD {raceData[0].CD.ToString()}";
+                raceBoardData.cd = $"CD {raceData[0].CD.ToString()}";
+
+            TimeSpan fifteenMinutes = new TimeSpan(0, 15, 0);
+            bool candidateCalledWinner = false;
+            DateTime raceCallTime = raceData[0].RaceWinnerCallTime;
+            bool raceCalled = false;
+
+            // get office strings
+            raceBoardData.office = GetOfficeStr(raceData[0]);
+            //raceBoardData.office = "CAUCUSES";
+
+
+            if (raceData[0].Office != "H")
+            {
+
+                if (ApplicationSettingsFlagsCollection.UseExpectedVoteIn)
+                {
+                    if (raceData[0].PercentExpectedVote > 0 && raceData[0].PercentExpectedVote < 1)
+                        raceBoardData.pctsReporting = "<1";
+                    else
+                        raceBoardData.pctsReporting = raceData[0].PercentExpectedVote.ToString("F0");
+                }
+                else
+                {
+                    //int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                    //if (temp > 0 && temp < 1)
+                    //    raceBoardData.pctsReporting = "<1";
+                    //else
+                    //    raceBoardData.pctsReporting = temp.ToString();
+
+
+                    float temp = (float)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                    if (temp > 0f && temp < 1f)
+                        raceBoardData.pctsReporting = "<1";
+                    else
+                        raceBoardData.pctsReporting = temp.ToString("F0");
+                }
+            }
+            else
+            {
+                //int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                //if (temp > 0 && temp < 1)
+                //    raceBoardData.pctsReporting = "<1";
+                //else
+                //    raceBoardData.pctsReporting = temp.ToString();
+
+                float temp = (float)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
+                if (temp > 0f && temp < 1f)
+                    raceBoardData.pctsReporting = "<1";
+                else
+                    raceBoardData.pctsReporting = temp.ToString("F0");
+            }
+
+            if (numCand == 0)
+                numCand = raceData.Count;
+
+            int cand1 = stackElements[currentRaceIndex].Race_CandidateID_1;
+            int cand2 = stackElements[currentRaceIndex].Race_CandidateID_2;
+            int cand3 = stackElements[currentRaceIndex].Race_CandidateID_3;
+            int cand4 = stackElements[currentRaceIndex].Race_CandidateID_4;
+            int cand5 = stackElements[currentRaceIndex].Race_CandidateID_5;
+            int candIndx = 0;
+
+            for (int i = 0; i < numCand; i++)
+            {
+                candidateData_RB candidate = new candidateData_RB();
+
+                if (CandSelect)
+                {
+                    int candID;
+                    switch (i)
+                    {
+                        case 0:
+                            candID = cand1;
+                            break;
+                        case 1:
+                            candID = cand2;
+                            break;
+                        case 2:
+                            candID = cand3;
+                            break;
+                        case 3:
+                            candID = cand4;
+                            break;
+                        case 4:
+                            candID = cand5;
+                            break;
+                        default:
+                            candID = cand1;
+                            break;
+
+                    }
+
+                    for (int n = 0; n < raceData.Count; n++)
+                    {
+                        if (raceData[n].CandidateID == candID)
+                            candIndx = n;
+                    }
+                }
+                else
+                    candIndx = i;
+
+                mapKeyStr += raceData[candIndx].FoxID;
+                if (i < numCand - 1)
+                    mapKeyStr += "^";
+
+                candidate.lastName = raceData[candIndx].CandidateLastName;
+                candidate.firstName = raceData[candIndx].CandidateFirstName;
+
+                if (Network == "FNC")
+                {
+                    if (raceData[candIndx].UseHeadshotFNC)
+                    {
+                        candidate.headshot = raceData[candIndx].HeadshotPathFNC;
+                    }
+                }
+                else if (Network == "FBN")
+                {
+
+                    // Use FNC Headshot even for FBN for 2018 Midterms
+                    if (raceData[candIndx].UseHeadshotFNC)
+                    {
+                        candidate.headshot = raceData[candIndx].HeadshotPathFNC;
+                    }
+
+                    /*
+                    if (raceData[i].UseHeadshotFBN)
+                    {
+                        candidate.headshot = raceData[i].HeadshotPathFBN;
+                    }
+                    */
+
+                }
+                else if (Network == "FBC")
+                {
+
+                    // Use FNC Headshot even for FBN for 2018 Midterms
+                    if (raceData[candIndx].UseHeadshotFNC)
+                    {
+                        candidate.headshot = raceData[candIndx].HeadshotPathFNC;
+                    }
+
+                    /*
+                    if (raceData[i].UseHeadshotFBN)
+                    {
+                        candidate.headshot = raceData[i].HeadshotPathFBN;
+                    }
+                    */
+
+                }
+                // filename only, no path, no extension
+                candidate.headshot = Path.GetFileNameWithoutExtension(candidate.headshot);
+
+                // Format vote count as string with commas
+                if (raceData[candIndx].CandidateVoteCount > 0)
+                    //candidate.votes = string.Format("{0:n0}", raceData[i].CandidateVoteCount);
+                    candidate.votes = raceData[candIndx].CandidateVoteCount.ToString();
+                else
+                    candidate.votes = " ";
+
+                // get candidate percent str
+                candidate.percent = GetCandPercent(raceData[candIndx]);
+                // Get scene Party Id number from party str
+                candidate.party = GetCandParty(raceData[candIndx]);
+
+                // Set candidate incumbent flag
+                candidate.incumbent = raceData[candIndx].IsIncumbentFlag == "Y" ? "1" : "0";
+                var winnerCandidateId = 0;
+
+
+                if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[i].cntyName == "ALL")
+                {
+                    //Check for AP race call
+                    if (raceData[i].RaceUseAPRaceCall)
+                    {
+                        //Check for AP called winner
+                        if (raceData[i].cStat.ToUpper() == "W")
+                        {
+                            raceCalled = true;
+                            candidateCalledWinner = true;
+                            var raceCallTimeStr = raceData[candIndx].estTS;
+                            winnerCandidateId = raceData[candIndx].CandidateID;
+
+                            raceCallTime = GetApRaceCallDateTime(raceCallTimeStr);
+                        }
+                        else
+                        {
+                            candidateCalledWinner = false;
+                        }
+                    }
+                    //Check for Fox race call
+                    else
+                    {
+                        winnerCandidateId = raceData[i].RaceWinnerCandidateID;
+                        if (raceData[candIndx].RaceWinnerCalled)
+                        {
+                            raceCalled = true;
+
+                            // If the race was not called by AP, use the Race_WinnerCallTime from the DB
+                            raceCallTime = raceData[candIndx].RaceWinnerCallTime;
+                            candidateCalledWinner = (winnerCandidateId == raceData[candIndx].RaceWinnerCandidateID);
+                        }
+                        else
+                        {
+                            raceCalled = false;
+                            candidateCalledWinner = false;
+                        }
+                    }
+                }
+                else
+                {
+                    candidateCalledWinner = false;
+                }
+
+                if (winnerCandidateId == raceData[candIndx].CandidateID)
+                {
+                    candidate.winner = "1";
+                    candidate.gain = GetGainFlag(raceData[candIndx]);
+                }
+                else
+                {
+                    candidate.winner = "0";
+                    candidate.gain = "0";
+
+                }
+                raceBoardData.candData.Add(candidate);
+
+            }
+
+            // Set board mode 
+            if (raceCalled)
+            {
+
+                // if race is called before the polls are closed time then use poll closing time as the race call time
+                if (raceCallTime < pollClosingTime)
+                    raceCallTime = pollClosingTime;
+
+                // if race is called within 15 minutes 
+                if ((timeNow - raceCallTime) < fifteenMinutes)
+                    // then Just Called
+                    raceBoardData.mode = (int)BoardModes.Race_Board_Just_Called;
+                else
+                    // Race Called
+                    raceBoardData.mode = (int)BoardModes.Race_Board_Race_Called;
+            }
+            else if (raceData[0].RaceTooCloseToCall)
+            {
+                // RaceTooCloseToCall flag is set
+                raceBoardData.mode = (int)BoardModes.Race_Board_To_Close_To_Call;
+            }
+            else
+            {
+                // Not called and not TCTC
+                raceBoardData.mode = (int)BoardModes.Race_Board_Normal;
+            }
+
+            if (electionMode == "Primary")
+            {
+                if (raceData[0].eType == "D" || raceData[0].eType == "E")
+                    raceBoardData.evdel = raceData[0].DemDelegatesAvailable;
+                else if (raceData[0].eType == "R" || raceData[0].eType == "S")
+                    raceBoardData.evdel = raceData[0].RepDelegatesAvailable;
+            }
+            else if (electionMode != "Primary" && raceData[0].Office == "P")
+            {
+                raceBoardData.evdel = raceData[0].ElectoralVotesAvailable;
+            }
+            else
+                raceBoardData.evdel = 0;
+
+
+            //“raceMode” – 0 (not called), 1(race called), 2 (just called), 3(too close to call), 4 (runoff), 5 (race to watch)
+            // "evdel" delegates for primaries electoral votes for general elect president 0 otherwise
+
+
+            //USGOV99991^ USGOV99992 ~ state=New York; race=CD02;precincts=10 ; office=house; racemode=1 ; evdel=32 ~ name=candidate1; party=0; incum=0; vote=3000; percent=23.4 ; check=0; gain=0; imagePath= George_Bush |name=candidate2; party=1; incum=0; vote=5000; percent=33.4 ; check=1; gain=1; imagePath= barack_obama
+
+            string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode};evdel={raceBoardData.evdel}~";
+
+            mapKeyStr += raceblock;
+
+            Erizos_API.RaceboardsPayload.Raceboards2Way raceboards = new Erizos_API.RaceboardsPayload.Raceboards2Way();
+
+            raceboards.StateData.value = raceData[0].StateAbbv;
+            raceboards.ElectoralData.value = raceData[0].ElectoralVotesAvailable;
+            raceboards.InPercent.value = raceData[0].PercentExpectedVote;
+            raceboards.RaceStatus.value = raceBoardData.mode;
+            if (raceData[0].TotalVoteCount > 0)
+                raceboards.HasVotes.value = true;
+            else
+                raceboards.HasVotes.value = false;
+
+            raceboards.TotalVotes.value = raceData[0].TotalVoteCount;
+            int candValue = 2;
+
+            for (int i = 0; i < numCand; i++)
+            {
+                //if (UseCandidateFirstName)
+                //    mapKeyStr += $"name={raceBoardData.candData[i].firstName} {raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
+                //else
+                //    mapKeyStr += $"name={raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
+                //mapKeyStr += $"vote={raceBoardData.candData[i].votes};percent={raceBoardData.candData[i].percent};check={raceBoardData.candData[i].winner};gain={raceBoardData.candData[i].gain};";
+                //mapKeyStr += $"imagePath={raceBoardData.candData[i].headshot}";
+                //if (i < numCand - 1)
+                //    mapKeyStr += "^";
+                
+                bool winner = false;
+                if (raceBoardData.candData[i].winner == "1")
+                    winner = true;
+
+                int votes = Convert.ToInt32(raceBoardData.candData[i].votes);
+                double percent = Convert.ToDouble(raceBoardData.candData[i].percent);
+                
+
+                if (raceBoardData.candData[i].party == "Dem")
+                {
+                    raceboards.DemsWinner.value = winner;
+                    raceboards.DemsVotes.value = votes;
+                    raceboards.DemsPercent.value = percent;
+                    if (winner == true)
+                        candValue = 1;
+                }
+                else if (raceBoardData.candData[i].party == "Rep")
+                {
+                    raceboards.RepsWinner.value = winner;
+                    raceboards.RepsVotes.value = votes;
+                    raceboards.RepsPercent.value = percent;
+                    if (winner == true)
+                        candValue = 0;
+                }
+
+            }
+            raceboards.Difference.value = Math.Abs(raceboards.DemsVotes.value - raceboards.RepsVotes.value);
+
+            Erizos_API.RaceboardsPayload.Raceboards1Way raceboards1way = new Erizos_API.RaceboardsPayload.Raceboards1Way();
+            raceboards1way.Candidate.value = candValue;
+            raceboards1way.StateData.value = raceData[0].StateAbbv;
+            raceboards1way.CheckMark.value = true;
+            raceboards1way.Logo.value = true;
+
+            if (numCand == 1)
+                Erizos_API.RaceboardsPayload.SendPayload(raceboards1way);
+            else
+                Erizos_API.RaceboardsPayload.SendPayload(raceboards);
 
         }
 
@@ -7088,6 +7468,7 @@ namespace GUILayer.Forms
             }
             else
             {
+                BOPGainModel BOPGain = new BOPGainModel();
                 DataRow row;
                 for (int i = 0; i < 2; i++)
                 {
@@ -7097,14 +7478,14 @@ namespace GUILayer.Forms
                         dt = bop.GetBOPDataNewGain(ofc, currentTime);
 
                         row = dt.Rows[0];
-                        int HouseDem = Convert.ToInt16(row["DEM_COUNT"]);
-                        int HouseRep = Convert.ToInt16(row["GOP_COUNT"]);
-                        int HouseInd = Convert.ToInt16(row["IND_COUNT"]);
+                        BOPGain.HouseDem = Convert.ToInt16(row["DEM_COUNT"]);
+                        BOPGain.HouseRep = Convert.ToInt16(row["GOP_COUNT"]);
+                        BOPGain.HouseInd = Convert.ToInt16(row["IND_COUNT"]);
 
                         int HouseCtrl = 0;
-                        if (HouseDem >= 218)
+                        if (BOPGain.HouseDem >= 218)
                             HouseCtrl = 1;
-                        else if (HouseRep >= 218)
+                        else if (BOPGain.HouseRep >= 218)
                             HouseCtrl = 2;
                     }
                     else
@@ -7113,22 +7494,21 @@ namespace GUILayer.Forms
                         dt = bop.GetBOPDataNewGain(ofc, currentTime);
 
                         row = dt.Rows[0];
-                        int SenateDem = Convert.ToInt16(row["DEM_COUNT"]);
-                        int SenateRep = Convert.ToInt16(row["GOP_COUNT"]);
-                        int SenateInd = Convert.ToInt16(row["IND_COUNT"]);
+                        BOPGain.SenateDem = Convert.ToInt16(row["DEM_COUNT"]);
+                        BOPGain.SenateRep = Convert.ToInt16(row["GOP_COUNT"]);
+                        BOPGain.SenateInd = Convert.ToInt16(row["IND_COUNT"]);
                         
                         int SenateCtrl = 0;
-                        if (SenateDem >= 51)
+                        if (BOPGain.SenateDem >= 51)
                             SenateCtrl = 1;
-                        else if (SenateRep >= 51)
+                        else if (BOPGain.SenateRep >= 51)
                             SenateCtrl = 2;
                     }
                 }
 
                 //sqlGetBoPControlNumber 
 
-                BOPGainModel BOPGain = new BOPGainModel();
-
+                
                 // Get gain numbers for senate
                 dt = bop.GetBOPDataNewGain("S", currentTime);
 
@@ -7148,6 +7528,11 @@ namespace GUILayer.Forms
                 BOPGain.HouseRepGain = Convert.ToInt16(row["GOP_GAIN"]);
                 BOPGain.HouseIndGain = Convert.ToInt16(row["IND_GAIN"]);
                 BOPGain.HouseCtrl = GetBoPControlNumber("H");
+
+                // SEND MAIN_SCENE*MAP SET_STRING_ELEMENT "BOP_DATA" NETGAIN ^ NEW ~HouseRep = 182 | HouseDem = 237 | HouseInd = 0 | HouseRepChange = -10 |
+                //HouseDemChange = 10 | HouseIndChange = 0 | HouseControl = REPUBLICANS NEED + 17 | SenRep = 36 | SenDem = 46 | SenInd = 2 | SenateRepChange = -7 |
+                //SenateDemChange = 7 | SenateIndChange = 0 | SenateControl = DEMOCRATS NEED + 4
+
 
                 string outStr = GetBOPGainMapKeyStr(BOPGain);
                 SendToViz(outStr, seDataType);
@@ -7196,9 +7581,16 @@ namespace GUILayer.Forms
 
             // BOP_DATA = NET_GAIN~party^HouseNum|party^SenNum
 
+            // SEND MAIN_SCENE*MAP SET_STRING_ELEMENT "BOP_DATA" NETGAIN ^ NEW ~HouseRep = 182 | HouseDem = 237 | HouseInd = 0 | HouseRepChange = -10 |
+            //HouseDemChange = 10 | HouseIndChange = 0 | HouseControl = REPUBLICANS NEED + 17 | SenRep = 36 | SenDem = 46 | SenInd = 2 | SenateRepChange = -7 |
+            //SenateDemChange = 7 | SenateIndChange = 0 | SenateControl = DEMOCRATS NEED + 4
+
+
             MapKeyStr = $"NETGAIN^NEW~";
-            MapKeyStr += $"HouseRepChange={BOPData.HouseRepGain}|HouseDemChange={BOPData.HouseDemGain}|HouseIndChange={BOPData.HouseIndGain}|HouseControl={BOPData.HouseCtrl}|" +
-            $"SenateRepChange={BOPData.SenateRepGain}|SenateDemChange={BOPData.SenateDemGain}|SenateIndChange={BOPData.SenateIndGain}|SenateControl={BOPData.SenateCtrl}";
+            MapKeyStr += $"HouseRep={BOPData.HouseRep}|HouseDem={BOPData.HouseDem}|HouseInd={BOPData.HouseInd}|";
+            MapKeyStr += $"HouseRepChange={BOPData.HouseRepGain}|HouseDemChange={BOPData.HouseDemGain}|HouseIndChange={BOPData.HouseIndGain}|HouseControl={BOPData.HouseCtrl}|";
+            MapKeyStr += $"SenateRep={BOPData.SenateRep}|SenateDem={BOPData.SenateDem}|SenateInd={BOPData.SenateInd}|";
+            MapKeyStr += $"SenateRepChange={BOPData.SenateRepGain}|SenateDemChange={BOPData.SenateDemGain}|SenateIndChange={BOPData.SenateIndGain}|SenateControl={BOPData.SenateCtrl}";
 
 
             return MapKeyStr;

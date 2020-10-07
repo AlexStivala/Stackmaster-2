@@ -47,3 +47,7 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInter
 C:\X\ElectionGraphicsStackBuilder\DataInterface\obj\Debug\DataInterface.csproj.CopyComplete
 C:\X\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.csprojAssemblyReference.cache
 C:\X\electiongraphicsstackbuilder\DataInterface\obj\Debug\DataInterface.csproj.CoreCompileInputs.cache
+C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\Newtonsoft.Json.dll
+C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\RestSharp.dll
+C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\Newtonsoft.Json.xml
+C:\X\electiongraphicsstackbuilder\DataInterface\bin\Debug\RestSharp.xml

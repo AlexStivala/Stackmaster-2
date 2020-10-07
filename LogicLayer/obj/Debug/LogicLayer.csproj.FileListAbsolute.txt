@@ -59,3 +59,7 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.p
 C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csprojAssemblyReference.cache
 C:\X\ElectionGraphicsStackBuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CopyComplete
 C:\X\electiongraphicsstackbuilder\LogicLayer\obj\Debug\LogicLayer.csproj.CoreCompileInputs.cache
+C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\Newtonsoft.Json.dll
+C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\RestSharp.dll
+C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\Newtonsoft.Json.xml
+C:\X\electiongraphicsstackbuilder\LogicLayer\bin\Debug\RestSharp.xml

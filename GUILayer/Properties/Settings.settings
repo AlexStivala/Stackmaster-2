@@ -128,5 +128,8 @@
     <Setting Name="Unreal" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="UnrealEng" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">UNREAL4</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

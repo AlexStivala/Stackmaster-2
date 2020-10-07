@@ -155,6 +155,8 @@ namespace Erizos_API
             public RepsVotes RepsVotes = new RepsVotes();
             public RepsPercent RepsPercent = new RepsPercent();
         }
+
+        public static string unrealEngine;
         #endregion
 
         public static string SendPayload(Raceboards2Way a)
@@ -226,7 +228,9 @@ namespace Erizos_API
 
                         //Sends payload to engine
 
-                        client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/Mike/take/in");
+                        //client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/Mike/take/in");
+                        //client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/UNREAL4/take/in");
+                        client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/{unrealEngine}/take/in");
                         client.Timeout = -1;
                         client.Authenticator = new HttpBasicAuthenticator("admin", "admin");
                         request = new RestRequest(Method.POST);
@@ -272,11 +276,8 @@ namespace Erizos_API
         public static string SendPayload(Raceboards1Way a)
         {
             string ReturnValue = "";
-
             string TemplateID = "";
-
             string ProfileID = "5f45411daf53a00fb08a5372";
-
 
             try
             {
@@ -303,16 +304,13 @@ namespace Erizos_API
                     //Parses object to create final payload
 
                     JObject x = JObject.Parse(JsonConvert.SerializeObject(a));
-
                     var ids = x.SelectTokens("..id").ToList();
                     var values = x.SelectTokens("..value").ToList();
-
 
                     string dataString = "";
 
                     for (int i = 0; i <= ids.Count() - 1; i++)
                     {
-
                         //Checks the value type for final payload
 
                         if (values[i].Type == JTokenType.Boolean)
@@ -335,10 +333,10 @@ namespace Erizos_API
 
                     try
                     {
-
                         //Sends payload to engine
 
-                        client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/Mike/take/in");
+                        //client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/Mike/take/in");
+                        client = new RestClient($"http://10.230.36.36:5550/api/profiles/{ProfileID}/{unrealEngine}/take/in");
                         client.Timeout = -1;
                         client.Authenticator = new HttpBasicAuthenticator("admin", "admin");
                         request = new RestRequest(Method.POST);

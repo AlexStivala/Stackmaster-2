@@ -379,5 +379,14 @@ namespace GUILayer.Properties {
                 return ((bool)(this["Unreal"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("UNREAL4")]
+        public string UnrealEng {
+            get {
+                return ((string)(this["UnrealEng"]));
+            }
+        }
     }
 }

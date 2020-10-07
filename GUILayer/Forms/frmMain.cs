@@ -139,6 +139,8 @@ namespace GUILayer.Forms
         public string stackNameREF = "";
         public string stackNameMAP = "";
         public string stackNameSP = "";
+        public bool unreal = false;
+        public string unrealEng = "UNREAL1";
 
         #endregion
 
@@ -441,6 +443,8 @@ namespace GUILayer.Forms
             electionMode = Properties.Settings.Default.ElectionMode;
             remotePort = Properties.Settings.Default.RemotePort;
             UseCandidateFirstName = Properties.Settings.Default.UseCandidateFirstName;
+            unreal = Properties.Settings.Default.Unreal;
+            unrealEng = Properties.Settings.Default.UnrealEng;
 
             if (electionMode == "Primary")
                 isPrimary = true;
@@ -6425,7 +6429,7 @@ namespace GUILayer.Forms
                                 break;
 
                         }
-                        for (int n = 0; n< rd.Count; n++)
+                        for (int n = 0; n < rd.Count; n++)
                         {
                             if (rd[n].CandidateID == candID)
                                 dataStr += $" - {rd[n].CandidateLastName} {rd[n].CandidateVoteCount}";
@@ -6440,9 +6444,16 @@ namespace GUILayer.Forms
                 listBox1.Items.Add(dataStr);
                 listBox1.SelectedIndex = listBox1.Items.Count - 1;
 
-                string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn, candidateSelectEnable);
-
-                SendToViz(outStr, dataType);
+                if (unreal)
+                {
+                    SendErizosData(rd, candidatesToReturn, candidateSelectEnable);
+                }
+                else
+                {
+                    string outStr = GetRaceBoardMapkeyStr(rd, candidatesToReturn, candidateSelectEnable);
+                    SendToViz(outStr, dataType);
+                }
+            
             }
             else
             {
@@ -6458,12 +6469,7 @@ namespace GUILayer.Forms
 
         public void SendErizosData(BindingList<RaceDataModel> raceData, int numCand, bool CandSelect)
         {
-            //Example of a 2 way raceboard with the Dem candidate winning and adding a gain
-
-            //USGOV99991 ^ USGOV99992 ~state = New York; race = CD02; precincts = 10; office = house; racemode = 1 ; evdel = 32 ~
-            //name = candidate1; party = 0; incum = 0; vote = 3000; percent = 23.4; check = 0; gain = 0; imagePath = George_Bush | 
-            //name = candidate2; party = 1; incum = 0; vote = 5000; percent = 33.4; check = 1; gain = 1; imagePath = barack_obama
-
+            
             //“raceMode” – 0 (not called), 1(race called), 2 (just called), 3(too close to call), 4 (runoff), 5 (race to watch)
             // "evdel" delegates for primaries electoral votes for general elect president 0 otherwise
 
@@ -6477,7 +6483,6 @@ namespace GUILayer.Forms
 
             short stateNumber = stackElements[currentRaceIndex].State_Number;
             StateMetadataModel st = GetStateMetadata(stateNumber);
-            //raceBoardData.state = raceData[0].StateName.Trim();
             raceBoardData.state = st.State_Name;
 
             if (raceData[0].cntyName.Length > 0 && raceData[0].cntyName != "ALL")
@@ -6510,13 +6515,7 @@ namespace GUILayer.Forms
                 }
                 else
                 {
-                    //int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
-                    //if (temp > 0 && temp < 1)
-                    //    raceBoardData.pctsReporting = "<1";
-                    //else
-                    //    raceBoardData.pctsReporting = temp.ToString();
-
-
+                    
                     float temp = (float)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
                     if (temp > 0f && temp < 1f)
                         raceBoardData.pctsReporting = "<1";
@@ -6526,12 +6525,6 @@ namespace GUILayer.Forms
             }
             else
             {
-                //int temp = (int)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
-                //if (temp > 0 && temp < 1)
-                //    raceBoardData.pctsReporting = "<1";
-                //else
-                //    raceBoardData.pctsReporting = temp.ToString();
-
                 float temp = (float)(raceData[0].PrecinctsReporting * 100.0 / raceData[0].TotalPrecincts);
                 if (temp > 0f && temp < 1f)
                     raceBoardData.pctsReporting = "<1";
@@ -6549,7 +6542,9 @@ namespace GUILayer.Forms
             int cand5 = stackElements[currentRaceIndex].Race_CandidateID_5;
             int candIndx = 0;
 
-            for (int i = 0; i < numCand; i++)
+            Erizos_API.RaceboardsPayload.Raceboards1Way raceboards1way = new Erizos_API.RaceboardsPayload.Raceboards1Way();
+
+            for (int i = 0; i < raceData.Count; i++)
             {
                 candidateData_RB candidate = new candidateData_RB();
 
@@ -6588,9 +6583,9 @@ namespace GUILayer.Forms
                 else
                     candIndx = i;
 
-                mapKeyStr += raceData[candIndx].FoxID;
-                if (i < numCand - 1)
-                    mapKeyStr += "^";
+                //mapKeyStr += raceData[candIndx].FoxID;
+                //if (i < numCand - 1)
+                //    mapKeyStr += "^";
 
                 candidate.lastName = raceData[candIndx].CandidateLastName;
                 candidate.firstName = raceData[candIndx].CandidateFirstName;
@@ -6611,13 +6606,6 @@ namespace GUILayer.Forms
                         candidate.headshot = raceData[candIndx].HeadshotPathFNC;
                     }
 
-                    /*
-                    if (raceData[i].UseHeadshotFBN)
-                    {
-                        candidate.headshot = raceData[i].HeadshotPathFBN;
-                    }
-                    */
-
                 }
                 else if (Network == "FBC")
                 {
@@ -6627,13 +6615,6 @@ namespace GUILayer.Forms
                     {
                         candidate.headshot = raceData[candIndx].HeadshotPathFNC;
                     }
-
-                    /*
-                    if (raceData[i].UseHeadshotFBN)
-                    {
-                        candidate.headshot = raceData[i].HeadshotPathFBN;
-                    }
-                    */
 
                 }
                 // filename only, no path, no extension
@@ -6654,6 +6635,10 @@ namespace GUILayer.Forms
                 // Set candidate incumbent flag
                 candidate.incumbent = raceData[candIndx].IsIncumbentFlag == "Y" ? "1" : "0";
                 var winnerCandidateId = 0;
+                
+                
+                raceboards1way.Candidate.value = 2;
+                raceboards1way.CheckMark.value = false;
 
 
                 if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[i].cntyName == "ALL")
@@ -6668,8 +6653,6 @@ namespace GUILayer.Forms
                             candidateCalledWinner = true;
                             var raceCallTimeStr = raceData[candIndx].estTS;
                             winnerCandidateId = raceData[candIndx].CandidateID;
-
-                            raceCallTime = GetApRaceCallDateTime(raceCallTimeStr);
                         }
                         else
                         {
@@ -6704,6 +6687,16 @@ namespace GUILayer.Forms
                 {
                     candidate.winner = "1";
                     candidate.gain = GetGainFlag(raceData[candIndx]);
+
+
+                    if (raceData[candIndx].CandidatePartyID == "Dem")
+                        raceboards1way.Candidate.value = 1;
+
+                    else if (raceData[candIndx].CandidatePartyID == "Rep")
+                        raceboards1way.Candidate.value = 0;
+
+                    raceboards1way.CheckMark.value = true;
+
                 }
                 else
                 {
@@ -6760,12 +6753,9 @@ namespace GUILayer.Forms
             //“raceMode” – 0 (not called), 1(race called), 2 (just called), 3(too close to call), 4 (runoff), 5 (race to watch)
             // "evdel" delegates for primaries electoral votes for general elect president 0 otherwise
 
+            //string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode};evdel={raceBoardData.evdel}~";
 
-            //USGOV99991^ USGOV99992 ~ state=New York; race=CD02;precincts=10 ; office=house; racemode=1 ; evdel=32 ~ name=candidate1; party=0; incum=0; vote=3000; percent=23.4 ; check=0; gain=0; imagePath= George_Bush |name=candidate2; party=1; incum=0; vote=5000; percent=33.4 ; check=1; gain=1; imagePath= barack_obama
-
-            string raceblock = $"~state={raceBoardData.state};race={raceBoardData.cd};precincts={raceBoardData.pctsReporting};office={raceBoardData.office};racemode={raceBoardData.mode};evdel={raceBoardData.evdel}~";
-
-            mapKeyStr += raceblock;
+            //mapKeyStr += raceblock;
 
             Erizos_API.RaceboardsPayload.Raceboards2Way raceboards = new Erizos_API.RaceboardsPayload.Raceboards2Way();
 
@@ -6779,53 +6769,45 @@ namespace GUILayer.Forms
                 raceboards.HasVotes.value = false;
 
             raceboards.TotalVotes.value = raceData[0].TotalVoteCount;
-            int candValue = 2;
-
+            
             for (int i = 0; i < numCand; i++)
             {
-                //if (UseCandidateFirstName)
-                //    mapKeyStr += $"name={raceBoardData.candData[i].firstName} {raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
-                //else
-                //    mapKeyStr += $"name={raceBoardData.candData[i].lastName};party={raceBoardData.candData[i].party};incum={raceBoardData.candData[i].incumbent};";
-                //mapKeyStr += $"vote={raceBoardData.candData[i].votes};percent={raceBoardData.candData[i].percent};check={raceBoardData.candData[i].winner};gain={raceBoardData.candData[i].gain};";
-                //mapKeyStr += $"imagePath={raceBoardData.candData[i].headshot}";
-                //if (i < numCand - 1)
-                //    mapKeyStr += "^";
                 
                 bool winner = false;
                 if (raceBoardData.candData[i].winner == "1")
                     winner = true;
 
-                int votes = Convert.ToInt32(raceBoardData.candData[i].votes);
-                double percent = Convert.ToDouble(raceBoardData.candData[i].percent);
+                int votes = 0;
+                double percent = 0;
+                if (raceBoardData.candData[i].votes != " ")
+                {
+                    votes = Convert.ToInt32(raceBoardData.candData[i].votes);
+                    percent = Convert.ToDouble(raceBoardData.candData[i].percent);
+                }
                 
 
-                if (raceBoardData.candData[i].party == "Dem")
+                if (raceBoardData.candData[i].party == "1")
                 {
                     raceboards.DemsWinner.value = winner;
                     raceboards.DemsVotes.value = votes;
                     raceboards.DemsPercent.value = percent;
-                    if (winner == true)
-                        candValue = 1;
+                    
                 }
-                else if (raceBoardData.candData[i].party == "Rep")
+                else if (raceBoardData.candData[i].party == "0")
                 {
                     raceboards.RepsWinner.value = winner;
                     raceboards.RepsVotes.value = votes;
                     raceboards.RepsPercent.value = percent;
-                    if (winner == true)
-                        candValue = 0;
+                    
                 }
 
             }
             raceboards.Difference.value = Math.Abs(raceboards.DemsVotes.value - raceboards.RepsVotes.value);
 
-            Erizos_API.RaceboardsPayload.Raceboards1Way raceboards1way = new Erizos_API.RaceboardsPayload.Raceboards1Way();
-            raceboards1way.Candidate.value = candValue;
             raceboards1way.StateData.value = raceData[0].StateAbbv;
-            raceboards1way.CheckMark.value = true;
             raceboards1way.Logo.value = true;
 
+            Erizos_API.RaceboardsPayload.unrealEngine = unrealEng;
             if (numCand == 1)
                 Erizos_API.RaceboardsPayload.SendPayload(raceboards1way);
             else

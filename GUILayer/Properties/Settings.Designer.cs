@@ -153,41 +153,10 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdb1;Initial Catalog=VizMultiPlayStackData;Persist Security Info=T" +
-            "rue;User ID=gfxuser;Password=elect2018")]
-        public string GraphicsDBConnectionString {
-            get {
-                return ((string)(this["GraphicsDBConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool EnableShowSelectControls {
             get {
                 return ((bool)(this["EnableShowSelectControls"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://10.232.84.99:8580/")]
-        public string MSEEndpoint1 {
-            get {
-                return ((string)(this["MSEEndpoint1"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=enygdb1;Initial Catalog=VizStackmasterStackData;Persist Security Info" +
-            "=True;User ID=gfxuser;Password=elect2018")]
-        public string StacksDBConnectionString {
-            get {
-                return ((string)(this["StacksDBConnectionString"]));
             }
         }
         

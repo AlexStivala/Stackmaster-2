@@ -31,6 +31,8 @@ using System.Net;
 using System.Net.Sockets;
 using VoterAnalysisParser;
 using LogicLayer.GeneralDataProcessingFunctions;
+using System.Linq;
+using System.Reflection;
 
 
 // Required for implementing logging to status bar
@@ -142,6 +144,69 @@ namespace GUILayer.Forms
         public bool unreal = false;
         public string unrealEng = "UNREAL1";
 
+
+        // This class added to allow for configuration of application config file in a location other than the folder where the .EXE resides
+        // 09/24/2020
+        public abstract class AppConfig : IDisposable
+        {
+            public static AppConfig Change(string path)
+            {
+                return new ChangeAppConfig(path);
+            }
+
+            public abstract void Dispose();
+
+            private class ChangeAppConfig : AppConfig
+            {
+                private readonly string oldConfig =
+                    AppDomain.CurrentDomain.GetData("APP_CONFIG_FILE").ToString();
+
+                private bool disposedValue;
+
+                public ChangeAppConfig(string path)
+                {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", path);
+                    ResetConfigMechanism();
+                }
+
+                public override void Dispose()
+                {
+                    if (!disposedValue)
+                    {
+                        AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", oldConfig);
+                        ResetConfigMechanism();
+
+
+                        disposedValue = true;
+                    }
+                    GC.SuppressFinalize(this);
+                }
+
+                private static void ResetConfigMechanism()
+                {
+                    typeof(ConfigurationManager)
+                        .GetField("s_initState", BindingFlags.NonPublic |
+                                                 BindingFlags.Static)
+                        .SetValue(null, 0);
+
+                    typeof(ConfigurationManager)
+                        .GetField("s_configSystem", BindingFlags.NonPublic |
+                                                    BindingFlags.Static)
+                        .SetValue(null, null);
+
+                    typeof(ConfigurationManager)
+                        .Assembly.GetTypes()
+                        .Where(x => x.FullName ==
+                                    "System.Configuration.ClientConfigPaths")
+                        .First()
+                        .GetField("s_current", BindingFlags.NonPublic |
+                                               BindingFlags.Static)
+                        .SetValue(null, null);
+                }
+            }
+        }
+
+
         #endregion
 
         #region Collection & binding list definitions
@@ -246,12 +311,8 @@ namespace GUILayer.Forms
         string currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
         */
 
-        // Read in database connection strings
-        //string GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
-        //string ElectionsDBConnectionString = Properties.Settings.Default.ElectionsDBConnectionString;
-        //string StacksDBConnectionString = Properties.Settings.Default.StacksDBConnectionString;
-        //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
-
+        // database connection strings
+        
         public static string GraphicsDBConnectionString = string.Empty;
         public static string ElectionsDBConnectionString = string.Empty;
         public static string StacksDBConnectionString = string.Empty;
@@ -323,19 +384,19 @@ namespace GUILayer.Forms
             try
             {
 
-                // Setup show controls
-                if (Properties.Settings.Default.EnableShowSelectControls)
-                    enableShowSelectControls = true;
-                else
-                    enableShowSelectControls = false;
-                if (enableShowSelectControls)
-                {
-                    miSelectDefaultShow.Enabled = true;
-                }
-                else
-                {
-                    miSelectDefaultShow.Enabled = false;
-                }
+                //// Setup show controls
+                //if (Properties.Settings.Default.EnableShowSelectControls)
+                //    enableShowSelectControls = true;
+                //else
+                //    enableShowSelectControls = false;
+                //if (enableShowSelectControls)
+                //{
+                //    miSelectDefaultShow.Enabled = true;
+                //}
+                //else
+                //{
+                //    miSelectDefaultShow.Enabled = false;
+                //}
 
                 // Set version number
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -353,10 +414,6 @@ namespace GUILayer.Forms
 
                 // Query the elections DB to get the list of exit poll questions
                 //RefreshExitPollQuestions();
-
-                
-
-                
                 
             }
             catch (Exception ex)
@@ -429,117 +486,15 @@ namespace GUILayer.Forms
         {
 
             // Read in config settings - default to Media Sequencer #1
-            mseEndpoint1 = Properties.Settings.Default.MSEEndpoint1;
-            mseEndpoint2 = Properties.Settings.Default.MSEEndpoint2;
-            mseEndpoint1_Enable = Properties.Settings.Default.MSEEndpoint1_Enable;
-            mseEndpoint2_Enable = Properties.Settings.Default.MSEEndpoint2_Enable;
-            topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
-            masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.MasterPlaylistsDirectory;
-            profilesURI = Properties.Settings.Default.MSEEndpoint1 + "profiles";
-            currentShowName = Properties.Settings.Default.CurrentShowName;
-            currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
-            MindyMode = Properties.Settings.Default.MindyMode;
-            VictoriaMode = Properties.Settings.Default.VictoriaMode;
-            electionMode = Properties.Settings.Default.ElectionMode;
-            remotePort = Properties.Settings.Default.RemotePort;
-            UseCandidateFirstName = Properties.Settings.Default.UseCandidateFirstName;
-            unreal = Properties.Settings.Default.Unreal;
-            unrealEng = Properties.Settings.Default.UnrealEng;
-
-            if (electionMode == "Primary")
-                isPrimary = true;
-            else
-                isPrimary = false;
-
-
-                //string sceneDescription = Properties.Settings.Default.Scene_Name;
-                //var useSceneName = Properties.Settings.Default[sceneDescription];
-
-                // Get host IP
-            ipAddress = HostIPNameFunctions.GetLocalIPAddress();
-            hostName = HostIPNameFunctions.GetHostName(ipAddress);
-            lblIpAddress.Text = ipAddress;
-            lblHostName.Text = hostName;
-
-            log.Debug($"{ipAddress}  {hostName}");
-
-
-
-            //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
-            string primaryServer = Properties.Settings.Default.Server_Pri;
-            string backupServer = Properties.Settings.Default.Server_Bk;
-            string User = Properties.Settings.Default.User;
-            string Pw = Properties.Settings.Default.PW;
-
-
-            string server;
-
-            if (useBackupServer)
-            {
-                server = backupServer;
-            }
-            else
-            {
-                server = primaryServer;
-            }
-            
-            //var builder = new SqlConnectionStringBuilder(ElectionsDBConnectionString);
-
-            var builder = new SqlConnectionStringBuilder();
-
-            builder.UserID = User;
-            builder.Password = Pw;
-            builder.DataSource = server;
-            builder.InitialCatalog = Properties.Settings.Default.MainDB;
-            builder.PersistSecurityInfo = true;
-            ElectionsDBConnectionString = builder.ConnectionString;
-
-            var dataSource = builder.DataSource;
-            var initCat = builder.InitialCatalog;
-
-            lblDB.Text = $"{dataSource}  {initCat}";
-            log.Info($"{dataSource}  {initCat}");
-
-            
-            //log.Debug($"ElectionsDBConnectionString {ElectionsDBConnectionString}");
-
-
-            var sbuilder = new SqlConnectionStringBuilder("");
-            sbuilder.UserID = User;
-            sbuilder.Password = Pw;
-            sbuilder.DataSource = server;
-            sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
-            sbuilder.PersistSecurityInfo = true;
-            StacksDBConnectionString = sbuilder.ConnectionString;
-            //log.Debug($"StacksDBConnectionString {StacksDBConnectionString}");
-
-            var MPsbuilder = new SqlConnectionStringBuilder("");
-            MPsbuilder.UserID = User;
-            MPsbuilder.Password = Pw;
-            MPsbuilder.DataSource = server;
-            MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
-            MPsbuilder.PersistSecurityInfo = true;
-            GraphicsDBConnectionString = MPsbuilder.ConnectionString;
-            //log.Debug($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
-
-
-            var cbuilder = new SqlConnectionStringBuilder("");
-            cbuilder.UserID = User;
-            cbuilder.Password = Pw;
-            cbuilder.DataSource = server;
-            cbuilder.InitialCatalog = Properties.Settings.Default.ConfigDB;
-            cbuilder.PersistSecurityInfo = true;
-            ConfigDBConnectionString = cbuilder.ConnectionString;
-            //log.Debug($"ConfigDBConnectionString {ConfigDBConnectionString}");
-
-
-            usingPrimaryMediaSequencer = true;
-
-            
-            lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + Convert.ToString(Properties.Settings.Default.MSEEndpoint1);
-            lblMediaSequencer.BackColor = System.Drawing.Color.White;
-            usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
-            useBackupMediaSequencerToolStripMenuItem.Checked = false;
+            //mseEndpoint1 = Properties.Settings.Default.MSEEndpoint1;
+            //mseEndpoint2 = Properties.Settings.Default.MSEEndpoint2;
+            //mseEndpoint1_Enable = Properties.Settings.Default.MSEEndpoint1_Enable;
+            //mseEndpoint2_Enable = Properties.Settings.Default.MSEEndpoint2_Enable;
+            //topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
+            //masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.MasterPlaylistsDirectory;
+            //profilesURI = Properties.Settings.Default.MSEEndpoint1 + "profiles";
+            //currentShowName = Properties.Settings.Default.CurrentShowName;
+            //currentPlaylistName = Properties.Settings.Default.CurrentSelectedPlaylist;
 
             autoCalledRacesEnable = Properties.Settings.Default.AutoCalledRacesEnable;
             autoCalledRacesByOffice = Properties.Settings.Default.AutoCalledRacesByOffice;
@@ -561,6 +516,125 @@ namespace GUILayer.Forms
                 autoOfc.Add("G");
 
             cbAutoCalledRaces.Enabled = autoCalledRacesEnable;
+
+
+            MindyMode = Properties.Settings.Default.MindyMode;
+            VictoriaMode = Properties.Settings.Default.VictoriaMode;
+            electionMode = Properties.Settings.Default.ElectionMode;
+            remotePort = Properties.Settings.Default.RemotePort;
+            UseCandidateFirstName = Properties.Settings.Default.UseCandidateFirstName;
+            unreal = Properties.Settings.Default.Unreal;
+            unrealEng = Properties.Settings.Default.UnrealEng;
+
+            if (electionMode == "Primary")
+                isPrimary = true;
+            else
+                isPrimary = false;
+
+
+
+            // Get host IP
+            ipAddress = HostIPNameFunctions.GetLocalIPAddress();
+            hostName = HostIPNameFunctions.GetHostName(ipAddress);
+            lblIpAddress.Text = ipAddress;
+            lblHostName.Text = hostName;
+
+            log.Debug($"{ipAddress}  {hostName}");
+
+
+
+            //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
+            string primaryServer = Properties.Settings.Default.Server_Pri;
+            string backupServer = Properties.Settings.Default.Server_Bk;
+            string mainDB = Properties.Settings.Default.MainDB;
+            string stacksDB = Properties.Settings.Default.StacksDB;
+            string MP_stacksDB = Properties.Settings.Default.MP_StacksDB;
+            string configDB =  Properties.Settings.Default.ConfigDB;
+
+
+
+
+            string User = Properties.Settings.Default.User;
+            string Pw = Properties.Settings.Default.PW;
+
+
+            string server;
+
+            if (useBackupServer)
+            {
+                server = backupServer;
+            }
+            else
+            {
+                server = primaryServer;
+            }
+            
+            var builder = new SqlConnectionStringBuilder();
+
+            builder.UserID = User;
+            builder.Password = Pw;
+            builder.DataSource = server;
+            //builder.InitialCatalog = Properties.Settings.Default.MainDB;
+            builder.InitialCatalog = mainDB;
+            builder.PersistSecurityInfo = true;
+            ElectionsDBConnectionString = builder.ConnectionString;
+
+            var dataSource = builder.DataSource;
+            var initCat = builder.InitialCatalog;
+
+            lblDB.Text = $"{dataSource}  {initCat}";
+            log.Info($"{dataSource}  {initCat}");
+
+            
+            //log.Debug($"ElectionsDBConnectionString {ElectionsDBConnectionString}");
+
+
+            var sbuilder = new SqlConnectionStringBuilder("");
+            sbuilder.UserID = User;
+            sbuilder.Password = Pw;
+            sbuilder.DataSource = server;
+            //sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
+            sbuilder.InitialCatalog = stacksDB;
+            sbuilder.PersistSecurityInfo = true;
+            StacksDBConnectionString = sbuilder.ConnectionString;
+            //log.Debug($"StacksDBConnectionString {StacksDBConnectionString}");
+
+            var MPsbuilder = new SqlConnectionStringBuilder("");
+            MPsbuilder.UserID = User;
+            MPsbuilder.Password = Pw;
+            MPsbuilder.DataSource = server;
+            //MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
+            MPsbuilder.InitialCatalog = MP_stacksDB;
+            MPsbuilder.PersistSecurityInfo = true;
+            GraphicsDBConnectionString = MPsbuilder.ConnectionString;
+            //log.Debug($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
+
+
+            var cbuilder = new SqlConnectionStringBuilder("");
+            cbuilder.UserID = User;
+            cbuilder.Password = Pw;
+            cbuilder.DataSource = server;
+            //cbuilder.InitialCatalog = Properties.Settings.Default.ConfigDB;
+            cbuilder.InitialCatalog = configDB;
+            cbuilder.PersistSecurityInfo = true;
+            ConfigDBConnectionString = cbuilder.ConnectionString;
+            //log.Debug($"ConfigDBConnectionString {ConfigDBConnectionString}");
+
+
+
+
+
+
+            usingPrimaryMediaSequencer = true;
+
+            
+            //lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + Convert.ToString(Properties.Settings.Default.MSEEndpoint1);
+            //lblMediaSequencer.BackColor = System.Drawing.Color.White;
+            //usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
+            //useBackupMediaSequencerToolStripMenuItem.Checked = false;
+
+            
+            
 
             LoadConfig();
 
@@ -5661,68 +5735,68 @@ namespace GUILayer.Forms
         // Go to primary media sequencer
         private void usePrimaryMediaSequencerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (usePrimaryMediaSequencerToolStripMenuItem.Checked == false)
-            {
-                if (mseEndpoint2_Enable)
-                {
-                    usingPrimaryMediaSequencer = false;
-                    topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.TopLevelShowsDirectory;
-                    masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.MasterPlaylistsDirectory;
+            //if (usePrimaryMediaSequencerToolStripMenuItem.Checked == false)
+            //{
+            //    if (mseEndpoint2_Enable)
+            //    {
+            //        usingPrimaryMediaSequencer = false;
+            //        topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.TopLevelShowsDirectory;
+            //        masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.MasterPlaylistsDirectory;
 
-                    lblMediaSequencer.Text = "USING BACKUP MEDIA SEQUENCER: " + mseEndpoint2;
-                    lblMediaSequencer.BackColor = System.Drawing.Color.Yellow;
-                    usePrimaryMediaSequencerToolStripMenuItem.Checked = false;
-                    useBackupMediaSequencerToolStripMenuItem.Checked = true;
-                }
-            }
-            else
-            {
-                if (mseEndpoint1_Enable)
-                {
-                    usingPrimaryMediaSequencer = true;
-                    topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
-                    masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.MasterPlaylistsDirectory;
+            //        lblMediaSequencer.Text = "USING BACKUP MEDIA SEQUENCER: " + mseEndpoint2;
+            //        lblMediaSequencer.BackColor = System.Drawing.Color.Yellow;
+            //        usePrimaryMediaSequencerToolStripMenuItem.Checked = false;
+            //        useBackupMediaSequencerToolStripMenuItem.Checked = true;
+            //    }
+            //}
+            //else
+            //{
+            //    if (mseEndpoint1_Enable)
+            //    {
+            //        usingPrimaryMediaSequencer = true;
+            //        //topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
+            //        //masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.MasterPlaylistsDirectory;
 
-                    lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + mseEndpoint1;
-                    lblMediaSequencer.BackColor = System.Drawing.Color.White;
-                    usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
-                    useBackupMediaSequencerToolStripMenuItem.Checked = false;
-                }
-            }
+            //        lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + mseEndpoint1;
+            //        lblMediaSequencer.BackColor = System.Drawing.Color.White;
+            //        usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
+            //        useBackupMediaSequencerToolStripMenuItem.Checked = false;
+            //    }
+            //}
         }
 
         // Go to backup media sequencer
         private void useBackupMediaSequencerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (useBackupMediaSequencerToolStripMenuItem.Checked == false)
-            {
-                if (mseEndpoint1_Enable)
-                {
-                    usingPrimaryMediaSequencer = true;
-                    topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
-                    masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.MasterPlaylistsDirectory;
+            //if (useBackupMediaSequencerToolStripMenuItem.Checked == false)
+            //{
+            //    if (mseEndpoint1_Enable)
+            //    {
+            //        usingPrimaryMediaSequencer = true;
+            //        //topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.TopLevelShowsDirectory;
+            //        //masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint1 + Properties.Settings.Default.MasterPlaylistsDirectory;
 
-                    lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + mseEndpoint1;
-                    lblMediaSequencer.BackColor = System.Drawing.Color.White;
-                    usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
-                    useBackupMediaSequencerToolStripMenuItem.Checked = false;
-                }
+            //        lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + mseEndpoint1;
+            //        lblMediaSequencer.BackColor = System.Drawing.Color.White;
+            //        usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
+            //        useBackupMediaSequencerToolStripMenuItem.Checked = false;
+            //    }
 
-            }
-            else
-            {
-                if (mseEndpoint2_Enable)
-                {
-                    usingPrimaryMediaSequencer = false;
-                    topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.TopLevelShowsDirectory;
-                    masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.MasterPlaylistsDirectory;
+            //}
+            //else
+            //{
+            //    if (mseEndpoint2_Enable)
+            //    {
+            //        usingPrimaryMediaSequencer = false;
+            //        topLevelShowsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.TopLevelShowsDirectory;
+            //        masterPlaylistsDirectoryURI = Properties.Settings.Default.MSEEndpoint2 + Properties.Settings.Default.MasterPlaylistsDirectory;
 
-                    lblMediaSequencer.Text = "USING BACKUP MEDIA SEQUENCER: " + mseEndpoint2;
-                    lblMediaSequencer.BackColor = System.Drawing.Color.Yellow;
-                    usePrimaryMediaSequencerToolStripMenuItem.Checked = false;
-                    useBackupMediaSequencerToolStripMenuItem.Checked = true;
-                }
-            }
+            //        lblMediaSequencer.Text = "USING BACKUP MEDIA SEQUENCER: " + mseEndpoint2;
+            //        lblMediaSequencer.BackColor = System.Drawing.Color.Yellow;
+            //        usePrimaryMediaSequencerToolStripMenuItem.Checked = false;
+            //        useBackupMediaSequencerToolStripMenuItem.Checked = true;
+            //    }
+            //}
         }
         #endregion
 
@@ -6543,6 +6617,8 @@ namespace GUILayer.Forms
             int candIndx = 0;
 
             Erizos_API.RaceboardsPayload.Raceboards1Way raceboards1way = new Erizos_API.RaceboardsPayload.Raceboards1Way();
+            raceboards1way.Candidate.value = 2;
+            raceboards1way.CheckMark.value = false;
 
             for (int i = 0; i < raceData.Count; i++)
             {
@@ -6637,17 +6713,13 @@ namespace GUILayer.Forms
                 var winnerCandidateId = 0;
                 
                 
-                raceboards1way.Candidate.value = 2;
-                raceboards1way.CheckMark.value = false;
-
-
-                if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[i].cntyName == "ALL")
+                if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[candIndx].cntyName == "ALL")
                 {
                     //Check for AP race call
-                    if (raceData[i].RaceUseAPRaceCall)
+                    if (raceData[candIndx].RaceUseAPRaceCall)
                     {
                         //Check for AP called winner
-                        if (raceData[i].cStat.ToUpper() == "W")
+                        if (raceData[candIndx].cStat.ToUpper() == "W")
                         {
                             raceCalled = true;
                             candidateCalledWinner = true;
@@ -6662,7 +6734,7 @@ namespace GUILayer.Forms
                     //Check for Fox race call
                     else
                     {
-                        winnerCandidateId = raceData[i].RaceWinnerCandidateID;
+                        winnerCandidateId = raceData[candIndx].RaceWinnerCandidateID;
                         if (raceData[candIndx].RaceWinnerCalled)
                         {
                             raceCalled = true;
@@ -6761,7 +6833,8 @@ namespace GUILayer.Forms
 
             raceboards.StateData.value = raceData[0].StateAbbv;
             raceboards.ElectoralData.value = raceData[0].ElectoralVotesAvailable;
-            raceboards.InPercent.value = raceData[0].PercentExpectedVote;
+            //raceboards.InPercent.value = raceData[0].PrecinctsReporting;
+            raceboards.InPercent.value = Convert.ToDouble(raceBoardData.pctsReporting);
             raceboards.RaceStatus.value = raceBoardData.mode;
             if (raceData[0].TotalVoteCount > 0)
                 raceboards.HasVotes.value = true;
@@ -7016,13 +7089,13 @@ namespace GUILayer.Forms
                 var winnerCandidateId = 0;
 
 
-                if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[i].cntyName == "ALL")
+                if ((timeNow >= pollClosingTime || PollClosinglockout == false) && raceData[candIndx].cntyName == "ALL")
                 {
                     //Check for AP race call
-                    if (raceData[i].RaceUseAPRaceCall)
+                    if (raceData[candIndx].RaceUseAPRaceCall)
                     {
                         //Check for AP called winner
-                        if (raceData[i].cStat.ToUpper() == "W")
+                        if (raceData[candIndx].cStat.ToUpper() == "W")
                         {
                             raceCalled = true;
                             candidateCalledWinner = true;
@@ -7039,7 +7112,7 @@ namespace GUILayer.Forms
                     //Check for Fox race call
                     else
                     {
-                        winnerCandidateId = raceData[i].RaceWinnerCandidateID;
+                        winnerCandidateId = raceData[candIndx].RaceWinnerCandidateID;
                         if (raceData[candIndx].RaceWinnerCalled)
                         {
                             raceCalled = true;

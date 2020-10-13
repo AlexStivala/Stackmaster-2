@@ -142,7 +142,8 @@ namespace DataInterface.SQL
             "@candidateId1, " +
             "@candidateId2, " +
             "@candidateId3, " +
-            "@candidateId4";
+            "@candidateId4, " +
+            "@candidatesToReturn ";
 
         /// <summary>
         /// Sql to get the data for the specified race

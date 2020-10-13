@@ -323,8 +323,8 @@ namespace GUILayer.Forms
         bool useBackupServer = Convert.ToBoolean(config.AppSettings.Settings["UseBackupServer"].Value);
 
         //Read in default Trio profile and channel
-        string defaultTrioProfile = Properties.Settings.Default.DefaultTrioProfile;
-        string defaultTrioChannel = Properties.Settings.Default.DefaultTrioChannel;
+        //string defaultTrioProfile = Properties.Settings.Default.DefaultTrioProfile;
+        //string defaultTrioChannel = Properties.Settings.Default.DefaultTrioChannel;
 
         public class SavedData
         {
@@ -425,8 +425,8 @@ namespace GUILayer.Forms
 
             // Update status labels
             toolStripStatusLabel.Text = "Program initialization complete.";
-            lblPlaylistName.Text = currentPlaylistName;
-            lblTrioChannel.Text = defaultTrioChannel;
+            //lblPlaylistName.Text = currentPlaylistName;
+            //lblTrioChannel.Text = defaultTrioChannel;
         }
 
         // Lister function for server socket process
@@ -485,7 +485,15 @@ namespace GUILayer.Forms
         private void frmMain_Load(object sender, EventArgs e)
         {
 
-            // Read in config settings - default to Media Sequencer #1
+            // Get host IP
+            ipAddress = HostIPNameFunctions.GetLocalIPAddress();
+            hostName = HostIPNameFunctions.GetHostName(ipAddress);
+            lblIpAddress.Text = ipAddress;
+            lblHostName.Text = hostName;
+
+            log.Debug($"{ipAddress}  {hostName}");// Read in config settings
+
+
             //mseEndpoint1 = Properties.Settings.Default.MSEEndpoint1;
             //mseEndpoint2 = Properties.Settings.Default.MSEEndpoint2;
             //mseEndpoint1_Enable = Properties.Settings.Default.MSEEndpoint1_Enable;
@@ -531,19 +539,6 @@ namespace GUILayer.Forms
             else
                 isPrimary = false;
 
-
-
-            // Get host IP
-            ipAddress = HostIPNameFunctions.GetLocalIPAddress();
-            hostName = HostIPNameFunctions.GetHostName(ipAddress);
-            lblIpAddress.Text = ipAddress;
-            lblHostName.Text = hostName;
-
-            log.Debug($"{ipAddress}  {hostName}");
-
-
-
-            //bool useBackupServer = Properties.Settings.Default.UseBackupServer;
             string primaryServer = Properties.Settings.Default.Server_Pri;
             string backupServer = Properties.Settings.Default.Server_Bk;
             string mainDB = Properties.Settings.Default.MainDB;
@@ -551,12 +546,15 @@ namespace GUILayer.Forms
             string MP_stacksDB = Properties.Settings.Default.MP_StacksDB;
             string configDB =  Properties.Settings.Default.ConfigDB;
 
+            AppConfig.Change(@"C:\Windows\BMTAppData\BMTAppDataParams.exe.config");
 
+            string User = ConfigurationManager.AppSettings["Param1"];
+            string Pw = ConfigurationManager.AppSettings["Param2"];
 
+            //string User = Properties.Settings.Default.User;
+            //string Pw = Properties.Settings.Default.PW;
 
-            string User = Properties.Settings.Default.User;
-            string Pw = Properties.Settings.Default.PW;
-
+            bool encrypt = true;
 
             string server;
 
@@ -577,6 +575,11 @@ namespace GUILayer.Forms
             //builder.InitialCatalog = Properties.Settings.Default.MainDB;
             builder.InitialCatalog = mainDB;
             builder.PersistSecurityInfo = true;
+            builder.Encrypt = encrypt;
+            builder.TrustServerCertificate = false;
+
+            //"Data Source=enygdb1;Initial Catalog=ElectionProd;Persist Security Info=True;User ID=electReadersParsers;Password=pw;trustServerCertificate=false;encrypt=true"										
+            
             ElectionsDBConnectionString = builder.ConnectionString;
 
             var dataSource = builder.DataSource;
@@ -593,9 +596,11 @@ namespace GUILayer.Forms
             sbuilder.UserID = User;
             sbuilder.Password = Pw;
             sbuilder.DataSource = server;
-            //sbuilder.InitialCatalog = Properties.Settings.Default.StacksDB;
             sbuilder.InitialCatalog = stacksDB;
             sbuilder.PersistSecurityInfo = true;
+            sbuilder.Encrypt = encrypt;
+            sbuilder.TrustServerCertificate = false;
+
             StacksDBConnectionString = sbuilder.ConnectionString;
             //log.Debug($"StacksDBConnectionString {StacksDBConnectionString}");
 
@@ -603,9 +608,10 @@ namespace GUILayer.Forms
             MPsbuilder.UserID = User;
             MPsbuilder.Password = Pw;
             MPsbuilder.DataSource = server;
-            //MPsbuilder.InitialCatalog = Properties.Settings.Default.MP_StacksDB;
             MPsbuilder.InitialCatalog = MP_stacksDB;
             MPsbuilder.PersistSecurityInfo = true;
+            MPsbuilder.Encrypt = encrypt;
+            MPsbuilder.TrustServerCertificate = false;
             GraphicsDBConnectionString = MPsbuilder.ConnectionString;
             //log.Debug($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
 
@@ -614,27 +620,19 @@ namespace GUILayer.Forms
             cbuilder.UserID = User;
             cbuilder.Password = Pw;
             cbuilder.DataSource = server;
-            //cbuilder.InitialCatalog = Properties.Settings.Default.ConfigDB;
             cbuilder.InitialCatalog = configDB;
             cbuilder.PersistSecurityInfo = true;
+            cbuilder.Encrypt = encrypt;
+            cbuilder.TrustServerCertificate = false;
             ConfigDBConnectionString = cbuilder.ConnectionString;
             //log.Debug($"ConfigDBConnectionString {ConfigDBConnectionString}");
 
-
-
-
-
-
-            usingPrimaryMediaSequencer = true;
-
-            
+            //usingPrimaryMediaSequencer = true;
             //lblMediaSequencer.Text = "USING PRIMARY MEDIA SEQUENCER: " + Convert.ToString(Properties.Settings.Default.MSEEndpoint1);
             //lblMediaSequencer.BackColor = System.Drawing.Color.White;
             //usePrimaryMediaSequencerToolStripMenuItem.Checked = true;
             //useBackupMediaSequencerToolStripMenuItem.Checked = false;
 
-            
-            
 
             LoadConfig();
 
@@ -653,8 +651,6 @@ namespace GUILayer.Forms
                 CandSelPanel3.Visible = true;
             }
 
-
-            
             // Init the state metadata collection
             CreateStateMetadataCollection();
 
@@ -670,7 +666,6 @@ namespace GUILayer.Forms
             rbShowAllSP.Enabled = false;
 
             rbPresidentSP.Checked = true;
-
 
             //Query the elections DB to get the list of Referendums
             RefreshReferendums();
@@ -693,7 +688,7 @@ namespace GUILayer.Forms
             CreateRacePreviewCollection();
 
             // Init Graphics Concepts Collection
-            CreateGraphicsConceptsCollection();
+            //CreateGraphicsConceptsCollection();
 
             // Set current show label
             lblCurrentShow.Text = currentShowName;
@@ -2305,36 +2300,36 @@ namespace GUILayer.Forms
         }
 
         // Create the graphics concepts collection
-        private void CreateGraphicsConceptsCollection()
-        {
-            try
-            {
-                // Setup the master race collection & bind to grid
-                this.graphicsConceptsCollection = new GraphicsConceptsCollection();
-                this.graphicsConceptsCollection.GraphicsDBConnectionString = GraphicsDBConnectionString;
-                graphicsConceptTypes = this.graphicsConceptsCollection.GetGraphicsConceptTypesCollection();
+        //private void CreateGraphicsConceptsCollection()
+        //{
+        //    try
+        //    {
+        //        // Setup the master race collection & bind to grid
+        //        this.graphicsConceptsCollection = new GraphicsConceptsCollection();
+        //        this.graphicsConceptsCollection.GraphicsDBConnectionString = GraphicsDBConnectionString;
+        //        graphicsConceptTypes = this.graphicsConceptsCollection.GetGraphicsConceptTypesCollection();
 
-                for (Int16 i = 0; i < graphicsConceptTypes.Count; i++)
-                    cbGraphicConcept.Items.Add(graphicsConceptTypes[i].ConceptName);
+        //        for (Int16 i = 0; i < graphicsConceptTypes.Count; i++)
+        //            cbGraphicConcept.Items.Add(graphicsConceptTypes[i].ConceptName);
 
-                conceptID = graphicsConceptTypes[0].ConceptID;
-                conceptName = graphicsConceptTypes[0].ConceptName;
-                cbGraphicConcept.SelectedIndex = 0;
-                cbGraphicConcept.Text = conceptName;
+        //        conceptID = graphicsConceptTypes[0].ConceptID;
+        //        conceptName = graphicsConceptTypes[0].ConceptName;
+        //        cbGraphicConcept.SelectedIndex = 0;
+        //        cbGraphicConcept.Text = conceptName;
 
-                // Setup the master race collection & bind to grid
-                //this.graphicsConceptsCollection = new GraphicsConceptsCollection();
-                //this.graphicsConceptsCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
-                graphicsConcepts = this.graphicsConceptsCollection.GetGraphicsConceptsCollection();
+        //        // Setup the master race collection & bind to grid
+        //        //this.graphicsConceptsCollection = new GraphicsConceptsCollection();
+        //        //this.graphicsConceptsCollection.ElectionsDBConnectionString = ElectionsDBConnectionString;
+        //        graphicsConcepts = this.graphicsConceptsCollection.GetGraphicsConceptsCollection();
 
-            }
-            catch (Exception ex)
-            {
-                // Log error
-                log.Error("frmMain Exception occurred while trying to create graphics concepts collection: " + ex.Message);
-                //log.Debug("frmMain Exception occurred while trying to create graphics concepts collection", ex);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log error
+        //        log.Error("frmMain Exception occurred while trying to create graphics concepts collection: " + ex.Message);
+        //        //log.Debug("frmMain Exception occurred while trying to create graphics concepts collection", ex);
+        //    }
+        //}
         #endregion
 
         #region Stack (group) creation & management functions
@@ -2396,31 +2391,31 @@ namespace GUILayer.Forms
         }
 
         // Handler from main menu to launch show selection dialog
-        private void miSelectDefaultShow_Click(object sender, EventArgs e)
-        {
-            DialogResult dr = new DialogResult();
-            string mseEndpoint = string.Empty;
-            if (usingPrimaryMediaSequencer)
-            {
-                mseEndpoint = mseEndpoint1;
-            }
-            else
-            {
-                mseEndpoint = mseEndpoint2;
-            }
-            frmSelectShow selectShow = new frmSelectShow(mseEndpoint,GraphicsDBConnectionString);
-            dr = selectShow.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                // Set the new show
-                currentShowName = selectShow.selectedShow;
-                lblCurrentShow.Text = currentShowName;
+        //private void miSelectDefaultShow_Click(object sender, EventArgs e)
+        //{
+        //    DialogResult dr = new DialogResult();
+        //    string mseEndpoint = string.Empty;
+        //    if (usingPrimaryMediaSequencer)
+        //    {
+        //        mseEndpoint = mseEndpoint1;
+        //    }
+        //    else
+        //    {
+        //        mseEndpoint = mseEndpoint2;
+        //    }
+        //    frmSelectShow selectShow = new frmSelectShow(mseEndpoint,GraphicsDBConnectionString);
+        //    dr = selectShow.ShowDialog();
+        //    if (dr == DialogResult.OK)
+        //    {
+        //        // Set the new show
+        //        currentShowName = selectShow.selectedShow;
+        //        lblCurrentShow.Text = currentShowName;
 
-                // Write the new default show out to the config file
-                Properties.Settings.Default.CurrentShowName = currentShowName;
-                Properties.Settings.Default.Save();
-            }
-        }
+        //        // Write the new default show out to the config file
+        //        Properties.Settings.Default.CurrentShowName = currentShowName;
+        //        Properties.Settings.Default.Save();
+        //    }
+        //}
         #endregion
 
         #region Raceboard add to Stack operations 
@@ -2523,7 +2518,7 @@ namespace GUILayer.Forms
                     newStackElement.Stack_Element_Description = stackElementDescription;
 
                     // Get the template ID for the specified element type & concept ID
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
 
                     newStackElement.Election_Type = selectedRace.Election_Type;
                     newStackElement.Office_Code = selectedRace.Race_Office;
@@ -2605,7 +2600,7 @@ namespace GUILayer.Forms
 
 
                     // Get the template ID for the specified element type & concept ID
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, 3);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, 3);
 
                     //newStackElement.Election_Type = selectedRace.Election_Type;
                     //newStackElement.Office_Code = selectedRace.Race_Office;
@@ -2710,7 +2705,7 @@ namespace GUILayer.Forms
                     newStackElement.Stack_Element_Description = stackElementDescription;
 
                     // Get the template ID for the specified element type & concept ID
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, stackElementType);
 
                     newStackElement.Election_Type = selectedRace.Election_Type;
                     newStackElement.Office_Code = selectedRace.Race_Office;
@@ -4028,7 +4023,7 @@ namespace GUILayer.Forms
                             MANAGE_ELEMENTS element = new MANAGE_ELEMENTS();
 
                             // Create the new element
-                            element.createNewElement(i.ToString() + ": " + racePreviewElement.Raceboard_Description, elementCollectionURIPlaylist, templateModel, nameValuePairs, defaultTrioChannel);
+                            //element.createNewElement(i.ToString() + ": " + racePreviewElement.Raceboard_Description, elementCollectionURIPlaylist, templateModel, nameValuePairs, defaultTrioChannel);
                         }
                     }
                 }
@@ -4500,7 +4495,7 @@ namespace GUILayer.Forms
                 newStackElement.Stack_Element_Data_Type = (Int16)DataTypes.Balance_of_Power;
                 newStackElement.Stack_Element_Description = "Balance Of Power";
                 // Get the template ID for the specified element type
-                newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, eType);
+                //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, eType);
 
                 newStackElement.Election_Type = "G";
                 newStackElement.Office_Code = BOPoffice;
@@ -4650,7 +4645,7 @@ namespace GUILayer.Forms
                     currentPollIndex = dgvVoterAnalysis.CurrentCell.RowIndex;
                     selectedPoll = VA_Qdata_FS[currentPollIndex];
                     newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Full_Screen;
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Full_Screen);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Full_Screen);
                     newStackElement.Office_Code = selectedPoll.ofc;
                     newStackElement.State_Mnemonic = selectedPoll.state;
                     newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.header}";
@@ -4665,7 +4660,7 @@ namespace GUILayer.Forms
                     currentPollIndex = dgvVoterAnalysisTicker.CurrentCell.RowIndex;
                     selectedPoll = VA_Qdata_Tkr[currentPollIndex];
                     newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Ticker;
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Ticker);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Ticker);
                     newStackElement.Office_Code = selectedPoll.ofc;
                     newStackElement.State_Mnemonic = selectedPoll.state;
                     newStackElement.Listbox_Description = $"{selectedPoll.state}-{selectedPoll.ofc}-{selectedPoll.r_type}-{selectedPoll.header}";
@@ -4680,7 +4675,7 @@ namespace GUILayer.Forms
                     currentPollIndex = dgvVAManual.CurrentCell.RowIndex;
                     selectedPoll = VA_Qdata_Man[currentPollIndex];
                     newStackElement.Stack_Element_Type = (short)StackElementTypes.Voter_Analysis_Manual;
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Manual);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Voter_Analysis_Manual);
                     newStackElement.State_Mnemonic = selectedPoll.st;
                     newStackElement.Listbox_Description = $"{selectedPoll.st}-{selectedPoll.r_type}-{selectedPoll.question}";
                     newStackElement.State_Name = selectedPoll.state.ToUpper();
@@ -4954,7 +4949,7 @@ namespace GUILayer.Forms
                 newStackElement.Stack_Element_Data_Type = (short)DataTypes.Referendums;
                 newStackElement.Stack_Element_Description = "Referendums";
                 // Get the template ID for the specified element type
-                newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Referendums);
+                //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, (short)StackElementTypes.Referendums);
                 //093016
                 //mseStackElementTypeCollection.GetMSEStackElementType(mseStackElementTypes, (short)StackElementTypes.Referendums).Element_Type_Template_ID;
 
@@ -5601,7 +5596,7 @@ namespace GUILayer.Forms
                     newStackElement.Stack_Element_Description = eDesc;
 
                     // Get the template ID for the specified element type
-                    newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, newStackElement.Stack_Element_Type);
+                    //newStackElement.Stack_Element_TemplateID = GetTemplate(conceptID, newStackElement.Stack_Element_Type);
 
                     newStackElement.Election_Type = selectedRace.Election_Type;
                     newStackElement.Office_Code = selectedRace.Race_Office;

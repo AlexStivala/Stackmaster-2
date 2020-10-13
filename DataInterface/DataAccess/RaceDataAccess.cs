@@ -30,7 +30,7 @@ namespace DataInterface.DataAccess
         /// <summary>
         /// Method to get race data from the Elections SQL DB and pass it back to the logic layer as a DataTable
         /// </summary>
-        public DataTable GetRaceData(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType,
+        public DataTable GetRaceData(string electionMode, Int16 stateNumber, string raceOffice, Int16 cd, string electionType, Int32 candidatesToReturn,
             bool candidateSelectEnable, int candidateId1, int candidateId2, int candidateId3, int candidateId4, int candidateId5)
         {
             DataTable dataTable = new DataTable();
@@ -60,7 +60,8 @@ namespace DataInterface.DataAccess
                             cmd.Parameters.Add("@candidateId2", SqlDbType.Int).Value = candidateId2;
                             cmd.Parameters.Add("@candidateId3", SqlDbType.Int).Value = candidateId3;
                             cmd.Parameters.Add("@candidateId4", SqlDbType.Int).Value = candidateId4;
-                            cmd.Parameters.Add("@candidateId5", SqlDbType.Int).Value = candidateId5;
+                            //cmd.Parameters.Add("@candidateId5", SqlDbType.Int).Value = candidateId5;
+                            cmd.Parameters.Add("@candidatesToReturn", SqlDbType.Int).Value = candidatesToReturn;
                             sqlDataAdapter.SelectCommand = cmd;
                             sqlDataAdapter.SelectCommand.Connection = connection;
                             sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;

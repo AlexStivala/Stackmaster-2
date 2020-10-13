@@ -2,51 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GUILayer.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DefaultTrioProfile" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">MJD Test Profile</Value>
-    </Setting>
-    <Setting Name="MSEEndpoint2" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://172.21.0.35:8580/</Value>
-    </Setting>
-    <Setting Name="MSEEndpoint1_Enable" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="MSEEndpoint2_Enable" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="TopLevelShowsDirectory" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">directory/shows/MIDTERMS_2018/</Value>
-    </Setting>
-    <Setting Name="MasterPlaylistsDirectory" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">directory/playlists/</Value>
-    </Setting>
-    <Setting Name="CurrentSelectedPlaylist" Type="System.String" Scope="User">
-      <Value Profile="(Default)">GRAPHICS</Value>
-    </Setting>
-    <Setting Name="ElectionsDBConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Persist Security Info=True;User ID=gfxuser;Password=elect2018;Data Source=enygdb1;Initial Catalog=ElectionProd&lt;/ConnectionString&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Persist Security Info=True;User ID=gfxuser;Password=elect2018;Data Source=enygdb1;Initial Catalog=ElectionProd</Value>
-    </Setting>
-    <Setting Name="CurrentShowPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MULTIPLAY/MAIN_WALL</Value>
-    </Setting>
-    <Setting Name="CurrentShowName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MAIN_WALL</Value>
-    </Setting>
-    <Setting Name="DefaultTrioChannel" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">[PROGRAM]</Value>
-    </Setting>
     <Setting Name="ApplicationID" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">14</Value>
     </Setting>
     <Setting Name="ApplicationName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Stackmaster II</Value>
-    </Setting>
-    <Setting Name="EnableShowSelectControls" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="MindyMode" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
@@ -84,17 +44,8 @@
     <Setting Name="Governor" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="UseBackupServer" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="AutoCalledRacesEnable" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="User" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">gfxuser</Value>
-    </Setting>
-    <Setting Name="PW" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">elect2018</Value>
     </Setting>
     <Setting Name="ConfigDB" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ElectionProd</Value>
@@ -109,10 +60,10 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Unreal" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="UnrealEng" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">UNREAL4</Value>
+      <Value Profile="(Default)">UNREAL1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,116 +25,6 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MJD Test Profile")]
-        public string DefaultTrioProfile {
-            get {
-                return ((string)(this["DefaultTrioProfile"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://172.21.0.35:8580/")]
-        public string MSEEndpoint2 {
-            get {
-                return ((string)(this["MSEEndpoint2"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool MSEEndpoint1_Enable {
-            get {
-                return ((bool)(this["MSEEndpoint1_Enable"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool MSEEndpoint2_Enable {
-            get {
-                return ((bool)(this["MSEEndpoint2_Enable"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("directory/shows/MIDTERMS_2018/")]
-        public string TopLevelShowsDirectory {
-            get {
-                return ((string)(this["TopLevelShowsDirectory"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("directory/playlists/")]
-        public string MasterPlaylistsDirectory {
-            get {
-                return ((string)(this["MasterPlaylistsDirectory"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("GRAPHICS")]
-        public string CurrentSelectedPlaylist {
-            get {
-                return ((string)(this["CurrentSelectedPlaylist"]));
-            }
-            set {
-                this["CurrentSelectedPlaylist"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Persist Security Info=True;User ID=gfxuser;Password=elect2018;Data Source=enygdb1" +
-            ";Initial Catalog=ElectionProd")]
-        public string ElectionsDBConnectionString {
-            get {
-                return ((string)(this["ElectionsDBConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MULTIPLAY/MAIN_WALL")]
-        public string CurrentShowPath {
-            get {
-                return ((string)(this["CurrentShowPath"]));
-            }
-            set {
-                this["CurrentShowPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MAIN_WALL")]
-        public string CurrentShowName {
-            get {
-                return ((string)(this["CurrentShowName"]));
-            }
-            set {
-                this["CurrentShowName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[PROGRAM]")]
-        public string DefaultTrioChannel {
-            get {
-                return ((string)(this["DefaultTrioChannel"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("14")]
         public int ApplicationID {
             get {
@@ -148,15 +38,6 @@ namespace GUILayer.Properties {
         public string ApplicationName {
             get {
                 return ((string)(this["ApplicationName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableShowSelectControls {
-            get {
-                return ((bool)(this["EnableShowSelectControls"]));
             }
         }
         
@@ -270,37 +151,10 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseBackupServer {
-            get {
-                return ((bool)(this["UseBackupServer"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AutoCalledRacesEnable {
             get {
                 return ((bool)(this["AutoCalledRacesEnable"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("gfxuser")]
-        public string User {
-            get {
-                return ((string)(this["User"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("elect2018")]
-        public string PW {
-            get {
-                return ((string)(this["PW"]));
             }
         }
         
@@ -342,7 +196,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool Unreal {
             get {
                 return ((bool)(this["Unreal"]));
@@ -351,7 +205,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("UNREAL4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("UNREAL1")]
         public string UnrealEng {
             get {
                 return ((string)(this["UnrealEng"]));

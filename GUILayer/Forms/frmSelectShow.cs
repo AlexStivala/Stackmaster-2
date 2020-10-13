@@ -39,22 +39,22 @@ namespace GUILayer.Forms
                 InitializeComponent();
 
                 //Gets the URI's for available shows
-                MANAGE_SHOWS getShowList = new MANAGE_SHOWS();
+                //MANAGE_SHOWS getShowList = new MANAGE_SHOWS();
 
-                //Read in values from the config file
-                //GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
-                GraphicsDBConnectionString = DBconn;
+                ////Read in values from the config file
+                ////GraphicsDBConnectionString = Properties.Settings.Default.GraphicsDBConnectionString;
+                //GraphicsDBConnectionString = DBconn;
 
-                showNames = getShowList.GetListOfShows(mediaSequencerEndPoint + Properties.Settings.Default.TopLevelShowsDirectory);
+                //showNames = getShowList.GetListOfShows(mediaSequencerEndPoint + Properties.Settings.Default.TopLevelShowsDirectory);
 
-                // Enable handling of function keys
-                KeyPreview = true;
-                this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
+                //// Enable handling of function keys
+                //KeyPreview = true;
+                //this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
 
-                // Setup the available stacks grid
-                availableShowsGrid.AutoGenerateColumns = false;
-                var availableShowsGridDataSource = new BindingSource(showNames, null);
-                availableShowsGrid.DataSource = availableShowsGridDataSource;
+                //// Setup the available stacks grid
+                //availableShowsGrid.AutoGenerateColumns = false;
+                //var availableShowsGridDataSource = new BindingSource(showNames, null);
+                //availableShowsGrid.DataSource = availableShowsGridDataSource;
             }
             catch (Exception ex)
             {

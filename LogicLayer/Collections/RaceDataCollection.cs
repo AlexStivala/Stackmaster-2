@@ -57,7 +57,7 @@ namespace LogicLayer.Collections
                 // If state ID = -1 => not an actual data request - just initializing collection
                 if (stateNumber != -1)
                 {
-                    dataTable = raceDataAccess.GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4, candidateId5);
+                    dataTable = raceDataAccess.GetRaceData(electionMode, stateNumber, raceOffice, cd, electionType, candidatesToReturn, candidateSelectEnable, candidateId1, candidateId2, candidateId3, candidateId4, candidateId5);
 
                     // Init counter & increment
                     Int16 candidateCount = 0;

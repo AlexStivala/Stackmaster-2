@@ -31,7 +31,8 @@ namespace Erizos_API
         public class InPercent
         {
             public readonly string id = "InPercent";
-            public double value = 0.0;
+            //public double value = 0.0;
+            public string value = "";
         }
 
         public class RaceStatus

@@ -39,6 +39,7 @@ namespace DataInterface.DataModel
         public Boolean RaceWinnerCalled { get; set; }
         public DateTime RaceWinnerCallTime { get; set; }
         public Boolean RaceTooCloseToCall { get; set; }
+        public bool RaceIsRunoff { get; set; }
         public Int32 RaceWinnerCandidateID { get; set; }
         public DateTime RacePollClosingTime { get; set; }
         public Boolean RaceUseAPRaceCall { get; set; }
@@ -46,6 +47,7 @@ namespace DataInterface.DataModel
         public int DemDelegatesAvailable { get; set; }
         public int RepDelegatesAvailable { get; set; }
         public int ElectoralVotesAvailable { get; set; }
+        public int RepProbability { get; set; }
 
     }
 }

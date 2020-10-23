@@ -12,7 +12,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="VictoriaMode" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Server_Pri" Type="System.String" Scope="Application">
       <Value Profile="(Default)">enygdb1</Value>
@@ -63,7 +63,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="UnrealEng" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">UNREAL1</Value>
+      <Value Profile="(Default)">UNREAL4</Value>
     </Setting>
   </Settings>
 </SettingsFile>

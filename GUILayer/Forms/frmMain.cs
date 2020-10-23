@@ -338,7 +338,7 @@ namespace GUILayer.Forms
         }
 
         public SavedData tabsave = new SavedData();
-        public int tabId = 0;
+        public int tabId = -1;
 
 
         #endregion
@@ -576,7 +576,7 @@ namespace GUILayer.Forms
             builder.InitialCatalog = mainDB;
             builder.PersistSecurityInfo = true;
             builder.Encrypt = encrypt;
-            builder.TrustServerCertificate = false;
+            builder.TrustServerCertificate = true;
 
             //"Data Source=enygdb1;Initial Catalog=ElectionProd;Persist Security Info=True;User ID=electReadersParsers;Password=pw;trustServerCertificate=false;encrypt=true"										
             
@@ -599,7 +599,7 @@ namespace GUILayer.Forms
             sbuilder.InitialCatalog = stacksDB;
             sbuilder.PersistSecurityInfo = true;
             sbuilder.Encrypt = encrypt;
-            sbuilder.TrustServerCertificate = false;
+            sbuilder.TrustServerCertificate = true;
 
             StacksDBConnectionString = sbuilder.ConnectionString;
             //log.Debug($"StacksDBConnectionString {StacksDBConnectionString}");
@@ -611,7 +611,7 @@ namespace GUILayer.Forms
             MPsbuilder.InitialCatalog = MP_stacksDB;
             MPsbuilder.PersistSecurityInfo = true;
             MPsbuilder.Encrypt = encrypt;
-            MPsbuilder.TrustServerCertificate = false;
+            MPsbuilder.TrustServerCertificate = true;
             GraphicsDBConnectionString = MPsbuilder.ConnectionString;
             //log.Debug($"GraphicsDBConnectionString {GraphicsDBConnectionString}");
 
@@ -623,7 +623,7 @@ namespace GUILayer.Forms
             cbuilder.InitialCatalog = configDB;
             cbuilder.PersistSecurityInfo = true;
             cbuilder.Encrypt = encrypt;
-            cbuilder.TrustServerCertificate = false;
+            cbuilder.TrustServerCertificate = true;
             ConfigDBConnectionString = cbuilder.ConnectionString;
             //log.Debug($"ConfigDBConnectionString {ConfigDBConnectionString}");
 
@@ -634,7 +634,7 @@ namespace GUILayer.Forms
             //useBackupMediaSequencerToolStripMenuItem.Checked = false;
 
 
-            LoadConfig();
+            //LoadConfig();
 
             if (electionMode == "Primary")
             {
@@ -660,12 +660,7 @@ namespace GUILayer.Forms
             RefreshAvailableRacesListFiltered(ofcID, callStatus, specialFilters, stateMetadata, isPrimary);
             RefreshAvailableRacesListFilteredSP(ofcIDSP, callStatusSP, specialFiltersSP, stateMetadata, isPrimary);
 
-            rbSenateSP.Enabled = false;
-            rbHouseSP.Enabled = false;
-            rbGovernorSP.Enabled = false;
-            rbShowAllSP.Enabled = false;
-
-            rbPresidentSP.Checked = true;
+            
 
             //Query the elections DB to get the list of Referendums
             RefreshReferendums();
@@ -696,6 +691,11 @@ namespace GUILayer.Forms
             // Load the BOP Grid
             LoadBOPDGV();
 
+            // initialize Voter Analysis grids
+            GetVoterAnalysisGridData();
+            GetVoterAnalysisManualGridData();
+            GetVoterAnalysisMapGridData();
+
             // Enable handling of function keys; setup method for function keys and assign delegate
             KeyPreview = true;
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(KeyEvent);
@@ -704,6 +704,15 @@ namespace GUILayer.Forms
 
             // Set connection string for functions to get simulated time
             TimeFunctions.ElectionsDBConnectionString = ElectionsDBConnectionString;
+            LoadConfig();
+
+            rbSenateSP.Enabled = false;
+            rbHouseSP.Enabled = false;
+            rbGovernorSP.Enabled = false;
+            rbShowAllSP.Enabled = false;
+
+            rbPresidentSP.Checked = true;
+
 
 
         }
@@ -874,17 +883,22 @@ namespace GUILayer.Forms
                     if (RBenable)
                     {
                         tpRaces.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 0;
                     }
                     else
                     {
-                        //tpRaces.Enabled = false;
-                        //dataModeSelect.TabPages.Remove(tpRaces);
+                        tpRaces.Enabled = false;
+                        dataModeSelect.TabPages.Remove(tpRaces);
 
                     }
 
                     if (VAenable)
                     {
                         tpVoterAnalysis.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 1;
+
                     }
                     else
                     {
@@ -896,6 +910,9 @@ namespace GUILayer.Forms
                     if (BOPenable)
                     {
                         tpBalanceOfPower.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 2;
+
                     }
                     else
                     {
@@ -907,6 +924,9 @@ namespace GUILayer.Forms
                     if (REFenable)
                     {
                         tpReferendums.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 3;
+
                     }
                     else
                     {
@@ -918,6 +938,9 @@ namespace GUILayer.Forms
                     if (SPenable)
                     {
                         tpSidePanel.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 4;
+
                     }
                     else
                     {
@@ -929,6 +952,9 @@ namespace GUILayer.Forms
                     if (MAPenable)
                     {
                         tpMaps.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 5;
+
                     }
                     else
                     {
@@ -940,6 +966,9 @@ namespace GUILayer.Forms
                     if (NPVenable)
                     {
                         tpNPV.Enabled = true;
+                        if (tabId == -1)
+                            tabId = 6;
+
                     }
                     else
                     {
@@ -955,6 +984,11 @@ namespace GUILayer.Forms
                     {
                         tpTicker.Enabled = false;
                     }
+
+                    
+                    dataModeSelect.SelectedIndexChanged += dataModeSelect_SelectedIndexChanged;
+                    //dataModeSelect.SelectedIndex = tabId;
+                    dataModeSelect.SelectedIndex = 0;
 
 
                     // Setup background process for server socket
@@ -1158,7 +1192,7 @@ namespace GUILayer.Forms
                             break;
                         case 6:
                             tabName = "NPV";
-                            enab = MAPenable;
+                            enab = NPVenable;
                             break;
                         default:
                             tabName = "RaceBoards";
@@ -1292,7 +1326,11 @@ namespace GUILayer.Forms
 
         }
 
-        
+        private void DataModeSelect_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private static void UpdateSetting(string key, string value)
         {
             try
@@ -6513,7 +6551,7 @@ namespace GUILayer.Forms
                 listBox1.Items.Add(dataStr);
                 listBox1.SelectedIndex = listBox1.Items.Count - 1;
 
-                if (unreal)
+                if (unreal && tabIndex == 0)
                 {
                     SendErizosData(rd, candidatesToReturn, candidateSelectEnable);
                 }
@@ -6615,7 +6653,7 @@ namespace GUILayer.Forms
             raceboards1way.Candidate.value = 2;
             raceboards1way.CheckMark.value = false;
 
-            for (int i = 0; i < raceData.Count; i++)
+            for (int i = 0; i < numCand; i++)
             {
                 candidateData_RB candidate = new candidateData_RB();
 
@@ -6648,11 +6686,20 @@ namespace GUILayer.Forms
                     for (int n = 0; n < raceData.Count; n++)
                     {
                         if (raceData[n].CandidateID == candID)
+                        {
                             candIndx = n;
+                            
+                        }
                     }
                 }
                 else
                     candIndx = i;
+
+                if (raceData[candIndx].CandidatePartyID == "Dem")
+                    raceboards1way.Candidate.value = 1;
+
+                else if (raceData[candIndx].CandidatePartyID == "Rep")
+                    raceboards1way.Candidate.value = 0;
 
                 //mapKeyStr += raceData[candIndx].FoxID;
                 //if (i < numCand - 1)
@@ -6829,21 +6876,33 @@ namespace GUILayer.Forms
             raceboards.StateData.value = raceData[0].StateAbbv;
             raceboards.ElectoralData.value = raceData[0].ElectoralVotesAvailable;
             //raceboards.InPercent.value = raceData[0].PrecinctsReporting;
-            raceboards.InPercent.value = Convert.ToDouble(raceBoardData.pctsReporting);
+            //raceboards.InPercent.value = Convert.ToDouble(raceBoardData.pctsReporting);
+            raceboards.InPercent.value = raceBoardData.pctsReporting;
             raceboards.RaceStatus.value = raceBoardData.mode;
+            string hv = "F";
             if (raceData[0].TotalVoteCount > 0)
+            {
                 raceboards.HasVotes.value = true;
+                hv = "T";
+            }
             else
                 raceboards.HasVotes.value = false;
 
             raceboards.TotalVotes.value = raceData[0].TotalVoteCount;
-            
+
+            string outstr = $"{unrealEng}: State={raceData[0].StateAbbv};EV={raceData[0].ElectoralVotesAvailable};InPercent{raceBoardData.pctsReporting};RaceStatus{raceBoardData.mode};";
+            outstr += $"HasVotes={hv};";
+
             for (int i = 0; i < numCand; i++)
             {
                 
                 bool winner = false;
+                string win = "F";
                 if (raceBoardData.candData[i].winner == "1")
+                {
                     winner = true;
+                    win = "T";
+                }
 
                 int votes = 0;
                 double percent = 0;
@@ -6859,6 +6918,7 @@ namespace GUILayer.Forms
                     raceboards.DemsWinner.value = winner;
                     raceboards.DemsVotes.value = votes;
                     raceboards.DemsPercent.value = percent;
+                    outstr += $"DemsWinner={win};DemVotes={votes};DemsPercent={percent};";
                     
                 }
                 else if (raceBoardData.candData[i].party == "0")
@@ -6866,20 +6926,40 @@ namespace GUILayer.Forms
                     raceboards.RepsWinner.value = winner;
                     raceboards.RepsVotes.value = votes;
                     raceboards.RepsPercent.value = percent;
-                    
+                    outstr += $"RepsWinner={win};RepsVotes={votes};RepsPercent={percent};";
+
                 }
 
             }
             raceboards.Difference.value = Math.Abs(raceboards.DemsVotes.value - raceboards.RepsVotes.value);
+            outstr += $"Diff={raceboards.Difference.value};";
 
             raceboards1way.StateData.value = raceData[0].StateAbbv;
             raceboards1way.Logo.value = true;
+            string check = "T";
+            if (raceboards1way.CheckMark.value == false)
+                check = "F";
+
+
+            string outstr1 = $"{unrealEng}: State={raceData[0].StateAbbv};Logo=T;Candidate={raceboards1way.Candidate.value};Check={check};";
 
             Erizos_API.RaceboardsPayload.unrealEngine = unrealEng;
             if (numCand == 1)
+            {
                 Erizos_API.RaceboardsPayload.SendPayload(raceboards1way);
+                listBox2.Items.Add(outstr1);
+                listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                log.Info(outstr1);
+
+            }
             else
+            {
                 Erizos_API.RaceboardsPayload.SendPayload(raceboards);
+                listBox2.Items.Add(outstr);
+                listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                log.Info(outstr);
+
+            }
 
         }
 
@@ -7163,6 +7243,11 @@ namespace GUILayer.Forms
             {
                 // RaceTooCloseToCall flag is set
                 raceBoardData.mode = (int)BoardModes.Race_Board_To_Close_To_Call;
+            }
+            else if (raceData[0].RaceIsRunoff)
+            {
+                // RaceIsRunoff flag is set
+                raceBoardData.mode = (int)BoardModes.Race_Board_Runoff;
             }
             else
             {
@@ -7901,10 +7986,12 @@ namespace GUILayer.Forms
             SqlCommand cmd1 = new SqlCommand($"getFE_VoterAnalysis_MapData_MissingStates_New {quot}{VA_Data_Id}{quot}", connection1);
             SqlDataReader sqlData = cmd1.ExecuteReader();
 
+            bool missingStateFlag = false;
             List<string> missingStateList = new List<string>();
             while (sqlData.Read())
             {
                 missingStateList.Add(sqlData[0].ToString());
+                missingStateFlag = true;
             }
             sqlData.Close();
             
@@ -7920,7 +8007,7 @@ namespace GUILayer.Forms
             string mapDataCommand = $"{quot}VOTER_DATA{quot} {outStr}{term}";
             SendToViz2(mapDataCommand, seDataType);
 
-            outStr = GetVoterAnalysisMapLegendMapKeyStr(mapLegend, colorNum);
+            outStr = GetVoterAnalysisMapLegendMapKeyStr(mapLegend, colorNum, missingStateFlag);
             //string legendDataCommand = $"SEND MAIN_SCENE*MAP SET_STRING_ELEMENT {quot}VOTER_INFO{quot} {outStr}";
             string legendDataCommand = $"{quot}VOTER_INFO{quot} {outStr}{term}";
             SendToViz2(legendDataCommand, seDataType);
@@ -8372,7 +8459,7 @@ namespace GUILayer.Forms
             return outStr;
 
         }
-        public string GetVoterAnalysisMapLegendMapKeyStr(List<MapMetaDataModelNew> mapLegend, int colorSet)
+        public string GetVoterAnalysisMapLegendMapKeyStr(List<MapMetaDataModelNew> mapLegend, int colorSet, bool missingStateFlag)
         {
             string outStr = string.Empty;
             
@@ -8393,14 +8480,30 @@ namespace GUILayer.Forms
                     outStr += $"{mapLegend.Count - i}^{mapLegend[i].colorValue}^{mapLegend[i].bandLabel}";
 
                 }
+                //// Send blanks for unused legend rows
+                //if (mapLegend.Count == 4)
+                //{
+                //    outStr += "|5^0^NO STATE RACE";
+                //}
+                //else if (mapLegend.Count == 3)
+                //{
+                //    outStr += "|4^0^NO STATE RACE|5^^";
+                //}
+                
                 // Send blanks for unused legend rows
-                if (mapLegend.Count == 4)
+                if (mapLegend.Count == 4 && missingStateFlag)
                 {
-                    outStr += "|5^0^NO STATE RACE";
+                    if (missingStateFlag)
+                        outStr += "|5^0^NO DATA";
+                    else
+                        outStr += "|5^^";
                 }
-                else if (mapLegend.Count == 3)
+                else if (mapLegend.Count == 3 && missingStateFlag)
                 {
-                    outStr += "|4^0^NO STATE RACE|5^^";
+                    if (missingStateFlag)
+                        outStr += "|4^0^NO DATA|5^^";
+                    else
+                        outStr += "|4^^|5^^";
                 }
             }
             return outStr;

@@ -52,7 +52,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool VictoriaMode {
             get {
                 return ((bool)(this["VictoriaMode"]));
@@ -205,7 +205,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("UNREAL1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("UNREAL4")]
         public string UnrealEng {
             get {
                 return ((string)(this["UnrealEng"]));

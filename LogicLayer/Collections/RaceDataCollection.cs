@@ -104,6 +104,7 @@ namespace LogicLayer.Collections
                             RaceWinnerCalled = Convert.ToBoolean(row["Race_WinnerCalled"] ?? 0),
                             RaceWinnerCallTime = Convert.ToDateTime(row["Race_WinnerCallTime"] ?? 0),
                             RaceTooCloseToCall = Convert.ToBoolean(row["Race_TooCloseToCall"] ?? 0),
+                            RaceIsRunoff = Convert.ToBoolean(row["Race_IsRunoff"] ?? 0),
                             RaceWinnerCandidateID = Convert.ToInt32(row["Race_WinnerCandidateID"] ?? 0),
                             RacePollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0),
                             RaceUseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0),
@@ -111,6 +112,7 @@ namespace LogicLayer.Collections
                             DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0),
                             RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0),
                             ElectoralVotesAvailable = Convert.ToInt32(row["StateECVotesAvailable"] ?? 0),
+                            RepProbability = Convert.ToInt32(row["RepProbability"] ?? 0)
 
                         };
                         if (newRaceCandidateData.FoxID.Length < 10)

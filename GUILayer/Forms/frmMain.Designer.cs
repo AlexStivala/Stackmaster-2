@@ -3163,7 +3163,6 @@
             this.stackGrid.Size = new System.Drawing.Size(972, 715);
             this.stackGrid.TabIndex = 142;
             this.stackGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellClick);
-            this.stackGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellContentClick);
             this.stackGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stackGrid_CellDoubleClick);
             // 
             // Element_Type_Description

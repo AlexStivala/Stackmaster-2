@@ -143,6 +143,8 @@ namespace GUILayer.Forms
         public string stackNameSP = "";
         public bool unreal = false;
         public string unrealEng = "UNREAL1";
+        public bool clickFlag = false;
+        public int clickIndex = -1;
 
 
         // This class added to allow for configuration of application config file in a location other than the folder where the .EXE resides
@@ -3200,6 +3202,7 @@ namespace GUILayer.Forms
         // Handler for move stack element up in stack order
         private void btnStackElementUp_Click(object sender, EventArgs e)
         {
+            
             try
             {
                 if (stackElementsCollection.CollectionCount > 0)
@@ -4082,16 +4085,22 @@ namespace GUILayer.Forms
 
         private void stackGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+            //currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+            clickIndex = stackGrid.CurrentCell.RowIndex;
+            clickFlag = true;
         }
 
         public void ArrowUp()
         {
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+            //currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+            clickIndex = stackGrid.CurrentCell.RowIndex;
+            clickFlag = true;
         }
         public void ArrowDn()
         {
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+            //currentRaceIndex = stackGrid.CurrentCell.RowIndex - 1;
+            clickIndex = stackGrid.CurrentCell.RowIndex;
+            clickFlag = true;
         }
 
         #endregion
@@ -5845,10 +5854,18 @@ namespace GUILayer.Forms
             {
                 if (stackGrid.Rows.Count > 0)
                 {
-                    if (currentRaceIndex < stackGrid.RowCount - 1)
-                        currentRaceIndex++;
-                    stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
-
+                    if (clickFlag)
+                    {
+                        currentRaceIndex = clickIndex;
+                        stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
+                        clickFlag = false;
+                    }
+                    else
+                    {
+                        if (currentRaceIndex < stackGrid.RowCount - 1)
+                            currentRaceIndex++;
+                        stackGrid.CurrentCell = stackGrid.Rows[currentRaceIndex].Cells[0];
+                    }
                     TakeCurrent();
 
                 }
@@ -6419,7 +6436,7 @@ namespace GUILayer.Forms
             BindingList<RaceDataModel> rd = new BindingList<RaceDataModel>();
 
             //Get the selected race list object
-            currentRaceIndex = stackGrid.CurrentCell.RowIndex;
+            //currentRaceIndex = stackGrid.CurrentCell.RowIndex;
             short stateNumber = stackElements[currentRaceIndex].State_Number;
             string stCode = stackElements[currentRaceIndex].State_Mnemonic;
             int cnty = stackElements[currentRaceIndex].County_Number;
@@ -9257,10 +9274,6 @@ namespace GUILayer.Forms
 
         }
 
-        private void stackGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 
 }

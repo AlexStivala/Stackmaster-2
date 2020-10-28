@@ -791,35 +791,6 @@ namespace GUILayer.Forms
                 
                 applicationLogComments = $"{Network}; Config: {configName}; ";
 
-                if (builderOnlyMode)
-                {
-                    //stacksDB = GraphicsDBConnectionString;
-                    stacksDB = StacksDBConnectionString;
-                    stackType = 0;
-                    label2.Visible = true;
-                    cbGraphicConcept.Visible = true;
-                }
-                else
-                {
-                    stacksDB = StacksDBConnectionString;
-                    //stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
-                    stackType = (short)(10 * (tabIndex + 1));
-                    int ti = tabIndex;
-
-                    //if (stackType == 50)
-                        //stackType = 10;
-
-                    //if (dataModeSelect.SelectedIndex == 1)
-                    if (tabIndex == 1)
-                        stackType += tcVoterAnalysis.SelectedIndex;
-
-                    stackType += stackTypeOffset;
-
-                    label2.Visible = false;
-                    cbGraphicConcept.Visible = false;
-                    btnSaveStack.Text = "Save Stack \n  (Ctrl-O) or (Ctrl-S)";
-                    btnTake.Text = "Take Next \n (Space)";
-                }
                 
                 this.Size = new Size(1462, 991);
                 connectionPanel.Visible = false;
@@ -987,7 +958,8 @@ namespace GUILayer.Forms
                         tpTicker.Enabled = false;
                     }
 
-                    
+
+                    tabIndex = tabId;
                     dataModeSelect.SelectedIndexChanged += dataModeSelect_SelectedIndexChanged;
                     //dataModeSelect.SelectedIndex = tabId;
                     dataModeSelect.SelectedIndex = 0;
@@ -1155,6 +1127,36 @@ namespace GUILayer.Forms
                     }
                     //ConnectToVizEngines();
 
+                }
+
+                if (builderOnlyMode)
+                {
+                    //stacksDB = GraphicsDBConnectionString;
+                    stacksDB = StacksDBConnectionString;
+                    stackType = 0;
+                    label2.Visible = true;
+                    cbGraphicConcept.Visible = true;
+                }
+                else
+                {
+                    stacksDB = StacksDBConnectionString;
+                    //stackType = (short)(10 * (dataModeSelect.SelectedIndex + 1));
+                    stackType = (short)(10 * (tabIndex + 1));
+                    int ti = tabIndex;
+
+                    //if (stackType == 50)
+                    //stackType = 10;
+
+                    //if (dataModeSelect.SelectedIndex == 1)
+                    if (tabIndex == 1)
+                        stackType += tcVoterAnalysis.SelectedIndex;
+
+                    stackType += stackTypeOffset;
+
+                    label2.Visible = false;
+                    cbGraphicConcept.Visible = false;
+                    btnSaveStack.Text = "Save Stack \n  (Ctrl-O) or (Ctrl-S)";
+                    btnTake.Text = "Take Next \n (Space)";
                 }
 
                 // get tab enables and mode and network
@@ -6213,6 +6215,8 @@ namespace GUILayer.Forms
                 btnStackElementDown.Enabled = false;
 
                 currentRaceIndex = -1;
+                clickIndex = -1;
+                clickFlag = false;
                 if (stackGrid.Rows.Count > 0)
                     stackGrid.CurrentCell = stackGrid.Rows[0].Cells[0];
                 panel2.BackColor = Color.Lime;

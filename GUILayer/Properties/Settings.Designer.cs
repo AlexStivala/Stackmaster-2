@@ -12,7 +12,7 @@ namespace GUILayer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -79,7 +79,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd2022")]
         public string MainDB {
             get {
                 return ((string)(this["MainDB"]));
@@ -160,7 +160,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ElectionProd2022")]
         public string ConfigDB {
             get {
                 return ((string)(this["ConfigDB"]));
@@ -169,7 +169,7 @@ namespace GUILayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("General")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Primary")]
         public string ElectionMode {
             get {
                 return ((string)(this["ElectionMode"]));
@@ -209,6 +209,15 @@ namespace GUILayer.Properties {
         public string UnrealEng {
             get {
                 return ((string)(this["UnrealEng"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.8")]
+        public float LiveUpdateInterval {
+            get {
+                return ((float)(this["LiveUpdateInterval"]));
             }
         }
     }

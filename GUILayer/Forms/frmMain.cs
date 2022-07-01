@@ -86,6 +86,8 @@ namespace GUILayer.Forms
         public string term = "\0";
 
         public int currentRaceIndex = -1;
+        public int previousIndex = -1;
+        public int counter = 0;
         public bool stackLocked = false;
         public bool takeIn = false;
         public string computerName = string.Empty;
@@ -535,6 +537,8 @@ namespace GUILayer.Forms
             UseCandidateFirstName = Properties.Settings.Default.UseCandidateFirstName;
             unreal = Properties.Settings.Default.Unreal;
             unrealEng = Properties.Settings.Default.UnrealEng;
+            float liveUpdateInterval = Properties.Settings.Default.LiveUpdateInterval;
+            LiveUpdateTimer.Interval = (int)(liveUpdateInterval * 1000);
 
             if (electionMode == "Primary")
                 isPrimary = true;
@@ -708,13 +712,14 @@ namespace GUILayer.Forms
             TimeFunctions.ElectionsDBConnectionString = ElectionsDBConnectionString;
             LoadConfig();
 
-            rbSenateSP.Enabled = false;
+            rbPresidentSP.Checked = false;
+            rbPresidentSP.Enabled = false;
             rbHouseSP.Enabled = false;
             rbGovernorSP.Enabled = false;
             rbShowAllSP.Enabled = false;
 
-            rbPresidentSP.Checked = true;
-
+            rbSenateSP.Enabled = true;
+            rbSenateSP.Checked = true;
 
 
         }
@@ -5884,6 +5889,10 @@ namespace GUILayer.Forms
                 {
 
                     currentRaceIndex = stackGrid.CurrentCell.RowIndex;
+                    if (currentRaceIndex != previousIndex)
+                        counter = 0;
+                    
+
                     Int16 stackElementDataType = (Int16)stackElements[currentRaceIndex].Stack_Element_Data_Type;
                     SetOutput(stackElementDataType);
 
@@ -5945,6 +5954,7 @@ namespace GUILayer.Forms
                     SetOutput(stackElementDataType);
 
                     currentRaceIndex = lastIndex;
+                    counter++;
 
                     switch (stackElementDataType)
                     {
@@ -6673,6 +6683,7 @@ namespace GUILayer.Forms
             Erizos_API.RaceboardsPayload.Raceboards1Way raceboards1way = new Erizos_API.RaceboardsPayload.Raceboards1Way();
             raceboards1way.Candidate.value = 2;
             raceboards1way.CheckMark.value = false;
+            raceboards1way.Counter.value = counter;
 
             for (int i = 0; i < numCand; i++)
             {
@@ -6910,8 +6921,9 @@ namespace GUILayer.Forms
                 raceboards.HasVotes.value = false;
 
             raceboards.TotalVotes.value = raceData[0].TotalVoteCount;
+            raceboards.Counter.value = counter;
 
-            string outstr = $"{unrealEng}: State={raceData[0].StateAbbv};EV={raceData[0].ElectoralVotesAvailable};InPercent{raceBoardData.pctsReporting};RaceStatus{raceBoardData.mode};";
+            string outstr = $"{unrealEng}: Counter={counter};State={raceData[0].StateAbbv};EV={raceData[0].ElectoralVotesAvailable};InPercent{raceBoardData.pctsReporting};RaceStatus{raceBoardData.mode};";
             outstr += $"HasVotes={hv};";
 
             for (int i = 0; i < numCand; i++)
@@ -8871,6 +8883,7 @@ namespace GUILayer.Forms
                 VA_Data.qcode = row["qcode"].ToString().Trim();
                 VA_Data.filter = row["filter"].ToString().Trim();
                 VA_Data.r_type = row["r_type"].ToString().Trim();
+                VA_Data.ofc = row["ofc"].ToString().Trim();
                 //VA_Data.preface = row["preface"].ToString().Trim();
                 VA_Data.header = row["header"].ToString().Trim();
                 VA_Data.VA_Data_Id = row["VA_Data_Id"].ToString().Trim();
@@ -8891,8 +8904,8 @@ namespace GUILayer.Forms
 
                     string raceID = raceStrings[2];
                     string stateAbbv = raceStrings[0];
-                    string ofc = raceStrings[1];
-                    VA_Data.ofc = ofc;
+                    //string ofc = raceStrings[1];
+                    //VA_Data.ofc = ofc;
 
                 }
                 else

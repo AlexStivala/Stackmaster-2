@@ -104,7 +104,11 @@ namespace Erizos_API
             public readonly string id = "RepsPercent";
             public double value = 0.0;
         }
-
+        public class Counter
+        {
+            public readonly string id = "Counter";
+            public int value = 0;
+        }
         public class Candidate
         {
             public readonly string id = "Candidate";
@@ -138,6 +142,8 @@ namespace Erizos_API
             public Candidate Candidate = new Candidate();
             public CheckMark CheckMark = new CheckMark();
             public Logo Logo = new Logo();
+            public Counter Counter = new Counter();
+
         }
 
         public class Raceboards2Way
@@ -155,6 +161,7 @@ namespace Erizos_API
             public RepsWinner RepsWinner = new RepsWinner();
             public RepsVotes RepsVotes = new RepsVotes();
             public RepsPercent RepsPercent = new RepsPercent();
+            public Counter Counter = new Counter();
         }
 
         public static string unrealEngine;

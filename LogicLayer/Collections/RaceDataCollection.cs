@@ -156,47 +156,88 @@ namespace LogicLayer.Collections
                     foreach (DataRow row in dataTable.Rows)
                     {
                         // Dump out if we've hit the number of candidates required
-                        
-                        var newRaceCandidateData = new RaceDataModel()
-                        {
-                            // Data for 1 candidate in the race
-                            Office = row["ofc"].ToString().Trim() ?? "",
-                            OfficeName = row["ofcName"].ToString().Trim() ?? "",
-                            StateName = row["jName"].ToString().Trim() ?? "",
-                            StateAbbv = row["stateAbbv"].ToString().Trim() ?? "",
-                            cntyName = row["cntyName"].ToString().Trim() ?? "",
-                            IsAtLargeHouseState = Convert.ToBoolean(row["IsAtLargeHouseState"] ?? 0),
-                            CD = Convert.ToInt16(row["jCde"] ?? 0),
-                            eType = row["eType"].ToString().Trim() ?? "",
-                            TotalPrecincts = Convert.ToInt32(row["totPcts"] ?? 0),
-                            PrecinctsReporting = Convert.ToInt32(row["pctsRep"] ?? 0),
-                            PercentExpectedVote = Convert.ToSingle(row["pctExpVote"] ?? 0),
-                            CandidateID = Convert.ToInt32(row["cID"] ?? 0),
-                            FoxID = row["FoxID"].ToString().Trim() ?? "USGOV999999",
-                            CandidateLastName = row["candLastName"].ToString().Trim() ?? "",
-                            LastNameAir = row["LastNameAir"].ToString().Trim() ?? "",
-                            CandidateFirstName = row["candFirstName"].ToString() ?? "",
-                            UseHeadshotFNC = Convert.ToBoolean(row["UseHeadshot"] ?? 0),
-                            HeadshotPathFNC = row["HeadshotPath"].ToString().Trim() ?? "",
-                            UseHeadshotFBN = Convert.ToBoolean(row["UseHeadshot_FBN"] ?? 0),
-                            HeadshotPathFBN = row["HeadshotPath_FBN"].ToString().Trim() ?? "",
-                            CandidatePartyID = row["majorPtyID"].ToString().Trim() ?? "",
-                            cStat = row["cStat"].ToString().Trim() ?? "",
-                            estTS = row["estTS"].ToString().Trim() ?? "",
-                            InIncumbentPartyFlag = row["inIncPtyFlg"].ToString().Trim() ?? "",
-                            IsIncumbentFlag = row["isIncFlg"].ToString().Trim() ?? "",
-                            CandidateVoteCount = Convert.ToInt32(row["cVote"] ?? 0),
-                            TotalVoteCount = Convert.ToInt32(row["voteSum"] ?? 0),
-                            RaceWinnerCalled = Convert.ToBoolean(row["Race_WinnerCalled"] ?? 0),
-                            RaceWinnerCallTime = Convert.ToDateTime(row["Race_WinnerCallTime"] ?? 0),
-                            RaceTooCloseToCall = Convert.ToBoolean(row["Race_TooCloseToCall"] ?? 0),
-                            RaceWinnerCandidateID = Convert.ToInt32(row["Race_WinnerCandidateID"] ?? 0),
-                            RacePollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0),
-                            RaceUseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0),
-                            RaceIgnoreGain = Convert.ToBoolean(row["IgnoreGain"] ?? 0),
-                            DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0),
-                            RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0),
-                        };
+
+                        //var newRaceCandidateData = new RaceDataModel()
+                        //{
+                        //    // Data for 1 candidate in the race
+                        //    Office = row["ofc"].ToString().Trim() ?? "",
+                        //    OfficeName = row["ofcName"].ToString().Trim() ?? "",
+                        //    StateName = row["jName"].ToString().Trim() ?? "",
+                        //    StateAbbv = row["stateAbbv"].ToString().Trim() ?? "",
+                        //    cntyName = row["cntyName"].ToString().Trim() ?? "",
+                        //    IsAtLargeHouseState = Convert.ToBoolean(row["IsAtLargeHouseState"] ?? 0),
+                        //    CD = Convert.ToInt16(row["jCde"] ?? 0),
+                        //    eType = row["eType"].ToString().Trim() ?? "",
+                        //    TotalPrecincts = Convert.ToInt32(row["totPcts"] ?? 0),
+                        //    PrecinctsReporting = Convert.ToInt32(row["pctsRep"] ?? 0),
+                        //    PercentExpectedVote = Convert.ToSingle(row["pctExpVote"] ?? 0),
+                        //    CandidateID = Convert.ToInt32(row["cID"] ?? 0),
+                        //    FoxID = row["FoxID"].ToString().Trim() ?? "USGOV999999",
+                        //    CandidateLastName = row["candLastName"].ToString().Trim() ?? "",
+                        //    LastNameAir = row["LastNameAir"].ToString().Trim() ?? "",
+                        //    CandidateFirstName = row["candFirstName"].ToString() ?? "",
+                        //    UseHeadshotFNC = Convert.ToBoolean(row["UseHeadshot"] ?? 0),
+                        //    HeadshotPathFNC = row["HeadshotPath"].ToString().Trim() ?? "",
+                        //    UseHeadshotFBN = Convert.ToBoolean(row["UseHeadshot_FBN"] ?? 0),
+                        //    HeadshotPathFBN = row["HeadshotPath_FBN"].ToString().Trim() ?? "",
+                        //    CandidatePartyID = row["majorPtyID"].ToString().Trim() ?? "",
+                        //    cStat = row["cStat"].ToString().Trim() ?? "",
+                        //    estTS = row["estTS"].ToString().Trim() ?? "",
+                        //    InIncumbentPartyFlag = row["inIncPtyFlg"].ToString().Trim() ?? "",
+                        //    IsIncumbentFlag = row["isIncFlg"].ToString().Trim() ?? "",
+                        //    CandidateVoteCount = Convert.ToInt32(row["cVote"] ?? 0),
+                        //    TotalVoteCount = Convert.ToInt32(row["voteSum"] ?? 0),
+                        //    RaceWinnerCalled = Convert.ToBoolean(row["Race_WinnerCalled"] ?? 0),
+                        //    RaceWinnerCallTime = Convert.ToDateTime(row["Race_WinnerCallTime"] ?? 0),
+                        //    RaceTooCloseToCall = Convert.ToBoolean(row["Race_TooCloseToCall"] ?? 0),
+                        //    RaceWinnerCandidateID = Convert.ToInt32(row["Race_WinnerCandidateID"] ?? 0),
+                        //    RacePollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0),
+                        //    RaceUseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0),
+                        //    RaceIgnoreGain = Convert.ToBoolean(row["IgnoreGain"] ?? 0),
+                        //    DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0),
+                        //    RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0),
+                        //};
+                        var newRaceCandidateData = new RaceDataModel();
+
+                        // Data for 1 candidate in the race
+                        newRaceCandidateData.Office = row["ofc"].ToString().Trim() ?? "";
+                        newRaceCandidateData.OfficeName = row["ofcName"].ToString().Trim() ?? "";
+                        newRaceCandidateData.StateName = row["jName"].ToString().Trim() ?? "";
+                        newRaceCandidateData.StateAbbv = row["stateAbbv"].ToString().Trim() ?? "";
+                        newRaceCandidateData.cntyName = row["cntyName"].ToString().Trim() ?? "";
+                        newRaceCandidateData.IsAtLargeHouseState = Convert.ToBoolean(row["IsAtLargeHouseState"] ?? 0);
+                        newRaceCandidateData.CD = Convert.ToInt16(row["jCde"] ?? 0);
+                        newRaceCandidateData.eType = row["eType"].ToString().Trim() ?? "";
+                        newRaceCandidateData.TotalPrecincts = Convert.ToInt32(row["totPcts"] ?? 0);
+                        newRaceCandidateData.PrecinctsReporting = Convert.ToInt32(row["pctsRep"] ?? 0);
+                        newRaceCandidateData.PercentExpectedVote = Convert.ToSingle(row["pctExpVote"] ?? 0);
+                        newRaceCandidateData.CandidateID = Convert.ToInt32(row["cID"] ?? 0);
+                        newRaceCandidateData.FoxID = row["FoxID"].ToString().Trim() ?? "USGOV999999";
+                        newRaceCandidateData.CandidateLastName = row["candLastName"].ToString().Trim() ?? "";
+                        newRaceCandidateData.LastNameAir = row["LastNameAir"].ToString().Trim() ?? "";
+                        newRaceCandidateData.CandidateFirstName = row["candFirstName"].ToString() ?? "";
+                        newRaceCandidateData.UseHeadshotFNC = Convert.ToBoolean(row["UseHeadshot"] ?? 0);
+                        newRaceCandidateData.HeadshotPathFNC = row["HeadshotPath"].ToString().Trim() ?? "";
+                        newRaceCandidateData.UseHeadshotFBN = Convert.ToBoolean(row["UseHeadshot_FBN"] ?? 0);
+                        newRaceCandidateData.HeadshotPathFBN = row["HeadshotPath_FBN"].ToString().Trim() ?? "";
+                        newRaceCandidateData.CandidatePartyID = row["majorPtyID"].ToString().Trim() ?? "";
+                        newRaceCandidateData.cStat = row["cStat"].ToString().Trim() ?? "";
+                        newRaceCandidateData.estTS = row["estTS"].ToString().Trim() ?? "";
+                        newRaceCandidateData.InIncumbentPartyFlag = row["inIncPtyFlg"].ToString().Trim() ?? "";
+                        newRaceCandidateData.IsIncumbentFlag = row["isIncFlg"].ToString().Trim() ?? "";
+                        newRaceCandidateData.CandidateVoteCount = Convert.ToInt32(row["cVote"] ?? 0);
+                        newRaceCandidateData.TotalVoteCount = Convert.ToInt32(row["voteSum"] ?? 0);
+                        newRaceCandidateData.RaceWinnerCalled = Convert.ToBoolean(row["Race_WinnerCalled"] ?? 0);
+                        if (row["Race_WinnerCallTime"] != DBNull.Value)
+                            newRaceCandidateData.RaceWinnerCallTime = Convert.ToDateTime(row["Race_WinnerCallTime"] ?? 0);
+                        newRaceCandidateData.RaceTooCloseToCall = Convert.ToBoolean(row["Race_TooCloseToCall"] ?? 0);
+                        newRaceCandidateData.RaceWinnerCandidateID = Convert.ToInt32(row["Race_WinnerCandidateID"] ?? 0);
+                        newRaceCandidateData.RacePollClosingTime = Convert.ToDateTime(row["Race_PollClosingTime_DateTime"] ?? 0);
+                        newRaceCandidateData.RaceUseAPRaceCall = Convert.ToBoolean(row["Use_AP_Race_Call"] ?? 0);
+                        newRaceCandidateData.RaceIgnoreGain = Convert.ToBoolean(row["IgnoreGain"] ?? 0);
+                        newRaceCandidateData.DemDelegatesAvailable = Convert.ToInt32(row["DemDelegatesAvailable"] ?? 0);
+                        newRaceCandidateData.RepDelegatesAvailable = Convert.ToInt32(row["RepDelegatesAvailable"] ?? 0);
+
                         if (newRaceCandidateData.FoxID.Length < 10)
                             newRaceCandidateData.FoxID = "USGOV999999";
                         raceData.Add(newRaceCandidateData);

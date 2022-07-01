@@ -184,7 +184,6 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.c
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyComplete
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGraphicsStackBuilder.exe
 C:\_dev\bitbucket\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\ElectionGraphicsStackBuilder.pdb
-C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csprojAssemblyReference.cache
 C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.CopyComplete
 C:\X\ElectionGraphicsStackBuilder\GUILayer\obj\x86\Debug\GUILayer.Forms.frmColorSelect.resources
 C:\X\ElectionGraphicsStackBuilder\GUILayer\bin\Debug\ClassLibrary1.dll
@@ -195,3 +194,4 @@ C:\X\electiongraphicsstackbuilder\GUILayer\bin\Debug\RestSharp.dll
 C:\X\electiongraphicsstackbuilder\GUILayer\bin\Debug\Newtonsoft.Json.dll
 C:\X\electiongraphicsstackbuilder\GUILayer\bin\Debug\RestSharp.xml
 C:\X\electiongraphicsstackbuilder\GUILayer\bin\Debug\Newtonsoft.Json.xml
+C:\X\electiongraphicsstackbuilder\GUILayer\obj\x86\Debug\GUILayer.csproj.AssemblyReference.cache

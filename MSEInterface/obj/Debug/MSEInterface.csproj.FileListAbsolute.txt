@@ -56,6 +56,6 @@ C:\_dev\bitbucket\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterfa
 C:\_dev\bitbucket\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.csproj.CopyComplete
 C:\_dev\bitbucket\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.dll
 C:\_dev\bitbucket\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.pdb
-C:\X\ElectionGraphicsStackBuilder\MSEInterface\obj\Debug\MSEInterface.csprojAssemblyReference.cache
 C:\X\ElectionGraphicsStackBuilder\MSEInterface\obj\Debug\MSEInterface.csproj.CopyComplete
 C:\X\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.csproj.CoreCompileInputs.cache
+C:\X\electiongraphicsstackbuilder\MSEInterface\obj\Debug\MSEInterface.csproj.AssemblyReference.cache
